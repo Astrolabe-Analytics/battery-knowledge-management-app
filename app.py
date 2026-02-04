@@ -1,15 +1,12 @@
 #!/usr/bin/env python3
 """
 Streamlit web interface: Paper Library + RAG Query System
+Pure UI layer - all business logic delegated to lib.rag module
 """
 
 import os
 import sys
-from pathlib import Path
 import streamlit as st
-import chromadb
-from sentence_transformers import SentenceTransformer
-from anthropic import Anthropic
 import pandas as pd
 
 # Fix Windows console encoding for Unicode characters
@@ -20,14 +17,8 @@ if sys.platform == 'win32':
     if hasattr(sys.stderr, 'buffer'):
         sys.stderr = codecs.getwriter('utf-8')(sys.stderr.buffer, 'strict')
 
-
-# Configuration
-DB_DIR = Path(__file__).parent / "data" / "chroma_db"
-PAPERS_DIR = Path(__file__).parent / "papers"
-EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
-COLLECTION_NAME = "battery_papers"
-TOP_K = 5
-CLAUDE_MODEL = "claude-sonnet-4-5-20250929"
+# Import backend
+from lib import rag
 
 
 # Page config
@@ -39,33 +30,9 @@ st.set_page_config(
 )
 
 
-@st.cache_resource
-def load_embedding_model():
-    """Load and cache the embedding model."""
-    return SentenceTransformer(EMBEDDING_MODEL)
-
-
-@st.cache_resource
-def load_collection():
-    """Load and cache the ChromaDB collection."""
-    if not DB_DIR.exists():
-        st.error(f"Database not found at {DB_DIR}")
-        st.info("Please run `python scripts/ingest.py` first to create the database")
-        st.stop()
-
-    try:
-        client = chromadb.PersistentClient(path=str(DB_DIR))
-        collection = client.get_collection(name=COLLECTION_NAME)
-        return collection
-    except Exception as e:
-        st.error(f"Failed to load collection: {e}")
-        st.info("Please run `python scripts/ingest.py` first to create the database")
-        st.stop()
-
-
 def get_api_key():
-    """Get Anthropic API key from environment or user input."""
-    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    """Get Anthropic API key from environment or user input (UI layer)."""
+    api_key = rag.get_api_key_from_env()
     if not api_key:
         api_key = st.session_state.get("anthropic_api_key")
     if not api_key:
@@ -82,199 +49,6 @@ def get_api_key():
     return api_key
 
 
-@st.cache_data
-def get_paper_library(_collection):
-    """Get all unique papers with their metadata."""
-    all_results = _collection.get(include=["metadatas"])
-
-    papers = {}
-    for metadata in all_results['metadatas']:
-        filename = metadata['filename']
-        if filename not in papers:
-            papers[filename] = {
-                'filename': filename,
-                'chemistries': set(),
-                'topics': set(),
-                'application': metadata.get('application', 'general'),
-                'paper_type': metadata.get('paper_type', 'experimental'),
-                'pages': set()
-            }
-
-        # Aggregate metadata
-        if metadata.get('chemistries'):
-            papers[filename]['chemistries'].update(metadata['chemistries'].split(','))
-        if metadata.get('topics'):
-            papers[filename]['topics'].update(metadata['topics'].split(','))
-        papers[filename]['pages'].add(metadata['page_num'])
-
-    # Convert sets to sorted lists/counts
-    for paper in papers.values():
-        paper['chemistries'] = sorted([c for c in paper['chemistries'] if c])
-        paper['topics'] = sorted([t for t in paper['topics'] if t])
-        paper['num_pages'] = len(paper['pages'])
-        del paper['pages']
-
-    return list(papers.values())
-
-
-@st.cache_data
-def get_filter_options(_collection):
-    """Extract unique values for filters."""
-    all_results = _collection.get(include=["metadatas"])
-
-    chemistries = set()
-    topics = set()
-    paper_types = set()
-
-    for metadata in all_results['metadatas']:
-        if metadata.get('chemistries'):
-            chemistries.update(metadata['chemistries'].split(','))
-        if metadata.get('topics'):
-            topics.update(metadata['topics'].split(','))
-        if metadata.get('paper_type'):
-            paper_types.add(metadata['paper_type'])
-
-    return {
-        'chemistries': sorted([c for c in chemistries if c]),
-        'topics': sorted([t for t in topics if t]),
-        'paper_types': sorted(paper_types)
-    }
-
-
-def get_paper_details(collection, filename):
-    """Get detailed information for a specific paper."""
-    results = collection.get(
-        where={"filename": filename},
-        include=["documents", "metadatas"]
-    )
-
-    if not results['documents']:
-        return None
-
-    # Get first page or first few chunks
-    first_chunks = []
-    for i, (doc, meta) in enumerate(zip(results['documents'][:3], results['metadatas'][:3])):
-        first_chunks.append({
-            'page': meta['page_num'],
-            'text': doc
-        })
-
-    return {
-        'filename': filename,
-        'chemistries': results['metadatas'][0].get('chemistries', '').split(','),
-        'topics': results['metadatas'][0].get('topics', '').split(','),
-        'application': results['metadatas'][0].get('application', 'general'),
-        'paper_type': results['metadatas'][0].get('paper_type', 'experimental'),
-        'preview_chunks': first_chunks
-    }
-
-
-def retrieve_relevant_chunks(collection, question: str, model: SentenceTransformer,
-                            top_k: int = TOP_K, filter_chemistry: str = None,
-                            filter_topic: str = None, filter_paper_type: str = None):
-    """Retrieve top-K relevant chunks for the question."""
-    question_embedding = model.encode([question])[0].tolist()
-
-    # Query ChromaDB - get more results for post-filtering if filters are active
-    # ChromaDB doesn't support substring matching, so we filter in Python
-    n_results = top_k * 10 if (filter_chemistry or filter_topic) else top_k
-
-    # Build where clause for paper_type (exact match supported)
-    where_clause = {}
-    if filter_paper_type:
-        where_clause = {"paper_type": filter_paper_type}
-
-    try:
-        query_params = {
-            "query_embeddings": [question_embedding],
-            "n_results": n_results
-        }
-        if where_clause:
-            query_params["where"] = where_clause
-
-        results = collection.query(**query_params)
-    except Exception as e:
-        st.error(f"Failed to query database: {e}")
-        return []
-
-    # Format and filter results
-    chunks = []
-    if results['documents'] and results['documents'][0]:
-        for i in range(len(results['documents'][0])):
-            metadata = results['metadatas'][0][i]
-
-            # Extract metadata
-            chemistries_str = metadata.get('chemistries', '')
-            topics_str = metadata.get('topics', '')
-            chemistries = [c.strip() for c in chemistries_str.split(',') if c.strip()]
-            topics = [t.strip() for t in topics_str.split(',') if t.strip()]
-
-            # Apply filters (post-filtering)
-            if filter_chemistry and filter_chemistry.upper() not in chemistries:
-                continue
-            if filter_topic and filter_topic.lower() not in topics:
-                continue
-
-            chunk = {
-                'text': results['documents'][0][i],
-                'filename': metadata['filename'],
-                'page_num': metadata['page_num'],
-                'chunk_index': metadata['chunk_index'],
-                'section_name': metadata.get('section_name', 'Content'),
-                'chemistries': chemistries,
-                'topics': topics
-            }
-            chunks.append(chunk)
-
-            # Stop once we have enough
-            if len(chunks) >= top_k:
-                break
-
-    return chunks[:top_k]
-
-
-def query_claude(question: str, chunks: list[dict], api_key: str):
-    """Send question + context to Claude and get answer."""
-    context_parts = []
-    for i, chunk in enumerate(chunks, 1):
-        section_info = f", section: {chunk['section_name']}" if chunk.get('section_name') else ""
-        context_parts.append(
-            f"[Document {i}: {chunk['filename']}, page {chunk['page_num']}{section_info}]\n{chunk['text']}"
-        )
-    context = "\n\n---\n\n".join(context_parts)
-
-    prompt = f"""You are a helpful AI assistant specializing in battery research.
-Answer the following question based on the provided research paper excerpts.
-
-Important instructions:
-- Cite your sources by referring to the document number and page (e.g., "According to Document 1, page 5...")
-- If the information isn't in the provided excerpts, say so clearly
-- Be specific and technical when appropriate
-- If multiple papers discuss the same topic, mention all relevant sources
-
-Context from research papers:
-
-{context}
-
----
-
-Question: {question}
-
-Please provide a detailed answer with citations:"""
-
-    try:
-        client = Anthropic(api_key=api_key)
-        response = client.messages.create(
-            model=CLAUDE_MODEL,
-            max_tokens=2000,
-            messages=[{"role": "user", "content": prompt}]
-        )
-        return response.content[0].text
-    except Exception as e:
-        st.error(f"Failed to query Claude API: {e}")
-        return None
-
-
 def main():
     # Initialize session state
     if "selected_paper" not in st.session_state:
@@ -287,11 +61,15 @@ def main():
     # Header
     st.title("🔋 Battery Research Papers Library")
 
-    # Load resources
-    collection = load_collection()
-    model = load_embedding_model()
-    papers = get_paper_library(collection)
-    filter_options = get_filter_options(collection)
+    # Load resources using backend
+    try:
+        papers = rag.get_paper_library()
+        filter_options = rag.get_filter_options()
+        total_chunks = rag.get_collection_count()
+    except (FileNotFoundError, RuntimeError) as e:
+        st.error(str(e))
+        st.info("Please run `python scripts/ingest.py` first to create the database")
+        st.stop()
 
     # Sidebar
     with st.sidebar:
@@ -335,16 +113,21 @@ def main():
                 api_key = get_api_key()
                 if api_key:
                     with st.spinner("Searching..."):
-                        chunks = retrieve_relevant_chunks(
-                            collection, question, model, TOP_K,
-                            filter_chemistry, filter_topic, filter_paper_type
-                        )
+                        try:
+                            # Use backend for search
+                            chunks = rag.retrieve_relevant_chunks(
+                                question=question,
+                                top_k=rag.TOP_K,
+                                filter_chemistry=filter_chemistry,
+                                filter_topic=filter_topic,
+                                filter_paper_type=filter_paper_type
+                            )
 
-                        if not chunks:
-                            st.warning("No relevant passages found. Try removing filters.")
-                        else:
-                            answer = query_claude(question, chunks, api_key)
-                            if answer:
+                            if not chunks:
+                                st.warning("No relevant passages found. Try removing filters.")
+                            else:
+                                # Use backend for LLM query
+                                answer = rag.query_claude(question, chunks, api_key)
                                 st.session_state.query_result = {
                                     'question': question,
                                     'answer': answer,
@@ -357,13 +140,15 @@ def main():
                                 }
                                 st.session_state.active_tab = "Query Results"
                                 st.rerun()
+                        except RuntimeError as e:
+                            st.error(f"Error: {e}")
 
         st.divider()
 
         # Library stats
         st.subheader("📊 Library Stats")
         st.metric("Total Papers", len(papers))
-        st.metric("Total Chunks", collection.count())
+        st.metric("Total Chunks", total_chunks)
         st.metric("Chemistries", len(filter_options['chemistries']))
         st.metric("Topics", len(filter_options['topics']))
 
@@ -385,7 +170,8 @@ def main():
                     st.session_state.selected_paper = None
                     st.rerun()
 
-            details = get_paper_details(collection, paper_filename)
+            # Get paper details from backend
+            details = rag.get_paper_details(paper_filename)
 
             if details:
                 # Metadata
@@ -424,8 +210,8 @@ def main():
 
                 # PDF link
                 st.divider()
-                pdf_path = PAPERS_DIR / paper_filename
-                if pdf_path.exists():
+                if rag.check_pdf_exists(paper_filename):
+                    pdf_path = rag.get_pdf_path(paper_filename)
                     st.success(f"📎 PDF available: `{pdf_path}`")
                     st.info("Open the file from the papers/ directory to view the full PDF")
                 else:
