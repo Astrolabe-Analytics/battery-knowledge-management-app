@@ -23,6 +23,9 @@ data/chroma_db/
 # PDFs (too large for git)
 papers/*.pdf
 
+# Raw extracted markdown (can be regenerated)
+raw_text/
+
 # Environment variables
 .env
 .env.local

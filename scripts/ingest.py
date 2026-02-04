@@ -10,7 +10,7 @@ import json
 import re
 import time
 from pathlib import Path
-import pypdf
+import pymupdf4llm
 import tiktoken
 import chromadb
 from sentence_transformers import SentenceTransformer
@@ -29,6 +29,7 @@ if sys.platform == 'win32':
 # Configuration
 PAPERS_DIR = Path(__file__).parent.parent / "papers"
 DB_DIR = Path(__file__).parent.parent / "data" / "chroma_db"
+RAW_TEXT_DIR = Path(__file__).parent.parent / "raw_text"
 EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 TARGET_CHUNK_SIZE = 600  # Target tokens per chunk
 CHUNK_OVERLAP = 100  # Overlap between chunks in tokens
@@ -44,28 +45,62 @@ def count_tokens(text: str) -> int:
 
 def extract_text_from_pdf(pdf_path: Path) -> list[dict]:
     """
-    Extract text from PDF, organizing by page.
+    Extract text from PDF using PyMuPDF4LLM, organizing by page.
+    Handles two-column layouts, tables, and section headers better than pypdf.
     Returns list of dicts with 'page_num' and 'text'.
     """
     print(f"  Extracting text from {pdf_path.name}...")
     pages = []
 
     try:
-        with open(pdf_path, 'rb') as f:
-            reader = pypdf.PdfReader(f)
-            for page_num, page in enumerate(reader.pages, start=1):
-                text = page.extract_text()
-                if text.strip():  # Only include pages with text
-                    pages.append({
-                        'page_num': page_num,
-                        'text': text
-                    })
+        # Use pymupdf4llm to extract text with better formatting
+        # This handles academic papers with two-column layouts, tables, etc.
+        md_text = pymupdf4llm.to_markdown(str(pdf_path), page_chunks=True)
+
+        # md_text is a list of dicts with 'metadata' and 'text' keys
+        for page_data in md_text:
+            page_num = page_data['metadata']['page'] + 1  # Convert 0-indexed to 1-indexed
+            text = page_data['text']
+
+            if text.strip():  # Only include pages with text
+                pages.append({
+                    'page_num': page_num,
+                    'text': text
+                })
     except Exception as e:
         print(f"    ERROR: Failed to extract from {pdf_path.name}: {e}")
         return []
 
     print(f"    Extracted {len(pages)} pages")
     return pages
+
+
+def save_raw_markdown(pages: list[dict], pdf_filename: str, output_dir: Path):
+    """
+    Save raw extracted markdown to a file for future re-chunking.
+    Concatenates all pages into a single markdown file.
+    """
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    # Create markdown filename from PDF filename
+    md_filename = pdf_filename.replace('.pdf', '.md')
+    output_path = output_dir / md_filename
+
+    # Concatenate all pages with page separators
+    markdown_content = []
+    for page_data in pages:
+        page_num = page_data['page_num']
+        text = page_data['text']
+        markdown_content.append(f"<!-- Page {page_num} -->\n\n{text}\n\n")
+
+    full_markdown = '\n'.join(markdown_content)
+
+    # Write to file
+    try:
+        output_path.write_text(full_markdown, encoding='utf-8')
+        print(f"    Saved raw markdown to {output_path.name}")
+    except Exception as e:
+        print(f"    WARNING: Failed to save markdown: {e}")
 
 
 def extract_paper_metadata(pages: list[dict], filename: str, api_key: str) -> dict:
@@ -152,86 +187,135 @@ JSON:"""
 
 def chunk_text(text: str, page_num: int) -> list[dict]:
     """
-    Chunk text into ~TARGET_CHUNK_SIZE tokens with CHUNK_OVERLAP overlap.
-    Returns list of dicts with 'text', 'page_num', 'chunk_index'.
+    Chunk text into sections based on markdown headers, then split long sections.
+    Preserves section context by detecting markdown headers (# Header, ## Subheader, etc.).
+    Returns list of dicts with 'text', 'page_num', 'chunk_index', 'section_name', 'token_count'.
     """
     enc = tiktoken.get_encoding("cl100k_base")
 
-    # Split into paragraphs (double newline or single newline with significant content change)
-    paragraphs = [p.strip() for p in text.split('\n\n') if p.strip()]
+    # Parse sections from markdown headers
+    lines = text.split('\n')
+    sections = []
+    current_section_name = None
+    current_section_lines = []
 
+    header_pattern = r'^(#{1,6})\s+(.+)$'
+
+    for line in lines:
+        # Check if this line is a markdown header
+        header_match = re.match(header_pattern, line.strip())
+        if header_match:
+            # Save previous section
+            if current_section_lines:
+                sections.append({
+                    'name': current_section_name or 'Content',
+                    'text': '\n'.join(current_section_lines).strip()
+                })
+            # Start new section
+            current_section_name = header_match.group(2).strip()
+            current_section_lines = []
+        else:
+            current_section_lines.append(line)
+
+    # Add final section
+    if current_section_lines:
+        sections.append({
+            'name': current_section_name or 'Content',
+            'text': '\n'.join(current_section_lines).strip()
+        })
+
+    # If no sections found, treat entire text as one section
+    if not sections:
+        sections = [{'name': 'Content', 'text': text}]
+
+    # Now chunk each section
     chunks = []
-    current_chunk = []
-    current_tokens = 0
     chunk_index = 0
 
-    for para in paragraphs:
-        para_tokens = len(enc.encode(para))
+    for section in sections:
+        section_name = section['name']
+        section_text = section['text']
 
-        # If single paragraph exceeds target, split by sentences
-        if para_tokens > TARGET_CHUNK_SIZE * 1.5:
-            sentences = para.split('. ')
-            for sent in sentences:
-                sent_tokens = len(enc.encode(sent))
-                if current_tokens + sent_tokens > TARGET_CHUNK_SIZE and current_chunk:
+        if not section_text.strip():
+            continue
+
+        # Split section into paragraphs
+        paragraphs = [p.strip() for p in section_text.split('\n\n') if p.strip()]
+
+        section_chunks = []
+        current_chunk = []
+        current_tokens = 0
+
+        for para in paragraphs:
+            para_tokens = len(enc.encode(para))
+
+            # If single paragraph exceeds target, split by sentences
+            if para_tokens > TARGET_CHUNK_SIZE * 1.5:
+                sentences = para.split('. ')
+                for sent in sentences:
+                    sent_tokens = len(enc.encode(sent))
+                    if current_tokens + sent_tokens > TARGET_CHUNK_SIZE and current_chunk:
+                        # Save current chunk
+                        chunk_text = ' '.join(current_chunk)
+                        section_chunks.append({
+                            'text': chunk_text,
+                            'token_count': current_tokens
+                        })
+
+                        # Keep overlap
+                        overlap_text = ' '.join(current_chunk[-2:]) if len(current_chunk) >= 2 else ''
+                        overlap_tokens = len(enc.encode(overlap_text))
+                        if overlap_tokens > 0:
+                            current_chunk = current_chunk[-2:]
+                            current_tokens = overlap_tokens
+                        else:
+                            current_chunk = []
+                            current_tokens = 0
+
+                    current_chunk.append(sent)
+                    current_tokens += sent_tokens
+            else:
+                # Normal paragraph processing
+                if current_tokens + para_tokens > TARGET_CHUNK_SIZE and current_chunk:
                     # Save current chunk
                     chunk_text = ' '.join(current_chunk)
-                    chunks.append({
+                    section_chunks.append({
                         'text': chunk_text,
-                        'page_num': page_num,
-                        'chunk_index': chunk_index,
                         'token_count': current_tokens
                     })
-                    chunk_index += 1
 
-                    # Keep overlap
-                    overlap_text = ' '.join(current_chunk[-2:]) if len(current_chunk) >= 2 else ''
-                    overlap_tokens = len(enc.encode(overlap_text))
-                    if overlap_tokens > 0:
-                        current_chunk = current_chunk[-2:]
-                        current_tokens = overlap_tokens
-                    else:
-                        current_chunk = []
-                        current_tokens = 0
+                    # Keep overlap (last paragraph)
+                    if current_chunk:
+                        overlap_text = current_chunk[-1]
+                        overlap_tokens = len(enc.encode(overlap_text))
+                        if overlap_tokens <= CHUNK_OVERLAP:
+                            current_chunk = [current_chunk[-1]]
+                            current_tokens = overlap_tokens
+                        else:
+                            current_chunk = []
+                            current_tokens = 0
 
-                current_chunk.append(sent)
-                current_tokens += sent_tokens
-        else:
-            # Normal paragraph processing
-            if current_tokens + para_tokens > TARGET_CHUNK_SIZE and current_chunk:
-                # Save current chunk
-                chunk_text = ' '.join(current_chunk)
-                chunks.append({
-                    'text': chunk_text,
-                    'page_num': page_num,
-                    'chunk_index': chunk_index,
-                    'token_count': current_tokens
-                })
-                chunk_index += 1
+                current_chunk.append(para)
+                current_tokens += para_tokens
 
-                # Keep overlap (last paragraph)
-                if current_chunk:
-                    overlap_text = current_chunk[-1]
-                    overlap_tokens = len(enc.encode(overlap_text))
-                    if overlap_tokens <= CHUNK_OVERLAP:
-                        current_chunk = [current_chunk[-1]]
-                        current_tokens = overlap_tokens
-                    else:
-                        current_chunk = []
-                        current_tokens = 0
+        # Add remaining chunk from this section
+        if current_chunk:
+            chunk_text = ' '.join(current_chunk)
+            section_chunks.append({
+                'text': chunk_text,
+                'token_count': current_tokens
+            })
 
-            current_chunk.append(para)
-            current_tokens += para_tokens
-
-    # Add remaining chunk
-    if current_chunk:
-        chunk_text = ' '.join(current_chunk)
-        chunks.append({
-            'text': chunk_text,
-            'page_num': page_num,
-            'chunk_index': chunk_index,
-            'token_count': current_tokens
-        })
+        # Add section name and indices to all chunks from this section
+        for section_chunk in section_chunks:
+            chunks.append({
+                'text': section_chunk['text'],
+                'page_num': page_num,
+                'chunk_index': chunk_index,
+                'section_name': section_name,
+                'token_count': section_chunk['token_count']
+            })
+            chunk_index += 1
 
     return chunks
 
@@ -311,6 +395,9 @@ def ingest_papers():
         if not pages:
             continue
 
+        # Save raw markdown for future re-chunking
+        save_raw_markdown(pages, pdf_file.name, RAW_TEXT_DIR)
+
         # Extract metadata using Claude
         paper_metadata = {}
         if use_metadata:
@@ -359,7 +446,8 @@ def ingest_papers():
             'filename': chunk['filename'],
             'page_num': chunk['page_num'],
             'chunk_index': chunk['chunk_index'],
-            'token_count': chunk['token_count']
+            'token_count': chunk['token_count'],
+            'section_name': chunk.get('section_name', 'Content')
         }
         # Add paper-level metadata
         if chunk.get('paper_metadata'):

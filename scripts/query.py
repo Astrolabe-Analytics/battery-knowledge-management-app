@@ -83,53 +83,60 @@ def retrieve_relevant_chunks(collection, question: str, model: SentenceTransform
     # Embed the question
     question_embedding = model.encode([question])[0].tolist()
 
-    # Build where clause for filtering
-    where_clause = {}
-    if filter_chemistry or filter_topic:
-        conditions = []
-        if filter_chemistry:
-            conditions.append({"chemistries": {"$contains": filter_chemistry.upper()}})
-        if filter_topic:
-            conditions.append({"topics": {"$contains": filter_topic.lower()}})
+    # Query ChromaDB - get more results than needed for post-filtering
+    # ChromaDB doesn't support substring matching, so we'll filter in Python
+    n_results = TOP_K * 10 if (filter_chemistry or filter_topic) else TOP_K
 
-        if len(conditions) == 1:
-            where_clause = conditions[0]
-        else:
-            where_clause = {"$and": conditions}
-
-    # Query ChromaDB
     try:
-        query_params = {
-            "query_embeddings": [question_embedding],
-            "n_results": TOP_K
-        }
-        if where_clause:
-            query_params["where"] = where_clause
-
-        results = collection.query(**query_params)
+        results = collection.query(
+            query_embeddings=[question_embedding],
+            n_results=n_results
+        )
     except Exception as e:
         print(f"\nERROR: Failed to query database: {e}")
         sys.exit(1)
 
-    # Format results
+    # Format and filter results
     chunks = []
     if results['documents'] and results['documents'][0]:
         for i in range(len(results['documents'][0])):
             metadata = results['metadatas'][0][i]
+
+            # Extract metadata
+            chemistries_str = metadata.get('chemistries', '')
+            topics_str = metadata.get('topics', '')
+            chemistries = [c.strip() for c in chemistries_str.split(',') if c.strip()]
+            topics = [t.strip() for t in topics_str.split(',') if t.strip()]
+
+            # Apply filters (post-filtering since ChromaDB doesn't support substring matching)
+            if filter_chemistry and filter_chemistry.upper() not in chemistries:
+                continue
+            if filter_topic and filter_topic.lower() not in topics:
+                continue
+
             chunk = {
                 'text': results['documents'][0][i],
                 'filename': metadata['filename'],
                 'page_num': metadata['page_num'],
                 'chunk_index': metadata['chunk_index'],
-                'chemistries': metadata.get('chemistries', '').split(',') if metadata.get('chemistries') else [],
-                'topics': metadata.get('topics', '').split(',') if metadata.get('topics') else [],
+                'section_name': metadata.get('section_name', 'Content'),
+                'chemistries': chemistries,
+                'topics': topics,
                 'application': metadata.get('application', 'general'),
                 'paper_type': metadata.get('paper_type', 'experimental')
             }
             chunks.append(chunk)
-            print(f"  [{i+1}] {chunk['filename']} (page {chunk['page_num']})")
 
-    return chunks
+            # Only print and keep top K
+            if len(chunks) > TOP_K:
+                break
+
+    # Print the chunks we're using
+    for i, chunk in enumerate(chunks[:TOP_K], 1):
+        section_info = f" - {chunk['section_name']}" if chunk['section_name'] != 'Content' else ""
+        print(f"  [{i}] {chunk['filename']} (page {chunk['page_num']}){section_info}")
+
+    return chunks[:TOP_K]
 
 
 def query_claude(question: str, chunks: list[dict], api_key: str) -> str:
@@ -141,8 +148,9 @@ def query_claude(question: str, chunks: list[dict], api_key: str) -> str:
     # Build context from chunks
     context_parts = []
     for i, chunk in enumerate(chunks, 1):
+        section_info = f", section: {chunk['section_name']}" if chunk.get('section_name') and chunk['section_name'] != 'Content' else ""
         context_parts.append(
-            f"[Document {i}: {chunk['filename']}, page {chunk['page_num']}]\n{chunk['text']}"
+            f"[Document {i}: {chunk['filename']}, page {chunk['page_num']}{section_info}]\n{chunk['text']}"
         )
     context = "\n\n---\n\n".join(context_parts)
 
@@ -191,9 +199,10 @@ def format_citations(chunks: list[dict]) -> str:
     seen = set()
 
     for i, chunk in enumerate(chunks, 1):
-        key = (chunk['filename'], chunk['page_num'])
+        key = (chunk['filename'], chunk['page_num'], chunk.get('section_name', ''))
         if key not in seen:
-            citations.append(f"  [{i}] {chunk['filename']}, page {chunk['page_num']}")
+            section_info = f" ({chunk['section_name']})" if chunk.get('section_name') and chunk['section_name'] != 'Content' else ""
+            citations.append(f"  [{i}] {chunk['filename']}, page {chunk['page_num']}{section_info}")
             seen.add(key)
 
     return "\n".join(citations)

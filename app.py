@@ -175,24 +175,19 @@ def retrieve_relevant_chunks(collection, question: str, model: SentenceTransform
     """Retrieve top-K relevant chunks for the question."""
     question_embedding = model.encode([question])[0].tolist()
 
-    # Build where clause for filtering
+    # Query ChromaDB - get more results for post-filtering if filters are active
+    # ChromaDB doesn't support substring matching, so we filter in Python
+    n_results = top_k * 10 if (filter_chemistry or filter_topic) else top_k
+
+    # Build where clause for paper_type (exact match supported)
     where_clause = {}
-    conditions = []
-
-    if filter_chemistry:
-        conditions.append({"chemistries": {"$contains": filter_chemistry.upper()}})
-    if filter_topic:
-        conditions.append({"topics": {"$contains": filter_topic.lower()}})
     if filter_paper_type:
-        conditions.append({"paper_type": filter_paper_type})
-
-    if conditions:
-        where_clause = {"$and": conditions} if len(conditions) > 1 else conditions[0]
+        where_clause = {"paper_type": filter_paper_type}
 
     try:
         query_params = {
             "query_embeddings": [question_embedding],
-            "n_results": top_k
+            "n_results": n_results
         }
         if where_clause:
             query_params["where"] = where_clause
@@ -202,29 +197,49 @@ def retrieve_relevant_chunks(collection, question: str, model: SentenceTransform
         st.error(f"Failed to query database: {e}")
         return []
 
+    # Format and filter results
     chunks = []
     if results['documents'] and results['documents'][0]:
         for i in range(len(results['documents'][0])):
             metadata = results['metadatas'][0][i]
+
+            # Extract metadata
+            chemistries_str = metadata.get('chemistries', '')
+            topics_str = metadata.get('topics', '')
+            chemistries = [c.strip() for c in chemistries_str.split(',') if c.strip()]
+            topics = [t.strip() for t in topics_str.split(',') if t.strip()]
+
+            # Apply filters (post-filtering)
+            if filter_chemistry and filter_chemistry.upper() not in chemistries:
+                continue
+            if filter_topic and filter_topic.lower() not in topics:
+                continue
+
             chunk = {
                 'text': results['documents'][0][i],
                 'filename': metadata['filename'],
                 'page_num': metadata['page_num'],
                 'chunk_index': metadata['chunk_index'],
-                'chemistries': metadata.get('chemistries', '').split(',') if metadata.get('chemistries') else [],
-                'topics': metadata.get('topics', '').split(',') if metadata.get('topics') else []
+                'section_name': metadata.get('section_name', 'Content'),
+                'chemistries': chemistries,
+                'topics': topics
             }
             chunks.append(chunk)
 
-    return chunks
+            # Stop once we have enough
+            if len(chunks) >= top_k:
+                break
+
+    return chunks[:top_k]
 
 
 def query_claude(question: str, chunks: list[dict], api_key: str):
     """Send question + context to Claude and get answer."""
     context_parts = []
     for i, chunk in enumerate(chunks, 1):
+        section_info = f", section: {chunk['section_name']}" if chunk.get('section_name') else ""
         context_parts.append(
-            f"[Document {i}: {chunk['filename']}, page {chunk['page_num']}]\n{chunk['text']}"
+            f"[Document {i}: {chunk['filename']}, page {chunk['page_num']}{section_info}]\n{chunk['text']}"
         )
     context = "\n\n---\n\n".join(context_parts)
 
@@ -497,10 +512,18 @@ def main():
             # Show chunks
             st.subheader("📝 Retrieved Passages")
             for i, chunk in enumerate(result['chunks'], 1):
-                with st.expander(f"Passage {i}: {chunk['filename']} (page {chunk['page_num']})"):
+                section_label = f" - {chunk['section_name']}" if chunk.get('section_name') and chunk['section_name'] != 'Content' else ""
+                with st.expander(f"Passage {i}: {chunk['filename']} (page {chunk['page_num']}){section_label}"):
                     st.write(chunk['text'])
-                    if chunk['chemistries'] or chunk['topics']:
-                        st.caption(f"Chemistries: {', '.join(chunk['chemistries'])} | Topics: {', '.join(chunk['topics'][:5])}")
+                    metadata_parts = []
+                    if chunk.get('section_name'):
+                        metadata_parts.append(f"Section: {chunk['section_name']}")
+                    if chunk['chemistries']:
+                        metadata_parts.append(f"Chemistries: {', '.join(chunk['chemistries'])}")
+                    if chunk['topics']:
+                        metadata_parts.append(f"Topics: {', '.join(chunk['topics'][:5])}")
+                    if metadata_parts:
+                        st.caption(" | ".join(metadata_parts))
 
         else:
             st.info("👈 Ask a question in the sidebar to see results here")

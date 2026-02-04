@@ -1,4 +1,4 @@
-pypdf
+pymupdf4llm
 chromadb
 sentence-transformers
 anthropic
