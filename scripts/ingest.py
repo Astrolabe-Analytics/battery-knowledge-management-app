@@ -423,18 +423,31 @@ def ingest_papers():
     try:
         client = chromadb.PersistentClient(path=str(DB_DIR))
 
-        # Delete existing collection if it exists
+        # Try to get existing collection, or create new one
         try:
-            client.delete_collection(name=COLLECTION_NAME)
-            print("  Deleted existing collection")
-        except:
-            pass
+            collection = client.get_collection(name=COLLECTION_NAME)
+            existing_count = collection.count()
+            print(f"  Found existing collection with {existing_count} chunks")
 
-        collection = client.create_collection(
-            name=COLLECTION_NAME,
-            metadata={"description": "Battery research papers chunks"}
-        )
-        print("  Collection created successfully")
+            # Get list of papers already in database
+            if existing_count > 0:
+                existing_results = collection.get(include=["metadatas"])
+                existing_papers = set(meta['filename'] for meta in existing_results['metadatas'])
+                print(f"  Database contains {len(existing_papers)} papers already")
+
+                # Update state file to include papers in database
+                for paper in existing_papers:
+                    if paper not in completed_files and paper not in failed_files:
+                        completed_files.add(paper)
+                        state['completed'].append(paper)
+                save_ingest_state(state)
+        except:
+            # Collection doesn't exist, create it
+            collection = client.create_collection(
+                name=COLLECTION_NAME,
+                metadata={"description": "Battery research papers chunks"}
+            )
+            print("  Created new collection")
     except Exception as e:
         print(f"  ERROR: Failed to initialize ChromaDB: {e}")
         sys.exit(1)

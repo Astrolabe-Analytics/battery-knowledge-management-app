@@ -2,6 +2,11 @@
 """
 Streamlit web interface: Paper Library + RAG Query System
 Pure UI layer - all business logic delegated to lib.rag module
+
+Now uses improved retrieval pipeline with:
+- Query expansion (Claude expands queries with related terms)
+- Hybrid search (combines vector similarity + BM25 keyword search)
+- Reranking (retrieves 15 candidates, reorders by relevance, returns top 5)
 """
 
 import os
@@ -60,6 +65,7 @@ def main():
 
     # Header
     st.title("🔋 Battery Research Papers Library")
+    st.caption("✨ Now with improved retrieval: Query expansion + Hybrid search (Vector + BM25) + Reranking")
 
     # Load resources using backend
     try:
@@ -112,36 +118,69 @@ def main():
             else:
                 api_key = get_api_key()
                 if api_key:
-                    with st.spinner("Searching..."):
-                        try:
-                            # Use backend for search
-                            chunks = rag.retrieve_relevant_chunks(
-                                question=question,
-                                top_k=rag.TOP_K,
-                                filter_chemistry=filter_chemistry,
-                                filter_topic=filter_topic,
-                                filter_paper_type=filter_paper_type
-                            )
+                    # Show progress with improved retrieval steps
+                    progress_text = st.empty()
+                    progress_bar = st.progress(0)
 
-                            if not chunks:
-                                st.warning("No relevant passages found. Try removing filters.")
-                            else:
-                                # Use backend for LLM query
-                                answer = rag.query_claude(question, chunks, api_key)
-                                st.session_state.query_result = {
-                                    'question': question,
-                                    'answer': answer,
-                                    'chunks': chunks,
-                                    'filters': {
-                                        'chemistry': filter_chemistry,
-                                        'topic': filter_topic,
-                                        'paper_type': filter_paper_type
-                                    }
+                    try:
+                        # Step 1: Query expansion
+                        progress_text.text("Step 1/4: Expanding query...")
+                        progress_bar.progress(25)
+
+                        # Step 2: Hybrid search
+                        progress_text.text("Step 2/4: Hybrid search (vector + BM25)...")
+                        progress_bar.progress(50)
+
+                        # Step 3: Reranking
+                        progress_text.text("Step 3/4: Reranking by relevance...")
+                        progress_bar.progress(75)
+
+                        # Use improved retrieval pipeline
+                        chunks = rag.retrieve_with_hybrid_and_reranking(
+                            question=question,
+                            api_key=api_key,
+                            top_k=5,
+                            n_candidates=15,
+                            alpha=0.5,
+                            filter_chemistry=filter_chemistry,
+                            filter_topic=filter_topic,
+                            filter_paper_type=filter_paper_type,
+                            enable_query_expansion=True,
+                            enable_reranking=True
+                        )
+
+                        if not chunks:
+                            progress_text.empty()
+                            progress_bar.empty()
+                            st.warning("No relevant passages found. Try removing filters.")
+                        else:
+                            # Step 4: Query Claude
+                            progress_text.text("Step 4/4: Generating answer with Claude...")
+                            progress_bar.progress(90)
+
+                            # Use backend for LLM query
+                            answer = rag.query_claude(question, chunks, api_key)
+
+                            progress_bar.progress(100)
+                            progress_text.empty()
+                            progress_bar.empty()
+
+                            st.session_state.query_result = {
+                                'question': question,
+                                'answer': answer,
+                                'chunks': chunks,
+                                'filters': {
+                                    'chemistry': filter_chemistry,
+                                    'topic': filter_topic,
+                                    'paper_type': filter_paper_type
                                 }
-                                st.session_state.active_tab = "Query Results"
-                                st.rerun()
-                        except RuntimeError as e:
-                            st.error(f"Error: {e}")
+                            }
+                            st.session_state.active_tab = "Query Results"
+                            st.rerun()
+                    except RuntimeError as e:
+                        progress_text.empty()
+                        progress_bar.empty()
+                        st.error(f"Error: {e}")
 
         st.divider()
 

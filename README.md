@@ -1,6 +1,25 @@
 # Battery Research Papers RAG System
 
-A simple Retrieval-Augmented Generation (RAG) system for searching battery research papers using ChromaDB and Claude.
+A Retrieval-Augmented Generation (RAG) system for searching battery research papers using ChromaDB and Claude.
+
+## ✨ New: Improved Retrieval Pipeline
+
+The system now uses an advanced retrieval pipeline with three key improvements:
+
+1. **Query Expansion**: Automatically expands your question with related technical terms using Claude
+   - Example: "LFP degradation" → "LFP degradation lithium iron phosphate LiFePO4 capacity fade aging calendar life cycle life"
+
+2. **Hybrid Search**: Combines semantic (vector) and keyword (BM25) search
+   - Vector search: Understands semantic meaning and context
+   - BM25: Catches exact terms like cell model numbers or author names
+   - Configurable weighting (default: 50/50 split)
+
+3. **Reranking**: Two-stage retrieval for better relevance
+   - Retrieves 15 candidate chunks using hybrid search
+   - Uses Claude to reorder by actual relevance to your question
+   - Returns top 5 most relevant chunks for final answer
+
+These improvements significantly enhance retrieval quality, especially for technical queries.
 
 ## Project Structure
 
@@ -95,38 +114,48 @@ python scripts/query.py "What are the main factors affecting battery degradation
 ## How It Works
 
 1. **Ingestion (ingest.py)**:
-   - Extracts text from PDFs using `pypdf`
+   - Extracts text from PDFs using `pymupdf4llm`
    - Splits text into chunks (~500-800 tokens) with overlap
    - Generates embeddings using a local sentence-transformers model
    - Stores chunks with metadata (filename, page number) in ChromaDB
 
-2. **Query (query.py)**:
-   - Embeds your question using the same model
-   - Searches ChromaDB for the top 5 most relevant chunks
-   - Sends question + retrieved chunks to Claude (claude-sonnet-4-5-20250929)
+2. **Query (query.py, app.py)** - Improved retrieval pipeline:
+   - **Step 1 - Query Expansion**: Claude expands your question with related technical terms
+   - **Step 2 - Hybrid Search**: Combines vector similarity + BM25 keyword search to retrieve 15 candidates
+   - **Step 3 - Reranking**: Claude reorders candidates by relevance, selects top 5
+   - **Step 4 - Answer Generation**: Sends question + top 5 chunks to Claude (claude-sonnet-4-5-20250929)
    - Returns answer with citations (paper name + page number)
 
 ## Technical Details
 
-- **PDF Processing**: pypdf (pure Python, no compilation needed)
+- **PDF Processing**: pymupdf4llm (enhanced extraction with structure awareness)
 - **Embeddings**: sentence-transformers/all-MiniLM-L6-v2 (runs locally, free)
 - **Vector DB**: ChromaDB with persistent storage
+- **Keyword Search**: BM25 (rank-bm25 library)
 - **LLM**: Claude Sonnet 4.5 via Anthropic API
 - **Chunking**: ~600 tokens per chunk, 100 token overlap
-- **Retrieval**: Top 5 most relevant chunks
+- **Retrieval**:
+  - Query expansion using Claude API
+  - Hybrid search: 50% vector similarity + 50% BM25 keyword matching
+  - Reranking: Retrieve 15 candidates, return top 5 after Claude-based reordering
 
 ## Example Output
 
 ```
 Question: What factors affect battery degradation?
 
-Searching for relevant passages (top 5)...
+Step 1: Expanding query with related technical terms...
+Step 2: Hybrid search (retrieving 15 candidates)...
+Step 3: Reranking by relevance (selecting top 5)...
+
+Final top 5 passages:
   [1] Preger_2020_J._Electrochem._Soc._167_120532.pdf (page 3)
   [2] Severson_NatureEnergy_2019.pdf (page 2)
   [3] history-agnostic-battery-degradation-inference.pdf (page 5)
-  ...
+  [4] battery_degradation_review.pdf (page 12)
+  [5] cycle_aging_study.pdf (page 8)
 
-Querying Claude (claude-sonnet-4-5-20250929)...
+Step 4: Querying Claude for final answer...
 
 ============================================================
 ANSWER:
@@ -148,11 +177,14 @@ SOURCES:
   [1] Preger_2020_J._Electrochem._Soc._167_120532.pdf, page 3
   [2] Severson_NatureEnergy_2019.pdf, page 2
   [3] history-agnostic-battery-degradation-inference.pdf, page 5
+  [4] battery_degradation_review.pdf, page 12
+  [5] cycle_aging_study.pdf, page 8
 ```
 
 ## Notes
 
-- The system is designed as a proof-of-concept
-- No web UI - command-line only
+- Includes both a Streamlit web interface and command-line interface
 - Local embeddings (no API costs for embeddings)
 - Persistent ChromaDB storage (no need to re-ingest unless papers change)
+- Query expansion and reranking use Claude API (minimal token usage)
+- Hybrid search balances semantic understanding with exact keyword matching
