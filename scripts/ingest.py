@@ -2,6 +2,12 @@
 """
 Ingest script for battery research papers RAG system.
 Extracts text from PDFs, chunks it, and stores in ChromaDB.
+
+Features:
+- Robust error handling with retry logic
+- Progress tracking with detailed status output
+- Resume capability (saves state, skips already-processed papers)
+- Graceful failure (continues with next paper if one fails)
 """
 
 import os
@@ -9,13 +15,19 @@ import sys
 import json
 import re
 import time
+import logging
 from pathlib import Path
+from typing import Optional, Dict, Any
 import pymupdf4llm
 import tiktoken
 import chromadb
 from sentence_transformers import SentenceTransformer
 from anthropic import Anthropic
 from tqdm import tqdm
+
+# Import retry utilities
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from lib.retry import anthropic_api_call_with_retry
 
 # Fix Windows console encoding for Unicode characters
 if sys.platform == 'win32':
@@ -30,11 +42,48 @@ if sys.platform == 'win32':
 PAPERS_DIR = Path(__file__).parent.parent / "papers"
 DB_DIR = Path(__file__).parent.parent / "data" / "chroma_db"
 RAW_TEXT_DIR = Path(__file__).parent.parent / "raw_text"
+STATE_FILE = Path(__file__).parent.parent / "data" / "ingest_state.json"
 EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 TARGET_CHUNK_SIZE = 600  # Target tokens per chunk
 CHUNK_OVERLAP = 100  # Overlap between chunks in tokens
 COLLECTION_NAME = "battery_papers"
 CLAUDE_MODEL = "claude-sonnet-4-5-20250929"
+
+# Setup logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler(Path(__file__).parent.parent / "data" / "ingest.log"),
+        logging.StreamHandler(sys.stdout)
+    ]
+)
+logger = logging.getLogger(__name__)
+
+
+def load_ingest_state() -> Dict[str, Any]:
+    """Load ingestion state from file to support resume capability."""
+    if STATE_FILE.exists():
+        try:
+            with open(STATE_FILE, 'r') as f:
+                state = json.load(f)
+                logger.info(f"Loaded ingest state: {len(state.get('completed', []))} papers already processed")
+                return state
+        except Exception as e:
+            logger.warning(f"Failed to load state file: {e}. Starting fresh.")
+
+    return {'completed': [], 'failed': [], 'last_updated': None}
+
+
+def save_ingest_state(state: Dict[str, Any]):
+    """Save ingestion state to file."""
+    try:
+        STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
+        state['last_updated'] = time.strftime('%Y-%m-%d %H:%M:%S')
+        with open(STATE_FILE, 'w') as f:
+            json.dump(state, f, indent=2)
+    except Exception as e:
+        logger.error(f"Failed to save state file: {e}")
 
 
 def count_tokens(text: str) -> int:
@@ -103,24 +152,13 @@ def save_raw_markdown(pages: list[dict], pdf_filename: str, output_dir: Path):
         print(f"    WARNING: Failed to save markdown: {e}")
 
 
-def extract_paper_metadata(pages: list[dict], filename: str, api_key: str) -> dict:
-    """
-    Use Claude to extract metadata from paper abstract/first pages.
-    Returns dict with chemistries, topics, application, and paper_type.
-    """
-    # Get first 2-3 pages or up to ~3000 chars (usually includes abstract + intro)
-    text_for_analysis = ""
-    for page in pages[:3]:
-        text_for_analysis += page['text'] + "\n\n"
-        if len(text_for_analysis) > 3000:
-            break
-
-    text_for_analysis = text_for_analysis[:3500]  # Limit size
-
+@anthropic_api_call_with_retry
+def _call_claude_for_metadata(text: str, filename: str, api_key: str, model: str) -> str:
+    """Internal function to call Claude API with retry logic."""
     prompt = f"""Analyze this battery research paper excerpt and extract structured metadata.
 
 Paper excerpt:
-{text_for_analysis}
+{text}
 
 Extract the following information and respond ONLY with a valid JSON object:
 
@@ -141,17 +179,37 @@ Rules:
 
 JSON:"""
 
+    client = Anthropic(api_key=api_key)
+    response = client.messages.create(
+        model=model,
+        max_tokens=500,
+        temperature=0,
+        messages=[{"role": "user", "content": prompt}]
+    )
+    return response.content[0].text.strip()
+
+
+def extract_paper_metadata(pages: list[dict], filename: str, api_key: str) -> dict:
+    """
+    Use Claude to extract metadata from paper abstract/first pages.
+    Returns dict with chemistries, topics, application, and paper_type.
+    """
+    # Get first 2-3 pages or up to ~3000 chars (usually includes abstract + intro)
+    text_for_analysis = ""
+    for page in pages[:3]:
+        text_for_analysis += page['text'] + "\n\n"
+        if len(text_for_analysis) > 3000:
+            break
+
+    text_for_analysis = text_for_analysis[:3500]  # Limit size
+
     try:
-        client = Anthropic(api_key=api_key)
-
-        response = client.messages.create(
-            model=CLAUDE_MODEL,
-            max_tokens=500,
-            temperature=0,
-            messages=[{"role": "user", "content": prompt}]
+        response_text = _call_claude_for_metadata(
+            text_for_analysis,
+            filename,
+            api_key,
+            CLAUDE_MODEL
         )
-
-        response_text = response.content[0].text.strip()
 
         # Extract JSON from response (handle cases where Claude adds explanation)
         json_match = re.search(r'\{.*\}', response_text, re.DOTALL)
@@ -381,51 +439,100 @@ def ingest_papers():
         print(f"  ERROR: Failed to initialize ChromaDB: {e}")
         sys.exit(1)
 
-    # Process each PDF
-    print(f"\nProcessing {len(pdf_files)} PDFs...")
+    # Load ingestion state for resume capability
+    state = load_ingest_state()
+    completed_files = set(state.get('completed', []))
+    failed_files = set(state.get('failed', []))
+
+    # Filter out already-processed files
+    pdf_files_to_process = [
+        f for f in pdf_files
+        if f.name not in completed_files
+    ]
+
+    if len(pdf_files_to_process) < len(pdf_files):
+        skipped = len(pdf_files) - len(pdf_files_to_process)
+        print(f"\nResuming from previous run:")
+        print(f"  ✓ {len(completed_files)} papers already processed")
+        print(f"  ✗ {len(failed_files)} papers previously failed")
+        print(f"  ⟳ {len(pdf_files_to_process)} papers remaining")
+    else:
+        print(f"\nProcessing {len(pdf_files)} PDFs...")
+
+    if not pdf_files_to_process:
+        print("\n✓ All papers already processed!")
+        print(f"Total chunks in database: {collection.count()}")
+        return
+
     print("-"*60)
 
     all_chunks = []
+    successful_count = 0
+    failed_count = 0
 
-    for idx, pdf_file in enumerate(pdf_files):
+    # Process each PDF with progress bar
+    for pdf_file in tqdm(pdf_files_to_process, desc="Processing PDFs", unit="paper"):
+        logger.info(f"Processing: {pdf_file.name}")
         print(f"\n[{pdf_file.name}]")
 
-        # Extract text from PDF
-        pages = extract_text_from_pdf(pdf_file)
-        if not pages:
-            continue
+        try:
+            # Extract text from PDF
+            pages = extract_text_from_pdf(pdf_file)
+            if not pages:
+                logger.warning(f"No pages extracted from {pdf_file.name}, skipping")
+                state['failed'].append(pdf_file.name)
+                failed_count += 1
+                save_ingest_state(state)
+                continue
 
-        # Save raw markdown for future re-chunking
-        save_raw_markdown(pages, pdf_file.name, RAW_TEXT_DIR)
+            # Save raw markdown for future re-chunking
+            save_raw_markdown(pages, pdf_file.name, RAW_TEXT_DIR)
 
-        # Extract metadata using Claude
-        paper_metadata = {}
-        if use_metadata:
-            print(f"  Extracting metadata with Claude...")
-            paper_metadata = extract_paper_metadata(pages, pdf_file.name, api_key)
-            print(f"    Chemistries: {', '.join(paper_metadata['chemistries']) if paper_metadata['chemistries'] else 'None detected'}")
-            print(f"    Topics: {', '.join(paper_metadata['topics'][:5])}{'...' if len(paper_metadata['topics']) > 5 else ''}")
-            print(f"    Application: {paper_metadata['application']}")
-            print(f"    Type: {paper_metadata['paper_type']}")
+            # Extract metadata using Claude
+            paper_metadata = {}
+            if use_metadata:
+                print(f"  Extracting metadata with Claude...")
+                paper_metadata = extract_paper_metadata(pages, pdf_file.name, api_key)
+                print(f"    Chemistries: {', '.join(paper_metadata['chemistries']) if paper_metadata['chemistries'] else 'None detected'}")
+                print(f"    Topics: {', '.join(paper_metadata['topics'][:5])}{'...' if len(paper_metadata['topics']) > 5 else ''}")
+                print(f"    Application: {paper_metadata['application']}")
+                print(f"    Type: {paper_metadata['paper_type']}")
 
-            # Add delay to avoid rate limits (except after last paper)
-            if idx < len(pdf_files) - 1:
+                # Add delay to avoid rate limits
                 print(f"    Waiting 30 seconds to avoid rate limits...")
                 time.sleep(30)
 
-        # Chunk each page
-        print(f"  Chunking text...")
-        file_chunks = []
-        for page_data in pages:
-            page_chunks = chunk_text(page_data['text'], page_data['page_num'])
-            for chunk in page_chunks:
-                chunk['filename'] = pdf_file.name
-                # Add paper-level metadata to each chunk
-                chunk['paper_metadata'] = paper_metadata
-                file_chunks.append(chunk)
+            # Chunk each page
+            print(f"  Chunking text...")
+            file_chunks = []
+            for page_data in pages:
+                page_chunks = chunk_text(page_data['text'], page_data['page_num'])
+                for chunk in page_chunks:
+                    chunk['filename'] = pdf_file.name
+                    # Add paper-level metadata to each chunk
+                    chunk['paper_metadata'] = paper_metadata
+                    file_chunks.append(chunk)
 
-        print(f"    Created {len(file_chunks)} chunks")
-        all_chunks.extend(file_chunks)
+            print(f"    Created {len(file_chunks)} chunks")
+            all_chunks.extend(file_chunks)
+
+            # Mark as successfully processed
+            state['completed'].append(pdf_file.name)
+            successful_count += 1
+            save_ingest_state(state)
+            logger.info(f"✓ Successfully processed {pdf_file.name}")
+
+        except Exception as e:
+            # Log error but continue with next paper
+            error_msg = f"Failed to process {pdf_file.name}: {str(e)}"
+            logger.error(error_msg, exc_info=True)
+            print(f"  ✗ ERROR: {e}")
+            print(f"  Continuing with next paper...")
+
+            state['failed'].append(pdf_file.name)
+            failed_count += 1
+            save_ingest_state(state)
+            continue
 
     if not all_chunks:
         print("\nERROR: No chunks created from PDFs")
@@ -490,11 +597,25 @@ def ingest_papers():
         print(f"  ERROR: Failed to store in ChromaDB: {e}")
         sys.exit(1)
 
+    # Final summary
     print(f"\n{'='*60}")
-    print("Ingestion complete!")
-    print(f"  Total documents: {len(all_chunks)}")
+    print("Ingestion Complete!")
+    print(f"{'='*60}")
+    print(f"  ✓ Successfully processed: {successful_count} papers")
+    if failed_count > 0:
+        print(f"  ✗ Failed: {failed_count} papers")
+        print(f"    (see data/ingest.log for details)")
+    print(f"  Total chunks created: {len(all_chunks)}")
+    print(f"  Total chunks in database: {collection.count()}")
     print(f"  Database location: {DB_DIR}")
+    print(f"  State file: {STATE_FILE}")
     print(f"{'='*60}\n")
+
+    if failed_count > 0:
+        logger.warning(f"Ingestion completed with {failed_count} failures")
+        logger.warning(f"Failed papers: {state['failed']}")
+    else:
+        logger.info("Ingestion completed successfully!")
 
 
 if __name__ == "__main__":

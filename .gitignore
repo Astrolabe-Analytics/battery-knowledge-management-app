@@ -26,6 +26,10 @@ papers/*.pdf
 # Raw extracted markdown (can be regenerated)
 raw_text/
 
+# Ingestion state and logs
+data/ingest_state.json
+data/ingest.log
+
 # Environment variables
 .env
 .env.local

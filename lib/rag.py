@@ -14,6 +14,9 @@ import chromadb
 from sentence_transformers import SentenceTransformer
 from anthropic import Anthropic
 
+# Import retry utilities
+from .retry import anthropic_api_call_with_retry
+
 
 # Configuration
 DB_DIR = Path(__file__).parent.parent / "data" / "chroma_db"
@@ -260,6 +263,18 @@ def retrieve_relevant_chunks(
     return chunks[:top_k]
 
 
+@anthropic_api_call_with_retry
+def _call_claude_api(prompt: str, api_key: str, model: str, max_tokens: int) -> str:
+    """Internal function to call Claude API with retry logic."""
+    client = Anthropic(api_key=api_key)
+    response = client.messages.create(
+        model=model,
+        max_tokens=max_tokens,
+        messages=[{"role": "user", "content": prompt}]
+    )
+    return response.content[0].text
+
+
 def query_claude(question: str, chunks: list[dict], api_key: str) -> str:
     """
     Send question + context to Claude and get answer.
@@ -273,7 +288,7 @@ def query_claude(question: str, chunks: list[dict], api_key: str) -> str:
         Claude's answer as a string
 
     Raises:
-        RuntimeError: If API call fails
+        RuntimeError: If API call fails after retries
     """
     # Build context from chunks
     context_parts = []
@@ -305,15 +320,9 @@ Question: {question}
 Please provide a detailed answer with citations:"""
 
     try:
-        client = Anthropic(api_key=api_key)
-        response = client.messages.create(
-            model=CLAUDE_MODEL,
-            max_tokens=2000,
-            messages=[{"role": "user", "content": prompt}]
-        )
-        return response.content[0].text
+        return _call_claude_api(prompt, api_key, CLAUDE_MODEL, 2000)
     except Exception as e:
-        raise RuntimeError(f"Failed to query Claude API: {e}")
+        raise RuntimeError(f"Failed to query Claude API after retries: {e}")
 
 
 def get_collection_count() -> int:
