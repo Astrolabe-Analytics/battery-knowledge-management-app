@@ -1,0 +1,48 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+dist/
+*.egg-info/
+
+# Claude Code
+.claude/
+
+# Windows artifacts
+nul
+
+# ChromaDB database
+data/chroma_db/
+
+# PDFs (too large for git)
+papers/*.pdf
+
+# Environment variables
+.env
+.env.local
+
+# Streamlit
+.streamlit/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Jupyter
+.ipynb_checkpoints/
