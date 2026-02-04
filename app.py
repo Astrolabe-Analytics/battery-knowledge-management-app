@@ -23,7 +23,7 @@ if sys.platform == 'win32':
         sys.stderr = codecs.getwriter('utf-8')(sys.stderr.buffer, 'strict')
 
 # Import backend
-from lib import rag
+from lib import rag, read_status
 
 
 # Page config
@@ -62,6 +62,9 @@ def main():
         st.session_state.query_result = None
     if "active_tab" not in st.session_state:
         st.session_state.active_tab = "Library"
+
+    # Initialize read status database
+    read_status.init_db()
 
     # Header
     st.title("🔋 Battery Research Papers Library")
@@ -112,7 +115,7 @@ def main():
         filter_paper_type = None if filter_paper_type == "All" else filter_paper_type
 
         # Query button
-        if st.button("🔍 Search", type="primary", use_container_width=True):
+        if st.button("🔍 Search", type="primary", width='stretch'):
             if not question:
                 st.warning("Please enter a question")
             else:
@@ -213,6 +216,23 @@ def main():
             details = rag.get_paper_details(paper_filename)
 
             if details:
+                # Title and bibliographic info
+                st.subheader(f"📄 {details.get('title', paper_filename)}")
+
+                st.write("**Authors:**")
+                if details.get('authors') and details['authors'][0]:
+                    st.write('; '.join([a.strip() for a in details['authors'] if a.strip()]))
+                else:
+                    st.write("Unknown")
+
+                col1, col2 = st.columns(2)
+                with col1:
+                    st.write(f"**Year:** {details.get('year', 'Unknown')}")
+                with col2:
+                    st.write(f"**Journal:** {details.get('journal', 'Unknown')}")
+
+                st.divider()
+
                 # Metadata
                 col1, col2, col3 = st.columns(3)
                 with col1:
@@ -241,58 +261,117 @@ def main():
 
                 st.divider()
 
+                # PDF viewing
+                if rag.check_pdf_exists(paper_filename):
+                    pdf_path = rag.get_pdf_path(paper_filename)
+
+                    # Create a download button that opens PDF in new tab
+                    with open(pdf_path, 'rb') as pdf_file:
+                        pdf_bytes = pdf_file.read()
+                        st.download_button(
+                            label="📄 Open PDF in Browser",
+                            data=pdf_bytes,
+                            file_name=paper_filename,
+                            mime="application/pdf",
+                            width='stretch'
+                        )
+
+                    st.info(f"PDF location: `{pdf_path}`")
+                else:
+                    st.warning("PDF file not found")
+
+                st.divider()
+
                 # Preview
                 st.subheader("📖 Preview")
                 for chunk in details['preview_chunks']:
                     with st.expander(f"Page {chunk['page']}", expanded=True):
                         st.write(chunk['text'][:1000] + "..." if len(chunk['text']) > 1000 else chunk['text'])
 
-                # PDF link
-                st.divider()
-                if rag.check_pdf_exists(paper_filename):
-                    pdf_path = rag.get_pdf_path(paper_filename)
-                    st.success(f"📎 PDF available: `{pdf_path}`")
-                    st.info("Open the file from the papers/ directory to view the full PDF")
-                else:
-                    st.warning("PDF file not found")
-
         else:
             # Table view
             st.subheader("📚 Paper Library")
 
-            # Create DataFrame
+            # Get read statuses
+            filenames = [p['filename'] for p in papers]
+            read_statuses = read_status.get_read_status(filenames)
+
+            # Create DataFrame with new columns
             df_data = []
             for paper in papers:
+                # Format authors (first 3 + "et al." if more)
+                # Authors are now semicolon-separated in "Last, First" format
+                authors_list = paper.get('authors', '').split(';') if paper.get('authors') else []
+                authors_display = '; '.join([a.strip() for a in authors_list[:3] if a.strip()])
+                if len(authors_list) > 3:
+                    authors_display += '; et al.'
+
                 df_data.append({
-                    'Title': paper['filename'].replace('.pdf', ''),
-                    'Chemistries': ', '.join(paper['chemistries'][:3]) + ('...' if len(paper['chemistries']) > 3 else ''),
-                    'Topics': ', '.join(paper['topics'][:3]) + ('...' if len(paper['topics']) > 3 else ''),
-                    'Type': paper['paper_type'].title(),
-                    'Pages': paper['num_pages'],
-                    '_filename': paper['filename']
+                    'Title': paper.get('title', paper['filename'].replace('.pdf', '')),
+                    'Authors': authors_display,
+                    'Year': paper.get('year', ''),
+                    'Journal': paper.get('journal', ''),
+                    'Read': '✓' if read_statuses.get(paper['filename'], False) else '',
+                    '_filename': paper['filename'],
+                    '_is_read': read_statuses.get(paper['filename'], False)
                 })
 
-            df = pd.DataFrame(df_data)
+            # Display table header
+            st.write(f"Showing {len(papers)} papers")
 
-            # Display table
-            st.write(f"Showing {len(df)} papers")
+            # Create table header
+            header_cols = st.columns([3, 2, 1, 2, 0.5])
+            with header_cols[0]:
+                st.markdown("**Title**")
+            with header_cols[1]:
+                st.markdown("**Authors**")
+            with header_cols[2]:
+                st.markdown("**Year**")
+            with header_cols[3]:
+                st.markdown("**Journal**")
+            with header_cols[4]:
+                st.markdown("**Read**")
 
-            # Use data editor for clickable rows
-            for idx, row in df.iterrows():
-                with st.container():
-                    col1, col2, col3, col4, col5 = st.columns([3, 2, 2, 1, 1])
-                    with col1:
-                        if st.button(row['Title'][:50], key=f"paper_{idx}", use_container_width=True):
-                            st.session_state.selected_paper = row['_filename']
-                            st.rerun()
-                    with col2:
-                        st.write(row['Chemistries'])
-                    with col3:
-                        st.write(row['Topics'][:40] + "..." if len(row['Topics']) > 40 else row['Topics'])
-                    with col4:
-                        st.write(row['Type'])
-                    with col5:
-                        st.write(f"{row['Pages']} pages")
+            st.divider()
+
+            # Display each paper as a row
+            for i, paper_data in enumerate(df_data):
+                col1, col2, col3, col4, col5 = st.columns([3, 2, 1, 2, 0.5])
+
+                with col1:
+                    # Clickable title button
+                    if st.button(
+                        paper_data['Title'][:60] + ('...' if len(paper_data['Title']) > 60 else ''),
+                        key=f"title_{i}",
+                        width='stretch'
+                    ):
+                        st.session_state.selected_paper = paper_data['_filename']
+                        st.rerun()
+
+                with col2:
+                    st.write(paper_data['Authors'][:40] + ('...' if len(paper_data['Authors']) > 40 else ''))
+
+                with col3:
+                    st.write(paper_data['Year'])
+
+                with col4:
+                    st.write(paper_data['Journal'][:30] + ('...' if len(paper_data['Journal']) > 30 else ''))
+
+                with col5:
+                    # Interactive checkbox for read status
+                    is_read = st.checkbox(
+                        label="",
+                        value=paper_data['_is_read'],
+                        key=f"read_{i}",
+                        label_visibility="collapsed"
+                    )
+                    # Update read status if changed
+                    if is_read != paper_data['_is_read']:
+                        if is_read:
+                            read_status.mark_as_read(paper_data['_filename'])
+                        else:
+                            read_status.mark_as_unread(paper_data['_filename'])
+                        st.rerun()
 
     with tab2:
         st.session_state.active_tab = "Query Results"

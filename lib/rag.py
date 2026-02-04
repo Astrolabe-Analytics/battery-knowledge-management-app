@@ -91,6 +91,10 @@ def get_paper_library() -> list[dict]:
         if filename not in papers:
             papers[filename] = {
                 'filename': filename,
+                'title': metadata.get('title', filename.replace('.pdf', '')),
+                'authors': metadata.get('authors', ''),
+                'year': metadata.get('year', ''),
+                'journal': metadata.get('journal', ''),
                 'chemistries': set(),
                 'topics': set(),
                 'application': metadata.get('application', 'general'),
@@ -174,6 +178,10 @@ def get_paper_details(filename: str) -> Optional[dict]:
 
     return {
         'filename': filename,
+        'title': results['metadatas'][0].get('title', filename),
+        'authors': results['metadatas'][0].get('authors', '').split(';'),
+        'year': results['metadatas'][0].get('year', ''),
+        'journal': results['metadatas'][0].get('journal', ''),
         'chemistries': results['metadatas'][0].get('chemistries', '').split(','),
         'topics': results['metadatas'][0].get('topics', '').split(','),
         'application': results['metadatas'][0].get('application', 'general'),

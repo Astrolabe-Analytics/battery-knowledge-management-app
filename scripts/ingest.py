@@ -16,6 +16,7 @@ import json
 import re
 import time
 import logging
+import requests
 from pathlib import Path
 from typing import Optional, Dict, Any
 import pymupdf4llm
@@ -152,6 +153,89 @@ def save_raw_markdown(pages: list[dict], pdf_filename: str, output_dir: Path):
         print(f"    WARNING: Failed to save markdown: {e}")
 
 
+def extract_doi_from_text(text: str) -> Optional[str]:
+    """
+    Extract DOI from paper text using regex patterns.
+    Returns DOI string if found, None otherwise.
+    """
+    # Common DOI patterns
+    doi_patterns = [
+        r'doi:\s*([10]\.\d{4,}/[^\s]+)',  # doi: 10.xxxx/xxxxx
+        r'DOI:\s*([10]\.\d{4,}/[^\s]+)',  # DOI: 10.xxxx/xxxxx
+        r'https?://doi\.org/([10]\.\d{4,}/[^\s]+)',  # https://doi.org/10.xxxx/xxxxx
+        r'https?://dx\.doi\.org/([10]\.\d{4,}/[^\s]+)',  # https://dx.doi.org/10.xxxx/xxxxx
+        r'\b([10]\.\d{4,}/[^\s]+)\b',  # Bare DOI: 10.xxxx/xxxxx
+    ]
+
+    for pattern in doi_patterns:
+        match = re.search(pattern, text, re.IGNORECASE)
+        if match:
+            doi = match.group(1)
+            # Clean up DOI (remove trailing punctuation)
+            doi = re.sub(r'[.,;:\s]+$', '', doi)
+            return doi
+
+    return None
+
+
+def query_crossref_api(doi: str) -> Optional[dict]:
+    """
+    Query CrossRef API for canonical metadata using DOI.
+    Returns dict with title, authors, year, journal if successful, None otherwise.
+    """
+    try:
+        url = f"https://api.crossref.org/works/{doi}"
+        headers = {
+            'User-Agent': 'BatteryPaperLibrary/1.0 (mailto:researcher@example.com)'
+        }
+
+        response = requests.get(url, headers=headers, timeout=10)
+
+        if response.status_code == 200:
+            data = response.json()
+            message = data.get('message', {})
+
+            # Extract metadata
+            metadata = {}
+
+            # Title
+            titles = message.get('title', [])
+            if titles:
+                metadata['title'] = titles[0]
+
+            # Authors (format as "Last, First")
+            authors = []
+            for author in message.get('author', []):
+                given = author.get('given', '')
+                family = author.get('family', '')
+                if family:
+                    if given:
+                        authors.append(f"{family}, {given}")
+                    else:
+                        authors.append(family)
+            metadata['authors'] = authors[:10]  # Limit to 10
+
+            # Year
+            published = message.get('published-print') or message.get('published-online')
+            if published and 'date-parts' in published:
+                date_parts = published['date-parts'][0]
+                if date_parts:
+                    metadata['year'] = str(date_parts[0])
+
+            # Journal (full name, not abbreviated)
+            container_titles = message.get('container-title', [])
+            if container_titles:
+                metadata['journal'] = container_titles[0]
+
+            return metadata
+        else:
+            return None
+
+    except Exception as e:
+        print(f"      CrossRef API error: {e}")
+        return None
+
+
 @anthropic_api_call_with_retry
 def _call_claude_for_metadata(text: str, filename: str, api_key: str, model: str) -> str:
     """Internal function to call Claude API with retry logic."""
@@ -163,13 +247,22 @@ Paper excerpt:
 Extract the following information and respond ONLY with a valid JSON object:
 
 {{
+  "title": "Exact paper title from the document",
+  "authors": ["Last, First; Last, First; Last, First"],
+  "year": "2023",
+  "journal": "Journal of Power Sources",
   "chemistries": ["list of battery chemistries discussed, e.g., LFP, NMC, NCA, LCO, LMO, LTO, graphite, silicon, etc."],
   "topics": ["list of technical topics, e.g., degradation, SOH, RUL, capacity fade, impedance, EIS, cycling, calendar aging, thermal, SEI, lithium plating, etc."],
   "application": "primary application domain: EV, grid storage, consumer electronics, aerospace, or general",
   "paper_type": "one of: experimental, simulation, review, dataset, modeling, or method"
 }}
 
-Rules:
+STRICT FORMATTING RULES:
+- Title: Title case, no period at the end, main title only (not subtitle)
+- Authors: ALWAYS "Last, First" format, semicolon-separated (e.g., "Severson, Kristen; Attia, Peter; Jin, Norman")
+- Year: 4-digit year ONLY (e.g., "2019")
+- Journal: FULL NAME, never abbreviated (e.g., "Nature Energy" not "Nat. Energy", "Journal of Power Sources" not "J. Power Sources")
+- Limit to first 10 authors if more than 10
 - Use standard battery chemistry abbreviations (NMC, LFP, NCA, etc.)
 - Include only chemistries explicitly mentioned or clearly studied
 - Topics should be technical keywords (3-10 topics)
@@ -182,7 +275,7 @@ JSON:"""
     client = Anthropic(api_key=api_key)
     response = client.messages.create(
         model=model,
-        max_tokens=500,
+        max_tokens=600,
         temperature=0,
         messages=[{"role": "user", "content": prompt}]
     )
@@ -191,18 +284,55 @@ JSON:"""
 
 def extract_paper_metadata(pages: list[dict], filename: str, api_key: str) -> dict:
     """
-    Use Claude to extract metadata from paper abstract/first pages.
-    Returns dict with chemistries, topics, application, and paper_type.
+    Extract metadata using DOI-first approach:
+    1. Try to find DOI in first 2 pages
+    2. If DOI found, query CrossRef API for canonical bibliographic data
+    3. Use Claude for battery-specific fields (chemistries, topics, application, paper_type)
+    4. If no DOI or CrossRef fails, use Claude for all fields with strict formatting
     """
-    # Get first 2-3 pages or up to ~3000 chars (usually includes abstract + intro)
+    # Get first 2-3 pages or up to ~3500 chars
     text_for_analysis = ""
-    for page in pages[:3]:
+    text_for_doi = ""  # First 2 pages for DOI search
+    for i, page in enumerate(pages[:3]):
         text_for_analysis += page['text'] + "\n\n"
+        if i < 2:  # First 2 pages for DOI
+            text_for_doi += page['text'] + "\n\n"
         if len(text_for_analysis) > 3000:
             break
 
     text_for_analysis = text_for_analysis[:3500]  # Limit size
 
+    metadata = {
+        'title': '',
+        'authors': [],
+        'year': '',
+        'journal': '',
+        'chemistries': [],
+        'topics': [],
+        'application': 'general',
+        'paper_type': 'experimental'
+    }
+
+    # STEP 1: Try to find DOI
+    doi = extract_doi_from_text(text_for_doi)
+    crossref_data = None
+
+    if doi:
+        print(f"    Found DOI: {doi}")
+        print(f"    Querying CrossRef API...")
+        crossref_data = query_crossref_api(doi)
+
+        if crossref_data:
+            print(f"    ✓ CrossRef data retrieved")
+            # Use CrossRef data for bibliographic fields
+            metadata['title'] = crossref_data.get('title', '')
+            metadata['authors'] = crossref_data.get('authors', [])
+            metadata['year'] = crossref_data.get('year', '')
+            metadata['journal'] = crossref_data.get('journal', '')
+        else:
+            print(f"    ✗ CrossRef query failed, will use Claude")
+
+    # STEP 2: Use Claude for battery-specific fields (or all fields if no CrossRef data)
     try:
         response_text = _call_claude_for_metadata(
             text_for_analysis,
@@ -211,24 +341,32 @@ def extract_paper_metadata(pages: list[dict], filename: str, api_key: str) -> di
             CLAUDE_MODEL
         )
 
-        # Extract JSON from response (handle cases where Claude adds explanation)
+        # Extract JSON from response
         json_match = re.search(r'\{.*\}', response_text, re.DOTALL)
         if json_match:
             response_text = json_match.group(0)
 
-        metadata = json.loads(response_text)
+        claude_metadata = json.loads(response_text)
 
-        # Validate and set defaults
-        metadata.setdefault('chemistries', [])
-        metadata.setdefault('topics', [])
-        metadata.setdefault('application', 'general')
-        metadata.setdefault('paper_type', 'experimental')
+        # If we have CrossRef data, only use Claude for battery-specific fields
+        if crossref_data:
+            metadata['chemistries'] = claude_metadata.get('chemistries', [])
+            metadata['topics'] = claude_metadata.get('topics', [])
+            metadata['application'] = claude_metadata.get('application', 'general')
+            metadata['paper_type'] = claude_metadata.get('paper_type', 'experimental')
+        else:
+            # No CrossRef data, use Claude for everything
+            metadata.update(claude_metadata)
 
-        # Convert to lowercase for consistency
+        # Normalize fields
         metadata['chemistries'] = [c.upper() for c in metadata.get('chemistries', [])]
         metadata['topics'] = [t.lower() for t in metadata.get('topics', [])]
         metadata['application'] = metadata.get('application', 'general').lower()
         metadata['paper_type'] = metadata.get('paper_type', 'experimental').lower()
+
+        # Ensure authors is a list (Claude returns semicolon-separated string)
+        if isinstance(metadata.get('authors'), str):
+            metadata['authors'] = [a.strip() for a in metadata['authors'].split(';') if a.strip()]
 
         return metadata
 
@@ -236,6 +374,10 @@ def extract_paper_metadata(pages: list[dict], filename: str, api_key: str) -> di
         print(f"    WARNING: Failed to extract metadata: {e}")
         print(f"    Using default metadata")
         return {
+            'title': '',
+            'authors': [],
+            'year': '',
+            'journal': '',
             'chemistries': [],
             'topics': [],
             'application': 'general',
@@ -572,11 +714,19 @@ def ingest_papers():
         # Add paper-level metadata
         if chunk.get('paper_metadata'):
             pm = chunk['paper_metadata']
+            meta['title'] = pm.get('title', '')
+            meta['authors'] = ';'.join(pm.get('authors', []))  # Semicolon-separated for "Last, First" format
+            meta['year'] = pm.get('year', '')
+            meta['journal'] = pm.get('journal', '')
             meta['chemistries'] = ','.join(pm.get('chemistries', []))
             meta['topics'] = ','.join(pm.get('topics', []))
             meta['application'] = pm.get('application', 'general')
             meta['paper_type'] = pm.get('paper_type', 'experimental')
         else:
+            meta['title'] = ''
+            meta['authors'] = ''
+            meta['year'] = ''
+            meta['journal'] = ''
             meta['chemistries'] = ''
             meta['topics'] = ''
             meta['application'] = 'general'

@@ -30,6 +30,9 @@ raw_text/
 data/ingest_state.json
 data/ingest.log
 
+# Read status database
+data/read_status.db
+
 # Environment variables
 .env
 .env.local
