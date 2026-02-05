@@ -17,8 +17,10 @@ import re
 import time
 import logging
 import requests
+import argparse
 from pathlib import Path
-from typing import Optional, Dict, Any
+from typing import Optional, Dict, Any, Tuple
+from difflib import SequenceMatcher
 import pymupdf4llm
 import tiktoken
 import chromadb
@@ -554,7 +556,88 @@ def chunk_text(text: str, page_num: int) -> list[dict]:
     return chunks
 
 
-def ingest_papers():
+def load_existing_metadata() -> Dict[str, Dict]:
+    """Load existing papers metadata from metadata.json."""
+    metadata_file = Path(__file__).parent.parent / "data" / "metadata.json"
+    if not metadata_file.exists():
+        return {}
+
+    try:
+        with open(metadata_file, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"WARNING: Failed to load metadata.json: {e}")
+        return {}
+
+
+def title_similarity(title1: str, title2: str) -> float:
+    """Calculate similarity between two titles (0.0 to 1.0)."""
+    if not title1 or not title2:
+        return 0.0
+
+    # Normalize: lowercase, remove extra whitespace
+    t1 = ' '.join(title1.lower().split())
+    t2 = ' '.join(title2.lower().split())
+
+    return SequenceMatcher(None, t1, t2).ratio()
+
+
+def check_duplicate(
+    filename: str,
+    doi: Optional[str],
+    title: Optional[str],
+    existing_metadata: Dict[str, Dict],
+    force: bool = False
+) -> Tuple[bool, Optional[str], Optional[str]]:
+    """
+    Check if a paper is a duplicate of an existing paper.
+
+    Returns:
+        (is_duplicate, duplicate_type, existing_paper_info)
+        - is_duplicate: True if duplicate found
+        - duplicate_type: 'filename', 'doi', 'title', or None
+        - existing_paper_info: String describing the existing paper
+    """
+    if force:
+        return False, None, None
+
+    # Check 1: Filename match
+    if filename in existing_metadata:
+        existing = existing_metadata[filename]
+        existing_title = existing.get('title', filename)
+        existing_doi = existing.get('doi', '')
+        info = f"'{filename}' — matches existing paper '{existing_title}'"
+        if existing_doi:
+            info += f" (DOI: {existing_doi})"
+        return True, 'filename', info
+
+    # Check 2: DOI match (exact)
+    if doi:
+        doi_normalized = doi.lower().strip()
+        for existing_filename, existing in existing_metadata.items():
+            existing_doi = existing.get('doi', '').lower().strip()
+            if existing_doi and existing_doi == doi_normalized:
+                existing_title = existing.get('title', existing_filename)
+                info = f"'{filename}' — DOI matches existing paper '{existing_title}' (DOI: {doi})"
+                return True, 'doi', info
+
+    # Check 3: Title match (fuzzy, >90% similarity)
+    if title:
+        for existing_filename, existing in existing_metadata.items():
+            existing_title = existing.get('title', '')
+            if existing_title:
+                similarity = title_similarity(title, existing_title)
+                if similarity > 0.90:
+                    existing_doi = existing.get('doi', '')
+                    info = f"'{filename}' — title {similarity*100:.1f}% similar to existing paper '{existing_title}'"
+                    if existing_doi:
+                        info += f" (DOI: {existing_doi})"
+                    return True, 'title', info
+
+    return False, None, None
+
+
+def ingest_papers(force: bool = False):
     """Main ingestion function."""
     print("\n" + "="*60)
     print("Battery Research Papers RAG - Ingestion Script")
@@ -655,9 +738,19 @@ def ingest_papers():
 
     print("-"*60)
 
+    # Load existing metadata for duplicate detection
+    if not force:
+        print("\nLoading existing papers for duplicate detection...")
+        existing_metadata = load_existing_metadata()
+        print(f"  Found {len(existing_metadata)} existing papers in metadata.json")
+    else:
+        print("\n⚠️  --force flag enabled: skipping duplicate detection")
+        existing_metadata = {}
+
     all_chunks = []
     successful_count = 0
     failed_count = 0
+    skipped_duplicates = 0
 
     # Process each PDF with progress bar
     for pdf_file in tqdm(pdf_files_to_process, desc="Processing PDFs", unit="paper"):
@@ -665,6 +758,18 @@ def ingest_papers():
         print(f"\n[{pdf_file.name}]")
 
         try:
+            # Quick duplicate check by filename first (before extracting text)
+            if pdf_file.name in existing_metadata and not force:
+                existing = existing_metadata[pdf_file.name]
+                existing_title = existing.get('title', pdf_file.name)
+                existing_doi = existing.get('doi', '')
+                print(f"  ⚠️  DUPLICATE (filename): Already exists as '{existing_title}'")
+                if existing_doi:
+                    print(f"      DOI: {existing_doi}")
+                print(f"  → Skipping (use --force to re-ingest)")
+                skipped_duplicates += 1
+                continue
+
             # Extract text from PDF
             pages = extract_text_from_pdf(pdf_file)
             if not pages:
@@ -686,6 +791,32 @@ def ingest_papers():
                 print(f"    Topics: {', '.join(paper_metadata['topics'][:5])}{'...' if len(paper_metadata['topics']) > 5 else ''}")
                 print(f"    Application: {paper_metadata['application']}")
                 print(f"    Type: {paper_metadata['paper_type']}")
+
+                # Check for DOI/title duplicates (more thorough check now that we have metadata)
+                doi = paper_metadata.get('doi')
+                title = paper_metadata.get('title')
+                is_dup, dup_type, dup_info = check_duplicate(
+                    pdf_file.name, doi, title, existing_metadata, force
+                )
+
+                if is_dup:
+                    print(f"  ⚠️  DUPLICATE ({dup_type}): {dup_info}")
+
+                    if dup_type == 'doi':
+                        # DOI match - always skip
+                        print(f"  → Skipping (use --force to re-ingest)")
+                        skipped_duplicates += 1
+                        continue
+                    elif dup_type == 'title':
+                        # Title match - ask user
+                        print(f"  → High title similarity detected")
+                        response = input("  Add anyway? (y/N): ").strip().lower()
+                        if response != 'y':
+                            print(f"  → Skipping")
+                            skipped_duplicates += 1
+                            continue
+                        else:
+                            print(f"  → Continuing with ingestion")
 
                 # Add delay to avoid rate limits
                 print(f"    Waiting 30 seconds to avoid rate limits...")
@@ -833,6 +964,10 @@ def ingest_papers():
     if failed_count > 0:
         print(f"  ✗ Failed: {failed_count} papers")
         print(f"    (see data/ingest.log for details)")
+    if skipped_duplicates > 0:
+        print(f"  ⊘ Skipped (duplicates): {skipped_duplicates} papers")
+        if not force:
+            print(f"    (use --force to re-ingest)")
     print(f"  Total chunks created: {len(all_chunks)}")
     print(f"  Total chunks in database: {collection.count()}")
     print(f"  Database location: {DB_DIR}")
@@ -847,4 +982,20 @@ def ingest_papers():
 
 
 if __name__ == "__main__":
-    ingest_papers()
+    parser = argparse.ArgumentParser(
+        description="Ingest battery research papers into RAG system",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  python ingest.py                 # Normal ingestion with duplicate detection
+  python ingest.py --force         # Force re-ingest, bypass duplicate checks
+        """
+    )
+    parser.add_argument(
+        '--force',
+        action='store_true',
+        help='Force re-ingestion, bypass duplicate detection'
+    )
+
+    args = parser.parse_args()
+    ingest_papers(force=args.force)

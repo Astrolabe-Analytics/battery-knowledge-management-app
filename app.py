@@ -779,7 +779,385 @@ def main():
                         st.toast("Notes saved!", icon="✅")
 
                 st.divider()
-                # TODO: References table — revisit HTML rendering (style tag issue with st.markdown)
+
+                # REFERENCES SECTION
+                references = details.get('references', [])
+                if references:
+                    with st.expander(f"📚 References ({len(references)})", expanded=False):
+                        st.caption("Papers cited by this work")
+
+                        # Get all DOIs in the library for status checking
+                        library_dois = {p.get('doi', '').lower() for p in papers if p.get('doi')}
+
+                        # Filter and prepare references data
+                        refs_data = []
+                        refs_full_data = {}  # Store full ref data separately (not in DataFrame)
+                        for i, ref in enumerate(references):
+                            # Get reference fields
+                            title = ref.get('article-title', '').strip()
+                            authors = ref.get('author', '').strip()
+
+                            # Mark incomplete references (missing title or author)
+                            is_incomplete = not title or not authors
+
+                            # Show what data we have, even if incomplete
+                            display_title = title if title else '(No title)'
+                            display_authors = authors if authors else '(No author)'
+
+                            # Check if in library (only for complete references)
+                            ref_doi = ref.get('DOI', '').lower().strip()
+                            in_library = bool(ref_doi and ref_doi in library_dois) if not is_incomplete else False
+
+                            # Format journal with volume
+                            journal = ref.get('journal-title', '')
+                            if journal and ref.get('volume'):
+                                journal = f"{journal}, Vol. {ref['volume']}"
+
+                            row_idx = len(refs_data)
+                            refs_data.append({
+                                'Title': display_title,
+                                'Authors': display_authors,
+                                'Year': str(ref.get('year', '')) if ref.get('year') else '—',
+                                'Journal': journal if journal else '—',
+                                'DOI': ref.get('DOI', '—'),
+                                'Status': '✓ In Library' if in_library else ('Incomplete' if is_incomplete else 'Not in Library'),
+                                '_in_library': in_library,
+                                '_incomplete': is_incomplete
+                            })
+                            # Store full ref data separately (dicts break AgGrid rendering)
+                            refs_full_data[row_idx] = ref
+
+                        if not refs_data:
+                            st.info("No valid references found (references must have both title and author)")
+                        else:
+                            # Build DataFrame
+                            refs_df = pd.DataFrame(refs_data)
+
+                            # Configure AG Grid (EXACT copy from library table)
+                            refs_gb = GridOptionsBuilder.from_dataframe(refs_df)
+
+                            # Title column - EXACT copy from library table
+                            refs_gb.configure_column("Title",
+                                flex=3,
+                                minWidth=250,
+                                wrapText=True,
+                                autoHeight=False,
+                                resizable=True,
+                                cellStyle={
+                                    'whiteSpace': 'normal !important',
+                                    'lineHeight': '1.4 !important',
+                                    'display': '-webkit-box !important',
+                                    '-webkit-line-clamp': '2 !important',
+                                    '-webkit-box-orient': 'vertical !important',
+                                    'overflow': 'hidden !important',
+                                    'textOverflow': 'ellipsis !important',
+                                    'padding': '8px !important',
+                                    'maxHeight': '45px !important'
+                                },
+                                tooltipField="Title"
+                            )
+
+                            # Authors column - EXACT copy from library table
+                            refs_gb.configure_column("Authors",
+                                flex=2,
+                                minWidth=180,
+                                wrapText=True,
+                                autoHeight=False,
+                                resizable=True,
+                                cellStyle={
+                                    'whiteSpace': 'normal !important',
+                                    'lineHeight': '1.4 !important',
+                                    'display': '-webkit-box !important',
+                                    '-webkit-line-clamp': '2 !important',
+                                    '-webkit-box-orient': 'vertical !important',
+                                    'overflow': 'hidden !important',
+                                    'textOverflow': 'ellipsis !important',
+                                    'padding': '8px !important',
+                                    'maxHeight': '45px !important'
+                                },
+                                tooltipField="Authors"
+                            )
+
+                            # Year column - EXACT copy from library table
+                            refs_gb.configure_column("Year",
+                                width=70,
+                                minWidth=60,
+                                maxWidth=90,
+                                resizable=True,
+                                cellStyle={
+                                    'whiteSpace': 'nowrap !important',
+                                    'overflow': 'hidden !important',
+                                    'textOverflow': 'ellipsis !important',
+                                    'display': 'flex !important',
+                                    'justifyContent': 'flex-start !important',
+                                    'alignItems': 'center !important',
+                                    'textAlign': 'left !important',
+                                    'paddingLeft': '8px !important'
+                                }
+                            )
+
+                            # Journal column - EXACT copy from library table
+                            refs_gb.configure_column("Journal",
+                                flex=2,
+                                minWidth=150,
+                                wrapText=True,
+                                resizable=True,
+                                cellStyle={
+                                    'whiteSpace': 'normal !important',
+                                    'lineHeight': '1.4 !important',
+                                    'display': '-webkit-box !important',
+                                    '-webkit-line-clamp': '2 !important',
+                                    '-webkit-box-orient': 'vertical !important',
+                                    'overflow': 'hidden !important',
+                                    'textOverflow': 'ellipsis !important',
+                                    'padding': '8px !important',
+                                    'maxHeight': '45px !important'
+                                },
+                                tooltipField="Journal"
+                            )
+
+                            # DOI column - EXACT copy from library table
+                            refs_gb.configure_column("DOI",
+                                flex=1.5,
+                                minWidth=140,
+                                resizable=True,
+                                cellStyle={
+                                    'overflow': 'hidden'
+                                },
+                                tooltipField="DOI"
+                            )
+
+                            # Status column
+                            refs_gb.configure_column("Status",
+                                width=130,
+                                minWidth=110,
+                                maxWidth=150,
+                                resizable=False,
+                                cellStyle={'textAlign': 'center', 'overflow': 'hidden'}
+                            )
+
+                            # Hide internal columns
+                            refs_gb.configure_column("_in_library", hide=True)
+
+                            # Grid options - EXACT copy from library table
+                            refs_gb.configure_selection(selection_mode='single', use_checkbox=False)
+                            refs_gb.configure_grid_options(
+                                headerHeight=40,
+                                suppressRowHoverHighlight=False,
+                                enableCellTextSelection=True,
+                                ensureDomOrder=True,
+                                domLayout='normal',
+                                rowHeight=60,
+                                suppressHorizontalScroll=True,
+                                suppressColumnVirtualisation=False,
+                                suppressRowVirtualisation=False
+                            )
+
+                            refs_grid_options = refs_gb.build()
+
+                            # Custom CSS - EXACT copy from library table
+                            if st.session_state.theme == 'dark':
+                                refs_custom_css = {
+                                    ".ag-header-cell-label": {
+                                        "font-weight": "600",
+                                        "font-size": "14px",
+                                        "font-family": "inherit",
+                                        "color": "#FFFFFF !important"
+                                    },
+                                    ".ag-header-cell-text": {
+                                        "color": "#FFFFFF !important",
+                                        "font-size": "14px"
+                                    },
+                                    ".ag-header": {
+                                        "background-color": "#262730 !important",
+                                        "border-bottom": "1px solid #444444 !important",
+                                        "height": "40px !important"
+                                    },
+                                    ".ag-header-cell": {
+                                        "background-color": "#262730 !important",
+                                        "color": "#FFFFFF !important",
+                                        "padding": "0 8px !important"
+                                    },
+                                    ".ag-root-wrapper": {
+                                        "background-color": "#1E1E1E !important",
+                                        "width": "100% !important",
+                                        "font-family": "inherit",
+                                        "font-size": "14px"
+                                    },
+                                    ".ag-row": {
+                                        "border-bottom": "1px solid #444444 !important",
+                                        "background-color": "#1E1E1E !important",
+                                        "height": "60px !important"
+                                    },
+                                    ".ag-cell": {
+                                        "padding": "8px !important",
+                                        "display": "flex !important",
+                                        "align-items": "center !important",
+                                        "color": "#E0E0E0 !important",
+                                        "overflow": "hidden !important",
+                                        "text-overflow": "ellipsis !important",
+                                        "font-size": "14px !important",
+                                        "font-family": "inherit !important",
+                                        "line-height": "1.5 !important"
+                                    },
+                                    ".ag-cell .ag-cell-value": {
+                                        "display": "-webkit-box !important",
+                                        "-webkit-line-clamp": "2 !important",
+                                        "-webkit-box-orient": "vertical !important",
+                                        "overflow": "hidden !important",
+                                        "text-overflow": "ellipsis !important",
+                                        "white-space": "normal !important",
+                                        "line-height": "1.4 !important",
+                                        "max-height": "42px !important",
+                                        "width": "100% !important"
+                                    },
+                                    ".ag-row-hover": {"background-color": "#2D2D2D !important"},
+                                    ".ag-center-cols-viewport": {"background-color": "#1E1E1E !important"},
+                                    ".ag-body-viewport": {"background-color": "#1E1E1E !important"},
+                                }
+                            else:
+                                refs_custom_css = {
+                                    ".ag-header-cell-label": {
+                                        "font-weight": "600",
+                                        "font-size": "14px",
+                                        "font-family": "inherit",
+                                        "color": "#2c3e50 !important"
+                                    },
+                                    ".ag-header-cell-text": {
+                                        "color": "#2c3e50 !important",
+                                        "font-size": "14px"
+                                    },
+                                    ".ag-header": {
+                                        "background-color": "#F0F2F6 !important",
+                                        "border-bottom": "1px solid #D0D0D0 !important",
+                                        "height": "40px !important"
+                                    },
+                                    ".ag-header-cell": {
+                                        "background-color": "#F0F2F6 !important",
+                                        "color": "#2c3e50 !important",
+                                        "padding": "0 8px !important"
+                                    },
+                                    ".ag-root-wrapper": {
+                                        "background-color": "#FFFFFF !important",
+                                        "width": "100% !important",
+                                        "font-family": "inherit",
+                                        "font-size": "14px"
+                                    },
+                                    ".ag-row": {
+                                        "border-bottom": "1px solid #ecf0f1 !important",
+                                        "background-color": "#FFFFFF !important",
+                                        "height": "60px !important"
+                                    },
+                                    ".ag-cell": {
+                                        "padding": "8px !important",
+                                        "display": "flex !important",
+                                        "align-items": "center !important",
+                                        "color": "#262730 !important",
+                                        "overflow": "hidden !important",
+                                        "text-overflow": "ellipsis !important",
+                                        "font-size": "14px !important",
+                                        "font-family": "inherit !important",
+                                        "line-height": "1.5 !important"
+                                    },
+                                    ".ag-cell .ag-cell-value": {
+                                        "display": "-webkit-box !important",
+                                        "-webkit-line-clamp": "2 !important",
+                                        "-webkit-box-orient": "vertical !important",
+                                        "overflow": "hidden !important",
+                                        "text-overflow": "ellipsis !important",
+                                        "white-space": "normal !important",
+                                        "line-height": "1.4 !important",
+                                        "max-height": "42px !important",
+                                        "width": "100% !important"
+                                    },
+                                    ".ag-row-hover": {"background-color": "#f8f9fa !important"},
+                                    ".ag-center-cols-viewport": {"background-color": "#FFFFFF !important"},
+                                    ".ag-body-viewport": {"background-color": "#FFFFFF !important"},
+                                }
+
+                            # Add "Add to Library" button for references not in library (excluding incomplete ones)
+                            # Use explicit comparison instead of ~ to avoid type errors
+                            missing_refs = refs_df[(refs_df['_in_library'] == False) & (refs_df['_incomplete'] == False)]
+                            incomplete_count = refs_df[refs_df['_incomplete'] == True].shape[0]
+
+                            if len(missing_refs) > 0:
+                                st.caption(f"{len(missing_refs)} reference(s) not in your library")
+                                if incomplete_count > 0:
+                                    st.caption(f"({incomplete_count} incomplete reference(s) excluded)", help="Incomplete references are shown in grey but cannot be added to the library")
+                                if st.button(f"➕ Add All Missing ({len(missing_refs)})", key=f"add_all_refs_{paper_filename}"):
+                                    progress_bar = st.progress(0)
+                                    success_count = 0
+
+                                    for idx, (row_idx, row) in enumerate(missing_refs.iterrows()):
+                                        ref_data = refs_full_data[row_idx]
+                                        result = import_reference(ref_data)
+                                        if result['success']:
+                                            success_count += 1
+                                        progress_bar.progress((idx + 1) / len(missing_refs))
+
+                                    st.toast(f"✅ Added {success_count} of {len(missing_refs)} references", icon="✅")
+                                    st.rerun()
+
+                            st.divider()
+
+                            # Display references table with 1-based indexing
+                            refs_display = refs_df.drop(columns=['_in_library', '_incomplete']).copy()
+                            refs_display.insert(0, '#', range(1, len(refs_display) + 1))
+
+                            # Minimal AgGrid with ONLY 2-line clamp CSS added
+                            refs_minimal_gb = GridOptionsBuilder.from_dataframe(refs_display)
+
+                            # Configure # column to be narrow and centered
+                            refs_minimal_gb.configure_column("#",
+                                width=60,
+                                maxWidth=80,
+                                pinned='left',
+                                cellStyle={'textAlign': 'center', 'fontWeight': '600'}
+                            )
+
+                            # Apply conditional styling based on Status (incomplete references)
+                            incomplete_style = JsCode("""
+                                function(params) {
+                                    if (params.data.Status === 'Incomplete') {
+                                        return {
+                                            'color': '#999999',
+                                            'fontStyle': 'italic'
+                                        };
+                                    }
+                                    return {};
+                                }
+                            """)
+
+                            # Apply greyed-out styling to all columns for incomplete rows
+                            for col in ['#', 'Title', 'Authors', 'Year', 'Journal', 'DOI', 'Status']:
+                                refs_minimal_gb.configure_column(col, cellStyle=incomplete_style)
+
+                            refs_minimal_gb.configure_grid_options(domLayout='autoHeight')
+                            refs_minimal_options = refs_minimal_gb.build()
+
+                            # ONLY add the critical CSS for 2-line text wrapping (from library table)
+                            refs_minimal_css = {
+                                ".ag-cell .ag-cell-value": {
+                                    "display": "-webkit-box !important",
+                                    "-webkit-line-clamp": "2 !important",
+                                    "-webkit-box-orient": "vertical !important",
+                                    "overflow": "hidden !important",
+                                    "text-overflow": "ellipsis !important",
+                                    "white-space": "normal !important",
+                                    "line-height": "1.4 !important",
+                                    "max-height": "42px !important"
+                                }
+                            }
+
+                            refs_grid_response = AgGrid(
+                                refs_display,
+                                gridOptions=refs_minimal_options,
+                                custom_css=refs_minimal_css,
+                                fit_columns_on_grid_load=True,
+                                theme='streamlit',
+                                allow_unsafe_jscode=True,
+                                key=f"refs_minimal_{paper_filename}"
+                            )
 
                 # PDF UPLOAD (if no PDF exists)
                 if not rag.check_pdf_exists(paper_filename):
