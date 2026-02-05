@@ -653,6 +653,24 @@ def main():
                     if details.get('paper_type'):
                         st.markdown(f"**Type:** {details['paper_type'].title()}")
 
+                    # Date Added
+                    if details.get('date_added'):
+                        try:
+                            from datetime import datetime
+                            date_str = details['date_added']
+                            formatted_date = ''
+                            # Try multiple formats
+                            for fmt in ["%Y-%m-%d %H:%M:%S", "%Y-%m-%dT%H:%M:%S.%f", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%d"]:
+                                try:
+                                    dt = datetime.strptime(date_str.split('.')[0] if '.' in date_str else date_str, fmt)
+                                    formatted_date = dt.strftime("%b %d, %Y")
+                                    break
+                                except:
+                                    continue
+                            st.markdown(f"**Added:** {formatted_date if formatted_date else date_str}")
+                        except:
+                            st.markdown(f"**Added:** {details['date_added']}")
+
                 with col2:
                     # Journal
                     if details.get('journal'):
@@ -670,6 +688,11 @@ def main():
                     # Application
                     if details.get('application'):
                         st.markdown(f"**Application:** {details['application'].title()}")
+
+                    # Reference Count
+                    ref_count = len(details.get('references', []))
+                    if ref_count > 0:
+                        st.markdown(f"**References:** {ref_count}")
 
                 st.divider()
 
@@ -752,13 +775,64 @@ def main():
 
                 st.divider()
 
-                # REFERENCES SECTION (placeholder for future)
-                with st.expander("📚 References & Citations", expanded=False):
-                    st.caption("_Reference extraction will be added in a future update._")
-                    st.caption("This section will show:")
-                    st.caption("- Papers cited by this work")
-                    st.caption("- Papers citing this work (from CrossRef)")
-                    st.caption("- Related papers in your library")
+                # REFERENCES SECTION
+                references = details.get('references', [])
+                if references:
+                    with st.expander(f"📚 References ({len(references)})", expanded=False):
+                        st.caption("Papers cited by this work")
+
+                        # Get all DOIs in the library for highlighting
+                        library_dois = {p.get('doi', '').lower() for p in papers if p.get('doi')}
+
+                        for i, ref in enumerate(references, 1):
+                            # Format reference
+                            ref_parts = []
+
+                            # Authors
+                            if ref.get('author'):
+                                ref_parts.append(ref['author'])
+
+                            # Year
+                            if ref.get('year'):
+                                ref_parts.append(f"({ref['year']})")
+
+                            # Title
+                            title = ref.get('article-title', '')
+                            if title:
+                                ref_parts.append(f'"{title}"')
+
+                            # Journal
+                            journal = ref.get('journal-title', '')
+                            if journal:
+                                journal_str = journal
+                                if ref.get('volume'):
+                                    journal_str += f", {ref['volume']}"
+                                ref_parts.append(journal_str)
+
+                            # Format the citation
+                            citation = '. '.join(ref_parts) if ref_parts else f"Reference {i}"
+                            if not citation.endswith('.'):
+                                citation += '.'
+
+                            # Check if this paper is in library
+                            ref_doi = ref.get('DOI', '').lower()
+                            in_library = ref_doi and ref_doi in library_dois
+
+                            # Display with optional DOI link and library indicator
+                            if in_library:
+                                citation = f"**{citation}** 📚"  # Bold + library icon
+
+                            if ref.get('DOI'):
+                                doi_url = f"https://doi.org/{ref['DOI']}"
+                                st.markdown(f"{i}. {citation} [DOI]({doi_url})")
+                            else:
+                                st.markdown(f"{i}. {citation}")
+
+                        st.divider()
+                        st.caption("**📚** = Paper is in your library")
+                else:
+                    with st.expander("📚 References", expanded=False):
+                        st.caption("_No references found for this paper._")
 
                 st.divider()
 
@@ -941,6 +1015,26 @@ def main():
                 title = paper.get('title', paper['filename'].replace('.pdf', ''))
                 title = clean_html_from_text(title)
 
+                # Format date_added (like "Feb 4, 2026")
+                date_added_str = ''
+                if paper.get('date_added'):
+                    try:
+                        from datetime import datetime
+                        date_str = paper['date_added']
+                        # Try multiple formats
+                        for fmt in ["%Y-%m-%d %H:%M:%S", "%Y-%m-%dT%H:%M:%S.%f", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%d"]:
+                            try:
+                                dt = datetime.strptime(date_str.split('.')[0] if '.' in date_str else date_str, fmt)
+                                date_added_str = dt.strftime("%b %d, %Y")
+                                break
+                            except:
+                                continue
+                        if not date_added_str:
+                            # If all parsing fails, try to extract just the date
+                            date_added_str = date_str.split()[0] if date_str else ''
+                    except:
+                        date_added_str = ''
+
                 # Determine status: check if PDF exists
                 from pathlib import Path
                 pdf_path = Path("papers") / paper['filename']
@@ -957,6 +1051,7 @@ def main():
                     'Authors': authors_display,
                     'Year': paper.get('year', ''),
                     'Journal': paper.get('journal', ''),
+                    'Added': date_added_str,
                     'DOI': doi_display,
                     'Read': read_statuses.get(paper['filename'], False),
                     '_filename': paper['filename'],
@@ -1075,6 +1170,23 @@ def main():
                     'maxHeight': '45px !important'
                 },
                 tooltipField="Journal"
+            )
+            gb.configure_column("Added",
+                width=110,
+                minWidth=100,
+                maxWidth=130,
+                resizable=True,
+                cellStyle={
+                    'whiteSpace': 'nowrap !important',
+                    'overflow': 'hidden !important',
+                    'textOverflow': 'ellipsis !important',
+                    'display': 'flex !important',
+                    'justifyContent': 'flex-start !important',
+                    'alignItems': 'center !important',
+                    'textAlign': 'left !important',
+                    'paddingLeft': '8px !important',
+                    'fontSize': '13px !important'
+                }
             )
 
             # DOI column - clickable link with hover-only edit icon

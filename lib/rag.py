@@ -8,6 +8,7 @@ Handles all business logic for the battery papers RAG system:
 """
 
 import os
+import json
 from pathlib import Path
 from typing import Optional, List, Tuple
 import chromadb
@@ -127,6 +128,18 @@ def get_paper_library() -> list[dict]:
         paper['num_pages'] = len(paper['pages'])
         del paper['pages']
 
+    # Load date_added from metadata.json
+    metadata_file = Path("data/metadata.json")
+    if metadata_file.exists():
+        with open(metadata_file, 'r', encoding='utf-8') as f:
+            full_metadata = json.load(f)
+            for paper in papers.values():
+                filename = paper['filename']
+                if filename in full_metadata:
+                    paper['date_added'] = full_metadata[filename].get('date_added', '')
+                else:
+                    paper['date_added'] = ''
+
     return list(papers.values())
 
 
@@ -187,7 +200,7 @@ def get_paper_details(filename: str) -> Optional[dict]:
             'text': doc
         })
 
-    return {
+    details = {
         'filename': filename,
         'title': results['metadatas'][0].get('title', filename),
         'authors': results['metadatas'][0].get('authors', '').split(';'),
@@ -201,6 +214,22 @@ def get_paper_details(filename: str) -> Optional[dict]:
         'paper_type': results['metadatas'][0].get('paper_type', 'experimental'),
         'preview_chunks': first_chunks
     }
+
+    # Load additional fields from metadata.json (references, date_added, abstract, etc.)
+    metadata_file = Path("data/metadata.json")
+    if metadata_file.exists():
+        with open(metadata_file, 'r', encoding='utf-8') as f:
+            full_metadata = json.load(f)
+            if filename in full_metadata:
+                paper_meta = full_metadata[filename]
+                details['references'] = paper_meta.get('references', [])
+                details['date_added'] = paper_meta.get('date_added', '')
+                details['abstract'] = paper_meta.get('abstract', '')
+                details['volume'] = paper_meta.get('volume', '')
+                details['issue'] = paper_meta.get('issue', '')
+                details['pages'] = paper_meta.get('pages', '')
+
+    return details
 
 
 def retrieve_relevant_chunks(
