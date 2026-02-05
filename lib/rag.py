@@ -68,6 +68,12 @@ class DatabaseClient:
 
         return cls._collection
 
+    @classmethod
+    def clear_cache(cls):
+        """Clear the cached collection to force reload."""
+        cls._collection = None
+        cls._client = None
+
 
 def get_api_key_from_env() -> Optional[str]:
     """Get Anthropic API key from environment variable."""

@@ -167,6 +167,79 @@ def query_crossref_for_metadata(doi: str) -> dict:
         return {}
 
 
+def save_metadata_only_paper(doi: str, crossref_metadata: dict) -> str:
+    """Save metadata-only paper to ChromaDB and metadata.json"""
+    import chromadb
+
+    safe_doi = doi.replace('/', '_').replace('.', '_')
+    filename = f"doi_{safe_doi}.pdf"
+
+    # Save to metadata.json
+    metadata_file = Path("data/metadata.json")
+    metadata_file.parent.mkdir(parents=True, exist_ok=True)
+
+    all_metadata = {}
+    if metadata_file.exists():
+        with open(metadata_file, 'r', encoding='utf-8') as f:
+            all_metadata = json.load(f)
+
+    all_metadata[filename] = {
+        'filename': filename,
+        'title': crossref_metadata.get('title', 'Unknown Title'),
+        'authors': crossref_metadata.get('authors', []),
+        'year': crossref_metadata.get('year', ''),
+        'journal': crossref_metadata.get('journal', ''),
+        'doi': doi,
+        'chemistries': [],
+        'topics': [],
+        'application': 'general',
+        'paper_type': 'experimental',
+        'metadata_only': True
+    }
+
+    with open(metadata_file, 'w', encoding='utf-8') as f:
+        json.dump(all_metadata, f, indent=2, ensure_ascii=False)
+
+    # Add to ChromaDB using the DatabaseClient to ensure consistency
+    from lib.rag import DatabaseClient
+
+    # First clear any cached collection to force a fresh connection
+    DatabaseClient.clear_cache()
+
+    # Now get a fresh collection reference
+    collection = DatabaseClient.get_collection()
+
+    doc_id = f"{filename}_metadata_only"
+    try:
+        collection.delete(ids=[doc_id])
+    except:
+        pass
+
+    collection.add(
+        documents=[f"Metadata-only: {crossref_metadata.get('title', '')}. DOI: {doi}"],
+        metadatas=[{
+            'filename': filename,
+            'page_num': 0,
+            'section_name': 'metadata_only',
+            'title': crossref_metadata.get('title', ''),
+            'authors': ';'.join(crossref_metadata.get('authors', [])) if crossref_metadata.get('authors') else '',
+            'year': crossref_metadata.get('year', ''),
+            'journal': crossref_metadata.get('journal', ''),
+            'doi': doi,
+            'chemistries': '',
+            'topics': '',
+            'application': 'general',
+            'paper_type': 'experimental'
+        }],
+        ids=[doc_id]
+    )
+
+    # Clear cache again so next get_paper_library() call sees the new paper
+    DatabaseClient.clear_cache()
+
+    return filename
+
+
 def update_paper_metadata(filename: str, doi: str, crossref_metadata: dict):
     """Update paper metadata in metadata.json and ChromaDB."""
     metadata_file = Path("data/metadata.json")
@@ -262,6 +335,13 @@ def main():
         papers = rag.get_paper_library()
         filter_options = rag.get_filter_options()
         total_chunks = rag.get_collection_count()
+
+        # Debug: Check if metadata-only papers are included
+        metadata_only_papers = [p for p in papers if 'doi_10_1016_j_jpowsour_2024_235188' in p.get('filename', '')]
+        if metadata_only_papers:
+            st.sidebar.success(f"✓ Found metadata-only paper: {metadata_only_papers[0]['title'][:50]}...")
+        else:
+            st.sidebar.warning(f"⚠️ Metadata-only paper not in library (total: {len(papers)} papers)")
     except (FileNotFoundError, RuntimeError) as e:
         st.error(str(e))
         st.info("Please run `python scripts/ingest.py` first to create the database")
@@ -416,12 +496,101 @@ def main():
 
         # Upload section (only show when not viewing a paper detail)
         if not st.session_state.selected_paper:
-            # Upload zone with theme-aware styling
-            upload_container = st.container()
-            with upload_container:
-                st.markdown("### 📤 Add Papers to Library")
-                st.caption("Drag and drop PDF files here, or click to browse")
+            st.markdown("### 📤 Add Papers to Library")
 
+            # Side-by-side layout for import options
+            col_left, col_right = st.columns(2)
+
+            with col_left:
+                # URL import section
+                with st.expander("🔗 Import from URL or DOI", expanded=False):
+                    # Hide the "Press Enter to submit" message
+                    st.markdown("""
+                        <style>
+                        /* Hide form submission instructions */
+                        .stForm [data-testid="stMarkdownContainer"] p:contains("Press Enter") {
+                            display: none !important;
+                        }
+                        .stForm small {
+                            display: none !important;
+                        }
+                        [data-testid="InputInstructions"] {
+                            display: none !important;
+                        }
+                        </style>
+                    """, unsafe_allow_html=True)
+
+                    with st.form("url_import_form", clear_on_submit=False):
+                        st.caption("**Import from URL**")
+                        url_input = st.text_input(
+                            "Paste URL here",
+                            placeholder="https://arxiv.org/abs/... or https://ieeexplore.ieee.org/...",
+                            label_visibility="collapsed",
+                            key="url_import_input"
+                        )
+
+                        st.caption("**Or enter DOI directly**")
+                        doi_input = st.text_input(
+                            "Enter DOI",
+                            placeholder="10.1016/j.jpowsour.2024.235555",
+                            label_visibility="collapsed",
+                            key="doi_import_input"
+                        )
+
+                        st.caption("**Supported formats:**")
+                        st.caption("• arXiv: `arxiv.org/abs/...` or `arxiv.org/pdf/...`")
+                        st.caption("• DOI: `doi.org/10.xxxx/...` or `10.xxxx/...`")
+                        st.caption("• Publisher pages: IEEE, ScienceDirect, Wiley, Springer, Nature, MDPI, ACS, RSC, IOP, etc.")
+                        st.caption("• Direct PDF: Any URL ending in `.pdf`")
+
+                        st.warning("⚠️ **Publisher Blocking:** Many publishers (especially ScienceDirect, Wiley, Springer) block automated access to their article pages. If you get a \"403 Forbidden\" error, use the **DOI field** instead, which bypasses the publisher page entirely.")
+
+                        # Determine what to import
+                        import_input = None
+                        if url_input and doi_input:
+                            st.warning("⚠️ Please use either URL or DOI, not both")
+                        elif doi_input:
+                            # Treat DOI as a doi.org URL
+                            doi_clean = doi_input.strip()
+                            if not doi_clean.startswith('http'):
+                                import_input = f"https://doi.org/{doi_clean}"
+                            else:
+                                import_input = doi_clean
+                        elif url_input:
+                            import_input = url_input
+
+                        submit_button = st.form_submit_button("📥 Import", type="primary", use_container_width=True)
+
+                    # Process result outside the form
+                    if submit_button:
+                        if not import_input:
+                            st.warning("⚠️ Please enter a URL or DOI")
+
+                    if submit_button and import_input:
+                        # Create a container for progress updates
+                        progress_container = st.container()
+
+                        # Process the URL or DOI
+                        result = process_url_import(import_input, progress_container)
+
+                        # Show results
+                        if result['success']:
+                            if result['metadata_only']:
+                                st.success(f"✅ Metadata saved for: **{result['title']}**")
+                                st.info(f"📄 Filename: {result['filename']}")
+                                st.info("📌 No open access PDF available. You can manually upload the PDF later.")
+                                time.sleep(3)
+                                st.rerun()
+                            else:
+                                st.success(f"✅ Successfully imported: **{result['title'] or result['filename']}**")
+                                st.balloons()
+                                time.sleep(2)
+                                st.rerun()
+                        else:
+                            st.error(f"❌ Import failed: {result['error']}")
+
+            with col_right:
+                # Drag-and-drop PDF upload
                 uploaded_files = st.file_uploader(
                     "Upload PDFs",
                     type=['pdf'],
@@ -508,115 +677,121 @@ def main():
 
             st.divider()
 
-            # URL import section
-            with st.expander("🔗 Import from URL or DOI", expanded=False):
-                col1, col2 = st.columns(2)
-
-                with col1:
-                    st.caption("**Import from URL**")
-                    url_input = st.text_input(
-                        "Paste URL here",
-                        placeholder="https://arxiv.org/abs/... or https://ieeexplore.ieee.org/...",
-                        label_visibility="collapsed",
-                        key="url_import_input"
-                    )
-
-                with col2:
-                    st.caption("**Or enter DOI directly**")
-                    doi_input = st.text_input(
-                        "Enter DOI",
-                        placeholder="10.1016/j.jpowsour.2024.235555",
-                        label_visibility="collapsed",
-                        key="doi_import_input"
-                    )
-
-                st.caption("**Supported formats:**")
-                st.caption("• arXiv: `arxiv.org/abs/...` or `arxiv.org/pdf/...`")
-                st.caption("• DOI: `doi.org/10.xxxx/...` or `10.xxxx/...`")
-                st.caption("• Publisher pages: IEEE, ScienceDirect, Wiley, Springer, Nature, MDPI, ACS, RSC, IOP, etc.")
-                st.caption("• Direct PDF: Any URL ending in `.pdf`")
-
-                st.warning("⚠️ **Publisher Blocking:** Many publishers (especially ScienceDirect, Wiley, Springer) block automated access to their article pages. If you get a \"403 Forbidden\" error, use the **DOI field** instead, which bypasses the publisher page entirely.")
-
-                # Determine what to import
-                import_input = None
-                if url_input and doi_input:
-                    st.warning("⚠️ Please use either URL or DOI, not both")
-                elif doi_input:
-                    # Treat DOI as a doi.org URL
-                    doi_clean = doi_input.strip()
-                    if not doi_clean.startswith('http'):
-                        import_input = f"https://doi.org/{doi_clean}"
-                    else:
-                        import_input = doi_clean
-                elif url_input:
-                    import_input = url_input
-
-                if st.button("📥 Import", type="primary", disabled=not import_input):
-                    # Create a container for progress updates
-                    progress_container = st.container()
-
-                    # Process the URL or DOI
-                    result = process_url_import(import_input, progress_container)
-
-                    # Show results
-                    if result['success']:
-                        if result['metadata_only']:
-                            st.warning(f"⚠️ Metadata saved for: **{result['title']}**")
-                            st.info("📌 No open access PDF available. You can manually upload the PDF later.")
-                        else:
-                            st.success(f"✅ Successfully imported: **{result['title'] or result['filename']}**")
-                            st.balloons()
-                            time.sleep(2)
-                            st.rerun()
-                    else:
-                        st.error(f"❌ Import failed: {result['error']}")
-
-            st.divider()
-
         if st.session_state.selected_paper:
-            # Detail view
+            # Detail view - Clean layout
             paper_filename = st.session_state.selected_paper
-
-            col1, col2 = st.columns([3, 1])
-            with col1:
-                st.subheader(f"📄 {paper_filename}")
-            with col2:
-                if st.button("← Back to Library"):
-                    st.session_state.selected_paper = None
-                    st.rerun()
 
             # Get paper details from backend
             details = rag.get_paper_details(paper_filename)
 
             if details:
-                # Title and bibliographic info
-                display_title = clean_html_from_text(details.get('title', paper_filename))
-                st.subheader(f"📄 {display_title}")
+                # TOP SECTION: Title, authors, bibliographic info with Back button
+                col_main, col_back = st.columns([5, 1])
+                with col_back:
+                    if st.button("← Back to Library", use_container_width=True):
+                        st.session_state.selected_paper = None
+                        st.rerun()
 
-                st.write("**Authors:**")
+                # Large prominent title
+                display_title = clean_html_from_text(details.get('title', paper_filename.replace('.pdf', '')))
+                st.markdown(f"# {display_title}")
+
+                # Authors
                 if details.get('authors') and details['authors'][0]:
-                    st.write('; '.join([a.strip() for a in details['authors'] if a.strip()]))
+                    authors_str = '; '.join([a.strip() for a in details['authors'] if a.strip()])
+                    st.markdown(f"**{authors_str}**")
+
+                # Year · Journal · DOI on one line
+                info_parts = []
+                if details.get('year'):
+                    info_parts.append(str(details['year']))
+                if details.get('journal'):
+                    info_parts.append(details['journal'])
+
+                doi = details.get('doi', '')
+                if doi:
+                    info_parts.append(f"[{doi}](https://doi.org/{doi})")
+
+                if info_parts:
+                    st.markdown(" · ".join(info_parts))
+
+                st.divider()
+
+                # TAGS SECTION: Colored pills/badges
+                tags_html = []
+
+                # Chemistry tags (blue)
+                if details.get('chemistries') and details['chemistries'][0]:
+                    for chem in details['chemistries']:
+                        if chem:
+                            tags_html.append(f'<span style="background-color: #3b82f6; color: white; padding: 4px 12px; border-radius: 12px; margin-right: 8px; margin-bottom: 8px; display: inline-block; font-size: 14px;">{chem}</span>')
+
+                # Topic tags (green)
+                if details.get('topics') and details['topics'][0]:
+                    for topic in details['topics']:
+                        if topic:
+                            tags_html.append(f'<span style="background-color: #10b981; color: white; padding: 4px 12px; border-radius: 12px; margin-right: 8px; margin-bottom: 8px; display: inline-block; font-size: 14px;">{topic}</span>')
+
+                # Application tag (purple)
+                if details.get('application'):
+                    app = details['application'].title()
+                    tags_html.append(f'<span style="background-color: #8b5cf6; color: white; padding: 4px 12px; border-radius: 12px; margin-right: 8px; margin-bottom: 8px; display: inline-block; font-size: 14px;">📱 {app}</span>')
+
+                # Paper type tag (orange)
+                if details.get('paper_type'):
+                    ptype = details['paper_type'].title()
+                    tags_html.append(f'<span style="background-color: #f59e0b; color: white; padding: 4px 12px; border-radius: 12px; margin-right: 8px; margin-bottom: 8px; display: inline-block; font-size: 14px;">📄 {ptype}</span>')
+
+                if tags_html:
+                    st.markdown('<div style="margin: 16px 0;">' + ''.join(tags_html) + '</div>', unsafe_allow_html=True)
+
+                st.divider()
+
+                # ABSTRACT SECTION (only if available - otherwise skip)
+                # For now, we don't have abstracts extracted, so skip this section
+                # TODO: Add abstract extraction during ingestion
+
+                # PDF SECTION: Embed viewer or show upload option
+                if rag.check_pdf_exists(paper_filename):
+                    st.subheader("📄 PDF Viewer")
+
+                    # Use streamlit-pdf-viewer component
+                    import streamlit_pdf_viewer as pdf_viewer
+                    pdf_path = rag.get_pdf_path(paper_filename)
+
+                    # Display PDF with the viewer component - full width
+                    pdf_viewer.pdf_viewer(str(pdf_path), height=1000)
                 else:
-                    st.write("Unknown")
+                    st.warning("📄 No PDF available for this paper")
+                    st.info("You can upload a PDF file to view it here")
 
-                col1, col2, col3 = st.columns(3)
-                with col1:
-                    st.write(f"**Year:** {details.get('year', 'Unknown')}")
-                with col2:
-                    st.write(f"**Journal:** {details.get('journal', 'Unknown')}")
-                with col3:
-                    doi = details.get('doi', '')
-                    if doi:
-                        st.write(f"**DOI:** [{doi}](https://doi.org/{doi})")
-                    else:
-                        st.write("**DOI:** Not available")
+                    uploaded_pdf = st.file_uploader(
+                        "Upload PDF",
+                        type=['pdf'],
+                        key=f"upload_pdf_{paper_filename}"
+                    )
 
-                # DOI refresh/edit section
-                with st.expander("🔄 Update DOI & Metadata", expanded=True):
-                    st.caption("Edit the DOI or refresh metadata from CrossRef")
+                    if uploaded_pdf:
+                        # Save uploaded PDF
+                        papers_dir = Path("papers")
+                        papers_dir.mkdir(parents=True, exist_ok=True)
+                        pdf_path = papers_dir / paper_filename
 
-                    # Editable DOI input
+                        with open(pdf_path, 'wb') as f:
+                            f.write(uploaded_pdf.read())
+
+                        st.success("✅ PDF uploaded successfully!")
+                        st.info("Processing PDF... This may take a moment.")
+
+                        # TODO: Run ingestion pipeline on the uploaded PDF
+                        # For now, just reload the page
+                        time.sleep(1)
+                        st.rerun()
+
+                st.divider()
+
+                # BOTTOM: Collapsed Edit Metadata section
+                with st.expander("✏️ Edit Metadata", expanded=False):
                     current_doi = details.get('doi', '')
                     new_doi = st.text_input(
                         "DOI",
@@ -629,7 +804,6 @@ def main():
                     col_btn1, col_btn2 = st.columns(2)
 
                     with col_btn1:
-                        # Refresh button - query CrossRef with current/edited DOI
                         if st.button("🔄 Refresh from CrossRef", key=f"refresh_{paper_filename}", use_container_width=True):
                             doi_to_use = new_doi.strip() if new_doi.strip() else current_doi
                             if doi_to_use:
@@ -640,14 +814,6 @@ def main():
                                     success = update_paper_metadata(paper_filename, doi_to_use, crossref_metadata)
                                     if success:
                                         st.toast('✅ Metadata updated from CrossRef!', icon='✅')
-                                        updated_title = clean_html_from_text(crossref_metadata.get('title', 'N/A'))
-                                        st.success(f"""
-                                        **Updated:**
-                                        - Title: {updated_title}
-                                        - Authors: {'; '.join(crossref_metadata.get('authors', [])[:3])}
-                                        - Year: {crossref_metadata.get('year', 'N/A')}
-                                        - Journal: {crossref_metadata.get('journal', 'N/A')}
-                                        """)
                                         st.rerun()
                                 else:
                                     st.warning("No metadata found in CrossRef for this DOI")
@@ -655,8 +821,7 @@ def main():
                                 st.warning("Please enter a DOI first")
 
                     with col_btn2:
-                        # Save DOI button (without refreshing metadata)
-                        if st.button("💾 Save DOI Only", key=f"save_doi_{paper_filename}", use_container_width=True):
+                        if st.button("💾 Save", key=f"save_doi_{paper_filename}", use_container_width=True):
                             if new_doi.strip() and new_doi.strip() != current_doi:
                                 metadata_file = Path("data/metadata.json")
                                 if metadata_file.exists():
@@ -678,63 +843,6 @@ def main():
                                 st.info("DOI unchanged")
                             else:
                                 st.warning("Please enter a DOI")
-
-                st.divider()
-
-                # Metadata
-                col1, col2, col3 = st.columns(3)
-                with col1:
-                    st.write("**Chemistries:**")
-                    if details['chemistries'] and details['chemistries'][0]:
-                        for chem in details['chemistries']:
-                            if chem:
-                                st.badge(chem, icon="⚗️")
-                    else:
-                        st.write("None detected")
-
-                with col2:
-                    st.write("**Application:**")
-                    st.write(details['application'].title())
-
-                with col3:
-                    st.write("**Paper Type:**")
-                    st.write(details['paper_type'].title())
-
-                st.write("**Topics:**")
-                if details['topics'] and details['topics'][0]:
-                    topic_text = ", ".join([t for t in details['topics'] if t])
-                    st.write(topic_text)
-                else:
-                    st.write("None detected")
-
-                st.divider()
-
-                # PDF viewing
-                if rag.check_pdf_exists(paper_filename):
-                    pdf_path = rag.get_pdf_path(paper_filename)
-
-                    # Create a download button that opens PDF in new tab
-                    with open(pdf_path, 'rb') as pdf_file:
-                        pdf_bytes = pdf_file.read()
-                        st.download_button(
-                            label="📄 Open PDF in Browser",
-                            data=pdf_bytes,
-                            file_name=paper_filename,
-                            mime="application/pdf",
-                            width='stretch'
-                        )
-
-                    st.info(f"PDF location: `{pdf_path}`")
-                else:
-                    st.warning("PDF file not found")
-
-                st.divider()
-
-                # Preview
-                st.subheader("📖 Preview")
-                for chunk in details['preview_chunks']:
-                    with st.expander(f"Page {chunk['page']}", expanded=True):
-                        st.write(chunk['text'][:1000] + "..." if len(chunk['text']) > 1000 else chunk['text'])
 
         else:
             # Table view
@@ -791,18 +899,37 @@ def main():
 
             # Configure column properties with flex sizing to fill container width
             # Status column with emoji indicators (colorblind-friendly)
+            status_cell_renderer = JsCode("""
+                class StatusCellRenderer {
+                    init(params) {
+                        this.eGui = document.createElement('div');
+                        this.eGui.style.textAlign = 'center';
+                        this.eGui.style.padding = '8px';
+                        this.eGui.style.fontSize = '14px';
+                        this.eGui.textContent = params.value;
+                    }
+
+                    getGui() {
+                        return this.eGui;
+                    }
+                }
+            """)
+
             gb.configure_column("Status",
-                width=90,
-                minWidth=80,
-                maxWidth=100,
+                width=110,
+                minWidth=110,
+                maxWidth=120,
                 resizable=True,
+                cellRenderer=status_cell_renderer,
                 cellStyle={
                     'textAlign': 'center',
-                    'padding': '8px',
+                    'padding': '4px 8px',
                     'fontSize': '14px',
                     'whiteSpace': 'nowrap',
-                    'overflow': 'hidden',
-                    'textOverflow': 'ellipsis'
+                    'overflow': 'visible',
+                    'display': 'flex',
+                    'alignItems': 'center',
+                    'justifyContent': 'center'
                 }
             )
 
@@ -1541,14 +1668,17 @@ def process_url_import(url: str, progress_container) -> Dict[str, Any]:
                         else:
                             st.warning("⚠️ Could not download PDF (may be paywalled)")
                             result['metadata_only'] = True
+                            result['filename'] = save_metadata_only_paper(doi, metadata)
                             result['success'] = True
                     except Exception as e:
                         st.warning(f"⚠️ PDF download failed: {str(e)}")
                         result['metadata_only'] = True
+                        result['filename'] = save_metadata_only_paper(doi, metadata)
                         result['success'] = True
                 else:
                     st.warning("⚠️ No open access PDF found - this paper may be paywalled")
                     result['metadata_only'] = True
+                    result['filename'] = save_metadata_only_paper(doi, metadata)
                     result['success'] = True
 
             elif 'doi.org' in url or url.startswith('10.'):
@@ -1606,14 +1736,17 @@ def process_url_import(url: str, progress_container) -> Dict[str, Any]:
                         else:
                             st.warning("⚠️ Could not download PDF (may be paywalled)")
                             result['metadata_only'] = True
+                            result['filename'] = save_metadata_only_paper(doi, metadata)
                             result['success'] = True
                     except Exception as e:
                         st.warning(f"⚠️ PDF download failed: {str(e)}")
                         result['metadata_only'] = True
+                        result['filename'] = save_metadata_only_paper(doi, metadata)
                         result['success'] = True
                 else:
                     st.warning("⚠️ No open access PDF found - this paper may be paywalled")
                     result['metadata_only'] = True
+                    result['filename'] = save_metadata_only_paper(doi, metadata)
                     result['success'] = True
 
             elif url.endswith('.pdf') or 'pdf' in url.lower():
