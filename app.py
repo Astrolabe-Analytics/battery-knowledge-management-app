@@ -32,7 +32,7 @@ if sys.platform == 'win32':
         sys.stderr = codecs.getwriter('utf-8')(sys.stderr.buffer, 'strict')
 
 # Import backend
-from lib import rag, read_status, query_history, theme
+from lib import rag, read_status, query_history, theme, styles
 
 
 def clean_html_from_text(text: str) -> str:
@@ -54,8 +54,8 @@ def clean_html_from_text(text: str) -> str:
 
 # Page config
 st.set_page_config(
-    page_title="Battery Papers Library",
-    page_icon="🔋",
+    page_title="Astrolabe Research Library",
+    page_icon="⚛️",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -322,38 +322,34 @@ def main():
     read_status.init_db()
     query_history.init_db()
 
-    # Apply comprehensive theme-specific CSS using centralized theme module
+    # Apply professional CSS styling
     current_theme = st.session_state.theme
-    st.markdown(theme.get_theme_css(current_theme), unsafe_allow_html=True)
+    st.markdown(styles.get_professional_css(current_theme), unsafe_allow_html=True)
 
-    # Header
-    st.title("🔋 Battery Research Papers Library")
-    st.caption("✨ Now with improved retrieval: Query expansion + Hybrid search (Vector + BM25) + Reranking")
+    # Header - Clean and professional
+    st.markdown("""
+        <div class="app-header">
+            <h1 class="app-title">Astrolabe Research Library</h1>
+            <p class="app-subtitle">Battery research papers with AI-powered search</p>
+        </div>
+    """, unsafe_allow_html=True)
 
     # Load resources using backend
     try:
         papers = rag.get_paper_library()
         filter_options = rag.get_filter_options()
         total_chunks = rag.get_collection_count()
-
-        # Debug: Check if metadata-only papers are included
-        metadata_only_papers = [p for p in papers if 'doi_10_1016_j_jpowsour_2024_235188' in p.get('filename', '')]
-        if metadata_only_papers:
-            st.sidebar.success(f"✓ Found metadata-only paper: {metadata_only_papers[0]['title'][:50]}...")
-        else:
-            st.sidebar.warning(f"⚠️ Metadata-only paper not in library (total: {len(papers)} papers)")
     except (FileNotFoundError, RuntimeError) as e:
         st.error(str(e))
         st.info("Please run `python scripts/ingest.py` first to create the database")
         st.stop()
 
-    # Sidebar
+    # Sidebar - Simplified and professional
     with st.sidebar:
-        # Theme toggle at the top
-        st.subheader("⚙️ Settings")
+        st.subheader("Settings")
 
         current_theme = st.session_state.theme
-        theme_label = "🌙 Dark Mode" if current_theme == "light" else "☀️ Light Mode"
+        theme_label = "Dark Mode" if current_theme == "light" else "Light Mode"
 
         if st.button(theme_label, use_container_width=True):
             # Toggle theme
@@ -364,146 +360,27 @@ def main():
 
         st.divider()
 
-        st.header("🔍 Search & Filter")
-
-        # Query box
-        st.subheader("Ask a Question")
-        question = st.text_area(
-            "Natural language query:",
-            placeholder="What factors affect battery degradation?",
-            height=100,
-            label_visibility="collapsed"
-        )
-
-        # Filters
-        st.subheader("Filters")
-
-        filter_chemistry = st.selectbox(
-            "Chemistry",
-            options=["All"] + filter_options['chemistries']
-        )
-        filter_chemistry = None if filter_chemistry == "All" else filter_chemistry
-
-        filter_topic = st.selectbox(
-            "Topic",
-            options=["All"] + filter_options['topics']
-        )
-        filter_topic = None if filter_topic == "All" else filter_topic
-
-        filter_paper_type = st.selectbox(
-            "Paper Type",
-            options=["All"] + filter_options['paper_types']
-        )
-        filter_paper_type = None if filter_paper_type == "All" else filter_paper_type
-
-        # Query button
-        if st.button("🔍 Search", type="primary", width='stretch'):
-            if not question:
-                st.warning("Please enter a question")
-            else:
-                api_key = get_api_key()
-                if api_key:
-                    # Show progress with improved retrieval steps
-                    progress_text = st.empty()
-                    progress_bar = st.progress(0)
-
-                    try:
-                        # Step 1: Query expansion
-                        progress_text.text("Step 1/4: Expanding query...")
-                        progress_bar.progress(25)
-
-                        # Step 2: Hybrid search
-                        progress_text.text("Step 2/4: Hybrid search (vector + BM25)...")
-                        progress_bar.progress(50)
-
-                        # Step 3: Reranking
-                        progress_text.text("Step 3/4: Reranking by relevance...")
-                        progress_bar.progress(75)
-
-                        # Use improved retrieval pipeline
-                        chunks = rag.retrieve_with_hybrid_and_reranking(
-                            question=question,
-                            api_key=api_key,
-                            top_k=5,
-                            n_candidates=15,
-                            alpha=0.5,
-                            filter_chemistry=filter_chemistry,
-                            filter_topic=filter_topic,
-                            filter_paper_type=filter_paper_type,
-                            enable_query_expansion=True,
-                            enable_reranking=True
-                        )
-
-                        if not chunks:
-                            progress_text.empty()
-                            progress_bar.empty()
-                            st.warning("No relevant passages found. Try removing filters.")
-                        else:
-                            # Step 4: Query Claude
-                            progress_text.text("Step 4/4: Generating answer with Claude...")
-                            progress_bar.progress(90)
-
-                            # Use backend for LLM query
-                            answer = rag.query_claude(question, chunks, api_key)
-
-                            progress_bar.progress(100)
-                            progress_text.empty()
-                            progress_bar.empty()
-
-                            # Prepare query result
-                            query_result = {
-                                'question': question,
-                                'answer': answer,
-                                'chunks': chunks,
-                                'filters': {
-                                    'chemistry': filter_chemistry,
-                                    'topic': filter_topic,
-                                    'paper_type': filter_paper_type
-                                }
-                            }
-
-                            # Save to history database
-                            query_history.save_query(
-                                question=question,
-                                answer=answer,
-                                chunks=chunks,
-                                filters=query_result['filters']
-                            )
-
-                            # Save to session state
-                            st.session_state.query_result = query_result
-                            st.session_state.active_tab = "Query Results"
-                            st.rerun()
-                    except RuntimeError as e:
-                        progress_text.empty()
-                        progress_bar.empty()
-                        st.error(f"Error: {e}")
-
-        st.divider()
-
-        # Library stats
-        st.subheader("📊 Library Stats")
-        st.metric("Total Papers", len(papers))
-        st.metric("Total Chunks", total_chunks)
-        st.metric("Chemistries", len(filter_options['chemistries']))
-        st.metric("Topics", len(filter_options['topics']))
+        # Quick stats
+        st.subheader("Library Stats")
+        st.metric("Papers", len(papers))
+        st.metric("Chunks", total_chunks)
 
     # Main content - Tabs
-    tab1, tab2, tab3 = st.tabs(["📚 Library", "💬 Query Results", "🕐 History"])
+    tab1, tab2, tab3 = st.tabs(["Library", "Research", "History"])
 
     with tab1:
         st.session_state.active_tab = "Library"
 
         # Upload section (only show when not viewing a paper detail)
         if not st.session_state.selected_paper:
-            st.markdown("### 📤 Add Papers to Library")
+            st.markdown("### Add Papers to Library")
 
             # Side-by-side layout for import options
             col_left, col_right = st.columns(2)
 
             with col_left:
                 # URL import section
-                with st.expander("🔗 Import from URL or DOI", expanded=False):
+                with st.expander("Import from URL or DOI", expanded=False):
                     # Hide the "Press Enter to submit" message
                     st.markdown("""
                         <style>
@@ -559,7 +436,7 @@ def main():
                         elif url_input:
                             import_input = url_input
 
-                        submit_button = st.form_submit_button("📥 Import", type="primary", use_container_width=True)
+                        submit_button = st.form_submit_button("Import", type="primary", use_container_width=True)
 
                     # Process result outside the form
                     if submit_button:
@@ -717,30 +594,30 @@ def main():
 
                 st.divider()
 
-                # TAGS SECTION: Colored pills/badges
+                # TAGS SECTION: Colored pills/badges with professional styling
                 tags_html = []
 
-                # Chemistry tags (blue)
+                # Chemistry tags
                 if details.get('chemistries') and details['chemistries'][0]:
                     for chem in details['chemistries']:
                         if chem:
-                            tags_html.append(f'<span style="background-color: #3b82f6; color: white; padding: 4px 12px; border-radius: 12px; margin-right: 8px; margin-bottom: 8px; display: inline-block; font-size: 14px;">{chem}</span>')
+                            tags_html.append(f'<span class="tag-pill tag-chemistry">{chem}</span>')
 
-                # Topic tags (green)
+                # Topic tags
                 if details.get('topics') and details['topics'][0]:
                     for topic in details['topics']:
                         if topic:
-                            tags_html.append(f'<span style="background-color: #10b981; color: white; padding: 4px 12px; border-radius: 12px; margin-right: 8px; margin-bottom: 8px; display: inline-block; font-size: 14px;">{topic}</span>')
+                            tags_html.append(f'<span class="tag-pill tag-topic">{topic}</span>')
 
-                # Application tag (purple)
+                # Application tag
                 if details.get('application'):
                     app = details['application'].title()
-                    tags_html.append(f'<span style="background-color: #8b5cf6; color: white; padding: 4px 12px; border-radius: 12px; margin-right: 8px; margin-bottom: 8px; display: inline-block; font-size: 14px;">📱 {app}</span>')
+                    tags_html.append(f'<span class="tag-pill tag-application">{app}</span>')
 
-                # Paper type tag (orange)
+                # Paper type tag
                 if details.get('paper_type'):
                     ptype = details['paper_type'].title()
-                    tags_html.append(f'<span style="background-color: #f59e0b; color: white; padding: 4px 12px; border-radius: 12px; margin-right: 8px; margin-bottom: 8px; display: inline-block; font-size: 14px;">📄 {ptype}</span>')
+                    tags_html.append(f'<span class="tag-pill tag-type">{ptype}</span>')
 
                 if tags_html:
                     st.markdown('<div style="margin: 16px 0;">' + ''.join(tags_html) + '</div>', unsafe_allow_html=True)
@@ -753,7 +630,7 @@ def main():
 
                 # PDF SECTION: Embed viewer or show upload option
                 if rag.check_pdf_exists(paper_filename):
-                    st.subheader("📄 PDF Viewer")
+                    st.subheader("PDF Viewer")
 
                     # Use streamlit-pdf-viewer component
                     import streamlit_pdf_viewer as pdf_viewer
@@ -762,7 +639,7 @@ def main():
                     # Display PDF with the viewer component - full width
                     pdf_viewer.pdf_viewer(str(pdf_path), height=1000)
                 else:
-                    st.warning("📄 No PDF available for this paper")
+                    st.warning("No PDF available for this paper")
                     st.info("You can upload a PDF file to view it here")
 
                     uploaded_pdf = st.file_uploader(
@@ -791,7 +668,7 @@ def main():
                 st.divider()
 
                 # BOTTOM: Collapsed Edit Metadata section
-                with st.expander("✏️ Edit Metadata", expanded=False):
+                with st.expander("Edit Metadata", expanded=False):
                     current_doi = details.get('doi', '')
                     new_doi = st.text_input(
                         "DOI",
@@ -846,16 +723,81 @@ def main():
 
         else:
             # Table view
-            st.subheader("📚 Paper Library")
-            st.write(f"Showing {len(papers)} papers")
+            st.subheader("Paper Library")
+
+            # Search box
+            search_query = st.text_input(
+                "Search papers",
+                placeholder="Search by title, authors, journal...",
+                label_visibility="collapsed",
+                key="library_search"
+            )
+
+            # Horizontal filter bar
+            col1, col2, col3 = st.columns(3)
+            with col1:
+                filter_chemistry = st.selectbox(
+                    "Chemistry",
+                    options=["All Chemistries"] + filter_options['chemistries'],
+                    key="library_filter_chemistry"
+                )
+            with col2:
+                filter_topic = st.selectbox(
+                    "Topic",
+                    options=["All Topics"] + filter_options['topics'],
+                    key="library_filter_topic"
+                )
+            with col3:
+                filter_paper_type = st.selectbox(
+                    "Paper Type",
+                    options=["All Types"] + filter_options['paper_types'],
+                    key="library_filter_paper_type"
+                )
+
+            # Apply filters
+            filtered_papers = papers
+
+            # Text search filter
+            if search_query:
+                search_lower = search_query.lower()
+                filtered_papers = [
+                    p for p in filtered_papers
+                    if (search_lower in p.get('title', '').lower() or
+                        search_lower in p.get('authors', '').lower() or
+                        search_lower in p.get('journal', '').lower() or
+                        search_lower in p.get('doi', '').lower())
+                ]
+
+            # Chemistry filter
+            if filter_chemistry and filter_chemistry != "All Chemistries":
+                filtered_papers = [
+                    p for p in filtered_papers
+                    if filter_chemistry in p.get('chemistries', [])
+                ]
+
+            # Topic filter
+            if filter_topic and filter_topic != "All Topics":
+                filtered_papers = [
+                    p for p in filtered_papers
+                    if filter_topic in p.get('topics', [])
+                ]
+
+            # Paper type filter
+            if filter_paper_type and filter_paper_type != "All Types":
+                filtered_papers = [
+                    p for p in filtered_papers
+                    if p.get('paper_type') == filter_paper_type.lower()
+                ]
+
+            st.write(f"Showing {len(filtered_papers)} of {len(papers)} papers")
 
             # Get read statuses
-            filenames = [p['filename'] for p in papers]
+            filenames = [p['filename'] for p in filtered_papers]
             read_statuses = read_status.get_read_status(filenames)
 
             # Create DataFrame with new columns
             df_data = []
-            for paper in papers:
+            for paper in filtered_papers:
                 # Format authors (first 3 + "et al." if more)
                 authors_list = paper.get('authors', '').split(';') if paper.get('authors') else []
                 authors_display = '; '.join([a.strip() for a in authors_list[:3] if a.strip()])
@@ -1315,17 +1257,139 @@ def main():
                         break
 
     with tab2:
-        st.session_state.active_tab = "Query Results"
+        st.session_state.active_tab = "Research"
 
+        # Prominent "Ask a Question" section at the top
+        st.subheader("Ask a Research Question")
+        st.caption("Ask questions about your battery research papers using AI-powered search")
+
+        question = st.text_area(
+            "Your question:",
+            placeholder="What factors affect battery degradation?",
+            height=100,
+            label_visibility="collapsed",
+            key="research_question"
+        )
+
+        # Filters in horizontal layout
+        st.caption("**Optional Filters:**")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            filter_chemistry = st.selectbox(
+                "Chemistry",
+                options=["All"] + filter_options['chemistries'],
+                key="research_filter_chemistry"
+            )
+            filter_chemistry = None if filter_chemistry == "All" else filter_chemistry
+        with col2:
+            filter_topic = st.selectbox(
+                "Topic",
+                options=["All"] + filter_options['topics'],
+                key="research_filter_topic"
+            )
+            filter_topic = None if filter_topic == "All" else filter_topic
+        with col3:
+            filter_paper_type = st.selectbox(
+                "Paper Type",
+                options=["All"] + filter_options['paper_types'],
+                key="research_filter_paper_type"
+            )
+            filter_paper_type = None if filter_paper_type == "All" else filter_paper_type
+
+        # Search button
+        if st.button("Search", type="primary", use_container_width=True, key="research_search_button"):
+            if not question:
+                st.warning("Please enter a question")
+            else:
+                api_key = get_api_key()
+                if api_key:
+                    # Show progress with improved retrieval steps
+                    progress_text = st.empty()
+                    progress_bar = st.progress(0)
+
+                    try:
+                        # Step 1: Query expansion
+                        progress_text.text("Step 1/4: Expanding query...")
+                        progress_bar.progress(25)
+
+                        # Step 2: Hybrid search
+                        progress_text.text("Step 2/4: Hybrid search (vector + BM25)...")
+                        progress_bar.progress(50)
+
+                        # Step 3: Reranking
+                        progress_text.text("Step 3/4: Reranking by relevance...")
+                        progress_bar.progress(75)
+
+                        # Use improved retrieval pipeline
+                        chunks = rag.retrieve_with_hybrid_and_reranking(
+                            question=question,
+                            api_key=api_key,
+                            top_k=5,
+                            n_candidates=15,
+                            alpha=0.5,
+                            filter_chemistry=filter_chemistry,
+                            filter_topic=filter_topic,
+                            filter_paper_type=filter_paper_type,
+                            enable_query_expansion=True,
+                            enable_reranking=True
+                        )
+
+                        if not chunks:
+                            progress_text.empty()
+                            progress_bar.empty()
+                            st.warning("No relevant passages found. Try removing filters.")
+                        else:
+                            # Step 4: Query Claude
+                            progress_text.text("Step 4/4: Generating answer with Claude...")
+                            progress_bar.progress(90)
+
+                            # Use backend for LLM query
+                            answer = rag.query_claude(question, chunks, api_key)
+
+                            progress_bar.progress(100)
+                            progress_text.empty()
+                            progress_bar.empty()
+
+                            # Prepare query result
+                            query_result = {
+                                'question': question,
+                                'answer': answer,
+                                'chunks': chunks,
+                                'filters': {
+                                    'chemistry': filter_chemistry,
+                                    'topic': filter_topic,
+                                    'paper_type': filter_paper_type
+                                }
+                            }
+
+                            # Save to history database
+                            query_history.save_query(
+                                question=question,
+                                answer=answer,
+                                chunks=chunks,
+                                filters=query_result['filters']
+                            )
+
+                            # Save to session state
+                            st.session_state.query_result = query_result
+                            st.rerun()
+                    except RuntimeError as e:
+                        progress_text.empty()
+                        progress_bar.empty()
+                        st.error(f"Error: {e}")
+
+        st.divider()
+
+        # Show results if available
         if st.session_state.query_result:
             result = st.session_state.query_result
 
             # Show indicator if loaded from history
             if result.get('from_history'):
-                st.info("📜 Viewing query from history")
+                st.info("Viewing query from history")
 
             # Show question
-            st.subheader("❓ Question")
+            st.subheader("Question")
             st.info(result['question'])
 
             # Show active filters
@@ -1336,13 +1400,13 @@ def main():
             st.divider()
 
             # Show answer
-            st.subheader("💡 Answer")
+            st.subheader("Answer")
             st.markdown(result['answer'])
 
             st.divider()
 
             # Show sources
-            st.subheader("📚 Sources & Citations")
+            st.subheader("Sources & Citations")
 
             # Get unique papers cited
             cited_papers = {}
@@ -1359,7 +1423,7 @@ def main():
             st.divider()
 
             # Show chunks
-            st.subheader("📝 Retrieved Passages")
+            st.subheader("Retrieved Passages")
             for i, chunk in enumerate(result['chunks'], 1):
                 section_label = f" - {chunk['section_name']}" if chunk.get('section_name') and chunk['section_name'] != 'Content' else ""
                 with st.expander(f"Passage {i}: {chunk['filename']} (page {chunk['page_num']}){section_label}"):
@@ -1375,7 +1439,7 @@ def main():
                         st.caption(" | ".join(metadata_parts))
 
         else:
-            st.info("👈 Ask a question in the sidebar to see results here")
+            st.info("💡 **Tip:** Ask questions about your battery research papers and get AI-powered answers")
             st.write("**Example questions:**")
             st.write("- What factors affect battery degradation?")
             st.write("- How does temperature impact NMC vs LFP cells?")
@@ -1385,7 +1449,7 @@ def main():
     with tab3:
         st.session_state.active_tab = "History"
 
-        st.subheader("🕐 Query History")
+        st.subheader("Query History")
 
         # Get all queries
         all_queries = query_history.get_all_queries()
@@ -2092,7 +2156,7 @@ def display_query_card(query: Dict):
     with col3:
         # View button
         if st.button("👁️", key=f"view_{query['id']}", help="View this query"):
-            # Load query into session state and switch to Query Results tab
+            # Load query into session state and switch to Research tab
             st.session_state.query_result = {
                 'question': query['question'],
                 'answer': query['answer'],
@@ -2100,7 +2164,7 @@ def display_query_card(query: Dict):
                 'filters': query['filters'],
                 'from_history': True
             }
-            st.session_state.active_tab = "Query Results"
+            st.session_state.active_tab = "Research"
             st.rerun()
 
     with col4:
