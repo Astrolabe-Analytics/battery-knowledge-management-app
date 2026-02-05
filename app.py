@@ -1685,13 +1685,25 @@ def main():
 
             st.divider()
 
-            # Show answer
+            # Show answer with clickable document references
             st.subheader("Answer")
-            st.markdown(result['answer'])
+
+            # Convert "Document X" references to clickable anchor links
+            import re
+            answer_html = result['answer']
+            # Match patterns like "Document 1", "Document 2, page 5", etc.
+            pattern = r'(Document\s+(\d+)(?:,\s*page\s+\d+)?)'
+            def make_link(match):
+                full_text = match.group(1)
+                doc_num = match.group(2)
+                return f'<a href="#passage-{doc_num}" style="color: #1f77b4; text-decoration: none;">{full_text}</a>'
+
+            answer_html = re.sub(pattern, make_link, answer_html)
+            st.markdown(answer_html, unsafe_allow_html=True)
 
             st.divider()
 
-            # Show sources
+            # Show sources with clickable links to detail pages
             st.subheader("Sources & Citations")
 
             # Get unique papers cited
@@ -1703,15 +1715,28 @@ def main():
                 cited_papers[filename].append(chunk['page_num'])
 
             st.write(f"**{len(cited_papers)} papers cited:**")
+
+            # Make paper names clickable buttons to navigate to detail page
             for filename, pages in cited_papers.items():
-                st.write(f"- {filename} (pages: {', '.join(map(str, sorted(set(pages))))})")
+                pages_str = ', '.join(map(str, sorted(set(pages))))
+                col1, col2 = st.columns([3, 1])
+                with col1:
+                    if st.button(f"📄 {filename}", key=f"source_link_{filename}", use_container_width=True):
+                        st.session_state.selected_paper = filename
+                        st.rerun()
+                with col2:
+                    st.caption(f"Pages: {pages_str}")
 
             st.divider()
 
-            # Show chunks
+            # Show chunks with anchor IDs
             st.subheader("Retrieved Passages")
             for i, chunk in enumerate(result['chunks'], 1):
                 section_label = f" - {chunk['section_name']}" if chunk.get('section_name') and chunk['section_name'] != 'Content' else ""
+
+                # Add anchor ID to the passage
+                st.markdown(f'<div id="passage-{i}"></div>', unsafe_allow_html=True)
+
                 with st.expander(f"Passage {i}: {chunk['filename']} (page {chunk['page_num']}){section_label}"):
                     st.write(chunk['text'])
                     metadata_parts = []
