@@ -85,8 +85,8 @@ def get_paper_library() -> list[dict]:
     Get all unique papers with their aggregated metadata.
 
     Returns:
-        List of dicts with paper info: filename, chemistries, topics,
-        application, paper_type, num_pages
+        List of dicts with paper info: filename, title, authors, year, journal,
+        doi, author_keywords, chemistries, topics, application, paper_type, num_pages
     """
     collection = DatabaseClient.get_collection()
     all_results = collection.get(include=["metadatas"])
@@ -102,6 +102,7 @@ def get_paper_library() -> list[dict]:
                 'year': metadata.get('year', ''),
                 'journal': metadata.get('journal', ''),
                 'doi': metadata.get('doi', ''),
+                'author_keywords': set(),
                 'chemistries': set(),
                 'topics': set(),
                 'application': metadata.get('application', 'general'),
@@ -110,6 +111,8 @@ def get_paper_library() -> list[dict]:
             }
 
         # Aggregate metadata
+        if metadata.get('author_keywords'):
+            papers[filename]['author_keywords'].update(metadata['author_keywords'].split(';'))
         if metadata.get('chemistries'):
             papers[filename]['chemistries'].update(metadata['chemistries'].split(','))
         if metadata.get('topics'):
@@ -118,6 +121,7 @@ def get_paper_library() -> list[dict]:
 
     # Convert sets to sorted lists/counts
     for paper in papers.values():
+        paper['author_keywords'] = sorted([k for k in paper['author_keywords'] if k])
         paper['chemistries'] = sorted([c for c in paper['chemistries'] if c])
         paper['topics'] = sorted([t for t in paper['topics'] if t])
         paper['num_pages'] = len(paper['pages'])
@@ -190,6 +194,7 @@ def get_paper_details(filename: str) -> Optional[dict]:
         'year': results['metadatas'][0].get('year', ''),
         'journal': results['metadatas'][0].get('journal', ''),
         'doi': results['metadatas'][0].get('doi', ''),
+        'author_keywords': results['metadatas'][0].get('author_keywords', '').split(';') if results['metadatas'][0].get('author_keywords') else [],
         'chemistries': results['metadatas'][0].get('chemistries', '').split(','),
         'topics': results['metadatas'][0].get('topics', '').split(','),
         'application': results['metadatas'][0].get('application', 'general'),

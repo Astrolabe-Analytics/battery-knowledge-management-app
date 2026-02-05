@@ -285,6 +285,12 @@ def get_professional_css(theme='light'):
         color: #92400e;
     }}
 
+    .tag-author-keyword {{
+        background-color: #fef3c7;
+        color: #78350f;
+        border: 1px solid #fbbf24;
+    }}
+
     /* Divider */
     hr {{
         border: none;

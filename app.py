@@ -624,33 +624,46 @@ def main():
 
                 st.divider()
 
-                # TAGS SECTION: Colored pills/badges with professional styling
-                tags_html = []
+                # TAGS SECTION: Display author keywords and AI-generated tags together
+                # Author keywords section
+                author_keywords = details.get('author_keywords', [])
+                if author_keywords:
+                    st.caption("**Author Keywords**")
+                    author_tags_html = []
+                    for keyword in author_keywords:
+                        if keyword:
+                            author_tags_html.append(f'<span class="tag-pill tag-author-keyword">{keyword}</span>')
+                    if author_tags_html:
+                        st.markdown('<div style="margin: 8px 0 16px 0;">' + ''.join(author_tags_html) + '</div>', unsafe_allow_html=True)
 
-                # Chemistry tags
+                # AI-generated tags section
+                ai_tags_html = []
+
+                # Chemistry tags (AI-generated)
                 if details.get('chemistries') and details['chemistries'][0]:
                     for chem in details['chemistries']:
                         if chem:
-                            tags_html.append(f'<span class="tag-pill tag-chemistry">{chem}</span>')
+                            ai_tags_html.append(f'<span class="tag-pill tag-chemistry">{chem}</span>')
 
-                # Topic tags
+                # Topic tags (AI-generated)
                 if details.get('topics') and details['topics'][0]:
                     for topic in details['topics']:
                         if topic:
-                            tags_html.append(f'<span class="tag-pill tag-topic">{topic}</span>')
+                            ai_tags_html.append(f'<span class="tag-pill tag-topic">{topic}</span>')
 
                 # Application tag
                 if details.get('application'):
                     app = details['application'].title()
-                    tags_html.append(f'<span class="tag-pill tag-application">{app}</span>')
+                    ai_tags_html.append(f'<span class="tag-pill tag-application">{app}</span>')
 
                 # Paper type tag
                 if details.get('paper_type'):
                     ptype = details['paper_type'].title()
-                    tags_html.append(f'<span class="tag-pill tag-type">{ptype}</span>')
+                    ai_tags_html.append(f'<span class="tag-pill tag-type">{ptype}</span>')
 
-                if tags_html:
-                    st.markdown('<div style="margin: 16px 0;">' + ''.join(tags_html) + '</div>', unsafe_allow_html=True)
+                if ai_tags_html:
+                    st.caption("**AI-Generated Tags**")
+                    st.markdown('<div style="margin: 8px 0;">' + ''.join(ai_tags_html) + '</div>', unsafe_allow_html=True)
 
                 st.divider()
 
@@ -787,7 +800,7 @@ def main():
             # Apply filters
             filtered_papers = papers
 
-            # Text search filter
+            # Text search filter - searches across title, authors, journal, DOI, keywords, and tags
             if search_query:
                 search_lower = search_query.lower()
                 filtered_papers = [
@@ -795,7 +808,12 @@ def main():
                     if (search_lower in p.get('title', '').lower() or
                         search_lower in p.get('authors', '').lower() or
                         search_lower in p.get('journal', '').lower() or
-                        search_lower in p.get('doi', '').lower())
+                        search_lower in p.get('doi', '').lower() or
+                        # Search in author keywords
+                        any(search_lower in kw.lower() for kw in p.get('author_keywords', [])) or
+                        # Search in AI-generated chemistries and topics
+                        any(search_lower in chem.lower() for chem in p.get('chemistries', [])) or
+                        any(search_lower in topic.lower() for topic in p.get('topics', [])))
                 ]
 
             # Chemistry filter
