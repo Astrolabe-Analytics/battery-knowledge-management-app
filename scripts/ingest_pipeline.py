@@ -461,19 +461,26 @@ def stage_chunk(force: bool = False, new_only: bool = False):
 
 def extract_doi_from_text(text: str) -> Optional[str]:
     """Extract DOI from paper text using regex patterns."""
+    # DOI valid characters: alphanumeric, dash, dot, slash, parentheses
+    doi_chars = r'[\w\-\.\(\)\/]+'
+
     doi_patterns = [
-        r'doi:\s*([10]\.\d{4,}/[^\s]+)',
-        r'DOI:\s*([10]\.\d{4,}/[^\s]+)',
-        r'https?://doi\.org/([10]\.\d{4,}/[^\s]+)',
-        r'https?://dx\.doi\.org/([10]\.\d{4,}/[^\s]+)',
-        r'\b([10]\.\d{4,}/[^\s]+)\b',
+        # Match DOI in URLs (handles markdown links)
+        rf'https?://doi\.org/(10\.\d{{4,}}/{doi_chars})',
+        rf'https?://dx\.doi\.org/(10\.\d{{4,}}/{doi_chars})',
+        # Match DOI with label
+        rf'doi:\s*(10\.\d{{4,}}/{doi_chars})',
+        rf'DOI:\s*(10\.\d{{4,}}/{doi_chars})',
+        # Match bare DOI
+        rf'\b(10\.\d{{4,}}/{doi_chars})\b',
     ]
 
     for pattern in doi_patterns:
         match = re.search(pattern, text, re.IGNORECASE)
         if match:
             doi = match.group(1)
-            doi = re.sub(r'[.,;:\s]+$', '', doi)
+            # Clean up trailing punctuation
+            doi = re.sub(r'[.,;:\s\)]+$', '', doi)
             return doi
 
     return None
@@ -598,6 +605,7 @@ def extract_metadata_for_paper(md_path: Path, api_key: str) -> dict:
         'authors': [],
         'year': '',
         'journal': '',
+        'doi': '',
         'chemistries': [],
         'topics': [],
         'application': 'general',
@@ -610,6 +618,7 @@ def extract_metadata_for_paper(md_path: Path, api_key: str) -> dict:
 
     if doi:
         logger.info(f"  Found DOI: {doi}")
+        metadata['doi'] = doi  # Always save DOI if found
         crossref_data = query_crossref_api(doi)
 
         if crossref_data:
@@ -618,7 +627,6 @@ def extract_metadata_for_paper(md_path: Path, api_key: str) -> dict:
             metadata['authors'] = crossref_data.get('authors', [])
             metadata['year'] = crossref_data.get('year', '')
             metadata['journal'] = crossref_data.get('journal', '')
-            metadata['doi'] = doi
         else:
             logger.info(f"  ✗ CrossRef query failed")
 
@@ -858,17 +866,17 @@ def stage_embed(force: bool = False):
             meta['authors'] = ';'.join(pm.get('authors', []))
             meta['year'] = pm.get('year', '')
             meta['journal'] = pm.get('journal', '')
+            meta['doi'] = pm.get('doi', '')
             meta['chemistries'] = ','.join(pm.get('chemistries', []))
             meta['topics'] = ','.join(pm.get('topics', []))
             meta['application'] = pm.get('application', 'general')
             meta['paper_type'] = pm.get('paper_type', 'experimental')
-            if pm.get('doi'):
-                meta['doi'] = pm['doi']
         else:
             meta['title'] = ''
             meta['authors'] = ''
             meta['year'] = ''
             meta['journal'] = ''
+            meta['doi'] = ''
             meta['chemistries'] = ''
             meta['topics'] = ''
             meta['application'] = 'general'

@@ -508,6 +508,72 @@ def main():
 
             st.divider()
 
+            # URL import section
+            with st.expander("🔗 Import from URL or DOI", expanded=False):
+                col1, col2 = st.columns(2)
+
+                with col1:
+                    st.caption("**Import from URL**")
+                    url_input = st.text_input(
+                        "Paste URL here",
+                        placeholder="https://arxiv.org/abs/... or https://ieeexplore.ieee.org/...",
+                        label_visibility="collapsed",
+                        key="url_import_input"
+                    )
+
+                with col2:
+                    st.caption("**Or enter DOI directly**")
+                    doi_input = st.text_input(
+                        "Enter DOI",
+                        placeholder="10.1016/j.jpowsour.2024.235555",
+                        label_visibility="collapsed",
+                        key="doi_import_input"
+                    )
+
+                st.caption("**Supported formats:**")
+                st.caption("• arXiv: `arxiv.org/abs/...` or `arxiv.org/pdf/...`")
+                st.caption("• DOI: `doi.org/10.xxxx/...` or `10.xxxx/...`")
+                st.caption("• Publisher pages: IEEE, ScienceDirect, Wiley, Springer, Nature, MDPI, ACS, RSC, IOP, etc.")
+                st.caption("• Direct PDF: Any URL ending in `.pdf`")
+
+                st.warning("⚠️ **Publisher Blocking:** Many publishers (especially ScienceDirect, Wiley, Springer) block automated access to their article pages. If you get a \"403 Forbidden\" error, use the **DOI field** instead, which bypasses the publisher page entirely.")
+
+                # Determine what to import
+                import_input = None
+                if url_input and doi_input:
+                    st.warning("⚠️ Please use either URL or DOI, not both")
+                elif doi_input:
+                    # Treat DOI as a doi.org URL
+                    doi_clean = doi_input.strip()
+                    if not doi_clean.startswith('http'):
+                        import_input = f"https://doi.org/{doi_clean}"
+                    else:
+                        import_input = doi_clean
+                elif url_input:
+                    import_input = url_input
+
+                if st.button("📥 Import", type="primary", disabled=not import_input):
+                    # Create a container for progress updates
+                    progress_container = st.container()
+
+                    # Process the URL or DOI
+                    result = process_url_import(import_input, progress_container)
+
+                    # Show results
+                    if result['success']:
+                        if result['metadata_only']:
+                            st.warning(f"⚠️ Metadata saved for: **{result['title']}**")
+                            st.info("📌 No open access PDF available. You can manually upload the PDF later.")
+                        else:
+                            st.success(f"✅ Successfully imported: **{result['title'] or result['filename']}**")
+                            st.balloons()
+                            time.sleep(2)
+                            st.rerun()
+                    else:
+                        st.error(f"❌ Import failed: {result['error']}")
+
+            st.divider()
+
         if st.session_state.selected_paper:
             # Detail view
             paper_filename = st.session_state.selected_paper
@@ -696,7 +762,18 @@ def main():
                 title = paper.get('title', paper['filename'].replace('.pdf', ''))
                 title = clean_html_from_text(title)
 
+                # Determine status: check if PDF exists
+                from pathlib import Path
+                pdf_path = Path("papers") / paper['filename']
+                if pdf_path.exists():
+                    status = "✅ PDF"  # Checkmark - has PDF
+                elif paper.get('title') or paper.get('doi'):
+                    status = "⚠️ Metadata"  # Warning - has metadata but no PDF
+                else:
+                    status = "❌ Missing"  # X - no data
+
                 df_data.append({
+                    'Status': status,
                     'Title': title,
                     'Authors': authors_display,
                     'Year': paper.get('year', ''),
@@ -713,21 +790,38 @@ def main():
             gb = GridOptionsBuilder.from_dataframe(df)
 
             # Configure column properties with flex sizing to fill container width
+            # Status column with emoji indicators (colorblind-friendly)
+            gb.configure_column("Status",
+                width=90,
+                minWidth=80,
+                maxWidth=100,
+                resizable=True,
+                cellStyle={
+                    'textAlign': 'center',
+                    'padding': '8px',
+                    'fontSize': '14px',
+                    'whiteSpace': 'nowrap',
+                    'overflow': 'hidden',
+                    'textOverflow': 'ellipsis'
+                }
+            )
+
             gb.configure_column("Title",
                 flex=3,  # Takes 3 parts of available space
                 minWidth=250,
                 wrapText=True,
-                autoHeight=True,
+                autoHeight=False,
                 resizable=True,
                 cellStyle={
-                    'whiteSpace': 'normal',
-                    'lineHeight': '1.4',
-                    'display': '-webkit-box',
-                    '-webkit-line-clamp': '2',
-                    '-webkit-box-orient': 'vertical',
-                    'overflow': 'hidden',
-                    'textOverflow': 'ellipsis',
-                    'padding': '8px'
+                    'whiteSpace': 'normal !important',
+                    'lineHeight': '1.4 !important',
+                    'display': '-webkit-box !important',
+                    '-webkit-line-clamp': '2 !important',
+                    '-webkit-box-orient': 'vertical !important',
+                    'overflow': 'hidden !important',
+                    'textOverflow': 'ellipsis !important',
+                    'padding': '8px !important',
+                    'maxHeight': '45px !important'
                 },
                 tooltipField="Title"
             )
@@ -738,10 +832,15 @@ def main():
                 autoHeight=False,
                 resizable=True,
                 cellStyle={
-                    'whiteSpace': 'nowrap',
-                    'overflow': 'hidden',
-                    'textOverflow': 'ellipsis',
-                    'padding': '8px'
+                    'whiteSpace': 'normal !important',
+                    'lineHeight': '1.4 !important',
+                    'display': '-webkit-box !important',
+                    '-webkit-line-clamp': '2 !important',
+                    '-webkit-box-orient': 'vertical !important',
+                    'overflow': 'hidden !important',
+                    'textOverflow': 'ellipsis !important',
+                    'padding': '8px !important',
+                    'maxHeight': '45px !important'
                 },
                 tooltipField="Authors"
             )
@@ -750,22 +849,32 @@ def main():
                 minWidth=60,
                 maxWidth=90,
                 resizable=True,
-                type=["numericColumn"],
                 cellStyle={
-                    'overflow': 'hidden',
-                    'textOverflow': 'ellipsis'
+                    'whiteSpace': 'nowrap !important',
+                    'overflow': 'hidden !important',
+                    'textOverflow': 'ellipsis !important',
+                    'display': 'flex !important',
+                    'justifyContent': 'flex-start !important',
+                    'alignItems': 'center !important',
+                    'textAlign': 'left !important',
+                    'paddingLeft': '8px !important'
                 }
             )
             gb.configure_column("Journal",
                 flex=2,  # Takes 2 parts of available space
                 minWidth=150,
-                wrapText=False,
+                wrapText=True,
                 resizable=True,
                 cellStyle={
-                    'whiteSpace': 'nowrap',
-                    'overflow': 'hidden',
-                    'textOverflow': 'ellipsis',
-                    'padding': '8px'
+                    'whiteSpace': 'normal !important',
+                    'lineHeight': '1.4 !important',
+                    'display': '-webkit-box !important',
+                    '-webkit-line-clamp': '2 !important',
+                    '-webkit-box-orient': 'vertical !important',
+                    'overflow': 'hidden !important',
+                    'textOverflow': 'ellipsis !important',
+                    'padding': '8px !important',
+                    'maxHeight': '45px !important'
                 },
                 tooltipField="Journal"
             )
@@ -909,23 +1018,64 @@ def main():
             grid_options = gb.build()
 
             # Custom CSS for professional appearance (theme-aware)
+            # Structural properties are identical in both themes, only colors differ
             if st.session_state.theme == 'dark':
                 custom_css = {
-                    # Headers
-                    ".ag-header-cell-label": {"font-weight": "600", "color": "#FFFFFF !important"},
-                    ".ag-header-cell-text": {"color": "#FFFFFF !important"},
-                    ".ag-header": {"background-color": "#262730 !important", "border-bottom": "1px solid #444444 !important"},
-                    ".ag-header-cell": {"background-color": "#262730 !important", "color": "#FFFFFF !important"},
-                    # Rows and cells - prevent overflow
-                    ".ag-root-wrapper": {"background-color": "#1E1E1E !important", "width": "100% !important"},
-                    ".ag-row": {"border-bottom": "1px solid #444444 !important", "background-color": "#1E1E1E !important"},
+                    # Headers - consistent structure, dark colors
+                    ".ag-header-cell-label": {
+                        "font-weight": "600",
+                        "font-size": "14px",
+                        "font-family": "inherit",
+                        "color": "#FFFFFF !important"
+                    },
+                    ".ag-header-cell-text": {
+                        "color": "#FFFFFF !important",
+                        "font-size": "14px"
+                    },
+                    ".ag-header": {
+                        "background-color": "#262730 !important",
+                        "border-bottom": "1px solid #444444 !important",
+                        "height": "40px !important"
+                    },
+                    ".ag-header-cell": {
+                        "background-color": "#262730 !important",
+                        "color": "#FFFFFF !important",
+                        "padding": "0 8px !important"
+                    },
+                    # Rows and cells - consistent structure, dark colors
+                    ".ag-root-wrapper": {
+                        "background-color": "#1E1E1E !important",
+                        "width": "100% !important",
+                        "font-family": "inherit",
+                        "font-size": "14px"
+                    },
+                    ".ag-row": {
+                        "border-bottom": "1px solid #444444 !important",
+                        "background-color": "#1E1E1E !important",
+                        "height": "60px !important"
+                    },
                     ".ag-cell": {
-                        "padding": "8px",
-                        "display": "flex",
-                        "align-items": "center",
+                        "padding": "8px !important",
+                        "display": "flex !important",
+                        "align-items": "center !important",
                         "color": "#E0E0E0 !important",
                         "overflow": "hidden !important",
-                        "text-overflow": "ellipsis !important"
+                        "text-overflow": "ellipsis !important",
+                        "font-size": "14px !important",
+                        "font-family": "inherit !important",
+                        "line-height": "1.5 !important"
+                    },
+                    # Multi-line text cells with line-clamp
+                    ".ag-cell .ag-cell-value": {
+                        "display": "-webkit-box !important",
+                        "-webkit-line-clamp": "2 !important",
+                        "-webkit-box-orient": "vertical !important",
+                        "overflow": "hidden !important",
+                        "text-overflow": "ellipsis !important",
+                        "white-space": "normal !important",
+                        "line-height": "1.4 !important",
+                        "max-height": "42px !important",
+                        "width": "100% !important"
                     },
                     ".ag-row-hover": {"background-color": "#2D2D2D !important"},
                     ".ag-row-hover .doi-edit-icon": {"opacity": "1 !important"},
@@ -935,21 +1085,61 @@ def main():
                 }
             else:
                 custom_css = {
-                    # Headers
-                    ".ag-header-cell-label": {"font-weight": "600", "color": "#2c3e50 !important"},
-                    ".ag-header-cell-text": {"color": "#2c3e50 !important"},
-                    ".ag-header": {"background-color": "#F0F2F6 !important", "border-bottom": "1px solid #D0D0D0 !important"},
-                    ".ag-header-cell": {"background-color": "#F0F2F6 !important", "color": "#2c3e50 !important"},
-                    # Rows and cells - prevent overflow
-                    ".ag-root-wrapper": {"background-color": "#FFFFFF !important", "width": "100% !important"},
-                    ".ag-row": {"border-bottom": "1px solid #ecf0f1 !important", "background-color": "#FFFFFF !important"},
+                    # Headers - consistent structure, light colors
+                    ".ag-header-cell-label": {
+                        "font-weight": "600",
+                        "font-size": "14px",
+                        "font-family": "inherit",
+                        "color": "#2c3e50 !important"
+                    },
+                    ".ag-header-cell-text": {
+                        "color": "#2c3e50 !important",
+                        "font-size": "14px"
+                    },
+                    ".ag-header": {
+                        "background-color": "#F0F2F6 !important",
+                        "border-bottom": "1px solid #D0D0D0 !important",
+                        "height": "40px !important"
+                    },
+                    ".ag-header-cell": {
+                        "background-color": "#F0F2F6 !important",
+                        "color": "#2c3e50 !important",
+                        "padding": "0 8px !important"
+                    },
+                    # Rows and cells - consistent structure, light colors
+                    ".ag-root-wrapper": {
+                        "background-color": "#FFFFFF !important",
+                        "width": "100% !important",
+                        "font-family": "inherit",
+                        "font-size": "14px"
+                    },
+                    ".ag-row": {
+                        "border-bottom": "1px solid #ecf0f1 !important",
+                        "background-color": "#FFFFFF !important",
+                        "height": "60px !important"
+                    },
                     ".ag-cell": {
-                        "padding": "8px",
-                        "display": "flex",
-                        "align-items": "center",
+                        "padding": "8px !important",
+                        "display": "flex !important",
+                        "align-items": "center !important",
                         "color": "#262730 !important",
                         "overflow": "hidden !important",
-                        "text-overflow": "ellipsis !important"
+                        "text-overflow": "ellipsis !important",
+                        "font-size": "14px !important",
+                        "font-family": "inherit !important",
+                        "line-height": "1.5 !important"
+                    },
+                    # Multi-line text cells with line-clamp
+                    ".ag-cell .ag-cell-value": {
+                        "display": "-webkit-box !important",
+                        "-webkit-line-clamp": "2 !important",
+                        "-webkit-box-orient": "vertical !important",
+                        "overflow": "hidden !important",
+                        "text-overflow": "ellipsis !important",
+                        "white-space": "normal !important",
+                        "line-height": "1.4 !important",
+                        "max-height": "42px !important",
+                        "width": "100% !important"
                     },
                     ".ag-row-hover": {"background-color": "#f8f9fa !important"},
                     ".ag-row-hover .doi-edit-icon": {"opacity": "1 !important"},
@@ -958,8 +1148,8 @@ def main():
                     ".ag-body-viewport": {"background-color": "#FFFFFF !important"},
                 }
 
-            # Choose AG Grid theme based on app theme
-            ag_theme = 'alpine-dark' if st.session_state.theme == 'dark' else 'alpine'
+            # Use streamlit theme for both modes - consistent base, colors controlled by custom CSS
+            ag_theme = 'streamlit'
 
             grid_response = AgGrid(
                 df,
@@ -1130,6 +1320,403 @@ def main():
                     count = query_history.clear_all_history()
                     st.success(f"Deleted {count} queries from history")
                     st.rerun()
+
+
+def process_url_import(url: str, progress_container) -> Dict[str, Any]:
+    """
+    Import a paper from URL (arXiv, DOI, or direct PDF link).
+
+    Args:
+        url: URL to import from
+        progress_container: Streamlit container for progress updates
+
+    Returns:
+        Dictionary with import results
+    """
+    import subprocess
+    import urllib.parse
+    from pathlib import Path
+
+    papers_dir = Path("papers")
+    papers_dir.mkdir(parents=True, exist_ok=True)
+
+    result = {
+        'success': False,
+        'title': None,
+        'filename': None,
+        'error': None,
+        'metadata_only': False
+    }
+
+    url = url.strip()
+
+    with progress_container:
+        st.info(f"🔗 Processing URL: {url}")
+
+        try:
+            # Detect URL type
+            if 'arxiv.org' in url:
+                # arXiv link
+                st.caption("📄 Detected: arXiv paper")
+
+                # Extract arXiv ID
+                import re
+                arxiv_match = re.search(r'arxiv\.org/(?:abs|pdf)/(\d+\.\d+)', url)
+                if not arxiv_match:
+                    result['error'] = "Invalid arXiv URL format"
+                    return result
+
+                arxiv_id = arxiv_match.group(1)
+                pdf_url = f"https://arxiv.org/pdf/{arxiv_id}.pdf"
+                filename = f"arxiv_{arxiv_id.replace('.', '_')}.pdf"
+
+                st.caption(f"📥 Downloading from arXiv (ID: {arxiv_id})...")
+
+                # Download PDF
+                response = requests.get(pdf_url, timeout=30)
+                if response.status_code == 200:
+                    filepath = papers_dir / filename
+                    with open(filepath, 'wb') as f:
+                        f.write(response.content)
+
+                    result['filename'] = filename
+                    result['success'] = True
+                    st.caption(f"✓ Downloaded: {filename}")
+                else:
+                    result['error'] = f"Failed to download from arXiv (HTTP {response.status_code})"
+                    return result
+
+            elif any(publisher in url.lower() for publisher in [
+                'sciencedirect.com', 'ieeexplore.ieee.org', 'onlinelibrary.wiley.com',
+                'link.springer.com', 'nature.com/articles', 'mdpi.com', 'cell.com',
+                'thelancet.com', 'pubs.acs.org', 'pubs.rsc.org', 'iopscience.iop.org'
+            ]):
+                # Publisher article page
+                st.caption("📰 Detected: Publisher article page")
+                st.caption(f"🔍 Extracting DOI from page...")
+
+                doi = None
+
+                # Try to extract DOI from URL pattern first
+                if 'doi.org' in url or '/doi/' in url:
+                    # DOI is in the URL
+                    doi_match = re.search(r'(?:doi\.org/|/doi/(?:abs/|full/)?)(10\.\d+/[^\s?&#]+)', url)
+                    if doi_match:
+                        doi = doi_match.group(1)
+
+                # If not in URL, scrape from page
+                if not doi:
+                    try:
+                        st.caption("🌐 Fetching page to extract DOI...")
+                        # Use more complete browser headers to avoid blocking
+                        headers = {
+                            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                            'Accept-Language': 'en-US,en;q=0.9',
+                            'Accept-Encoding': 'gzip, deflate, br',
+                            'DNT': '1',
+                            'Connection': 'keep-alive',
+                            'Upgrade-Insecure-Requests': '1',
+                            'Sec-Fetch-Dest': 'document',
+                            'Sec-Fetch-Mode': 'navigate',
+                            'Sec-Fetch-Site': 'none',
+                            'Cache-Control': 'max-age=0'
+                        }
+
+                        page_response = requests.get(url, timeout=15, headers=headers)
+
+                        if page_response.status_code == 403:
+                            st.warning("⚠️ Publisher blocked automated access (403 Forbidden)")
+                            st.info("💡 Workaround: Manually enter the DOI instead, or download the PDF and upload it.")
+                            result['error'] = "Publisher blocked automated access. Try entering DOI directly or upload PDF."
+                            return result
+                        elif page_response.status_code != 200:
+                            st.warning(f"⚠️ Could not fetch page (HTTP {page_response.status_code})")
+                            result['error'] = f"HTTP {page_response.status_code} when fetching page"
+                            return result
+
+                        if page_response.status_code == 200:
+                            from bs4 import BeautifulSoup
+                            soup = BeautifulSoup(page_response.text, 'html.parser')
+
+                            # Try all common meta tag patterns
+                            meta_tags_to_try = [
+                                ('name', 'citation_doi'),
+                                ('name', 'DC.Identifier'),
+                                ('property', 'citation_doi'),
+                                ('name', 'DOI'),
+                                ('name', 'dc.identifier'),
+                                ('property', 'og:identifier'),
+                                ('name', 'prism.doi'),  # Common in ScienceDirect
+                            ]
+
+                            for attr, value in meta_tags_to_try:
+                                doi_meta = soup.find('meta', {attr: value})
+                                if doi_meta and doi_meta.get('content'):
+                                    doi_content = doi_meta['content'].strip()
+                                    # Extract just the DOI part
+                                    if 'doi.org/' in doi_content:
+                                        doi = doi_content.split('doi.org/')[-1]
+                                    elif doi_content.startswith('10.'):
+                                        doi = doi_content
+
+                                    if doi:
+                                        st.caption(f"✓ Found DOI in meta tag: {attr}={value}")
+                                        break
+
+                            # If still no DOI, search page HTML for DOI pattern
+                            if not doi:
+                                # Look for DOI in script tags (ScienceDirect often has it in JSON-LD)
+                                script_tags = soup.find_all('script', {'type': 'application/ld+json'})
+                                for script in script_tags:
+                                    doi_match = re.search(r'"doi"\s*:\s*"(10\.\d+/[^"]+)"', script.string or '')
+                                    if doi_match:
+                                        doi = doi_match.group(1)
+                                        st.caption("✓ Found DOI in JSON-LD schema")
+                                        break
+
+                            # Last resort: search entire page text for DOI pattern
+                            if not doi:
+                                doi_pattern = re.search(r'\b(10\.\d{4,}/[^\s<>"\']+)\b', page_response.text)
+                                if doi_pattern:
+                                    candidate = doi_pattern.group(1)
+                                    # Clean up common trailing characters
+                                    candidate = re.sub(r'[,;.\)]+$', '', candidate)
+                                    if candidate:
+                                        doi = candidate
+                                        st.caption("✓ Found DOI in page content")
+
+                    except Exception as e:
+                        st.warning(f"⚠️ Could not fetch page: {str(e)}")
+
+                if not doi:
+                    result['error'] = "Could not extract DOI from publisher page"
+                    return result
+
+                st.caption(f"✓ Found DOI: {doi}")
+
+                # Now proceed with DOI-based lookup
+                st.caption(f"📖 Looking up metadata for DOI: {doi}")
+
+                # Get metadata from CrossRef
+                metadata = query_crossref_for_metadata(doi)
+                if not metadata:
+                    result['error'] = "Could not retrieve metadata from CrossRef"
+                    return result
+
+                result['title'] = metadata.get('title', 'Unknown')
+                st.caption(f"✓ Found: {result['title']}")
+
+                # Try to find open access PDF via Unpaywall
+                st.caption("🔓 Checking for open access PDF via Unpaywall...")
+
+                unpaywall_url = f"https://api.unpaywall.org/v2/{doi}?email=researcher@example.com"
+                unpaywall_response = requests.get(unpaywall_url, timeout=10)
+
+                pdf_url = None
+                if unpaywall_response.status_code == 200:
+                    unpaywall_data = unpaywall_response.json()
+                    if unpaywall_data.get('is_oa') and unpaywall_data.get('best_oa_location'):
+                        pdf_url = unpaywall_data['best_oa_location'].get('url_for_pdf')
+
+                if pdf_url:
+                    st.caption(f"✓ Found open access PDF!")
+                    st.caption(f"📥 Downloading from {urllib.parse.urlparse(pdf_url).netloc}...")
+
+                    # Download PDF
+                    try:
+                        pdf_response = requests.get(pdf_url, timeout=30, allow_redirects=True)
+                        if pdf_response.status_code == 200 and pdf_response.headers.get('content-type', '').startswith('application/pdf'):
+                            # Create safe filename from DOI
+                            safe_doi = doi.replace('/', '_').replace('.', '_')
+                            filename = f"doi_{safe_doi}.pdf"
+                            filepath = papers_dir / filename
+
+                            with open(filepath, 'wb') as f:
+                                f.write(pdf_response.content)
+
+                            result['filename'] = filename
+                            result['success'] = True
+                            st.caption(f"✓ Downloaded: {filename}")
+                        else:
+                            st.warning("⚠️ Could not download PDF (may be paywalled)")
+                            result['metadata_only'] = True
+                            result['success'] = True
+                    except Exception as e:
+                        st.warning(f"⚠️ PDF download failed: {str(e)}")
+                        result['metadata_only'] = True
+                        result['success'] = True
+                else:
+                    st.warning("⚠️ No open access PDF found - this paper may be paywalled")
+                    result['metadata_only'] = True
+                    result['success'] = True
+
+            elif 'doi.org' in url or url.startswith('10.'):
+                # DOI link or DOI string
+                st.caption("🔍 Detected: DOI")
+
+                # Extract DOI
+                if url.startswith('10.'):
+                    doi = url
+                else:
+                    doi = url.split('doi.org/')[-1]
+
+                st.caption(f"📖 Looking up metadata for DOI: {doi}")
+
+                # Get metadata from CrossRef
+                metadata = query_crossref_for_metadata(doi)
+                if not metadata:
+                    result['error'] = "Could not retrieve metadata from CrossRef"
+                    return result
+
+                result['title'] = metadata.get('title', 'Unknown')
+                st.caption(f"✓ Found: {result['title']}")
+
+                # Try to find open access PDF via Unpaywall
+                st.caption("🔓 Checking for open access PDF via Unpaywall...")
+
+                unpaywall_url = f"https://api.unpaywall.org/v2/{doi}?email=researcher@example.com"
+                unpaywall_response = requests.get(unpaywall_url, timeout=10)
+
+                pdf_url = None
+                if unpaywall_response.status_code == 200:
+                    unpaywall_data = unpaywall_response.json()
+                    if unpaywall_data.get('is_oa') and unpaywall_data.get('best_oa_location'):
+                        pdf_url = unpaywall_data['best_oa_location'].get('url_for_pdf')
+
+                if pdf_url:
+                    st.caption(f"✓ Found open access PDF!")
+                    st.caption(f"📥 Downloading from {urllib.parse.urlparse(pdf_url).netloc}...")
+
+                    # Download PDF
+                    try:
+                        pdf_response = requests.get(pdf_url, timeout=30, allow_redirects=True)
+                        if pdf_response.status_code == 200 and pdf_response.headers.get('content-type', '').startswith('application/pdf'):
+                            # Create safe filename from DOI
+                            safe_doi = doi.replace('/', '_').replace('.', '_')
+                            filename = f"doi_{safe_doi}.pdf"
+                            filepath = papers_dir / filename
+
+                            with open(filepath, 'wb') as f:
+                                f.write(pdf_response.content)
+
+                            result['filename'] = filename
+                            result['success'] = True
+                            st.caption(f"✓ Downloaded: {filename}")
+                        else:
+                            st.warning("⚠️ Could not download PDF (may be paywalled)")
+                            result['metadata_only'] = True
+                            result['success'] = True
+                    except Exception as e:
+                        st.warning(f"⚠️ PDF download failed: {str(e)}")
+                        result['metadata_only'] = True
+                        result['success'] = True
+                else:
+                    st.warning("⚠️ No open access PDF found - this paper may be paywalled")
+                    result['metadata_only'] = True
+                    result['success'] = True
+
+            elif url.endswith('.pdf') or 'pdf' in url.lower():
+                # Direct PDF link
+                st.caption("📄 Detected: Direct PDF link")
+                st.caption(f"📥 Downloading PDF...")
+
+                # Download PDF
+                response = requests.get(url, timeout=30, allow_redirects=True)
+                if response.status_code == 200:
+                    # Try to get filename from URL or Content-Disposition header
+                    filename = None
+                    if 'content-disposition' in response.headers:
+                        import re
+                        cd = response.headers['content-disposition']
+                        filename_match = re.findall('filename="?([^"]+)"?', cd)
+                        if filename_match:
+                            filename = filename_match[0]
+
+                    if not filename:
+                        # Extract from URL
+                        filename = url.split('/')[-1].split('?')[0]
+                        if not filename.endswith('.pdf'):
+                            filename = f"downloaded_{int(time.time())}.pdf"
+
+                    filepath = papers_dir / filename
+                    with open(filepath, 'wb') as f:
+                        f.write(response.content)
+
+                    result['filename'] = filename
+                    result['success'] = True
+                    st.caption(f"✓ Downloaded: {filename}")
+                else:
+                    result['error'] = f"Failed to download PDF (HTTP {response.status_code})"
+                    return result
+            else:
+                result['error'] = "Unrecognized URL format. Supported: arXiv, DOI (doi.org/...), or direct PDF links"
+                return result
+
+            # Run ingestion pipeline if we have a PDF
+            if result['filename'] and not result['metadata_only']:
+                st.divider()
+                st.info(f"📊 Processing paper through pipeline...")
+
+                progress_bar = st.progress(0)
+                status_text = st.empty()
+
+                try:
+                    # Stage 1: Parse
+                    status_text.text("Stage 1/4: Extracting text from PDF...")
+                    progress_bar.progress(25)
+                    subprocess.run(
+                        [sys.executable, "scripts/ingest_pipeline.py", "--stage", "parse", "--new-only"],
+                        check=True,
+                        capture_output=True,
+                        text=True
+                    )
+
+                    # Stage 2: Chunk
+                    status_text.text("Stage 2/4: Creating chunks...")
+                    progress_bar.progress(50)
+                    subprocess.run(
+                        [sys.executable, "scripts/ingest_pipeline.py", "--stage", "chunk", "--new-only"],
+                        check=True,
+                        capture_output=True,
+                        text=True
+                    )
+
+                    # Stage 3: Metadata
+                    status_text.text("Stage 3/4: Extracting metadata...")
+                    progress_bar.progress(75)
+                    subprocess.run(
+                        [sys.executable, "scripts/ingest_pipeline.py", "--stage", "metadata", "--new-only"],
+                        check=True,
+                        capture_output=True,
+                        text=True
+                    )
+
+                    # Stage 4: Embed
+                    status_text.text("Stage 4/4: Creating embeddings...")
+                    progress_bar.progress(90)
+                    subprocess.run(
+                        [sys.executable, "scripts/ingest_pipeline.py", "--stage", "embed"],
+                        check=True,
+                        capture_output=True,
+                        text=True
+                    )
+
+                    progress_bar.progress(100)
+                    status_text.text("✅ Processing complete!")
+
+                except subprocess.CalledProcessError as e:
+                    result['error'] = f"Pipeline processing failed: {str(e)}"
+                    return result
+
+        except requests.exceptions.Timeout:
+            result['error'] = "Request timed out - server not responding"
+        except requests.exceptions.ConnectionError:
+            result['error'] = "Connection error - check your internet connection"
+        except Exception as e:
+            result['error'] = f"Unexpected error: {str(e)}"
+
+    return result
 
 
 def process_uploaded_pdfs(uploaded_files: list, progress_container, replace_duplicates: bool = False) -> Dict[str, Any]:

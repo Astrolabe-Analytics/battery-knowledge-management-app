@@ -5,3 +5,4 @@ anthropic
 tiktoken
 streamlit
 rank-bm25
+beautifulsoup4

@@ -158,13 +158,18 @@ def extract_doi_from_text(text: str) -> Optional[str]:
     Extract DOI from paper text using regex patterns.
     Returns DOI string if found, None otherwise.
     """
-    # Common DOI patterns
+    # DOI valid characters: alphanumeric, dash, dot, slash, parentheses
+    doi_chars = r'[\w\-\.\(\)\/]+'
+
     doi_patterns = [
-        r'doi:\s*([10]\.\d{4,}/[^\s]+)',  # doi: 10.xxxx/xxxxx
-        r'DOI:\s*([10]\.\d{4,}/[^\s]+)',  # DOI: 10.xxxx/xxxxx
-        r'https?://doi\.org/([10]\.\d{4,}/[^\s]+)',  # https://doi.org/10.xxxx/xxxxx
-        r'https?://dx\.doi\.org/([10]\.\d{4,}/[^\s]+)',  # https://dx.doi.org/10.xxxx/xxxxx
-        r'\b([10]\.\d{4,}/[^\s]+)\b',  # Bare DOI: 10.xxxx/xxxxx
+        # Match DOI in URLs (handles markdown links)
+        rf'https?://doi\.org/(10\.\d{{4,}}/{doi_chars})',
+        rf'https?://dx\.doi\.org/(10\.\d{{4,}}/{doi_chars})',
+        # Match DOI with label
+        rf'doi:\s*(10\.\d{{4,}}/{doi_chars})',
+        rf'DOI:\s*(10\.\d{{4,}}/{doi_chars})',
+        # Match bare DOI
+        rf'\b(10\.\d{{4,}}/{doi_chars})\b',
     ]
 
     for pattern in doi_patterns:
@@ -172,7 +177,7 @@ def extract_doi_from_text(text: str) -> Optional[str]:
         if match:
             doi = match.group(1)
             # Clean up DOI (remove trailing punctuation)
-            doi = re.sub(r'[.,;:\s]+$', '', doi)
+            doi = re.sub(r'[.,;:\s\)]+$', '', doi)
             return doi
 
     return None
@@ -307,6 +312,7 @@ def extract_paper_metadata(pages: list[dict], filename: str, api_key: str) -> di
         'authors': [],
         'year': '',
         'journal': '',
+        'doi': '',
         'chemistries': [],
         'topics': [],
         'application': 'general',
@@ -319,6 +325,7 @@ def extract_paper_metadata(pages: list[dict], filename: str, api_key: str) -> di
 
     if doi:
         print(f"    Found DOI: {doi}")
+        metadata['doi'] = doi  # Always save DOI if found
         print(f"    Querying CrossRef API...")
         crossref_data = query_crossref_api(doi)
 
@@ -718,6 +725,7 @@ def ingest_papers():
             meta['authors'] = ';'.join(pm.get('authors', []))  # Semicolon-separated for "Last, First" format
             meta['year'] = pm.get('year', '')
             meta['journal'] = pm.get('journal', '')
+            meta['doi'] = pm.get('doi', '')
             meta['chemistries'] = ','.join(pm.get('chemistries', []))
             meta['topics'] = ','.join(pm.get('topics', []))
             meta['application'] = pm.get('application', 'general')
@@ -727,6 +735,7 @@ def ingest_papers():
             meta['authors'] = ''
             meta['year'] = ''
             meta['journal'] = ''
+            meta['doi'] = ''
             meta['chemistries'] = ''
             meta['topics'] = ''
             meta['application'] = 'general'
