@@ -47,7 +47,7 @@ def mark_as_unread(filename: str):
     cursor = conn.cursor()
     cursor.execute(
         "INSERT OR REPLACE INTO read_status (filename, is_read, marked_date) VALUES (?, 0, NULL)",
-        (filename, 0, None)
+        (filename,)
     )
     conn.commit()
     conn.close()
