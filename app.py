@@ -74,26 +74,31 @@ def load_theme_preference():
     return 'light'
 
 
-def save_theme_preference(theme: str):
-    """Save theme preference to settings file."""
+def load_settings() -> dict:
+    """Load settings from settings file."""
     settings_file = Path("data/settings.json")
-    settings_file.parent.mkdir(parents=True, exist_ok=True)
-
-    # Load existing settings
-    settings = {}
     if settings_file.exists():
         try:
             with open(settings_file, 'r') as f:
-                settings = json.load(f)
+                return json.load(f)
         except:
             pass
+    return {}
 
-    # Update theme
-    settings['theme'] = theme
 
-    # Save
+def save_settings(settings: dict):
+    """Save settings to settings file."""
+    settings_file = Path("data/settings.json")
+    settings_file.parent.mkdir(parents=True, exist_ok=True)
     with open(settings_file, 'w') as f:
         json.dump(settings, f, indent=2)
+
+
+def save_theme_preference(theme: str):
+    """Save theme preference to settings file."""
+    settings = load_settings()
+    settings['theme'] = theme
+    save_settings(settings)
 
 
 def get_api_key():
@@ -382,7 +387,7 @@ def main():
         st.metric("Chunks", total_chunks)
 
     # Main content - Tabs
-    tab1, tab2, tab3, tab4 = st.tabs(["Library", "Research", "History", "Settings"])
+    tab1, tab2, tab3, tab4, tab5 = st.tabs(["Library", "Research", "History", "Settings", "🗑️ Trash"])
 
     with tab1:
         st.session_state.active_tab = "Library"
@@ -774,162 +779,7 @@ def main():
                         st.toast("Notes saved!", icon="✅")
 
                 st.divider()
-
-                # REFERENCES SECTION
-                references = details.get('references', [])
-                if references:
-                    with st.expander(f"📚 References ({len(references)})", expanded=False):
-                        st.caption("Papers cited by this work")
-
-                        # Get all DOIs in the library for highlighting
-                        library_dois = {p.get('doi', '').lower() for p in papers if p.get('doi')}
-
-                        # Filter references: must have both title AND author
-                        valid_refs = []
-                        hidden_refs = []
-                        for ref in references:
-                            has_title = bool(ref.get('article-title', '').strip())
-                            has_author = bool(ref.get('author', '').strip())
-                            if has_title and has_author:
-                                valid_refs.append(ref)
-                            else:
-                                hidden_refs.append(ref)
-
-                        # Count missing valid references (not in library)
-                        missing_refs = [ref for ref in valid_refs if not (ref.get('DOI', '').lower() in library_dois)]
-
-                        # Show count info
-                        if hidden_refs:
-                            st.caption(f"Showing {len(valid_refs)} of {len(references)} references ({len(hidden_refs)} hidden due to incomplete data)")
-                        else:
-                            st.caption(f"Showing all {len(valid_refs)} references")
-
-                        # Add All Missing button
-                        if missing_refs:
-                            col_btn, col_info = st.columns([1, 3])
-                            with col_btn:
-                                if st.button(f"➕ Add All Missing ({len(missing_refs)})", use_container_width=True):
-                                    progress_bar = st.progress(0)
-                                    success_count = 0
-
-                                    for idx, ref in enumerate(missing_refs):
-                                        result = import_reference(ref)
-                                        if result['success']:
-                                            success_count += 1
-                                        progress_bar.progress((idx + 1) / len(missing_refs))
-
-                                    st.toast(f"✅ Added {success_count} of {len(missing_refs)} references", icon="✅")
-                                    st.rerun()
-                            with col_info:
-                                st.caption(f"{len(missing_refs)} references not in your library")
-
-                            st.divider()
-
-                        # Display each valid reference with add button
-                        for i, ref in enumerate(valid_refs, 1):
-                            # Format reference
-                            ref_parts = []
-
-                            # Authors
-                            if ref.get('author'):
-                                ref_parts.append(ref['author'])
-
-                            # Year
-                            if ref.get('year'):
-                                ref_parts.append(f"({ref['year']})")
-
-                            # Title
-                            title = ref.get('article-title', '')
-                            if title:
-                                ref_parts.append(f'"{title}"')
-
-                            # Journal
-                            journal = ref.get('journal-title', '')
-                            if journal:
-                                journal_str = journal
-                                if ref.get('volume'):
-                                    journal_str += f", {ref['volume']}"
-                                ref_parts.append(journal_str)
-
-                            # Format the citation
-                            citation = '. '.join(ref_parts) if ref_parts else f"Reference {i}"
-                            if not citation.endswith('.'):
-                                citation += '.'
-
-                            # Check if this paper is in library
-                            ref_doi = ref.get('DOI', '').lower()
-                            in_library = ref_doi and ref_doi in library_dois
-
-                            # Create columns for citation and button
-                            col_cite, col_action = st.columns([5, 1])
-
-                            with col_cite:
-                                # Display with optional DOI link
-                                if in_library:
-                                    citation_display = f"**{citation}** 📚"  # Bold + library icon
-                                else:
-                                    citation_display = citation
-
-                                if ref.get('DOI'):
-                                    doi_url = f"https://doi.org/{ref['DOI']}"
-                                    st.markdown(f"{i}. {citation_display} [DOI]({doi_url})")
-                                else:
-                                    st.markdown(f"{i}. {citation_display}")
-
-                            with col_action:
-                                if in_library:
-                                    # Show checkmark if already in library
-                                    st.caption("✓ In Library")
-                                else:
-                                    # Show add button
-                                    if st.button("➕", key=f"add_ref_{paper_filename}_{i}", help="Add to library"):
-                                        try:
-                                            with st.spinner("Adding..."):
-                                                result = import_reference(ref)
-                                                if result['success']:
-                                                    ref_title = title[:40] + "..." if len(title) > 40 else title
-                                                    st.toast(f"✅ Added: {ref_title}", icon="✅")
-                                                    st.rerun()
-                                                else:
-                                                    st.toast(f"❌ {result['message']}", icon="❌")
-                                        except Exception as e:
-                                            st.error(f"Error adding reference: {str(e)}")
-                                            import traceback
-                                            st.code(traceback.format_exc())
-
-                        # Show hidden references toggle
-                        if hidden_refs:
-                            st.divider()
-                            show_hidden = st.checkbox(
-                                f"Show hidden references ({len(hidden_refs)})",
-                                key=f"show_hidden_{paper_filename}",
-                                help="Show references with incomplete data (missing title or author)"
-                            )
-
-                            if show_hidden:
-                                st.caption("**Hidden references** (incomplete data):")
-                                for i, ref in enumerate(hidden_refs, 1):
-                                    # Format what we have
-                                    parts = []
-                                    if ref.get('author'):
-                                        parts.append(ref['author'])
-                                    if ref.get('year'):
-                                        parts.append(f"({ref['year']})")
-                                    if ref.get('article-title'):
-                                        parts.append(f'"{ref["article-title"]}"')
-                                    if ref.get('journal-title'):
-                                        parts.append(ref['journal-title'])
-
-                                    display = '. '.join(parts) if parts else "Incomplete reference data"
-                                    st.caption(f"{i}. {display}")
-
-                        st.divider()
-                        st.caption("**📚** = Paper is in your library  |  **➕** = Add to library")
-                else:
-                    with st.expander("📚 References", expanded=False):
-                        st.caption("_No references found for this paper._")
-
-                st.divider()
+                # TODO: References table — revisit HTML rendering (style tag issue with st.markdown)
 
                 # PDF UPLOAD (if no PDF exists)
                 if not rag.check_pdf_exists(paper_filename):
@@ -1150,10 +1000,20 @@ def main():
                     'DOI': doi_display,
                     'Read': read_statuses.get(paper['filename'], False),
                     '_filename': paper['filename'],
-                    '_doi_url': f"https://doi.org/{doi}" if doi else ''
+                    '_doi_url': f"https://doi.org/{doi}" if doi else '',
+                    '_paper_title': title  # For delete confirmation
                 })
 
             df = pd.DataFrame(df_data)
+
+            # Action buttons (Delete and View)
+            if len(df) > 0:
+                st.caption("💡 **Tip:** Check boxes next to papers, then use buttons below")
+                btn_col1, btn_col2, spacer_col = st.columns([1, 1, 3])
+                with btn_col1:
+                    delete_button = st.button("🗑️ Delete Selected", type="secondary", use_container_width=True)
+                with btn_col2:
+                    view_button = st.button("👁️ View Selected", type="primary", use_container_width=True)
 
             # Configure AG Grid with flex sizing for full-width layout
             gb = GridOptionsBuilder.from_dataframe(df)
@@ -1405,9 +1265,11 @@ def main():
             # Hide internal columns
             gb.configure_column("_filename", hide=True)
             gb.configure_column("_doi_url", hide=True)
+            gb.configure_column("_paper_title", hide=True)
 
             # Grid options - configured for full-width with virtualization for large datasets
-            gb.configure_selection(selection_mode='single', use_checkbox=False)
+            # Enable multi-select with checkboxes for delete functionality
+            gb.configure_selection(selection_mode='multiple', use_checkbox=True, header_checkbox=True)
             gb.configure_grid_options(
                 headerHeight=40,
                 suppressRowHoverHighlight=False,
@@ -1418,6 +1280,8 @@ def main():
                 suppressHorizontalScroll=True,  # Disable horizontal scrolling - table fills width
                 suppressColumnVirtualisation=False,  # Enable column virtualization
                 suppressRowVirtualisation=False,  # Enable row virtualization for performance with many rows
+                suppressRowClickSelection=True,  # Only checkboxes select rows, not row clicks
+                rowSelection='multiple',  # Enable multi-row selection
             )
 
             grid_options = gb.build()
@@ -1569,13 +1433,99 @@ def main():
                 reload_data=False  # Improve performance by not reloading data unnecessarily
             )
 
-            # Handle row selection for detail view (clicking row or edit icon opens detail)
-            if grid_response['selected_rows'] is not None and len(grid_response['selected_rows']) > 0:
+            # Handle delete button click
+            if delete_button and grid_response['selected_rows'] is not None and len(grid_response['selected_rows']) > 0:
                 selected_rows_df = pd.DataFrame(grid_response['selected_rows'])
-                if len(selected_rows_df) > 0:
+
+                # Check if user has disabled confirmation dialogs
+                settings = load_settings()
+                skip_delete_confirmation = settings.get('skip_delete_confirmation', False)
+
+                if skip_delete_confirmation:
+                    # Delete immediately without confirmation
+                    success_count = 0
+                    for _, row in selected_rows_df.iterrows():
+                        result = soft_delete_paper(row['_filename'])
+                        if result['success']:
+                            success_count += 1
+
+                    st.toast(f"🗑️ Moved {success_count} paper(s) to trash", icon="✅")
+                    st.rerun()
+                else:
+                    # Store papers to delete in session state and show dialog
+                    st.session_state.papers_to_delete = selected_rows_df
+                    st.session_state.show_delete_dialog = True
+                    st.rerun()
+
+            # Show delete confirmation dialog
+            if st.session_state.get('show_delete_dialog', False) and 'papers_to_delete' in st.session_state:
+                @st.dialog("⚠️ Confirm Delete")
+                def confirm_delete_dialog():
+                    papers_df = st.session_state.papers_to_delete
+                    paper_titles = [row['_paper_title'] for _, row in papers_df.iterrows()]
+                    num_papers = len(paper_titles)
+
+                    st.write(f"Are you sure you want to delete **{num_papers} paper(s)**?")
+                    st.write("")
+                    st.write("**Papers to be deleted:**")
+                    for title in paper_titles[:5]:  # Show first 5
+                        st.write(f"• {title}")
+                    if num_papers > 5:
+                        st.write(f"_... and {num_papers - 5} more_")
+
+                    st.write("")
+
+                    # Don't ask again checkbox
+                    dont_ask = st.checkbox("Don't ask again (skip confirmation in the future)", key="dont_ask_delete")
+
+                    st.write("")
+                    col1, col2 = st.columns(2)
+
+                    with col1:
+                        if st.button("✓ Confirm Delete", type="primary", use_container_width=True):
+                            # Save preference if checkbox is checked
+                            if dont_ask:
+                                settings = load_settings()
+                                settings['skip_delete_confirmation'] = True
+                                save_settings(settings)
+
+                            # Delete the papers
+                            success_count = 0
+                            for _, row in papers_df.iterrows():
+                                result = soft_delete_paper(row['_filename'])
+                                if result['success']:
+                                    success_count += 1
+
+                            # Clear session state
+                            st.session_state.show_delete_dialog = False
+                            del st.session_state.papers_to_delete
+
+                            st.toast(f"🗑️ Moved {success_count} paper(s) to trash", icon="✅")
+                            st.rerun()
+
+                    with col2:
+                        if st.button("✗ Cancel", use_container_width=True):
+                            # Clear session state and close dialog
+                            st.session_state.show_delete_dialog = False
+                            if 'papers_to_delete' in st.session_state:
+                                del st.session_state.papers_to_delete
+                            st.rerun()
+
+                confirm_delete_dialog()
+
+            # Handle view button click
+            if view_button and grid_response['selected_rows'] is not None and len(grid_response['selected_rows']) > 0:
+                selected_rows_df = pd.DataFrame(grid_response['selected_rows'])
+
+                if len(selected_rows_df) == 1:
+                    # Exactly one paper selected - open detail page
                     selected_row = selected_rows_df.iloc[0]
                     st.session_state.selected_paper = selected_row['_filename']
                     st.rerun()
+                elif len(selected_rows_df) > 1:
+                    st.warning(f"⚠️ Please select exactly 1 paper to view. You have {len(selected_rows_df)} selected.")
+                else:
+                    st.warning("⚠️ No paper selected. Please check a box next to a paper first.")
 
             # Handle read status changes
             if grid_response['data'] is not None:
@@ -1939,6 +1889,26 @@ def main():
 
         st.divider()
 
+        # Delete Confirmation Settings
+        st.markdown("#### Delete Confirmation")
+        st.caption("Control whether to show confirmation dialog when deleting papers.")
+
+        settings = load_settings()
+        skip_confirmation = settings.get('skip_delete_confirmation', False)
+
+        if skip_confirmation:
+            st.info("✓ Delete confirmation is currently **disabled**. Papers will be deleted immediately.")
+            if st.button("Enable Delete Confirmation", use_container_width=True):
+                settings['skip_delete_confirmation'] = False
+                save_settings(settings)
+                st.success("Delete confirmation enabled!")
+                st.rerun()
+        else:
+            st.info("✓ Delete confirmation is currently **enabled**. You'll see a popup before deleting.")
+            st.caption("You can disable it by checking 'Don't ask again' in the delete confirmation dialog.")
+
+        st.divider()
+
         # About section
         st.markdown("#### About")
         st.markdown("""
@@ -1953,6 +1923,110 @@ def main():
 
         For more information, see the documentation files in the project directory.
         """)
+
+    with tab5:
+        st.session_state.active_tab = "Trash"
+
+        st.markdown("### 🗑️ Trash")
+        st.caption("Papers moved to trash. Restore them or permanently delete after review.")
+
+        # Get trash papers
+        trash_papers = get_trash_papers()
+
+        if len(trash_papers) == 0:
+            st.info("🎉 Trash is empty!")
+        else:
+            st.caption(f"**{len(trash_papers)} paper(s) in trash**")
+
+            # Empty Trash button
+            col1, col2 = st.columns([1, 3])
+            with col1:
+                if st.button("🗑️ Empty Trash", type="secondary", use_container_width=True):
+                    if 'confirm_empty_trash' not in st.session_state:
+                        st.session_state.confirm_empty_trash = False
+
+                    if st.session_state.confirm_empty_trash:
+                        # Permanently delete all trash papers
+                        success_count = 0
+                        for paper in trash_papers:
+                            result = permanently_delete_paper(paper['filename'])
+                            if result['success']:
+                                success_count += 1
+
+                        st.session_state.confirm_empty_trash = False
+                        st.toast(f"🗑️ Permanently deleted {success_count} paper(s)", icon="✅")
+                        st.rerun()
+                    else:
+                        st.session_state.confirm_empty_trash = True
+                        st.warning("⚠️ Click again to confirm. This will permanently delete all trash papers.")
+
+            with col2:
+                st.caption("Permanently delete all papers in trash")
+
+            st.divider()
+
+            # Display trash papers
+            for paper in trash_papers:
+                with st.expander(f"📄 {paper['title']}", expanded=False):
+                    # Paper details
+                    col_info, col_actions = st.columns([3, 1])
+
+                    with col_info:
+                        if paper['authors']:
+                            if isinstance(paper['authors'], list):
+                                authors_str = '; '.join(paper['authors'])
+                            else:
+                                authors_str = paper['authors']
+                            st.caption(f"**Authors:** {authors_str}")
+
+                        if paper['year']:
+                            st.caption(f"**Year:** {paper['year']}")
+
+                        if paper['journal']:
+                            st.caption(f"**Journal:** {paper['journal']}")
+
+                        if paper['deleted_at']:
+                            st.caption(f"**Deleted:** {paper['deleted_at']}")
+
+                    with col_actions:
+                        # Restore button
+                        if st.button("♻️ Restore", key=f"restore_{paper['filename']}", use_container_width=True):
+                            result = restore_paper(paper['filename'])
+                            if result['success']:
+                                st.toast(result['message'], icon="✅")
+                                st.rerun()
+                            else:
+                                st.error(result['message'])
+
+                        # Permanent delete button
+                        if st.button("🗑️ Delete Forever", key=f"delete_forever_{paper['filename']}", type="secondary", use_container_width=True):
+                            # Confirmation
+                            confirm_key = f"confirm_delete_forever_{paper['filename']}"
+                            if st.session_state.get(confirm_key, False):
+                                result = permanently_delete_paper(paper['filename'])
+                                if result['success']:
+                                    st.toast(result['message'], icon="✅")
+                                    st.session_state[confirm_key] = False
+                                    st.rerun()
+                                else:
+                                    st.error(result['message'])
+                            else:
+                                st.session_state[confirm_key] = True
+                                st.warning("⚠️ Click again to confirm permanent deletion")
+
+            st.divider()
+
+            # Auto-cleanup info
+            st.caption("💡 **Tip:** Papers are automatically deleted permanently after 30 days in trash.")
+
+            # Manual trigger for auto-cleanup
+            if st.button("🧹 Run Auto-Cleanup Now (delete papers >30 days old)", use_container_width=False):
+                result = auto_cleanup_old_trash(days=30)
+                if result['deleted_count'] > 0:
+                    st.toast(f"🧹 Cleaned up {result['deleted_count']} old paper(s)", icon="✅")
+                    st.rerun()
+                else:
+                    st.info("No papers older than 30 days found in trash")
 
 
 def import_reference(ref_data: dict) -> Dict[str, Any]:
@@ -2748,6 +2822,245 @@ def display_query_card(query: Dict):
             query_history.delete_query(query['id'])
             st.toast("Query deleted", icon="🗑️")
             st.rerun()
+
+
+# ============================================================================
+# TRASH MANAGEMENT FUNCTIONS
+# ============================================================================
+
+def soft_delete_paper(filename: str) -> Dict[str, Any]:
+    """
+    Soft delete a paper by marking it as deleted and moving PDF to trash.
+
+    Args:
+        filename: Paper filename
+
+    Returns:
+        Dict with success status and message
+    """
+    import shutil
+    from datetime import datetime
+
+    try:
+        # Load metadata
+        metadata_file = Path("data/metadata.json")
+        if not metadata_file.exists():
+            return {'success': False, 'message': 'Metadata file not found'}
+
+        with open(metadata_file, 'r', encoding='utf-8') as f:
+            all_metadata = json.load(f)
+
+        if filename not in all_metadata:
+            return {'success': False, 'message': 'Paper not found in metadata'}
+
+        # Mark as deleted in metadata
+        all_metadata[filename]['deleted_at'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+        # Save updated metadata
+        with open(metadata_file, 'w', encoding='utf-8') as f:
+            json.dump(all_metadata, f, indent=2, ensure_ascii=False)
+
+        # Move PDF to trash folder if it exists
+        pdf_path = Path("papers") / filename
+        if pdf_path.exists():
+            trash_dir = Path("papers/trash")
+            trash_dir.mkdir(parents=True, exist_ok=True)
+
+            trash_path = trash_dir / filename
+            shutil.move(str(pdf_path), str(trash_path))
+
+        # Remove from ChromaDB
+        try:
+            db = rag.DatabaseClient()
+            db.collection.delete(where={"filename": filename})
+        except Exception as e:
+            # Non-fatal if ChromaDB deletion fails
+            pass
+
+        return {
+            'success': True,
+            'message': f'Moved "{all_metadata[filename].get("title", filename)}" to trash'
+        }
+
+    except Exception as e:
+        return {'success': False, 'message': f'Error: {str(e)}'}
+
+
+def restore_paper(filename: str) -> Dict[str, Any]:
+    """
+    Restore a paper from trash.
+
+    Args:
+        filename: Paper filename
+
+    Returns:
+        Dict with success status and message
+    """
+    import shutil
+
+    try:
+        # Load metadata
+        metadata_file = Path("data/metadata.json")
+        if not metadata_file.exists():
+            return {'success': False, 'message': 'Metadata file not found'}
+
+        with open(metadata_file, 'r', encoding='utf-8') as f:
+            all_metadata = json.load(f)
+
+        if filename not in all_metadata:
+            return {'success': False, 'message': 'Paper not found in metadata'}
+
+        # Remove deleted_at timestamp
+        if 'deleted_at' in all_metadata[filename]:
+            del all_metadata[filename]['deleted_at']
+
+        # Save updated metadata
+        with open(metadata_file, 'w', encoding='utf-8') as f:
+            json.dump(all_metadata, f, indent=2, ensure_ascii=False)
+
+        # Move PDF back from trash if it exists
+        trash_path = Path("papers/trash") / filename
+        if trash_path.exists():
+            pdf_path = Path("papers") / filename
+            pdf_path.parent.mkdir(parents=True, exist_ok=True)
+            shutil.move(str(trash_path), str(pdf_path))
+
+        # Note: PDF will be re-indexed on next ingestion run
+        # Or we could trigger re-ingestion here if needed
+
+        return {
+            'success': True,
+            'message': f'Restored "{all_metadata[filename].get("title", filename)}" from trash'
+        }
+
+    except Exception as e:
+        return {'success': False, 'message': f'Error: {str(e)}'}
+
+
+def permanently_delete_paper(filename: str) -> Dict[str, Any]:
+    """
+    Permanently delete a paper (remove metadata, PDF, and ChromaDB entries).
+
+    Args:
+        filename: Paper filename
+
+    Returns:
+        Dict with success status and message
+    """
+    try:
+        # Load metadata
+        metadata_file = Path("data/metadata.json")
+        if not metadata_file.exists():
+            return {'success': False, 'message': 'Metadata file not found'}
+
+        with open(metadata_file, 'r', encoding='utf-8') as f:
+            all_metadata = json.load(f)
+
+        if filename not in all_metadata:
+            return {'success': False, 'message': 'Paper not found in metadata'}
+
+        title = all_metadata[filename].get('title', filename)
+
+        # Remove from metadata
+        del all_metadata[filename]
+
+        # Save updated metadata
+        with open(metadata_file, 'w', encoding='utf-8') as f:
+            json.dump(all_metadata, f, indent=2, ensure_ascii=False)
+
+        # Delete PDF from trash
+        trash_path = Path("papers/trash") / filename
+        if trash_path.exists():
+            trash_path.unlink()
+
+        # Delete PDF from papers (if somehow still there)
+        pdf_path = Path("papers") / filename
+        if pdf_path.exists():
+            pdf_path.unlink()
+
+        # Remove from ChromaDB
+        try:
+            db = rag.DatabaseClient()
+            db.collection.delete(where={"filename": filename})
+        except Exception as e:
+            # Non-fatal if ChromaDB deletion fails
+            pass
+
+        # Delete notes file if exists
+        notes_file = Path(f"data/notes/{filename}.txt")
+        if notes_file.exists():
+            notes_file.unlink()
+
+        return {
+            'success': True,
+            'message': f'Permanently deleted "{title}"'
+        }
+
+    except Exception as e:
+        return {'success': False, 'message': f'Error: {str(e)}'}
+
+
+def get_trash_papers() -> list:
+    """
+    Get list of papers in trash.
+
+    Returns:
+        List of paper metadata dicts for trashed papers
+    """
+    metadata_file = Path("data/metadata.json")
+    if not metadata_file.exists():
+        return []
+
+    with open(metadata_file, 'r', encoding='utf-8') as f:
+        all_metadata = json.load(f)
+
+    # Filter for deleted papers
+    trash_papers = []
+    for filename, meta in all_metadata.items():
+        if meta.get('deleted_at'):
+            trash_papers.append({
+                'filename': filename,
+                'title': meta.get('title', filename),
+                'authors': meta.get('authors', []),
+                'year': meta.get('year', ''),
+                'journal': meta.get('journal', ''),
+                'deleted_at': meta.get('deleted_at', '')
+            })
+
+    # Sort by deleted_at (most recent first)
+    trash_papers.sort(key=lambda x: x['deleted_at'], reverse=True)
+
+    return trash_papers
+
+
+def auto_cleanup_old_trash(days: int = 30) -> Dict[str, Any]:
+    """
+    Automatically delete papers that have been in trash for more than specified days.
+
+    Args:
+        days: Number of days after which to permanently delete
+
+    Returns:
+        Dict with count of deleted papers
+    """
+    from datetime import datetime, timedelta
+
+    trash_papers = get_trash_papers()
+    cutoff_date = datetime.now() - timedelta(days=days)
+
+    deleted_count = 0
+    for paper in trash_papers:
+        deleted_at = datetime.strptime(paper['deleted_at'], "%Y-%m-%d %H:%M:%S")
+        if deleted_at < cutoff_date:
+            result = permanently_delete_paper(paper['filename'])
+            if result['success']:
+                deleted_count += 1
+
+    return {
+        'success': True,
+        'deleted_count': deleted_count,
+        'message': f'Auto-cleaned {deleted_count} papers older than {days} days'
+    }
 
 
 if __name__ == "__main__":

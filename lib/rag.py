@@ -162,6 +162,9 @@ def get_paper_library() -> list[dict]:
                         'date_added': meta.get('date_added', '')
                     }
 
+            # Filter out deleted papers (papers with deleted_at field)
+            papers = {k: v for k, v in papers.items() if not full_metadata.get(k, {}).get('deleted_at')}
+
     return list(papers.values())
 
 
@@ -211,33 +214,68 @@ def get_paper_details(filename: str) -> Optional[dict]:
         include=["documents", "metadatas"]
     )
 
-    if not results['documents']:
-        return None
+    # Check if paper exists in ChromaDB
+    if results['documents']:
+        # Paper has chunks in ChromaDB - get preview chunks
+        first_chunks = []
+        for i, (doc, meta) in enumerate(zip(results['documents'][:3], results['metadatas'][:3])):
+            first_chunks.append({
+                'page': meta['page_num'],
+                'text': doc
+            })
 
-    # Get first page or first few chunks
-    first_chunks = []
-    for i, (doc, meta) in enumerate(zip(results['documents'][:3], results['metadatas'][:3])):
-        first_chunks.append({
-            'page': meta['page_num'],
-            'text': doc
-        })
+        details = {
+            'filename': filename,
+            'title': results['metadatas'][0].get('title', filename),
+            'authors': results['metadatas'][0].get('authors', '').split(';'),
+            'year': results['metadatas'][0].get('year', ''),
+            'journal': results['metadatas'][0].get('journal', ''),
+            'doi': results['metadatas'][0].get('doi', ''),
+            'author_keywords': results['metadatas'][0].get('author_keywords', '').split(';') if results['metadatas'][0].get('author_keywords') else [],
+            'chemistries': results['metadatas'][0].get('chemistries', '').split(','),
+            'topics': results['metadatas'][0].get('topics', '').split(','),
+            'application': results['metadatas'][0].get('application', 'general'),
+            'paper_type': results['metadatas'][0].get('paper_type', 'experimental'),
+            'preview_chunks': first_chunks
+        }
+    else:
+        # Paper not in ChromaDB - might be metadata-only
+        # Try loading from metadata.json
+        metadata_file = Path("data/metadata.json")
+        if not metadata_file.exists():
+            return None
 
-    details = {
-        'filename': filename,
-        'title': results['metadatas'][0].get('title', filename),
-        'authors': results['metadatas'][0].get('authors', '').split(';'),
-        'year': results['metadatas'][0].get('year', ''),
-        'journal': results['metadatas'][0].get('journal', ''),
-        'doi': results['metadatas'][0].get('doi', ''),
-        'author_keywords': results['metadatas'][0].get('author_keywords', '').split(';') if results['metadatas'][0].get('author_keywords') else [],
-        'chemistries': results['metadatas'][0].get('chemistries', '').split(','),
-        'topics': results['metadatas'][0].get('topics', '').split(','),
-        'application': results['metadatas'][0].get('application', 'general'),
-        'paper_type': results['metadatas'][0].get('paper_type', 'experimental'),
-        'preview_chunks': first_chunks
-    }
+        with open(metadata_file, 'r', encoding='utf-8') as f:
+            full_metadata = json.load(f)
+            if filename not in full_metadata:
+                return None
 
-    # Load additional fields from metadata.json (references, date_added, abstract, etc.)
+            paper_meta = full_metadata[filename]
+
+            # Build details from metadata.json
+            details = {
+                'filename': filename,
+                'title': paper_meta.get('title', filename.replace('.pdf', '')),
+                'authors': paper_meta.get('authors', []) if isinstance(paper_meta.get('authors'), list) else [paper_meta.get('authors', '')],
+                'year': paper_meta.get('year', ''),
+                'journal': paper_meta.get('journal', ''),
+                'doi': paper_meta.get('doi', ''),
+                'author_keywords': paper_meta.get('author_keywords', []),
+                'chemistries': paper_meta.get('chemistries', []),
+                'topics': paper_meta.get('topics', []),
+                'application': paper_meta.get('application', 'general'),
+                'paper_type': paper_meta.get('paper_type', 'reference'),
+                'preview_chunks': [],  # No chunks for metadata-only papers
+                'references': paper_meta.get('references', []),
+                'date_added': paper_meta.get('date_added', ''),
+                'abstract': paper_meta.get('abstract', ''),
+                'volume': paper_meta.get('volume', ''),
+                'issue': paper_meta.get('issue', ''),
+                'pages': paper_meta.get('pages', '')
+            }
+            return details
+
+    # Load additional fields from metadata.json for papers with chunks
     metadata_file = Path("data/metadata.json")
     if metadata_file.exists():
         with open(metadata_file, 'r', encoding='utf-8') as f:
