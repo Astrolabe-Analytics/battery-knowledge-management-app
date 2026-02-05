@@ -159,6 +159,20 @@ def query_crossref_for_metadata(doi: str) -> dict:
             if container_titles:
                 metadata['journal'] = container_titles[0]
 
+            # Abstract
+            metadata['abstract'] = message.get('abstract', '')
+
+            # Author keywords
+            metadata['author_keywords'] = message.get('keywords', [])
+
+            # Volume, Issue, Pages
+            metadata['volume'] = message.get('volume', '')
+            metadata['issue'] = message.get('issue', '')
+            metadata['pages'] = message.get('page', '')
+
+            # References
+            metadata['references'] = message.get('reference', [])
+
             return metadata
         else:
             return {}
@@ -194,7 +208,16 @@ def save_metadata_only_paper(doi: str, crossref_metadata: dict) -> str:
         'topics': [],
         'application': 'general',
         'paper_type': 'experimental',
-        'metadata_only': True
+        'metadata_only': True,
+        'date_added': datetime.now().isoformat(),
+        'abstract': crossref_metadata.get('abstract', ''),
+        'author_keywords': crossref_metadata.get('author_keywords', []),
+        'volume': crossref_metadata.get('volume', ''),
+        'issue': crossref_metadata.get('issue', ''),
+        'pages': crossref_metadata.get('pages', ''),
+        'source_url': '',
+        'notes': '',
+        'references': crossref_metadata.get('references', [])
     }
 
     with open(metadata_file, 'w', encoding='utf-8') as f:
@@ -229,7 +252,14 @@ def save_metadata_only_paper(doi: str, crossref_metadata: dict) -> str:
             'chemistries': '',
             'topics': '',
             'application': 'general',
-            'paper_type': 'experimental'
+            'paper_type': 'experimental',
+            'abstract': crossref_metadata.get('abstract', ''),
+            'author_keywords': ';'.join(crossref_metadata.get('author_keywords', [])),
+            'volume': crossref_metadata.get('volume', ''),
+            'issue': crossref_metadata.get('issue', ''),
+            'pages': crossref_metadata.get('pages', ''),
+            'date_added': datetime.now().isoformat(),
+            'source_url': ''
         }],
         ids=[doc_id]
     )

@@ -316,7 +316,16 @@ def extract_paper_metadata(pages: list[dict], filename: str, api_key: str) -> di
         'chemistries': [],
         'topics': [],
         'application': 'general',
-        'paper_type': 'experimental'
+        'paper_type': 'experimental',
+        'date_added': datetime.now().isoformat(),
+        'abstract': '',
+        'author_keywords': [],
+        'volume': '',
+        'issue': '',
+        'pages': '',
+        'source_url': '',
+        'notes': '',
+        'references': []
     }
 
     # STEP 1: Try to find DOI
@@ -336,6 +345,12 @@ def extract_paper_metadata(pages: list[dict], filename: str, api_key: str) -> di
             metadata['authors'] = crossref_data.get('authors', [])
             metadata['year'] = crossref_data.get('year', '')
             metadata['journal'] = crossref_data.get('journal', '')
+            metadata['abstract'] = crossref_data.get('abstract', '')
+            metadata['author_keywords'] = crossref_data.get('author_keywords', [])
+            metadata['volume'] = crossref_data.get('volume', '')
+            metadata['issue'] = crossref_data.get('issue', '')
+            metadata['pages'] = crossref_data.get('pages', '')
+            metadata['references'] = crossref_data.get('references', [])
         else:
             print(f"    ✗ CrossRef query failed, will use Claude")
 
@@ -388,7 +403,16 @@ def extract_paper_metadata(pages: list[dict], filename: str, api_key: str) -> di
             'chemistries': [],
             'topics': [],
             'application': 'general',
-            'paper_type': 'experimental'
+            'paper_type': 'experimental',
+            'date_added': datetime.now().isoformat(),
+            'abstract': '',
+            'author_keywords': [],
+            'volume': '',
+            'issue': '',
+            'pages': '',
+            'source_url': '',
+            'notes': '',
+            'references': []
         }
 
 
@@ -730,6 +754,13 @@ def ingest_papers():
             meta['topics'] = ','.join(pm.get('topics', []))
             meta['application'] = pm.get('application', 'general')
             meta['paper_type'] = pm.get('paper_type', 'experimental')
+            meta['abstract'] = pm.get('abstract', '')
+            meta['author_keywords'] = ';'.join(pm.get('author_keywords', []))
+            meta['volume'] = pm.get('volume', '')
+            meta['issue'] = pm.get('issue', '')
+            meta['pages'] = pm.get('pages', '')
+            meta['date_added'] = pm.get('date_added', '')
+            meta['source_url'] = pm.get('source_url', '')
         else:
             meta['title'] = ''
             meta['authors'] = ''
@@ -740,6 +771,13 @@ def ingest_papers():
             meta['topics'] = ''
             meta['application'] = 'general'
             meta['paper_type'] = 'experimental'
+            meta['abstract'] = ''
+            meta['author_keywords'] = ''
+            meta['volume'] = ''
+            meta['issue'] = ''
+            meta['pages'] = ''
+            meta['date_added'] = ''
+            meta['source_url'] = ''
 
         metadatas.append(meta)
 
