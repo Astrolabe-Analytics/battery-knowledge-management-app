@@ -810,6 +810,21 @@ def ingest_papers():
         print(f"  ERROR: Failed to store in ChromaDB: {e}")
         sys.exit(1)
 
+    # AUTO-BACKUP: Create backup after successful ingestion
+    if successful_count > 0:
+        print(f"\nCreating automatic backup...")
+        try:
+            from lib import backup as backup_module
+            result = backup_module.create_backup(include_logs=True)
+
+            if result['success']:
+                print(f"  ✓ Backup created: {result['size_mb']} MB ({result['file_count']} files)")
+                print(f"  Location: {result['backup_path']}")
+            else:
+                print(f"  ⚠ Backup failed: {result.get('error')}")
+        except Exception as e:
+            print(f"  ⚠ Backup failed: {e}")
+
     # Final summary
     print(f"\n{'='*60}")
     print("Ingestion Complete!")

@@ -59,3 +59,9 @@ Thumbs.db
 
 # Jupyter
 .ipynb_checkpoints/
+
+# Backup directory
+data_backups/
+
+# User notes
+data/notes/

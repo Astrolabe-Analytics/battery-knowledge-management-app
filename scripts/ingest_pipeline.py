@@ -972,6 +972,21 @@ Examples:
         stage_chunk(force=args.force, new_only=args.new_only)
         stage_metadata(force=args.force, new_only=args.new_only)
         stage_embed(force=args.force)
+
+        # AUTO-BACKUP: Create backup after full pipeline
+        print(f"\nCreating automatic backup...")
+        try:
+            from lib import backup as backup_module
+            result = backup_module.create_backup(include_logs=True)
+
+            if result['success']:
+                print(f"  ✓ Backup created: {result['size_mb']} MB")
+                print(f"  Location: {result['backup_path']}")
+            else:
+                print(f"  ⚠ Backup failed: {result.get('error')}")
+        except Exception as e:
+            print(f"  ⚠ Backup failed: {e}")
+
         print("\n" + "="*60)
         print("✓ PIPELINE COMPLETE!")
         print("="*60)

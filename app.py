@@ -376,27 +376,13 @@ def main():
 
     # Sidebar - Simplified and professional
     with st.sidebar:
-        st.subheader("Settings")
-
-        current_theme = st.session_state.theme
-        theme_label = "Dark Mode" if current_theme == "light" else "Light Mode"
-
-        if st.button(theme_label, use_container_width=True):
-            # Toggle theme
-            new_theme = "dark" if current_theme == "light" else "light"
-            st.session_state.theme = new_theme
-            save_theme_preference(new_theme)
-            st.rerun()
-
-        st.divider()
-
         # Quick stats
         st.subheader("Library Stats")
         st.metric("Papers", len(papers))
         st.metric("Chunks", total_chunks)
 
     # Main content - Tabs
-    tab1, tab2, tab3 = st.tabs(["Library", "Research", "History"])
+    tab1, tab2, tab3, tab4 = st.tabs(["Library", "Research", "History", "Settings"])
 
     with tab1:
         st.session_state.active_tab = "Library"
@@ -592,125 +578,220 @@ def main():
             details = rag.get_paper_details(paper_filename)
 
             if details:
-                # TOP SECTION: Title, authors, bibliographic info with Back button
-                col_main, col_back = st.columns([5, 1])
+                from pathlib import Path  # Ensure Path is available in this scope
+
+                # TOP BAR: Back button + Open PDF button
+                col_back, col_pdf = st.columns([1, 2])
                 with col_back:
                     if st.button("← Back to Library", use_container_width=True):
                         st.session_state.selected_paper = None
                         st.rerun()
 
-                # Large prominent title
-                display_title = clean_html_from_text(details.get('title', paper_filename.replace('.pdf', '')))
-                st.markdown(f"# {display_title}")
+                with col_pdf:
+                    if rag.check_pdf_exists(paper_filename):
+                        # Start PDF server (lazy initialization)
+                        from lib import pdf_server
+                        pdf_server.start_pdf_server()
 
-                # Authors
-                if details.get('authors') and details['authors'][0]:
-                    authors_str = '; '.join([a.strip() for a in details['authors'] if a.strip()])
-                    st.markdown(f"**{authors_str}**")
+                        # Get URL for the PDF
+                        pdf_url = pdf_server.get_pdf_url(paper_filename)
 
-                # Year · Journal · DOI on one line
-                info_parts = []
-                if details.get('year'):
-                    info_parts.append(str(details['year']))
-                if details.get('journal'):
-                    info_parts.append(details['journal'])
-
-                doi = details.get('doi', '')
-                if doi:
-                    info_parts.append(f"[{doi}](https://doi.org/{doi})")
-
-                if info_parts:
-                    st.markdown(" · ".join(info_parts))
+                        # Create button that opens PDF in new tab
+                        st.markdown(f"""
+                        <style>
+                        .pdf-open-button {{
+                            display: inline-block;
+                            width: 100%;
+                            padding: 0.5rem 0.75rem;
+                            background-color: #ff4b4b;
+                            color: white;
+                            text-align: center;
+                            text-decoration: none;
+                            border-radius: 0.5rem;
+                            font-weight: 600;
+                            font-size: 1rem;
+                            transition: background-color 0.2s;
+                        }}
+                        .pdf-open-button:hover {{
+                            background-color: #ff6b6b;
+                            text-decoration: none;
+                        }}
+                        </style>
+                        <a href="{pdf_url}" target="_blank" class="pdf-open-button">📄 Open PDF</a>
+                        """, unsafe_allow_html=True)
+                    else:
+                        st.button("📄 No PDF Available", use_container_width=True, disabled=True)
 
                 st.divider()
 
-                # TAGS SECTION: Display author keywords and AI-generated tags together
-                # Author keywords section
+                # TITLE
+                display_title = clean_html_from_text(details.get('title', paper_filename.replace('.pdf', '')))
+                st.markdown(f"## {display_title}")
+
+                # BIBLIOGRAPHIC INFO SECTION
+                st.markdown("### 📚 Bibliographic Information")
+
+                col1, col2 = st.columns(2)
+
+                with col1:
+                    # Authors
+                    if details.get('authors') and details['authors'][0]:
+                        authors_list = [a.strip() for a in details['authors'] if a.strip()]
+                        st.markdown("**Authors:**")
+                        for author in authors_list[:10]:  # Show up to 10 authors
+                            st.markdown(f"- {author}")
+                        if len(authors_list) > 10:
+                            st.caption(f"... and {len(authors_list) - 10} more")
+                    else:
+                        st.markdown("**Authors:** _Not available_")
+
+                    # Year
+                    if details.get('year'):
+                        st.markdown(f"**Year:** {details['year']}")
+
+                    # Paper Type
+                    if details.get('paper_type'):
+                        st.markdown(f"**Type:** {details['paper_type'].title()}")
+
+                with col2:
+                    # Journal
+                    if details.get('journal'):
+                        st.markdown(f"**Journal:** {details['journal']}")
+                    else:
+                        st.markdown("**Journal:** _Not available_")
+
+                    # DOI
+                    doi = details.get('doi', '')
+                    if doi:
+                        st.markdown(f"**DOI:** [{doi}](https://doi.org/{doi})")
+                    else:
+                        st.markdown("**DOI:** _Not available_")
+
+                    # Application
+                    if details.get('application'):
+                        st.markdown(f"**Application:** {details['application'].title()}")
+
+                st.divider()
+
+                # TAGS SECTION
+                st.markdown("### 🏷️ Tags")
+
+                # Author keywords
                 author_keywords = details.get('author_keywords', [])
-                if author_keywords:
-                    st.caption("**Author Keywords**")
+                if author_keywords and author_keywords[0]:
+                    st.markdown("**Author Keywords:**")
                     author_tags_html = []
                     for keyword in author_keywords:
                         if keyword:
                             author_tags_html.append(f'<span class="tag-pill tag-author-keyword">{keyword}</span>')
                     if author_tags_html:
-                        st.markdown('<div style="margin: 8px 0 16px 0;">' + ''.join(author_tags_html) + '</div>', unsafe_allow_html=True)
+                        st.markdown('<div style="margin: 8px 0;">' + ''.join(author_tags_html) + '</div>', unsafe_allow_html=True)
 
-                # AI-generated tags section
+                # AI-generated tags
+                ai_tags_exist = False
                 ai_tags_html = []
 
-                # Chemistry tags (AI-generated)
+                # Chemistry tags
                 if details.get('chemistries') and details['chemistries'][0]:
+                    ai_tags_exist = True
                     for chem in details['chemistries']:
                         if chem:
                             ai_tags_html.append(f'<span class="tag-pill tag-chemistry">{chem}</span>')
 
-                # Topic tags (AI-generated)
+                # Topic tags
                 if details.get('topics') and details['topics'][0]:
+                    ai_tags_exist = True
                     for topic in details['topics']:
                         if topic:
                             ai_tags_html.append(f'<span class="tag-pill tag-topic">{topic}</span>')
 
-                # Application tag
-                if details.get('application'):
-                    app = details['application'].title()
-                    ai_tags_html.append(f'<span class="tag-pill tag-application">{app}</span>')
-
-                # Paper type tag
-                if details.get('paper_type'):
-                    ptype = details['paper_type'].title()
-                    ai_tags_html.append(f'<span class="tag-pill tag-type">{ptype}</span>')
-
-                if ai_tags_html:
-                    st.caption("**AI-Generated Tags**")
+                if ai_tags_exist:
+                    st.markdown("**AI-Generated Tags:**")
                     st.markdown('<div style="margin: 8px 0;">' + ''.join(ai_tags_html) + '</div>', unsafe_allow_html=True)
 
+                if not author_keywords and not ai_tags_exist:
+                    st.caption("_No tags available_")
+
                 st.divider()
 
-                # ABSTRACT SECTION (only if available - otherwise skip)
-                # For now, we don't have abstracts extracted, so skip this section
-                # TODO: Add abstract extraction during ingestion
-
-                # PDF SECTION: Embed viewer or show upload option
-                if rag.check_pdf_exists(paper_filename):
-                    st.subheader("PDF Viewer")
-
-                    # Use streamlit-pdf-viewer component
-                    import streamlit_pdf_viewer as pdf_viewer
-                    pdf_path = rag.get_pdf_path(paper_filename)
-
-                    # Display PDF with the viewer component - full width
-                    pdf_viewer.pdf_viewer(str(pdf_path), height=1000)
+                # ABSTRACT SECTION (placeholder for now)
+                st.markdown("### 📄 Abstract")
+                if details.get('abstract'):
+                    st.markdown(details['abstract'])
                 else:
-                    st.warning("No PDF available for this paper")
-                    st.info("You can upload a PDF file to view it here")
-
-                    uploaded_pdf = st.file_uploader(
-                        "Upload PDF",
-                        type=['pdf'],
-                        key=f"upload_pdf_{paper_filename}"
-                    )
-
-                    if uploaded_pdf:
-                        # Save uploaded PDF
-                        papers_dir = Path("papers")
-                        papers_dir.mkdir(parents=True, exist_ok=True)
-                        pdf_path = papers_dir / paper_filename
-
-                        with open(pdf_path, 'wb') as f:
-                            f.write(uploaded_pdf.read())
-
-                        st.success("✅ PDF uploaded successfully!")
-                        st.info("Processing PDF... This may take a moment.")
-
-                        # TODO: Run ingestion pipeline on the uploaded PDF
-                        # For now, just reload the page
-                        time.sleep(1)
-                        st.rerun()
+                    st.caption("_Abstract not yet extracted. This will be added in a future update._")
 
                 st.divider()
 
-                # BOTTOM: Collapsed Edit Metadata section
+                # NOTES SECTION (editable)
+                st.markdown("### 📝 Notes")
+
+                # Load notes from a notes file (or session state)
+                notes_file = Path(f"data/notes/{paper_filename}.txt")
+                notes_file.parent.mkdir(parents=True, exist_ok=True)
+
+                current_notes = ""
+                if notes_file.exists():
+                    with open(notes_file, 'r', encoding='utf-8') as f:
+                        current_notes = f.read()
+
+                notes = st.text_area(
+                    "Your notes about this paper:",
+                    value=current_notes,
+                    height=200,
+                    key=f"notes_{paper_filename}",
+                    placeholder="Add your notes, thoughts, or important findings here..."
+                )
+
+                col_save, col_clear = st.columns([1, 4])
+                with col_save:
+                    if st.button("💾 Save Notes", use_container_width=True):
+                        with open(notes_file, 'w', encoding='utf-8') as f:
+                            f.write(notes)
+                        st.toast("Notes saved!", icon="✅")
+
+                st.divider()
+
+                # REFERENCES SECTION (placeholder for future)
+                with st.expander("📚 References & Citations", expanded=False):
+                    st.caption("_Reference extraction will be added in a future update._")
+                    st.caption("This section will show:")
+                    st.caption("- Papers cited by this work")
+                    st.caption("- Papers citing this work (from CrossRef)")
+                    st.caption("- Related papers in your library")
+
+                st.divider()
+
+                # PDF UPLOAD (if no PDF exists)
+                if not rag.check_pdf_exists(paper_filename):
+                    with st.expander("📤 Upload PDF", expanded=True):
+                        st.info("No PDF file found for this paper. Upload one to enable PDF viewing.")
+
+                        uploaded_pdf = st.file_uploader(
+                            "Upload PDF",
+                            type=['pdf'],
+                            key=f"upload_pdf_{paper_filename}"
+                        )
+
+                        if uploaded_pdf:
+                            # Save uploaded PDF
+                            papers_dir = Path("papers")
+                            papers_dir.mkdir(parents=True, exist_ok=True)
+                            pdf_path = papers_dir / paper_filename
+
+                            with open(pdf_path, 'wb') as f:
+                                f.write(uploaded_pdf.read())
+
+                            st.success("✅ PDF uploaded successfully!")
+                            st.info("Processing PDF... This may take a moment.")
+
+                            # TODO: Run ingestion pipeline on the uploaded PDF
+                            time.sleep(1)
+                            st.rerun()
+
+                st.divider()
+
+                # EDIT METADATA SECTION (at the bottom)
                 with st.expander("Edit Metadata", expanded=False):
                     current_doi = details.get('doi', '')
                     new_doi = st.text_input(
@@ -1559,6 +1640,112 @@ def main():
                     count = query_history.clear_all_history()
                     st.success(f"Deleted {count} queries from history")
                     st.rerun()
+
+    with tab4:
+        st.session_state.active_tab = "Settings"
+
+        st.markdown("### ⚙️ Application Settings")
+
+        # Theme Settings
+        st.markdown("#### Appearance")
+
+        current_theme = st.session_state.theme
+        theme_label = "🌙 Switch to Dark Mode" if current_theme == "light" else "☀️ Switch to Light Mode"
+
+        if st.button(theme_label, use_container_width=True, type="primary"):
+            # Toggle theme
+            new_theme = "dark" if current_theme == "light" else "light"
+            st.session_state.theme = new_theme
+            save_theme_preference(new_theme)
+            st.rerun()
+
+        st.caption(f"Current theme: **{current_theme.title()}**")
+
+        st.divider()
+
+        # Backup & Restore
+        st.markdown("#### Backup & Restore")
+        st.caption("Create backups of your database and restore from previous backups.")
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.markdown("**Create Backup**")
+            if st.button("📦 Create Backup", use_container_width=True):
+                with st.spinner("Creating backup..."):
+                    from lib import backup as backup_module
+                    result = backup_module.create_backup(include_logs=False)
+
+                    if result['success']:
+                        st.success(f"✓ Backup created!")
+                        st.caption(f"Size: {result['size_mb']} MB")
+                        st.caption(f"Files: {result['file_count']}")
+
+                        # Offer download
+                        with open(result['backup_path'], 'rb') as f:
+                            st.download_button(
+                                label="💾 Download Backup",
+                                data=f,
+                                file_name=Path(result['backup_path']).name,
+                                mime="application/zip",
+                                use_container_width=True
+                            )
+                    else:
+                        st.error(f"Backup failed: {result.get('error', 'Unknown error')}")
+
+        with col2:
+            st.markdown("**Restore from Backup**")
+            # Show existing backups
+            from lib import backup as backup_module
+            backups = backup_module.list_backups()
+
+            if backups:
+                backup_options = {f"{b['name']} ({b['size_mb']} MB)": b['path']
+                                  for b in backups}
+
+                selected = st.selectbox(
+                    "Select backup to restore:",
+                    options=list(backup_options.keys()),
+                    key="restore_backup_select",
+                    label_visibility="collapsed"
+                )
+
+                if st.button("♻️ Restore", type="secondary", use_container_width=True):
+                    backup_path = Path(backup_options[selected])
+
+                    # Confirmation
+                    if st.session_state.get('restore_confirmed', False):
+                        with st.spinner("Restoring backup..."):
+                            result = backup_module.restore_backup(backup_path)
+
+                            if result['success']:
+                                st.success(result['message'])
+                                st.info("Please refresh the page to see restored data.")
+                                st.session_state['restore_confirmed'] = False
+                            else:
+                                st.error(f"Restore failed: {result.get('error')}")
+                    else:
+                        st.warning("⚠️ This will replace current data. Click again to confirm.")
+                        st.session_state['restore_confirmed'] = True
+            else:
+                st.info("No backups available yet")
+
+        st.divider()
+
+        # About section
+        st.markdown("#### About")
+        st.markdown("""
+        **Astrolabe Paper Database**
+
+        A comprehensive research paper management system with:
+        - PDF ingestion and text extraction
+        - Semantic search powered by ChromaDB
+        - Metadata extraction and management
+        - Reading history tracking
+        - Automatic backups
+
+        For more information, see the documentation files in the project directory.
+        """)
 
 
 def process_url_import(url: str, progress_container) -> Dict[str, Any]:
