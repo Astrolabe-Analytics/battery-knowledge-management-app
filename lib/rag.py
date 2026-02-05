@@ -128,17 +128,39 @@ def get_paper_library() -> list[dict]:
         paper['num_pages'] = len(paper['pages'])
         del paper['pages']
 
-    # Load date_added from metadata.json
+    # Load additional data from metadata.json, including metadata-only papers
     metadata_file = Path("data/metadata.json")
     if metadata_file.exists():
         with open(metadata_file, 'r', encoding='utf-8') as f:
             full_metadata = json.load(f)
+
+            # Update existing papers with date_added
             for paper in papers.values():
                 filename = paper['filename']
                 if filename in full_metadata:
                     paper['date_added'] = full_metadata[filename].get('date_added', '')
                 else:
                     paper['date_added'] = ''
+
+            # Add metadata-only papers (not in ChromaDB yet)
+            for filename, meta in full_metadata.items():
+                if filename not in papers:
+                    # This is a metadata-only paper
+                    papers[filename] = {
+                        'filename': filename,
+                        'title': meta.get('title', filename.replace('.pdf', '')),
+                        'authors': '; '.join(meta.get('authors', [])) if isinstance(meta.get('authors'), list) else meta.get('authors', ''),
+                        'year': meta.get('year', ''),
+                        'journal': meta.get('journal', ''),
+                        'doi': meta.get('doi', ''),
+                        'author_keywords': meta.get('author_keywords', []),
+                        'chemistries': meta.get('chemistries', []),
+                        'topics': meta.get('topics', []),
+                        'application': meta.get('application', 'general'),
+                        'paper_type': meta.get('paper_type', 'reference'),
+                        'num_pages': 0,  # No PDF yet
+                        'date_added': meta.get('date_added', '')
+                    }
 
     return list(papers.values())
 

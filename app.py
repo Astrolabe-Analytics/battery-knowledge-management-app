@@ -784,7 +784,49 @@ def main():
                         # Get all DOIs in the library for highlighting
                         library_dois = {p.get('doi', '').lower() for p in papers if p.get('doi')}
 
-                        for i, ref in enumerate(references, 1):
+                        # Filter references: must have both title AND author
+                        valid_refs = []
+                        hidden_refs = []
+                        for ref in references:
+                            has_title = bool(ref.get('article-title', '').strip())
+                            has_author = bool(ref.get('author', '').strip())
+                            if has_title and has_author:
+                                valid_refs.append(ref)
+                            else:
+                                hidden_refs.append(ref)
+
+                        # Count missing valid references (not in library)
+                        missing_refs = [ref for ref in valid_refs if not (ref.get('DOI', '').lower() in library_dois)]
+
+                        # Show count info
+                        if hidden_refs:
+                            st.caption(f"Showing {len(valid_refs)} of {len(references)} references ({len(hidden_refs)} hidden due to incomplete data)")
+                        else:
+                            st.caption(f"Showing all {len(valid_refs)} references")
+
+                        # Add All Missing button
+                        if missing_refs:
+                            col_btn, col_info = st.columns([1, 3])
+                            with col_btn:
+                                if st.button(f"➕ Add All Missing ({len(missing_refs)})", use_container_width=True):
+                                    progress_bar = st.progress(0)
+                                    success_count = 0
+
+                                    for idx, ref in enumerate(missing_refs):
+                                        result = import_reference(ref)
+                                        if result['success']:
+                                            success_count += 1
+                                        progress_bar.progress((idx + 1) / len(missing_refs))
+
+                                    st.toast(f"✅ Added {success_count} of {len(missing_refs)} references", icon="✅")
+                                    st.rerun()
+                            with col_info:
+                                st.caption(f"{len(missing_refs)} references not in your library")
+
+                            st.divider()
+
+                        # Display each valid reference with add button
+                        for i, ref in enumerate(valid_refs, 1):
                             # Format reference
                             ref_parts = []
 
@@ -818,18 +860,71 @@ def main():
                             ref_doi = ref.get('DOI', '').lower()
                             in_library = ref_doi and ref_doi in library_dois
 
-                            # Display with optional DOI link and library indicator
-                            if in_library:
-                                citation = f"**{citation}** 📚"  # Bold + library icon
+                            # Create columns for citation and button
+                            col_cite, col_action = st.columns([5, 1])
 
-                            if ref.get('DOI'):
-                                doi_url = f"https://doi.org/{ref['DOI']}"
-                                st.markdown(f"{i}. {citation} [DOI]({doi_url})")
-                            else:
-                                st.markdown(f"{i}. {citation}")
+                            with col_cite:
+                                # Display with optional DOI link
+                                if in_library:
+                                    citation_display = f"**{citation}** 📚"  # Bold + library icon
+                                else:
+                                    citation_display = citation
+
+                                if ref.get('DOI'):
+                                    doi_url = f"https://doi.org/{ref['DOI']}"
+                                    st.markdown(f"{i}. {citation_display} [DOI]({doi_url})")
+                                else:
+                                    st.markdown(f"{i}. {citation_display}")
+
+                            with col_action:
+                                if in_library:
+                                    # Show checkmark if already in library
+                                    st.caption("✓ In Library")
+                                else:
+                                    # Show add button
+                                    if st.button("➕", key=f"add_ref_{paper_filename}_{i}", help="Add to library"):
+                                        try:
+                                            with st.spinner("Adding..."):
+                                                result = import_reference(ref)
+                                                if result['success']:
+                                                    ref_title = title[:40] + "..." if len(title) > 40 else title
+                                                    st.toast(f"✅ Added: {ref_title}", icon="✅")
+                                                    st.rerun()
+                                                else:
+                                                    st.toast(f"❌ {result['message']}", icon="❌")
+                                        except Exception as e:
+                                            st.error(f"Error adding reference: {str(e)}")
+                                            import traceback
+                                            st.code(traceback.format_exc())
+
+                        # Show hidden references toggle
+                        if hidden_refs:
+                            st.divider()
+                            show_hidden = st.checkbox(
+                                f"Show hidden references ({len(hidden_refs)})",
+                                key=f"show_hidden_{paper_filename}",
+                                help="Show references with incomplete data (missing title or author)"
+                            )
+
+                            if show_hidden:
+                                st.caption("**Hidden references** (incomplete data):")
+                                for i, ref in enumerate(hidden_refs, 1):
+                                    # Format what we have
+                                    parts = []
+                                    if ref.get('author'):
+                                        parts.append(ref['author'])
+                                    if ref.get('year'):
+                                        parts.append(f"({ref['year']})")
+                                    if ref.get('article-title'):
+                                        parts.append(f'"{ref["article-title"]}"')
+                                    if ref.get('journal-title'):
+                                        parts.append(ref['journal-title'])
+
+                                    display = '. '.join(parts) if parts else "Incomplete reference data"
+                                    st.caption(f"{i}. {display}")
 
                         st.divider()
-                        st.caption("**📚** = Paper is in your library")
+                        st.caption("**📚** = Paper is in your library  |  **➕** = Add to library")
                 else:
                     with st.expander("📚 References", expanded=False):
                         st.caption("_No references found for this paper._")
@@ -1858,6 +1953,139 @@ def main():
 
         For more information, see the documentation files in the project directory.
         """)
+
+
+def import_reference(ref_data: dict) -> Dict[str, Any]:
+    """
+    Import a reference paper into the library.
+    ALWAYS saves metadata, tries to get PDF if possible.
+
+    Args:
+        ref_data: Reference dictionary with DOI, title, authors, etc.
+
+    Returns:
+        Dict with success status and message
+    """
+    import json
+    from pathlib import Path
+    from datetime import datetime
+    import requests
+    import logging
+
+    logger = logging.getLogger(__name__)
+    result = {'success': False, 'message': '', 'filename': None}
+
+    try:
+        doi = ref_data.get('DOI', '')
+        title = ref_data.get('article-title', 'Untitled')
+
+        # Create filename
+        if doi:
+            filename = doi.replace('/', '_').replace('.', '_') + '.pdf'
+        else:
+            safe_title = ''.join(c for c in title[:50] if c.isalnum() or c in (' ', '-', '_'))
+            filename = safe_title.replace(' ', '_') + '.pdf'
+
+        # Load existing metadata
+        metadata_file = Path("data/metadata.json")
+        metadata_file.parent.mkdir(parents=True, exist_ok=True)
+
+        if metadata_file.exists():
+            with open(metadata_file, 'r', encoding='utf-8') as f:
+                all_metadata = json.load(f)
+        else:
+            all_metadata = {}
+
+        # Check if already exists
+        if filename in all_metadata:
+            result['success'] = True
+            result['message'] = "Already in library"
+            return result
+
+        # Start with reference data
+        metadata = {
+            'title': title,
+            'authors': [ref_data.get('author', '')] if ref_data.get('author') else [],
+            'year': ref_data.get('year', ''),
+            'journal': ref_data.get('journal-title', ''),
+            'doi': doi,
+            'volume': ref_data.get('volume', ''),
+            'issue': ref_data.get('issue', ''),
+            'pages': ref_data.get('first-page', ''),
+            'date_added': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            'extracted_at': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            'chemistries': [],
+            'topics': [],
+            'application': 'general',
+            'paper_type': 'reference',
+            'author_keywords': [],
+            'abstract': '',
+            'references': [],
+            'pdf_status': 'needs_pdf'  # Default: no PDF
+        }
+
+        # If has DOI, enrich with CrossRef data
+        if doi:
+            crossref_data = query_crossref_for_metadata(doi)
+            if crossref_data:
+                # Update with richer CrossRef data
+                metadata.update({
+                    'title': crossref_data.get('title', title),
+                    'authors': crossref_data.get('authors', metadata['authors']),
+                    'year': crossref_data.get('year', metadata['year']),
+                    'journal': crossref_data.get('journal', metadata['journal']),
+                    'volume': crossref_data.get('volume', metadata['volume']),
+                    'issue': crossref_data.get('issue', metadata['issue']),
+                    'pages': crossref_data.get('pages', metadata['pages']),
+                    'abstract': crossref_data.get('abstract', ''),
+                    'author_keywords': crossref_data.get('author_keywords', []),
+                    'references': crossref_data.get('references', [])
+                })
+
+            # Try Unpaywall for PDF
+            try:
+                unpaywall_url = f"https://api.unpaywall.org/v2/{doi}?email=researcher@example.com"
+                response = requests.get(unpaywall_url, timeout=10)
+                if response.status_code == 200:
+                    data = response.json()
+                    pdf_url = data.get('best_oa_location', {}).get('url_for_pdf')
+
+                    if pdf_url:
+                        # Download PDF
+                        pdf_response = requests.get(pdf_url, timeout=30)
+                        if pdf_response.status_code == 200:
+                            papers_dir = Path("papers")
+                            papers_dir.mkdir(parents=True, exist_ok=True)
+                            pdf_path = papers_dir / filename
+
+                            with open(pdf_path, 'wb') as f:
+                                f.write(pdf_response.content)
+
+                            metadata['pdf_status'] = 'has_pdf'
+                            result['message'] = "Added with PDF"
+                        else:
+                            result['message'] = "Added (metadata only, PDF unavailable)"
+                    else:
+                        result['message'] = "Added (metadata only, no open access PDF)"
+                else:
+                    result['message'] = "Added (metadata only)"
+            except:
+                result['message'] = "Added (metadata only, PDF check failed)"
+        else:
+            result['message'] = "Added (metadata only, no DOI)"
+
+        # Save metadata (ALWAYS, regardless of PDF status)
+        all_metadata[filename] = metadata
+        with open(metadata_file, 'w', encoding='utf-8') as f:
+            json.dump(all_metadata, f, indent=2, ensure_ascii=False)
+
+        result['success'] = True
+        result['filename'] = filename
+
+    except Exception as e:
+        result['message'] = f"Error: {str(e)}"
+
+    return result
 
 
 def process_url_import(url: str, progress_container) -> Dict[str, Any]:
