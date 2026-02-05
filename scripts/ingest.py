@@ -28,6 +28,7 @@ from tqdm import tqdm
 
 # Import retry utilities
 sys.path.insert(0, str(Path(__file__).parent.parent))
+from lib.chemistry_taxonomy import normalize_chemistries
 from lib.retry import anthropic_api_call_with_retry
 
 # Fix Windows console encoding for Unicode characters
@@ -268,7 +269,9 @@ STRICT FORMATTING RULES:
 - Year: 4-digit year ONLY (e.g., "2019")
 - Journal: FULL NAME, never abbreviated (e.g., "Nature Energy" not "Nat. Energy", "Journal of Power Sources" not "J. Power Sources")
 - Limit to first 10 authors if more than 10
-- Use standard battery chemistry abbreviations (NMC, LFP, NCA, etc.)
+- Use standard abbreviations: LFP, NMC (or NMC811/NMC622/NMC532), NCA, LCO, LMO, LTO, GRAPHITE, SILICON, HARD CARBON, LI-ION
+- For NMC batteries, specify variant if mentioned (e.g., NMC811, NMC622, NMC532)
+- Prefer short abbreviations over chemical formulas (LFP not LiFePO4)
 - Include only chemistries explicitly mentioned or clearly studied
 - Topics should be technical keywords (3-10 topics)
 - For application, choose the most specific one that applies
@@ -381,7 +384,7 @@ def extract_paper_metadata(pages: list[dict], filename: str, api_key: str) -> di
             metadata.update(claude_metadata)
 
         # Normalize fields
-        metadata['chemistries'] = [c.upper() for c in metadata.get('chemistries', [])]
+        metadata['chemistries'] = normalize_chemistries(metadata.get('chemistries', []))
         metadata['topics'] = [t.lower() for t in metadata.get('topics', [])]
         metadata['application'] = metadata.get('application', 'general').lower()
         metadata['paper_type'] = metadata.get('paper_type', 'experimental').lower()
