@@ -32,7 +32,7 @@ if sys.platform == 'win32':
         sys.stderr = codecs.getwriter('utf-8')(sys.stderr.buffer, 'strict')
 
 # Import backend
-from lib import rag, read_status, query_history, theme, styles, collections, gap_analysis, semantic_scholar
+from lib import rag, read_status, query_history, theme, styles, collections, gap_analysis, semantic_scholar, cached_operations
 
 
 def clean_html_from_text(text: str) -> str:
@@ -2922,187 +2922,20 @@ def main():
                     key="library_filter_status"
                 )
 
-            # Apply filters
-            filtered_papers = papers
+            # Build library DataFrame using cached function (filters + formats data)
+            df = cached_operations.build_library_dataframe(
+                papers=papers,
+                search_query=search_query or "",
+                filter_chemistry=filter_chemistry or "All Chemistries",
+                filter_topic=filter_topic or "All Topics",
+                filter_paper_type=filter_paper_type or "All Types",
+                filter_collection=filter_collection or "All Collections",
+                filter_status=filter_status or "All Papers"
+            )
 
-            # Text search filter - searches across title, authors, journal, DOI, keywords, and tags
-            if search_query:
-                search_lower = search_query.lower()
-                filtered_papers = [
-                    p for p in filtered_papers
-                    if (search_lower in p.get('title', '').lower() or
-                        search_lower in p.get('authors', '').lower() or
-                        search_lower in p.get('journal', '').lower() or
-                        search_lower in p.get('doi', '').lower() or
-                        # Search in author keywords
-                        any(search_lower in kw.lower() for kw in p.get('author_keywords', [])) or
-                        # Search in AI-generated chemistries and topics
-                        any(search_lower in chem.lower() for chem in p.get('chemistries', [])) or
-                        any(search_lower in topic.lower() for topic in p.get('topics', [])))
-                ]
-
-            # Chemistry filter
-            if filter_chemistry and filter_chemistry != "All Chemistries":
-                filtered_papers = [
-                    p for p in filtered_papers
-                    if filter_chemistry in p.get('chemistries', [])
-                ]
-
-            # Topic filter
-            if filter_topic and filter_topic != "All Topics":
-                filtered_papers = [
-                    p for p in filtered_papers
-                    if filter_topic in p.get('topics', [])
-                ]
-
-            # Paper type filter
-            if filter_paper_type and filter_paper_type != "All Types":
-                filtered_papers = [
-                    p for p in filtered_papers
-                    if p.get('paper_type') == filter_paper_type.lower()
-                ]
-
-            # Collection filter
-            if filter_collection and filter_collection != "All Collections":
-                selected_collection = next((c for c in all_collections if c['name'] == filter_collection), None)
-                if selected_collection:
-                    collection_filenames = set(collections.get_collection_papers(selected_collection['id']))
-                    filtered_papers = [
-                        p for p in filtered_papers
-                        if p.get('filename') in collection_filenames
-                    ]
-
-            # Status filter (matching sidebar stats logic)
-            if filter_status and filter_status != "All Papers":
-                def get_paper_status(paper):
-                    # Check if metadata is complete
-                    has_title = bool(paper.get('title', '').strip())
-                    has_authors = bool(paper.get('authors') and paper.get('authors') != [])
-                    has_year = bool(paper.get('year', '').strip())
-                    has_journal = bool(paper.get('journal', '').strip())
-                    metadata_complete = has_title and has_authors and has_year and has_journal
-
-                    # Check if PDF exists
-                    pdf_path = Path("papers") / paper.get('filename', '')
-                    has_pdf = pdf_path.exists() if paper.get('filename') else False
-
-                    # Categorize
-                    if metadata_complete and has_pdf:
-                        return "✅ Complete"
-                    elif metadata_complete and not has_pdf:
-                        return "📋 Metadata Only"
-                    else:
-                        return "⚠️ Incomplete"
-
-                filtered_papers = [
-                    p for p in filtered_papers
-                    if get_paper_status(p) == filter_status
-                ]
-
-            st.write(f"Showing {len(filtered_papers)} of {len(papers)} papers")
-
-            # Get read statuses
-            filenames = [p['filename'] for p in filtered_papers]
-            read_statuses = read_status.get_read_status(filenames)
-
-            # Create DataFrame with new columns
-            df_data = []
-            for paper in filtered_papers:
-                # Format authors (first 3 + "et al." if more)
-                authors_list = paper.get('authors', '').split(';') if paper.get('authors') else []
-                authors_display = '; '.join([a.strip() for a in authors_list[:3] if a.strip()])
-                if len(authors_list) > 3:
-                    authors_display += '; et al.'
-
-                # Format DOI for display and URL
-                doi = paper.get('doi', '')
-                doi_clean = ''  # Just the DOI identifier (10.xxxx/...)
-                doi_url = ''    # Full URL
-
-                if doi:
-                    # Check if DOI is already a full URL
-                    if doi.startswith('https://doi.org/'):
-                        doi_url = doi
-                        doi_clean = doi[16:]  # Strip prefix for display
-                    elif doi.startswith('http://doi.org/'):
-                        doi_url = doi.replace('http://', 'https://')  # Normalize to https
-                        doi_clean = doi[15:]  # Strip prefix for display
-                    elif doi.startswith('10.'):
-                        # Just the DOI identifier
-                        doi_clean = doi
-                        doi_url = f"https://doi.org/{doi}"
-                    else:
-                        # Unknown format, use as-is
-                        doi_clean = doi
-                        doi_url = doi
-
-                doi_display = doi_clean if doi_clean else '—'
-
-                # Clean HTML from title
-                title = paper.get('title', paper['filename'].replace('.pdf', ''))
-                title = clean_html_from_text(title)
-
-                # Format date_added (like "Feb 4, 2026")
-                date_added_str = ''
-                if paper.get('date_added'):
-                    try:
-                        from datetime import datetime
-                        date_str = paper['date_added']
-                        # Try multiple formats
-                        for fmt in ["%Y-%m-%d %H:%M:%S", "%Y-%m-%dT%H:%M:%S.%f", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%d"]:
-                            try:
-                                dt = datetime.strptime(date_str.split('.')[0] if '.' in date_str else date_str, fmt)
-                                date_added_str = dt.strftime("%b %d, %Y")
-                                break
-                            except:
-                                continue
-                        if not date_added_str:
-                            # If all parsing fails, try to extract just the date
-                            date_added_str = date_str.split()[0] if date_str else ''
-                    except:
-                        date_added_str = ''
-
-                # Determine status: align with sidebar stats categories
-                # Check if metadata is complete
-                has_title = bool(paper.get('title', '').strip())
-                has_authors = bool(paper.get('authors') and paper.get('authors') != [])
-                has_year = bool(paper.get('year', '').strip())
-                has_journal = bool(paper.get('journal', '').strip())
-                metadata_complete = has_title and has_authors and has_year and has_journal
-
-                # Check if PDF exists
-                pdf_path = Path("papers") / paper['filename']
-                has_pdf = pdf_path.exists()
-
-                # Categorize (matching sidebar stats)
-                if metadata_complete and has_pdf:
-                    status = "✅ Complete"
-                elif metadata_complete and not has_pdf:
-                    status = "📋 Metadata Only"
-                else:
-                    status = "⚠️ Incomplete"
-
-                # Get collections for this paper
-                paper_collections = collections.get_paper_collections(paper['filename'])
-                collections_str = ', '.join([c['name'] for c in paper_collections]) if paper_collections else ''
-
-                df_data.append({
-                    'Select': '',  # Checkbox column (empty, checkbox rendered by AG Grid)
-                    'Status': status,
-                    'Title': title,
-                    'Authors': authors_display,
-                    'Year': paper.get('year', ''),
-                    'Journal': paper.get('journal', ''),
-                    'Collections': collections_str,
-                    'Added': date_added_str,
-                    'DOI': doi_display,
-                    'Read': read_statuses.get(paper['filename'], False),
-                    '_filename': paper['filename'],
-                    '_doi_url': doi_url,  # Use the properly formatted URL
-                    '_paper_title': title  # For delete confirmation
-                })
-
-            df = pd.DataFrame(df_data)
+            # Count filtered papers
+            filtered_count = len(df)
+            st.write(f"Showing {filtered_count} of {len(papers)} papers")
 
             # Action buttons
             if len(df) > 0:

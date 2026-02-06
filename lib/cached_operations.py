@@ -11,18 +11,21 @@ from typing import List, Dict, Any
 
 
 @st.cache_data(ttl=60)  # Cache for 60 seconds
-def build_library_dataframe(papers: List[Dict], filter_status: str, filter_chemistry: str,
-                            filter_topic: str, filter_collection: str) -> pd.DataFrame:
+def build_library_dataframe(papers: List[Dict], search_query: str, filter_chemistry: str,
+                            filter_topic: str, filter_paper_type: str,
+                            filter_collection: str, filter_status: str) -> pd.DataFrame:
     """
     Build the library table DataFrame with formatting.
     Cached to avoid rebuilding on every interaction.
 
     Args:
         papers: List of paper dicts
-        filter_status: Status filter value
+        search_query: Text search query (searches title, authors, journal, DOI, keywords, tags)
         filter_chemistry: Chemistry filter value
         filter_topic: Topic filter value
+        filter_paper_type: Paper type filter value
         filter_collection: Collection filter value
+        filter_status: Status filter value
 
     Returns:
         Formatted DataFrame ready for AG Grid
@@ -33,16 +36,24 @@ def build_library_dataframe(papers: List[Dict], filter_status: str, filter_chemi
     # Apply filters
     filtered_papers = papers
 
-    if filter_status != "All Papers":
+    # Text search filter
+    if search_query:
+        search_lower = search_query.lower()
         filtered_papers = [
             p for p in filtered_papers
-            if get_paper_status(p) == filter_status
+            if (search_lower in p.get('title', '').lower() or
+                search_lower in p.get('authors', '').lower() or
+                search_lower in p.get('journal', '').lower() or
+                search_lower in p.get('doi', '').lower() or
+                any(search_lower in kw.lower() for kw in p.get('author_keywords', [])) or
+                any(search_lower in chem.lower() for chem in p.get('chemistries', [])) or
+                any(search_lower in topic.lower() for topic in p.get('topics', [])))
         ]
 
     if filter_chemistry != "All Chemistries":
         filtered_papers = [
             p for p in filtered_papers
-            if filter_chemistry in p.get('chemistry_tags', [])
+            if filter_chemistry in p.get('chemistries', [])
         ]
 
     if filter_topic != "All Topics":
@@ -51,13 +62,25 @@ def build_library_dataframe(papers: List[Dict], filter_status: str, filter_chemi
             if filter_topic in p.get('topics', [])
         ]
 
+    if filter_paper_type != "All Types":
+        filtered_papers = [
+            p for p in filtered_papers
+            if p.get('paper_type') == filter_paper_type.lower()
+        ]
+
     if filter_collection != "All Collections":
         from lib import collections as collections_db
         all_collections = collections_db.get_all_collections()
         selected_collection = next((c for c in all_collections if c['name'] == filter_collection), None)
         if selected_collection:
-            collection_filenames = collections_db.get_collection_papers(selected_collection['id'])
+            collection_filenames = set(collections_db.get_collection_papers(selected_collection['id']))
             filtered_papers = [p for p in filtered_papers if p.get('filename') in collection_filenames]
+
+    if filter_status != "All Papers":
+        filtered_papers = [
+            p for p in filtered_papers
+            if get_paper_status(p) == filter_status
+        ]
 
     # Get read statuses
     filenames = [p['filename'] for p in filtered_papers]
