@@ -16,6 +16,7 @@ from sentence_transformers import SentenceTransformer
 from anthropic import Anthropic
 from rank_bm25 import BM25Okapi
 import numpy as np
+import streamlit as st
 
 # Import retry utilities
 from .retry import anthropic_api_call_with_retry
@@ -81,9 +82,11 @@ def get_api_key_from_env() -> Optional[str]:
     return os.environ.get("ANTHROPIC_API_KEY")
 
 
+@st.cache_data(ttl=300)  # Cache for 5 minutes
 def get_paper_library() -> list[dict]:
     """
     Get all unique papers with their aggregated metadata.
+    Cached to avoid expensive ChromaDB queries on every page load.
 
     Returns:
         List of dicts with paper info: filename, title, authors, year, journal,
@@ -168,9 +171,11 @@ def get_paper_library() -> list[dict]:
     return list(papers.values())
 
 
+@st.cache_data(ttl=300)  # Cache for 5 minutes
 def get_filter_options() -> dict:
     """
     Extract unique values for filters.
+    Cached to avoid expensive ChromaDB queries on every page load.
 
     Returns:
         Dict with keys: chemistries, topics, paper_types
@@ -513,8 +518,12 @@ Please provide a detailed answer with citations:"""
         raise RuntimeError(f"Failed to query Claude API after retries: {e}")
 
 
+@st.cache_data(ttl=300)  # Cache for 5 minutes
 def get_collection_count() -> int:
-    """Get total number of chunks in the collection."""
+    """
+    Get total number of chunks in the collection.
+    Cached to avoid expensive ChromaDB queries on every page load.
+    """
     collection = DatabaseClient.get_collection()
     return collection.count()
 
