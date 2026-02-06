@@ -787,7 +787,20 @@ def main():
                         st.caption("Papers cited by this work")
 
                         # Get all DOIs in the library for status checking
-                        library_dois = {p.get('doi', '').lower() for p in papers if p.get('doi')}
+                        # Normalize DOIs by removing URL prefix if present
+                        def normalize_doi(doi_string):
+                            """Remove https://doi.org/ prefix and lowercase"""
+                            if not doi_string:
+                                return ''
+                            doi = doi_string.lower().strip()
+                            # Remove common DOI URL prefixes
+                            for prefix in ['https://doi.org/', 'http://doi.org/', 'doi.org/', 'doi:']:
+                                if doi.startswith(prefix):
+                                    doi = doi[len(prefix):]
+                            return doi
+
+                        library_dois = {normalize_doi(p.get('doi', '')) for p in papers if p.get('doi')}
+                        library_dois.discard('')  # Remove empty strings
 
                         # Filter and prepare references data
                         refs_data = []
@@ -805,8 +818,21 @@ def main():
                             display_authors = authors if authors else '(No author)'
 
                             # Check if in library (only for complete references)
-                            ref_doi = ref.get('DOI', '').lower().strip()
-                            in_library = bool(ref_doi and ref_doi in library_dois) if not is_incomplete else False
+                            in_library = False
+                            if not is_incomplete:
+                                # Method 1: Check by normalized DOI
+                                ref_doi = normalize_doi(ref.get('DOI', ''))
+                                if ref_doi and ref_doi in library_dois:
+                                    in_library = True
+                                # Method 2: If no DOI, check by title match (fuzzy)
+                                elif title:
+                                    from difflib import SequenceMatcher
+                                    title_lower = title.lower()
+                                    for p in papers:
+                                        p_title = p.get('title', '').lower()
+                                        if p_title and SequenceMatcher(None, title_lower, p_title).ratio() > 0.9:
+                                            in_library = True
+                                            break
 
                             # Format journal with volume
                             journal = ref.get('journal-title', '')
@@ -1075,30 +1101,11 @@ def main():
                                     ".ag-body-viewport": {"background-color": "#FFFFFF !important"},
                                 }
 
-                            # Add "Add to Library" button for references not in library (excluding incomplete ones)
-                            # Use explicit comparison instead of ~ to avoid type errors
+                            st.divider()
+
+                            # Prepare data for buttons (need counts before displaying grid)
                             missing_refs = refs_df[(refs_df['_in_library'] == False) & (refs_df['_incomplete'] == False)]
                             incomplete_count = refs_df[refs_df['_incomplete'] == True].shape[0]
-
-                            if len(missing_refs) > 0:
-                                st.caption(f"{len(missing_refs)} reference(s) not in your library")
-                                if incomplete_count > 0:
-                                    st.caption(f"({incomplete_count} incomplete reference(s) excluded)", help="Incomplete references are shown in grey but cannot be added to the library")
-                                if st.button(f"➕ Add All Missing ({len(missing_refs)})", key=f"add_all_refs_{paper_filename}"):
-                                    progress_bar = st.progress(0)
-                                    success_count = 0
-
-                                    for idx, (row_idx, row) in enumerate(missing_refs.iterrows()):
-                                        ref_data = refs_full_data[row_idx]
-                                        result = import_reference(ref_data)
-                                        if result['success']:
-                                            success_count += 1
-                                        progress_bar.progress((idx + 1) / len(missing_refs))
-
-                                    st.toast(f"✅ Added {success_count} of {len(missing_refs)} references", icon="✅")
-                                    st.rerun()
-
-                            st.divider()
 
                             # Display references table with 1-based indexing
                             refs_display = refs_df.drop(columns=['_in_library', '_incomplete']).copy()
@@ -1132,6 +1139,8 @@ def main():
                             for col in ['#', 'Title', 'Authors', 'Year', 'Journal', 'DOI', 'Status']:
                                 refs_minimal_gb.configure_column(col, cellStyle=incomplete_style)
 
+                            # Enable multi-selection with checkboxes
+                            refs_minimal_gb.configure_selection(selection_mode='multiple', use_checkbox=True)
                             refs_minimal_gb.configure_grid_options(domLayout='autoHeight')
                             refs_minimal_options = refs_minimal_gb.build()
 
@@ -1149,6 +1158,10 @@ def main():
                                 }
                             }
 
+                            # Add to Library buttons - BEFORE grid for better UX
+                            # Use container to render buttons at top but access grid response
+                            buttons_placeholder = st.container()
+
                             refs_grid_response = AgGrid(
                                 refs_display,
                                 gridOptions=refs_minimal_options,
@@ -1158,6 +1171,72 @@ def main():
                                 allow_unsafe_jscode=True,
                                 key=f"refs_minimal_{paper_filename}"
                             )
+
+                            # Render buttons in the placeholder at the top
+                            with buttons_placeholder:
+                                if len(missing_refs) > 0 or (refs_grid_response.get('selected_rows') is not None and len(refs_grid_response.get('selected_rows', [])) > 0):
+                                    col1, col2 = st.columns(2)
+
+                                    # "Add Selected" button - primary action
+                                    with col1:
+                                        selected_rows = refs_grid_response.get('selected_rows', [])
+                                        if selected_rows is not None and len(selected_rows) > 0:
+                                            # Filter selected rows to only include those not in library and not incomplete
+                                            selected_df = pd.DataFrame(selected_rows)
+                                            addable_selected = []
+                                            for _, row in selected_df.iterrows():
+                                                # Find the original row index based on # column
+                                                ref_num = row['#'] - 1  # Convert back to 0-based index
+                                                if ref_num in refs_full_data:
+                                                    # Check if this ref is not in library and not incomplete
+                                                    orig_row = refs_df.iloc[ref_num]
+                                                    if not orig_row['_in_library'] and not orig_row['_incomplete']:
+                                                        addable_selected.append(ref_num)
+
+                                            if len(addable_selected) > 0:
+                                                if st.button(f"➕ Add Selected ({len(addable_selected)})", type="primary", use_container_width=True, key=f"add_selected_{paper_filename}"):
+                                                    progress_bar = st.progress(0)
+                                                    success_count = 0
+
+                                                    for idx, ref_idx in enumerate(addable_selected):
+                                                        ref_data = refs_full_data[ref_idx]
+                                                        result = import_reference(ref_data)
+                                                        if result['success']:
+                                                            success_count += 1
+                                                        progress_bar.progress((idx + 1) / len(addable_selected))
+
+                                                    st.toast(f"✅ Added {success_count} of {len(addable_selected)} references", icon="✅")
+                                                    st.rerun()
+                                            else:
+                                                st.info("Selected references are already in library or incomplete")
+                                        else:
+                                            st.caption("Select references using checkboxes to add them")
+
+                                    # "Add All Missing" button - secondary action
+                                    with col2:
+                                        if len(missing_refs) > 0:
+                                            if incomplete_count > 0:
+                                                st.caption(f"{len(missing_refs)} missing ({incomplete_count} incomplete excluded)")
+                                            if st.button(f"➕ Add All Missing ({len(missing_refs)})", type="secondary", use_container_width=True, key=f"add_all_missing_{paper_filename}"):
+                                                progress_bar = st.progress(0)
+                                                success_count = 0
+
+                                                for idx, (row_idx, row) in enumerate(missing_refs.iterrows()):
+                                                    if row_idx not in refs_full_data:
+                                                        continue
+
+                                                    ref_data = refs_full_data[row_idx]
+                                                    result = import_reference(ref_data)
+                                                    if result['success']:
+                                                        success_count += 1
+                                                    progress_bar.progress((idx + 1) / len(missing_refs))
+
+                                                st.toast(f"✅ Added {success_count} of {len(missing_refs)} references", icon="✅")
+                                                st.rerun()
+                                        else:
+                                            st.caption("All references already in library")
+
+                                    st.divider()
 
                 # PDF UPLOAD (if no PDF exists)
                 if not rag.check_pdf_exists(paper_filename):
@@ -2453,7 +2532,17 @@ def import_reference(ref_data: dict) -> Dict[str, Any]:
     result = {'success': False, 'message': '', 'filename': None}
 
     try:
-        doi = ref_data.get('DOI', '')
+        # Normalize DOI function (same as in references table)
+        def normalize_doi(doi_string):
+            if not doi_string:
+                return ''
+            doi = doi_string.lower().strip()
+            for prefix in ['https://doi.org/', 'http://doi.org/', 'doi.org/', 'doi:']:
+                if doi.startswith(prefix):
+                    doi = doi[len(prefix):]
+            return doi
+
+        doi = normalize_doi(ref_data.get('DOI', ''))
         title = ref_data.get('article-title', 'Untitled')
 
         # Create filename
@@ -2473,10 +2562,22 @@ def import_reference(ref_data: dict) -> Dict[str, Any]:
         else:
             all_metadata = {}
 
-        # Check if already exists
+        # Check if already exists by DOI (consistent with references table)
+        if doi:
+            # Check if any existing paper has this DOI
+            for existing_filename, existing_meta in all_metadata.items():
+                existing_doi = normalize_doi(existing_meta.get('doi', ''))
+                if existing_doi and existing_doi == doi:
+                    result['success'] = True
+                    result['message'] = f"Already in library (matched DOI: {doi})"
+                    result['debug_matched_file'] = existing_filename
+                    return result
+
+        # Also check by filename as fallback
         if filename in all_metadata:
             result['success'] = True
-            result['message'] = "Already in library"
+            result['message'] = f"Already in library (filename: {filename})"
+            result['debug_filename'] = filename
             return result
 
         # Start with reference data

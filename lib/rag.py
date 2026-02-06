@@ -27,7 +27,7 @@ PAPERS_DIR = Path(__file__).parent.parent / "papers"
 EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 COLLECTION_NAME = "battery_papers"
 TOP_K = 5
-CLAUDE_MODEL = "claude-sonnet-4-5-20250929"
+CLAUDE_MODEL = "claude-opus-4-5-20251101"  # Using Opus 4.5 for highest quality answers
 
 
 class EmbeddingModelLoader:
