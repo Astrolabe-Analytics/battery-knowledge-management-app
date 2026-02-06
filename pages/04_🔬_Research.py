@@ -8,7 +8,7 @@ st.set_page_config(page_title="Research", page_icon="🔬", layout="wide")
 
 # Import shared helpers and modules
 from lib import rag, app_helpers
-from lib.ui_helpers import load_settings, save_settings
+from lib.app_helpers import load_settings, save_settings
 
 # Get papers from session state (loaded in main app)
 if 'cached_papers' not in st.session_state:
