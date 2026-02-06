@@ -384,6 +384,7 @@ def retrieve_with_hybrid_and_reranking(
     filter_chemistry: Optional[str] = None,
     filter_topic: Optional[str] = None,
     filter_paper_type: Optional[str] = None,
+    filter_collection_filenames: Optional[set] = None,
     enable_query_expansion: bool = True,
     enable_reranking: bool = True
 ) -> list[dict]:
@@ -404,6 +405,7 @@ def retrieve_with_hybrid_and_reranking(
         filter_chemistry: Optional chemistry filter
         filter_topic: Optional topic filter
         filter_paper_type: Optional paper type filter
+        filter_collection_filenames: Optional set of filenames to limit search to a collection
         enable_query_expansion: Whether to expand query (default: True)
         enable_reranking: Whether to rerank results (default: True)
 
@@ -427,7 +429,8 @@ def retrieve_with_hybrid_and_reranking(
         alpha=alpha,
         filter_chemistry=filter_chemistry,
         filter_topic=filter_topic,
-        filter_paper_type=filter_paper_type
+        filter_paper_type=filter_paper_type,
+        filter_collection_filenames=filter_collection_filenames
     )
 
     if not candidates:
@@ -661,7 +664,8 @@ def hybrid_search(
     alpha: float = 0.5,
     filter_chemistry: Optional[str] = None,
     filter_topic: Optional[str] = None,
-    filter_paper_type: Optional[str] = None
+    filter_paper_type: Optional[str] = None,
+    filter_collection_filenames: Optional[set] = None
 ) -> List[dict]:
     """
     Hybrid search combining vector similarity (semantic) with BM25 (keyword).
@@ -673,6 +677,7 @@ def hybrid_search(
         filter_chemistry: Optional chemistry filter
         filter_topic: Optional topic filter
         filter_paper_type: Optional paper type filter
+        filter_collection_filenames: Optional set of filenames to limit search to a collection
 
     Returns:
         List of chunks ranked by hybrid score
@@ -695,6 +700,7 @@ def hybrid_search(
         chemistries = [c.strip() for c in chemistries_str.split(',') if c.strip()]
         topics = [t.strip() for t in topics_str.split(',') if t.strip()]
         paper_type = metadata.get('paper_type', '')
+        filename = metadata.get('filename', '')
 
         # Apply filters
         if filter_chemistry and filter_chemistry.upper() not in chemistries:
@@ -702,6 +708,8 @@ def hybrid_search(
         if filter_topic and filter_topic.lower() not in topics:
             continue
         if filter_paper_type and paper_type != filter_paper_type:
+            continue
+        if filter_collection_filenames and filename not in filter_collection_filenames:
             continue
 
         filtered_indices.append(i)

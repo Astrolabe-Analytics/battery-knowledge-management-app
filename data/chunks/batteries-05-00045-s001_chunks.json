@@ -1,0 +1,63 @@
+{
+  "filename": "batteries-05-00045-s001.pdf",
+  "chunks": [
+    {
+      "text": "_Article_",
+      "page_num": 2,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 4
+    },
+    {
+      "text": "**Arianna Moretti** **[1,2,]** ***, Diogo Vieira Carvalho** **[1,2]** **, Niloofar Ehteshami** **[3]** **, Elie Paillard** **[3]** **,**\n**Willy Porcher** **[4]** **, David Brun-Buisson** **[4]** **, Jean-Baptiste Ducros** **[4]** **, Iratxe de Meatza** **[5]** **,**\n**Aitor Eguia-Barrio** **[5]** **, Khiem Trad** **[6]** **and Stefano Passerini** **[1,2,]** ***** 1 Helmholtz Institute Ulm (HIU), Helmholtzstrasse 11, 89081 Ulm, Germany; Diogo.carvalho@kit.edu 2 Karlsruhe Institute of Technology (KIT), P.O. Box 3640, 76021 Karlsruhe, Germany 3 Helmholtz-Institute M\u00fcnster (IEK 12), Forschungszentrum J\u00fclich GmbH, Corrensstra\u00dfe 46, 48149 M\u00fcnster,\nGermany; n.ehteshami@fz-juelich.de (N.E.); e.paillard@fz-juelich.de (E.P.) 4 Grenoble Universit\u00e9 Alpes, CEA-LITEN, 17 avenue des Martyrs, 38000 Grenoble, France;\nwilly.porcher@cea.fr (W.P.); david.brun-buisson@cea.fr (D.B.-B.); jean-baptiste.ducros@cea.fr (J.-B.D.) 5 CIDETEC Energy Storage, Parque Cient\u00edfico y Tecnol\u00f3gico de Gipuzkoa, Paseo Miram\u00f3n 196, 20014,\nDonostia-San Sebasti\u00e1n, Spain; imeatza@cidetec.es (I.d.M.); aeguia@cidetec.es (A.E.-B.) 6 VITO/EnergyVille, Thor Park 8300, 3600 Genk, Belgium; khiem.trad@vito.be ***** Correspondence: arianna.moretti@kit.edu (A.M.); stefano.passerini@kit.edu (S.P.);\nTel.: +49-(0)-731-5034109 (A.M.); +49-(0)-731-5034101 (S.P.) Received: 22 March 2019; Accepted: 24 April 2019; Published: date **Supplementary Material**",
+      "page_num": 2,
+      "chunk_index": 1,
+      "section_name": "**A Post-Mortem Study of Stacked 16 Ah** **Graphite//LiFePO4 Pouch Cells Cycled at 5 \u00b0C**",
+      "token_count": 552
+    },
+    {
+      "text": "**Supplementary Material** **Figure S1.** Results of 16 Ah soft prismatic cells cycled between the voltage limits of 2.5 V and 3.6 V at\ndifferent temperatures: 5 \u00b0C (blue), 25 \u00b0C (green) and 45 \u00b0C (red) at 1 C discharge rate and 0.3 C\n(circle), and 2 C (square) in charge. 1",
+      "page_num": 2,
+      "chunk_index": 2,
+      "section_name": "**A Post-Mortem Study of Stacked 16 Ah** **Graphite//LiFePO4 Pouch Cells Cycled at 5 \u00b0C**",
+      "token_count": 91
+    },
+    {
+      "text": "**Table S1.** Summary of measurements performed in different stack\u00b4s positions. The samples for XPS\nanalysis were not subjected to any rinsing with solvent. The other samples were all washed with\nDimethylcarbonate (DMC) solvent excluding the cathode number 15 of the fresh cell for which\nAcetonitrile (ACN) was employed. **Electrode** **Electrode**\n**Number in** **Area 1** **Area 2** **Number in** **Area 1** **Area 2**\n**the Stack** **the Stack** **Fresh Cell**\n**1** XPS XPS **17** XPS XPS\n**2** SEM Electrochem. **17\u201233** / /\n**3** Adhesion Adhesion **34** Adhesion Adhesion\n**4\u201214** / / **35** SEM Electrochem. **15** SEM\n_(cathode_\n_rinsed with_\n_ACN)_ Electrochem.\nXPS\n_(cathode rinsed_ **36** Electrochem.\n_with ACN)_ **16** Adhesion Adhesion\n**Aged Cells (Cell A and Cell B)**\n**1** XPS XPS **17** XPS XPS SEM\n**2** Electrochem. **17\u201233** / / Adhesion Adhesion\n**3** **34** Adhesion Adhesion **4\u201214** / / **35** SEM Electrochem.\n**15** SEM Electrochem. **36** XPS XPS\n**16** Adhesion Adhesion **Figure S2.** SEM images of LFP electrode extracted from different parts of the stack of Cell A: ( **a** )\nbeginning, ( **b** ) middle and ( **c** ) end of stack. **Figure S3.** SEM images of LFP samples extracted from the middle of the stack of Cell B and sampled\n( **a** ) in the center and ( **b** ) at the edge of the electrode tape. 2",
+      "page_num": 3,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 424
+    },
+    {
+      "text": "**Figure S4.** EDX spectra of aged cathode from ( **a** ) cell A and ( **b** ) cell B. Note: In some EDX analysis (not\nshown here), small additional fluorine peak was observed, probably corresponding to remaining\ntraces of LiPF6 salt, randomly distributed on the surface of the electrode. **Figure S5.** EDX analysis of the fresh graphite electrode. The main peak corresponds to carbon, as\nexpected. Furthermore, small amounts of F, P and Na are detected. F and P can be ascribed to\nunremoved salt or SEI compounds. Na traces, most probably from CMC binder. Cu is also observed as\nit corresponds to the current collector. 3",
+      "page_num": 4,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 153
+    },
+    {
+      "text": "**Figure S6.** EDX spectra of negative electrode extracted from Cell B and sampled at the ( **a** ) edge and\n( **b** ) center of the electrode tape. **Figure S7.** SEM of separators from Fresh Cell ( **a** ), Cell A ( **b** ) and Cell B ( **c** ). **Figure S8.** Voltage profile of the first cycle of a pristine cathode obtained at 0.15 mA cm [-2] (0.065 C) in\nhalf-cell. (Electrode area \u2248 1.13 cm [2] ). 4",
+      "page_num": 5,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 127
+    },
+    {
+      "text": "**Figure S9.** Comparison of first de-lithiation of aged cathode in freshly re-assembled half-cells (samples\ntaken from the center (c) of the electrode tapes harvested from different position of the stack). **Table S2.** C-rate test protocol for half-cells with aged cathodes (1 C = 2.3 mAcm [-2] ). **Test** **Step** **Conditions** **Cycles** Ch 0.065C \u2192 3.65 V/CV <0.03 C & 2 h\n**1** **[st ]** **cycle** 1\nDis 0.065C\u21922.5V **C-rate capability** Ch 0.2C \u2192 3.65 V/CV <0.03 C & 1 h\n3\nDis 0.3C\u21922.5V\nCh 0.2C \u2192 3.65 V/CV <0.03 C & 1 h\n3\nDis 0.65 C \u2192 2.5V\nCh 0.2 C\u2192 3.65 V/ CV <0.03 C & 1 h\n1\nDis 0.2 C \u2192 2.5 V\nCh 0.2 C\u21923.65 V/CV <0.03 C & 1 h\n3\nDis 1.3C\u21922.5V\nCh 0.2 C \u2192 3.65 V/CV <0.03 C & 1 h\n1\nDis 0.2 C \u2192 2.5 V\nCh 0.2 C \u2192 3.65 V/ CV <0.03 C & 1 h\n3\nDis 2C\u21922.5V\nCh 0.2 C\u21923.65 V/CV <0.03 C & 1 h\n1\nDis 0.2C\u21922.5V\nCh 0.2 C \u2192 3.65 V/CV <0.03 C & 1 h\n3\nDis 6.5C\u21922.5V\nCh 0.2 C \u2192 3.65 V/CV <0.03 C & 1 h\n1\nDis 0.2 C \u2192 2.5 V\nCh 0.2 C\u21923.65 V/CV <0.03 C & 1 h\n3\nDis 13C\u21922.5V Ch 0.2C \u2192 3.65 V/CV <0.03 C & 1 h\n**Cycle life** 100\nDis 0.65 C \u2192 2.5 V 5",
+      "page_num": 6,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 566
+    },
+    {
+      "text": "**Figure S10.** Examples of Rietveld refinement of XRD patterns of aged cathodes from the beginning of\nthe stack (Sample 3) and the center of the electrode of Cell A ( **a** ) and Cell B ( **b** ). The indicated Bragg\npositions (in green) refer to LiFePO4 (top) and FePO4 (bottom). **Figure S11.** XRD patterns (focus on _00l_ peak at 26.8\u00ba) of pristine, fresh and aged anodes. 6",
+      "page_num": 7,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 115
+    }
+  ],
+  "total_chunks": 8,
+  "created_at": "2026-02-04 15:53:43"
+}

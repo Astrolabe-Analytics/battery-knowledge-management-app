@@ -37,6 +37,7 @@ def create_backup(include_logs: bool = False) -> Dict[str, any]:
             "metadata.json",
             "query_history.db",
             "read_status.db",
+            "collections.db",
             "ingest_state.json",
             "pipeline_state.json",
             "settings.json"

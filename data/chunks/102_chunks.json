@@ -1,0 +1,714 @@
+{
+  "filename": "102.pdf",
+  "chunks": [
+    {
+      "text": "_**Yizhao Gao,**_ _**[1]**_ _**Trung Nguyen,**_ _**[2]**_ _**and Simona Onori**_ _**[1]**_ _1Stanford University, Department of Energy Science and Engineering, USA_\n_2EIC Laboratories, Inc., USA_",
+      "page_num": 2,
+      "chunk_index": 0,
+      "section_name": "**4**",
+      "token_count": 69
+    },
+    {
+      "text": "This article introduces an advanced state-of-charge (SOC) estimation method customized for 28 V\nLiFePO4 (LFP) helicopter batteries. The battery usage profile is characterized by four consecutive\ncurrent pulses, each corresponding to distinct operational phases on the helicopter: instrument\ncheck, key-on, recharge, and emergency power output stages. To establish a precise battery model\nfor LFP cells, the parameters of a second-order equivalent-circuit model are identified as a function\nof C-rate, SOC, and temperature. Furthermore, the observability of the battery model is assessed\nusing extended Lie derivatives. The signal-to-noise ratio (SNR) of the open-circuit voltage (OCV)\u2013SOC\nrelation is analyzed and employed to evaluate the estimator\u2019s resilience against OCV flatness. The\nextended Kalman filter (EKF) and the unscented Kalman filter (UKF) are utilized for SOC estimation.\nThe results emphasize the significance of meticulously choosing process and sensor noise covariance matrices to achieve a resilient SOC estimator for LFP cells. Furthermore, the UKF demonstrates\nsuperior robustness against OCV\u2013SOC relationships compared to the EKF. Lastly, the UKF is selected\nfor testing across various aircraft usage scenarios at 10\u00b0C, 25\u00b0C, and 45\u00b0C. The resultant root mean\nsquare errors for SOC estimation at these different temperatures are consistently below 2%, thereby\nvalidating the effectiveness of the UKF SOC estimation approach. **History** Received: 17 Jan 2024\nRevised: 03 Jun 2024\nAccepted: 15 Jul 2024\ne-Available: 01 Aug 2024 **Keywords** LFP batteries, Parameter\nidentification, State\n\u00adestimation, Signal-to-noise\nratio, Observability analysis,\nEKF, UKF **Citation** Gao, Y., Nguyen, T., and\nOnori, S., \u201cModel-Based\nState-of-Charge Estimation\nof 28 V LiFePO4 Aircraft\nBattery,\u201d _SAE Int. J. Elect. Veh_ .\n14(1):2025,\ndoi:10.4271/14-14-01-0003. ISSN: 2691-3747\ne-ISSN: 2691-3755 **1**",
+      "page_num": 2,
+      "chunk_index": 1,
+      "section_name": "**Abstract**",
+      "token_count": 480
+    },
+    {
+      "text": "**Downloaded from SAE International by Yizhao Gao, Monday, August 05, 2024**",
+      "page_num": 3,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 25
+    },
+    {
+      "text": "s auxiliary power sources for aircraft, aviation\nbattery packs primarily serve as emergency and\nengine-starting power sources [1]. Their main appli# A\ncations are as follows [2]: (1) acting a ~~s~~ a vital emergency\npower source, ensurin ~~g a~~ stable power supply to critical\nonboard systems during fluctuations in generator power;\n(2) supplying electrical power for checking instruments\nand starting the engine of the aircraft; (3) mitigating transient voltage fluctuations during onboard power source\ntransitions. In the aviation sector, lithium-ion battery packs\nhave gained prominence [3], and LiFePO4 (LFP) battery\ntechnology has emerged ~~as~~ the preferred choice due to\nits thermal stability and cost-effectiveness [4].\nMonitoring lithium-ion batteries in real ~~t~~ ime necessitates a battery management system (BMS) [5]. Stateof-charge (SOC) estimation is one of the fun ~~da~~ mental\nfunctions of BMS [6, 7]. Coulomb counting is a straightforward method ~~to e~~ stimate the cell SOC, involving\ncurrent integration over time [8]. However, as an openloop estimation method, Coul ~~om~~ b counting is sensitive\nto initial SOC and current sampling accuracy [9]. To\nenhance SOC estimation robustness, Kalman ~~f~~ ilter\n(KF)-based estimation algorithms including the unscented\nKalman filter (UKF) and extended Kalman filter (EKF) are\nemployed to enable closed-loop estimation [10]. In EKFand UKF-based SOC estimation methods, th ~~e d~~ ifference\nbetween the battery model predicted output and\nmeasurements at the present step is fed back to the\nobserver to correct the estimated states [11, 12]. EKF relies\non linearized battery governing equation ~~s, ma~~ y introduce\nerrors, especially for highly nonlinear models [13, 14],\nwhereas UKF utilizes the unscented transform to ~~derive~~\nstatistics for the process noise covariance [15], eliminating\nthe need to compute derivatives of the ~~ba~~ ttery model",
+      "page_num": 3,
+      "chunk_index": 1,
+      "section_name": "**1. \u0007Introduction**",
+      "token_count": 442
+    },
+    {
+      "text": "[16]. UKF has been shown to outperform the EKF\n~~reg~~ arding estimation accuracy while maintaining compatible computational complexity [17].\nOCV\u2013SOC lookup table is e ~~mp~~ loyed in EKF and UKF\nfor SOC estimations [18]. For LFP batteries, OCV\u2013SOC\ncurves are relatively fl ~~at,~~ increasing the SOC estimation\nuncertainty. In [19], OCV is divided into three regions:\nplateau range, st ~~ee~~ p-slope range, and gentle-slope range.\nOnly the gentle-slope range is used in the closed-loop\nSOC estimation. In [20], two consecutive linear filtering\nstages are used for ~~OC~~ V estimation. In the initial stage,\na recursive least squares filter is employed to evaluate\nthe parameters of the equivalent-circuit model (ECM), and\na fading Kalman filter compensating for LFP OCV modeling\nerrors with a forgetting factor is used in the second stage.\nIn [21], a weighted average function integrates SOC estim ~~atio~~ n obtained through Coulomb counting and the\nOCV-based method to forecast the SOC in the LFP\nbattery pack. In [22], a pseudo-OCV is introduced to\ncreate a compreh ~~ens~~ ive LFP OCV for SOC estimation.\nThe SOC estimation error across the entire range remains where _OCV_ and _noise_ values are stored as vectors of\nlength _N_ . _OCVn_ and _noisen_ are the _n_ th value in the _OCV_\nand noise vectors, respectively. Generally, a high _SNR_\nmeans less noise is mixed with the signal and better signal\nquality is achieved. Hence, a high _SNR_ value is desirable\nfor state estimation. The noise can arise from errors in\nvoltage measurement and inaccuracies in the model\u2019s\noutput voltage predictions. More specifically, voltage\nmeasurement errors may stem from inaccuracies in the\nvoltage sensors, while inaccuracies in the battery model\ncan result in errors in output voltage predictions [35].",
+      "page_num": 3,
+      "chunk_index": 2,
+      "section_name": "**1. \u0007Introduction**",
+      "token_count": 434
+    },
+    {
+      "text": "below 3%. Although the reconstructed LFP OCV improves\nOCV slopes, it does introduce voltage errors. In [23], differential voltage (DV) analysis is used as an in ~~dica~~ tor for\ninferring SOC information. To ensure robust SOC and\ncapacity estimation, three feature points (at 13%, 70%, and\n92.5% SOC positions) are captured from the incremental\ncapacity (IC) or DV curves [24]. It is important to note that\nIC curve- and DV curve-b ~~ase~~ d SOC estimation schemes\nare most effective when applied under conditions of low\nC-rate currents. Utilizing the single particle model (SPM),\nthe concentration of lithium ions within the phasechanging electrodes was estimated considering the\nphase-moving boundary in an LFP electrode [25]. In [26],\nthe electrochemical impedance spectrosco ~~py~~ (EIS ~~) o~~ f\nLFPLi4Ti5O12 cells was studied, which showed a strong\ndependence on SOC at reasonably fast frequencies ( _\u03c9_ 1 rad/s). Such impedance was then used as a distinctive\nfeature for accurately identifying the SOC [26]. Additionally,\nthe expansion force of LFP pouch cells is ~~em~~ ployed as an\nessential parameter for SOC estimation [27, 28]. The\nforce-aided SOC estimation method offe ~~rs~~ i ~~mp~~ roved\naccuracy compared to voltage-based methods, although\nreal-time measurement of battery force remains\nchallenging.\nEvaluating battery model observability is a crucial\nstep before designing state estimation algorithms [29].\nFor a nonlinear ECM, the observability matrix is deri ~~ved~~\nusing the Lie derivative [30]. A nonlinear battery model\nis deemed weakly obs ~~erva~~ ble when its observability\nmatrix is full rank, enabling the exclusive reconstruction\nof states through output measurements and input [31].\nThe condition number of the observability matrix gau ~~ges~~\nthe degree of measurement errors that impact estimation\nresults. A high condition number implies that even a small\nmeasurement noise could be magnified, resulting in\nsubstantial errors in state estimation [32, 33]. In [34], the\ninfluence of current, uncertain para ~~meters~~, an ~~d f~~ itting\nmethods of OCV on ECM observability were investigated.\nThe signal-to-noise ratio (SNR) of OCV is defined as: = 1, \u2026, _N_",
+      "page_num": 3,
+      "chunk_index": 3,
+      "section_name": "**1. \u0007Introduction**",
+      "token_count": 516
+    },
+    {
+      "text": "Eq. (1) , = 20log 1, \u2026, _n_ = 1, \u2026, _N_",
+      "page_num": 3,
+      "chunk_index": 4,
+      "section_name": "( OCV noise, )",
+      "token_count": 25
+    },
+    {
+      "text": "**Downloaded from SAE International by Yizhao Gao, Monday, August 05, 2024** For LFP cells, the flat OCV\u2013SOC profiles can lead to\na low SNR [36, 37]. The impact of low SNR in the flat OCV\nregion on ~~estima~~ tor performance has not been fully\nexplored. Extended Lie derivatives, an enhanced version\nof Lie derivatives, consider the effects of input and its\nderivatives on system observability [38]. Given the\nsubstantial impact of input current on ~~sys~~ tem observability, investigating system observability using extended\nLie derivatives is critical.\nSOC estimation algorithms necessitate validation\ndata from operational profiles under representative conditions [39]. While automotive battery testing often uses\ndrivin ~~g p~~ rofiles like the Federal Urban Driving Schedule\n(FUDS) [40], or its European [41] or Asian equivalents [42],\naviation ~~-sp~~ ecific battery usa ~~ge~~ profiles that encom ~~pass~~\nrepresentative operating conditions are scarce [43].\nSeveral research gaps in SOC estimation ~~fo~~ r LFP\nbatteries employed as auxiliary power sources in aviation\napplications can be outlined as follows. Most SOC estimation algorithms have been developed and validated in the\ncontext of electric vehicle scenarios. In contrast, research\non SOC estimation for aviation applications is limited. For\nECM-based SOC estimators, understanding the model\nobservability with extended Lie derivative and its impact\non estimator\u2019s performance are still lacking. In the case\nof LFP cells, the effects of OCV flatness on SOC estimation by observers need to be quantified and investigated.\nThe LFP cell hysteresis is not modeled in this article since\nthe operating conditions targeted in this work are\nprimarily for the discharge conditions of the battery.\nThe following contributions have been made to\nthis article: 1. Due to the lack of accessible datasets on\nhelicopter battery duty cycles, we characterized\nthe aviation duty cycle and collected data at three\ntemperatures across five LFP cells.\n2. We identified and validated a second-order ECM\nbased on SOC, temperature, and current,\ninvestigating its observability using extended\nLie derivatives.\n3. We introduced the SNR to quantify the impact of\nLFP OCV flatness on SOC estimator performance.\n4. We designed and validated EKF and UKF\nalgorithms for SOC estimation, calibrating the\nfilters based on a sensitivity study of process\ncovariance ( _Q_ ) and measurement noise\ncovariance ( _R_ ).",
+      "page_num": 4,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 540
+    },
+    {
+      "text": "The 28 V lithium-ion battery pack shown in Figure 1 (in\norange) is used as an auxiliary power and ~~emergen~~ cy\nenergy source [44]. As shown in Figure 2, the battery pack ~~**FIGURE 1**~~ 28 V Li-ion aircraft battery. considered in this study consists of eight modules\nconnected in series, where each module is composed of\nfour cells connected in parallel. Hence, the overall configuration of the battery pack is 4P8S.\nAs depicted in Figure 2, the pack voltage _Vpack_ and\npack current _ipack_ a ~~re derived~~ from the cell voltages _Vcell_\nand cell current _icell_ as follows: _Vpack_ = _Ns_ \u2217 _Vcell_ _Ns_ = 8 Eq. (2) _ipack_ = _Np_ \u2217 _icell_ _Np_ = 4 Eq. (3) and the power output of the battery pack _Ppack_ is\ndescribed as: _Ppack_ = _Vpack_ \u2217 _ipack_ = _Ns_ \u2217 _Np_ \u2217 _Vcell_ \u2217 _icell_ Eq. (4) In this study, the heterogeneity within the cells is\nignored [45].\nThe ~~bat~~ tery pack operates through five consecutive\nphases: rest, instrument check, key-on, recharge, and ~~**FIGURE 2**~~ 28 V LFP battery pack topology (4P8S).",
+      "page_num": 4,
+      "chunk_index": 1,
+      "section_name": "**2. \u0007Duty Cycle Development** **and Experimental Tests**",
+      "token_count": 325
+    },
+    {
+      "text": "**Downloaded from SAE International by Yizhao Gao, Monday, August 05, 2024** ~~**FIGURE 3**~~ Duty cycle of the aircraft batteries composed of\nfour constituent stages: instrument check (duration\u2014 _t_ 1,\ncurrent\u2014 _I_ 1), key-on (duration\u2014 _t_ 2, current\u2014 _I_ 2), recharge\n(duration\u2014 _t_ 3, current\u2014 _I_ 3), and emergency power output\n(duration\u2014 _t_ 4, current\u2014 _I_ 4), respectively. The signs of the\ndischarge current and charge current are positive and\nnegative, respectively. emergency power output, as illustrated in Figure 3. The\nduty cycle is designed to simulate the op ~~erating co~~ nditions of an aviation battery pack. C-rate is a measure of\nthe rate at which a battery is discharged relative to its\nnominal capacity. The signs of the discharge current and\ncharge current are positive and negative, respectively.\nThe detailed modeling of helicopter dynamics including\nmotor and drivetrain characteristics is not within the\nscope of this article. The design principles of these phases\nare detailed as follows.",
+      "page_num": 5,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 254
+    },
+    {
+      "text": "discharged at a low C-rate for the pilot to check the\ninstruments before starting the engine. The applied\ncurrent in this stage is denoted as _I_ 1.",
+      "page_num": 5,
+      "chunk_index": 1,
+      "section_name": "\u2022 Instrument check (Duration: t 1): The battery is",
+      "token_count": 38
+    },
+    {
+      "text": "moderate C-rate for a short period to ignite the\nengine. The applied current in this stage is denoted\nas _I_ 2.",
+      "page_num": 5,
+      "chunk_index": 2,
+      "section_name": "\u2022 Key-on (Duration: t 2 ) : The battery is discharged at a",
+      "token_count": 31
+    },
+    {
+      "text": "low C-rate for a long duration. The applied current in\nthis stage is denoted as _I_ 3.",
+      "page_num": 5,
+      "chunk_index": 3,
+      "section_name": "\u2022 Recharge (Duration: t 3): The battery is charged at a",
+      "token_count": 25
+    },
+    {
+      "text": "battery is discharged at a high C-rate to meet the\npower requirements such as emergent take-off and\nlanding. The applied current in this stage is denoted\nas _I_ 4. In this study, three different usage profiles are\ndesigned by adjusting the length of _t_ 1, _t_ 2, _t_ 3, and _t_ 4, as\nshown in Table 1. In Scenario 1 (S1), the duty cycle is\ndesigned ~~to simu~~ late a long-time emergency power\noutput requirement, with _t_ 4 set to 600 s. Conversely, in\nScenario 2 (S2), the duty cycle simulates a short-time\nemergency power output, with the emergency power **TABLE 1** Duty cycle scenarios.",
+      "page_num": 5,
+      "chunk_index": 4,
+      "section_name": "\u2022 Emergency power output (Duration: t 4): The",
+      "token_count": 170
+    },
+    {
+      "text": "**TABLE 1** Duty cycle scenarios. output duration _t_ 4 set to 200 s. Finally, in Scenario 3 (S3),\nthe duty cycle simulates a long-time instrument check,\nwith the duration of the instrument check _t_ 1 set to 600\ns. Three aircraft usage profiles (S1, S2, and S3) are\nemployed to 26,650 cylindrical LFP cells whose specifications are listed in Table 2.\nHere, _I_ 1, _I_ 2, _I_ 3, a ~~nd~~ ~~_I_~~ 4 ~~are~~ set to 0.3C (0.75A), 0.7C (1.75A),\n\u22120.1C (0.25A), and 1C (2.5A), respectively, to generate\nrepresentative battery usage profile for the 28 V aviation\nbatteries used in this article.\nThe cell testing equipment available at the Stanford\nEnergy Control Lab is depicted in Figure 4 [46]. The cells\nare placed in the AMEREX IC500 ~~R thermal~~ ~~cha~~ mber and\nare cycled using the Arbin LBT21024.\nThe LFP cells are tested at three temperatures (10\u00b0C,\n25\u00b0C, and 45\u00b0C). The 1C cell capacity test, galvanostatic\nintermittent titration technique (GITT) test, UDDS test,\nand experiments with three aircraft usage profiles\nare conducted.\nFor 1C cell capacity test, the cell is first charged fully\nwith a constant current\u2013constant voltage (CC-CV) protocol\nat 1C until the cell voltage reaches the upper cut-off\nvoltage of 3.65 V. Then the cell voltage is maintained at\n3.65 V until the cell current decreases to 1/30C. After 1-h\nrest, the cell is discharged at 1C until the cell voltage\nreaches 2.0 V. The capacity test results for five cells are\nlisted in Appendix A. For GITT discharge testing shown\nin Figure 5, the cell is first fully charged, and then the GITT\nis ~~conducte~~ d, employing a constant current titration (0.2C)\nof 10% SOC increment. A 2-h rest period ensures the cells\nreach equilibrium, and the voltage at the end of each rest\nperiod is extracted and plotted against SOC to generate\nthe discharging OCV. The GITT protocol is performed\nthroughout the entire SOC range until the cell terminal\nvoltage drops to a lower cut-off voltage of 2.1 V. For the\ncharging GITT, the magnitude and duration of the charging\ncurrent during the charging GITT procedure are the same\nas those of the discharging GITT procedure. The charging\nGITT test stops when the cell voltage reaches the upper\ncut-off voltage of 3.65 V. The UDDS tests are conducted\nfor ECM validation.",
+      "page_num": 5,
+      "chunk_index": 5,
+      "section_name": "\u2022 Emergency power output (Duration: t 4): The",
+      "token_count": 633
+    },
+    {
+      "text": "**TABLE 2** 26,650 cylindrical LFP cell specification. \u00a9 SAE International",
+      "page_num": 5,
+      "chunk_index": 6,
+      "section_name": "\u2022 Emergency power output (Duration: t 4): The",
+      "token_count": 19
+    },
+    {
+      "text": "**Downloaded from SAE International by Yizhao Gao, Monday, August 05, 2024** ~~**FIGURE 4**~~ Battery testing equipment at Stanford Energy\nControl Lab. - 1",
+      "page_num": 6,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 46
+    },
+    {
+      "text": "~~3600~~ \u2217 ~~_Q_~~ _cell_ where _V_ ( _t_ ) is the battery terminal voltage; two RC branches\n( _R_ 1, _C_ 1, _R_ 2, _C_ 2) are used to model the dynamic response\nof the cell voltage; _V_ 1 and _V_ 2 are the voltage across _R_ 1 and\n_R_ 2, respectively; _i_ ( _t_ ) is the input current; and _R_ 0 is the series\nresistance. The RC parameters ( _R_ 1, _C_ 1, _R_ 2, _C_ 2) depend on\n_SOC_, temperature _T_, and directional current _i_ ; _OCV_ is a\nnonlinear function of SOC and temperature _T_ ; _V_ [\uf026] 1 [,] _V_ [\uf026] 2 and [,]\n_SOC_ \uf026 are the time derivatives of _V_ 1, _V_ 2, and _SOC_, respectively.\nThe state-space representation of the second-order\nECM is given by: \uf8ee  - 1 \uf8f9 \uf8ee 1 \uf8f9\n\uf8ef 0 0 \uf8fa \uf8ef \uf8fa\n\uf8ef\uf8ef ~~_R C_~~ 1 1   - 1 \uf8fa\uf8fa \uf8ee\uf8ef _V_ 1 \uf8f9\uf8fa \uf8ef\uf8ef ~~_C_~~ 11 \uf8fa\uf8fa\n= \uf8ef 0 0 \uf8fa \uf8ef _V_ 2 \uf8fa + \uf8ef \uf8fa\n\uf8ef ~~_R C_~~ 2 2 \uf8fa \uf8ef\uf8f0 _SOC_ \uf8fa\uf8fb \uf8ef ~~_C_~~ 2 \uf8fa\n\uf8ef\uf8f0 0 0 0 \uf8fa\uf8fb \uf031\uf032\uf033 \uf8ef   - 1 \uf8fa \uf031\uf034\uf034\uf034\uf032\uf034\uf034\uf034\uf033 _x_ \uf8ef \uf8fa _A_ ~~3600~~ \u22c5 ~~_Q_~~ _cell_ 1 \uf8f9 \uf8ee 1\n0 0 \uf034\uf033",
+      "page_num": 6,
+      "chunk_index": 1,
+      "section_name": "SOC \uf026 = i t ( ) Eq. (8)",
+      "token_count": 539
+    },
+    {
+      "text": "In this section, a second-order ECM is formulated. The\ngoverning equations of the ECM are:",
+      "page_num": 6,
+      "chunk_index": 2,
+      "section_name": "**3. \u0007ECM Parameter** **Identification**",
+      "token_count": 22
+    },
+    {
+      "text": "\uf8ee\uf8ef _V_ \uf026 1 \uf8f9\uf8fa\n\uf8ef _V_ \uf026 2 \uf8fa\n\uf8ef\uf8f0 _SOC_ \uf026 \uf8fa\uf8fb _V_ \uf026 1 \uf8f9\uf8fa \uf8ef\uf8ef ~~_R C_~~ 1 1 - 1 \uf8fa\uf8fa \uf8ee\uf8ef _V_ 1 \uf8f9\uf8fa \uf8ef\uf8ef ~~_C_~~ 11 \uf8fa\uf8fa\n_V_ \uf026 2 \uf8fa = \uf8ef 0 0 \uf8fa \uf8ef _V_ 2 \uf8fa + \uf8ef \uf8fa _i_\n_SOC_ \uf026 \uf8fa \uf8ef ~~_R C_~~ 2 2 \uf8fa \uf8ef _SOC_ \uf8fa \uf8ef ~~_C_~~ 2 \uf8fa _V_ \uf026\n_V_ \uf026 1 \uf8f9\uf8fa \uf8ef\uf8ef 1 1 - 1 \uf8fa\uf8fa \uf8ee\uf8ef _V_ 1 \uf8f9\uf8fa \uf8ef\uf8ef 11 2 \uf8fa = \uf8ef 0 0 \uf8fa \uf8ef _V_ 2 \uf8fa + \uf8ef ~~_R C_~~ 2 2 ~~_C_~~ 2 \uf026 - 1 \uf8fa \uf8ef \uf8fa \uf8ef 1 0 0 _V_ 2 + \uf8ef\uf8f0 0 0 0 \uf8fa\uf8fb \uf031\uf032\uf033 \uf8ef        - 1 _x_ \uf026 \uf031\uf034\uf034\uf034\uf032\uf034\uf034\uf034\uf033 _x_ \uf8ef\n_A_ \uf8f0 ~~3600~~ \u22c5 ~~_Q_~~ _cell_ \uf031\uf032\uf033 \uf8ef\uf8f0 0 0 0 \uf8fa\uf8fb \uf031\uf032\uf033 \uf8ef - 1 \uf8fa _x_ \uf026 \uf031\uf034\uf034\uf034\uf032\uf034\uf034\uf034\uf033 _x_ \uf8ef \uf8fa\n_A_ \uf8f0 ~~3600~~ \u22c5 ~~_Q_~~ _cell_ \uf8fb \uf031\uf034\uf034\uf032\uf034\uf034\uf033 _cell_ ~~_Q_~~ _B_ Eq. (9) 1 1",
+      "page_num": 6,
+      "chunk_index": 3,
+      "section_name": "V t ( ) = OCV SOC T (, ) \u2212 V 1 \u2212 V 2 \u2212 R 0 \u2217 i t ( ) Eq. (5)",
+      "token_count": 597
+    },
+    {
+      "text": "~~_C_~~ 1 ~~_R C_~~ 1 1 1",
+      "page_num": 6,
+      "chunk_index": 4,
+      "section_name": "V \uf026 1 = i t ( ) \u2212 V 1 Eq. (6)",
+      "token_count": 18
+    },
+    {
+      "text": "1 ~~_C_~~ 1 ~~_R C_~~ 1 1 1 1 1",
+      "page_num": 6,
+      "chunk_index": 5,
+      "section_name": "V \uf026 1 = i t ( ) \u2212",
+      "token_count": 23
+    },
+    {
+      "text": "~~_C_~~ 2 ~~_R C_~~ 2 2 1",
+      "page_num": 6,
+      "chunk_index": 6,
+      "section_name": "V \uf026 2 = i t ( ) \u2212 V 2",
+      "token_count": 18
+    },
+    {
+      "text": "where _x_ = [ _V_ 1, _V_ 2, _SOC_ ] is the state vector _A_ and _B_ are the\nstate and input matrices, respectively.",
+      "page_num": 6,
+      "chunk_index": 7,
+      "section_name": "V \uf026 2 = i t ( ) \u2212",
+      "token_count": 43
+    },
+    {
+      "text": "In this section, the RC parameters of the battery models\nare determined using the GITT data. The OCV is determined by cycling the battery with the discharging GITT 2 ~~_C_~~ 2 ~~_R C_~~ 2 2 2 Eq. (7) ~~**FIGURE 5**~~ GITT test procedure ( _T_ = 25\u00b0C) at discharge and charge directions. (a) Charge GITT current profile. (b) Discharge GITT\ncurrent profle. (c) Charge GITT voltage and SOC. (d) Discharge GITT voltage and SOC. |Col1|Col2|Col3|\n|---|---|---|\n||||\n|||| |Col1|Col2|Col3|\n|---|---|---|\n||||\n||||",
+      "page_num": 6,
+      "chunk_index": 8,
+      "section_name": "**3.1. \u0007RC Parameter Identification** **Results**",
+      "token_count": 169
+    },
+    {
+      "text": "**Downloaded from SAE International by Yizhao Gao, Monday, August 05, 2024** ~~**FIGURE 6**~~ Discharge OCV versus SOC at 10\u00b0C, 25\u00b0C, and 45\u00b0C. data as shown in Figure 5. The cell OCV versus SOC\nprofiles at 10\u00b0C, 25 ~~\u00b0C, and 4~~ 5\u00b0C are plotted in Figure 6.\nIt can be found that the OCV demonstrates de ~~pendency~~\non temperature and current direction. _R_ 0 is identified\nusing the voltage drop over the pulse current. Time\nconstants are determined by fitting the ECM voltage to\nthe experimental voltage relaxation process. Finally, _R_ 1\nand _R_ 2 are identified by fitting the ECM voltage to the\nexperimental voltage with pulse and relaxation process.\nThe RC parameter identification process and identification results are elaborated in Appendix B. The identified\n_R_ 0 at 10\u00b0C, 25\u00b0C, and 45\u00b0C are plotted in Figure 7. The\nidentified ECM is validated with the experi ~~mental U~~ DDS\ndata as shown in Figure 8. The RMSEs of the voltage\npredictions are 5. ~~3 mV, 5.0~~ mV, 4.7 mV at 10\u00b0C, 25\u00b0C,\nand 45\u00b0C, respectively. These results validate the\nidentified ECM.",
+      "page_num": 7,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 303
+    },
+    {
+      "text": "The observability of the battery model is investigated\nusing the extended Lie derivatives [47]. For a nonlinear\nsystem given by:",
+      "page_num": 7,
+      "chunk_index": 1,
+      "section_name": "**3.2. \u0007ECM Observability Analysis** **with Extended Lie Derivative**",
+      "token_count": 26
+    },
+    {
+      "text": "where _x_ \u03f5 _R_ [n] denotes the state vector, _u_ \u03f5 _R_ [p] is the system\ninput vector, and _y_ \u03f5 _R_ [m] is the system output; _f_ ( _x_, _u_ ) is the\nstate-space representation of the ECM as shown in\nEquations 2 and 3; _h_ ( _x_, _u_ ) is a smooth continuous nonlinear\n~~function as~~ sho ~~wn~~ in Equation 1. The observability matrix\n\uf04f is calculated with ~~extended L~~ ie derivatives _[L]_ _nf_ - 1 [29]:",
+      "page_num": 7,
+      "chunk_index": 2,
+      "section_name": "x \uf026 = f x u (, ) Eq. (10) y = h x u (, ) Eq. (11)",
+      "token_count": 145
+    },
+    {
+      "text": "**Downloaded from SAE International by Yizhao Gao, Monday, August 05, 2024** ~~**FIGURE 8**~~ ECM predicted voltage vs. experimental voltage with UDDS profiles (a) at 10\u00b0C (b), 25\u00b0C (d), and 45\u00b0C (f); Voltage\nprediction error at 10\u00b0C (c), 25\u00b0C (e), and 45\u00b0C (g). **7**",
+      "page_num": 8,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 94
+    },
+    {
+      "text": "**Downloaded from SAE International by Yizhao Gao, Monday, August 05, 2024** ( ) _h_\n( ) _h_ \uf8ee _L_ 0 _f_ ( ) _h_ \uf8f9\n\uf8ef \uf8fa _d_ \uf8ef _L_ 1 _f_ ( ) _h_ \uf8fa = \uf8ef \uf8fa ~~_dx_~~ \uf8ef \uf04d \uf8fa \uf8ef\uf8ef\uf8f0 _Lnf_          - 1 ( ) _h_ \uf8fa\uf8fa\uf8fb 2 _L_ 0 _f_ 1 _L_ 0 _f_ _h_ _f_ 1 _f_ _d_ \uf8ef\uf8ef _L_ 1 _f_ _h_\n~~_dx_~~ \uf8ef \uf04f = \uf8ef _f_ \uf8fa Eq. (12) The resulting observability matrix \uf04f 3 3 \u00d7 is derived\nas follows: \uf04d - 1 ( ) _h_ 1 - 1 _n_\n_f_ 1 _Lnf_ - 1 _h_ where \uf8ee _dOCV_ \uf8f9\n\uf8ef  - 1  - 1 \uf8fa\n\uf8ef ~~_dSOC_~~ 2 \uf8fa _d OCV_ \uf8ef\uf8ef   - _i_ _dSOC_ ~~2~~ 1 1 \uf8fa\uf8fa\n= \uf8ef ~~3600~~ ~~_Q_~~ _cell_ ~~_R C_~~ 1 1 ~~_R C_~~ 2 2 \uf8fa\n\uf8ef\uf8ef\uf8ef\uf8ef\uf8f0      - ~~3600~~ ~~_dt_~~ _di d OCVdSOC_ 2 ~~_Q_~~ _cell_ ~~2~~ + ~~(~~ 3600 _i_ 2 _d OCVdSOC_ 3 _Qcell_ ~~3~~ ~~)~~ ~~2~~      - ~~(~~ _R C_ 1 1 1 ~~)~~ ~~2~~      - ~~(~~ _R C_ 2 1 2 ~~)~~ ~~2~~ \uf8fa\uf8fa\uf8fa\uf8fa\uf8fb _dOCV_ - 1             - 1 ~~_dSOC_~~ _d OCV_ 2 - _i_ _dSOC_ ~~2~~ 1 1 ~~3600~~ ~~_Q_~~ _cell_ ~~_R C_~~ 1 1 ~~_R C_~~ 2 2",
+      "page_num": 9,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 575
+    },
+    {
+      "text": "~~3600~~ ~~_Q_~~ _cell_ ~~_R C_~~ 1 1 ~~_R C_~~ 2 2 ~~_dt_~~ _di d OCVdSOC_ 2 ~~2~~ _i_ 2 _d OCVdSOC_ 3 ~~3~~ 1 1 ~~3600~~ ~~_Q_~~ _cell_ + ~~(~~ 3600 _Qcell_ ~~)~~ ~~2~~ - ~~(~~ _R C_ 1 1 ~~)~~ ~~2~~ - ~~(~~ _R C_ 2 2 _dSOC_ ~~2~~ 1 1 ~~3600~~ ~~_Q_~~ _cell_ ~~_R C_~~ 1 1 2 ~~2~~ \uf04f 0 _f_ _L_ 0 _f_ _h_ = _y_ = _h x u_, = _y_ = , _cell_ ~~_dt_~~ _dSOC_ ~~2~~ _dSOC_ ~~3~~ 1 1 ~~3600~~ ~~_Q_~~ _cell_ + ~~(~~ 3600 _Qcell_ ~~)~~ ~~2~~ - ~~(~~ _R C_ 1 1 ~~)~~ ~~2~~ - ~~(~~ _R C_ 2 _cell_ 1 1 2 2 2 ~~2~~ _i_ 2 _d OCV_ 3 ~~3~~ 1 _L_ 0 _f_ ( ) _h_ = _y_ = _h x u_ (, ) ( ) _h_ = _y_ \uf026 = _h x u u_ \uf026 (,, \uf026) = _hx_ ( _x u f x u_, ) (, ) + _hu_ (, ) _L_ 2 _f_ ( ) _h_ = \uf026\uf026 _y_ = _h x u u u_ \uf026\uf026(,,, \uf026 \uf026\uf026) = _h_ \uf026 _x_ ( _x u u f x u_,, \uf026) (, ) + _h_ \uf026 _u_ ( _x u u u_,, \uf026\uf026) + _h_ \uf026 _u_ \uf026 ( _x u u u_,, \uf026) \uf026\uf026 = _y_ \uf026 = _h x u u_,, \uf026 = _hx_ _x u f x u_,, + _y_ \uf026 = _h x u u_ \uf026,, \uf026 = _hx_ _x u f x u_,, + _hu_ _x u u_, \uf026",
+      "page_num": 9,
+      "chunk_index": 1,
+      "section_name": "Content",
+      "token_count": 592
+    },
+    {
+      "text": "_y_ \uf026 = _h x u u_ \uf026,, \uf026 = _hx_ _x u f x u_,, + _hu_ _x u u_, \uf026 ,, \uf026 = _hx_ _x u f x u_,, + _hu_, _L_ 1 _f_ _h_ = _y_ \uf026 = _h x u u_ \uf026,, \uf026 = _hx_ _x u f x u_,, + _hu_ _x u u_, \uf026 _f_ _x_ _u_ ~~2~~ ~~2~~ ~~2~~ ~~(~~ 3600 _Qcell_ ~~)~~ ~~(~~ _R C_ 1 1 ~~)~~ ~~(~~ _R C_ 2 2 ~~)~~ _cell_\n_cell_ 1 1 2 2 2 _f_ \uf026\uf026 _y_ = _h x u u u_ \uf026\uf026,,, \uf026 \uf026\uf026 _L_ 2 _f_ _h_ = \uf026\uf026 _y_ = _h x u u u_ \uf026\uf026,,, \uf026 \uf026\uf026 = \uf026\uf026 _y_ = ,,, \uf026 \uf026 ~~2~~ ~~2~~ ~~2~~ _h_ \uf026 _x_ _x u u f x u_,, \uf026, + _h_ \uf026 _u_ _x u u u_,, \uf026\uf026 _h_ \uf026 _x_ _x u u f x u_,, \uf026, + _h_ \uf026 _u_ _x u u u_,, \uf026\uf026 Eq. (15) _x u u f x u_,, \uf026, + _h_ \uf026 _u_,, = _hx_ _x u u f x u_,, \uf026, + _x_ _u_ _h_ \uf026 _u_ \uf026,, \uf026 \uf026\uf026 _h_ \uf026 _u_ \uf026 _x u u u_,, \uf026 \uf026\uf026 + _u_ \uf026 ,, \uf04d _nf_ ( ) _h_ = _y_ _n_ = \u2202 _y_ _n_ - 1 _dx_ + _n_ - 1 \u2202 _y_ _n_ - ~~_i_~~ 1 _dui_",
+      "page_num": 9,
+      "chunk_index": 2,
+      "section_name": "Content",
+      "token_count": 547
+    },
+    {
+      "text": "_Lnf_ ( ) _h_ = _y_ _n_ = \u2202 _y_ _n_ - 1 _dx_ + \u2202 _y_ _n_ - ~~_i_~~ 1 _dui_",
+      "page_num": 9,
+      "chunk_index": 3,
+      "section_name": "\u2211",
+      "token_count": 51
+    },
+    {
+      "text": "( ) _h_ = _y_ _n_ = \u2202 _y_ _n_ - 1 _dx_ + \u2202 _y_",
+      "page_num": 9,
+      "chunk_index": 4,
+      "section_name": "\u2202 x dt \u2211 \u2202 u dt",
+      "token_count": 33
+    },
+    {
+      "text": "_n_ - 1 _n_ - 1 _n_ 1 _n_ - 1 _n_ - 1 _i_ 0 _i_ = where _y_ [\uf026] and [\uf026\uf026] _y_ are the first and second derivative of _y_\nwith respect to time _t_, respectively; _hx_ and _hu_ are the\nderivatives of _h_ with respect to _x_ and _u_, respectively.\nFor a second ECM expressed in Equation 9, the statespace presentation _f_ can be writte ~~n as:~~ _V_ 1 + 1 _i_\n~~_R C_~~ 1 1 ~~_C_~~ 1 1 1 \uf031\uf034\uf032\uf034\uf033 1 1 1 1 1 1 _f_ 1 _f_ 3 1 \u00d7 = \uf8ef\uf8ef ~~_R C_~~ _V_ 2 2 2 + ~~_C_~~ 12 _i_ Eq. (13) _f_ 3 1 \u00d7 = \uf8ef\uf8ef ~~_R C_~~ 2 2 2 + ~~_C_~~ 2 \u00d7 \uf8ee\uf8ef _V_ 1 + 1 _i_ \uf8f9\uf8fa\n\uf8ef \uf031\uf034\uf032\uf034\uf033 ~~_R C_~~ 1 1 ~~_C_~~ 1 \uf8fa\n\uf8ef _f_ 1 \uf8fa\n\uf8ef \uf8fa\n= \uf8ef _V_ 2 + 1 _i_ \uf8fa\n\uf8ef \uf031\uf034\uf032\uf034\uf033 ~~_R C_~~ 2 2 ~~_C_~~ 2 \uf8fa\n\uf8ef\uf8ef _f_ 2 \uf8fa\uf8fa\n\uf8ef  - 1 \uf8fa _i_ \uf8ef\uf8ef\uf031\uf034\uf034\uf032\uf034\uf034 ~~3600~~ \u22c5 ~~_Q_~~ _cell_ \uf033\uf8fa\uf8fa\n\uf8f0 _f_ 3 \uf8fb \uf031\uf034\uf032\uf034\uf033 2 2 2 1 _f_ 2 - 1 ~~3600~~ \u22c5 _cell_ _i_\n~~_Q_~~ _cell_ \uf031\uf034\uf034\uf032\uf034\uf034 _cell_ \uf033 _f_ 3 Furthermore, the extended Lie derivatives of the\nvoltage (Equation 5) with respect to _x_ are calculated as:",
+      "page_num": 9,
+      "chunk_index": 5,
+      "section_name": "\u2202 x dt \u2211 \u2202",
+      "token_count": 599
+    },
+    {
+      "text": "Furthermore, the extended Lie derivatives of the\nvoltage (Equation 5) with respect to _x_ are calculated as: The measure of the system observability can\nbe quantified with the condition number _\u03ba_ of the observability matrix, which is given as [29]: \u03ba( )\uf04f = || \uf04f         - 1 |||| \uf04f || Eq. (16)",
+      "page_num": 9,
+      "chunk_index": 6,
+      "section_name": "\u2202 x dt \u2211 \u2202",
+      "token_count": 85
+    },
+    {
+      "text": "\u03ba( )\uf04f = || \uf04f         - 1 |||| \uf04f || Eq. (16) where \u2016 \u22c5 \u2016 is the largest singular value of the matrix\n(calculated with svd function in MATLAB in this work).\nGiven that the nature of _R_ 1, _R_ 2, _C_ 1, _C_ 2, _OCV_, and _Qcell_\nare functions of current, SOC, and temperature, input\ncurrent and temperature impact the observability\nmatrix \uf04f .\nFirst, the ECM observability dependence on input\ncurrent _i_ is evaluated. Different input currents (1C, 1.5C,\nand 2C) are employed for the ECM. The voltage profiles\nversus SOC with 1C, 1.5C, and 2C discharge are shown\nin Figure 9(a). The condition number _\u03ba_ in logarithmic\nsc ~~ale (log~~ 10 ~~) a~~ t these discharge C-rates is plotted in\nFigure 9(b). The condition number is noted to rise as the\n~~current ma~~ gnitude decreases. This result indicates that\nthe ECM observability can be improved with a higher\nC-rate.\nFurther, we explore the impact of temperature on\nECM observability. The 1C discharge voltage profiles\nversus SOC at 10\u00b0C, 25\u00b0C, and 45\u00b0C are utilized in the\nsecond-order ECM condition number as shown in Figure\n10(a). The condition number _\u03ba_ in logarithmic s ~~cale at~~\n~~these~~ temperatures is depicted in Figure 10(b). Since\nthe OCV and RC parameters ar ~~e considered~~ as a\nfunction of temperatures, the condition number varies\nat different temperatures. At a low SOC range (<0.2),\nthe condition number at 45\u00b0C is higher than that at\n25\u00b0C and 10\u00b0C. When the SOC reaches 0.9\u20131, the condition number at 10\u00b0C becomes the largest among the\nthree temperatures.\nAcross the middle SOC range (0.2\u20130.9), the condition\nnumbers at these temperatures overlap. This is caused\nby the nonlinear coupling between the ECM parameters\nand temperatures.\nAs seen from the observability matrix in Equation 15,\nthe gradient of OCV with respect to SOC ( ~~_dOCV_~~ ~~/~~ ~~_dSOC_~~ ~~)~~\nis a crucial metric of system observability. Since the OCV\u2013\nSOC of the LFP is flat, a small noise on the OCV will lead\nto significant _dOCV_ / _dSOC_ variations and potentially cause\nlarge SOC estimation errors.",
+      "page_num": 9,
+      "chunk_index": 7,
+      "section_name": "\u2202 x dt \u2211 \u2202",
+      "token_count": 571
+    },
+    {
+      "text": "0 _f_ _h_ = _OCV_ - _V_ 1 - _V_ 2 - _iR_ 0 ; _L_ 0 _f_ _h_ = _OCV_ - _V_ 1 - _V_ 2 - _iR_ _f_ ( ) _h_ = _OCV_ - _V_ 1 - _V_ 2 - _iR_ 0 ; _dL_ 0 _f_ ( ) _h_ _dL_ 0 _f_ ( ) _h_ _dL_ 0 _f_ ( ) _h_ ( ) _h_ = \u2217 _f_ 1 + \u2217 _f_ 2 + 1 _dL_ 0 _f_ ( ) _h_ _dL_ 0 _f_ ( ) _h_ _dL_ 0 _f_ _L_ 1 _f_ ( ) _h_ = _dL_ 0 _f_ _h_ \u2217 _f_ 1 + _dL_ 0 _f_ _h_ \u2217 _f_ 2 + _dL_ 0 _f_ _h_ \u2217 _f_ 3\n~~_dV_~~ 1 ~~_dV_~~ 2 ~~_dV_~~ 3 _dL_ 0 ~~_di_~~ _f_ ( ) _h_ \u2217 ~~_dt_~~ _di_ = \u2212 ~~_c_~~ _i_ 1 - ~~_c_~~ _i_ 2 + ~~_R c_~~ _V_ 1 11 + ~~_R c_~~ _V_ 2 22 - _R_ 0 ~~_dt_~~ _di_\n_dOCV_\n_i_ ~~_dSOC_~~ ; ~~3600~~ ~~_Q_~~ _cell_ _L_ 2 _f_ ( ) _h_ = _dL_ 1 _f_ ( ) _h_ \u2217 _f_ 1 + _dL_ 1 _f_ ( ) _h_ \u2217 _f_ 2 + _dL_ 1 _f_ ( ) _h_ \u2217 _f_ 3\n~~_dV_~~ 1 ~~_dV_~~ 2 ~~_dV_~~ 3 1 _f_ ( ) _h_ = _f_ \u2217 _f_ 1 + _f_ \u2217 _f_ 2 + _f_ = \u2217 _f_ 1 + \u2217 _f_ 2 + \u2217 _f_ 3 + \u2217 _f_ 1 + \u2217 _f_ 2 + \u2217",
+      "page_num": 9,
+      "chunk_index": 8,
+      "section_name": "\u2202 x dt \u2211 \u2202",
+      "token_count": 593
+    },
+    {
+      "text": "\u2217 _f_ 1 + \u2217 _f_ 2 + \u2217 ~~_dV_~~ 1 1 ~~_dV_~~ 2 2 ~~_dV_~~ 3 3 0 ~~_di_~~ _f_ ( ) _h_ \u2217 ~~_dt_~~ _di_ = \u2212 ~~_c_~~ _i_ 1 - ~~_c_~~ _i_ 2 + ~~_R c_~~ _V_ 1 11 + ~~_R c_~~ _V_ 2 22 - _R_ 0 ~~_dt_~~ _di_ \u2217 _f_ ( ) _h_ = \u2212 - + 1 + 2 - _R_ 0 ~~3600~~ _cell_ ; _dL_ 1 _f_ ( ) _h_ _dL_ 1 _f_ ( ) _h_ _dL_ 1 _f_ ( ) _h_ ( ) _h_ = \u2217 _f_ 1 + \u2217 _f_ 2 + 2 _dL_ 1 _f_ ( ) _h_ _dL_ 1 _f_ ( ) _h_ _dL_ 1 _f_ \u2217 2 _f_ ( ) _h_ = _f_ \u2217 _f_ 1 + _f_ \u2217 _f_ 2 + _f_ = \u2217 _f_ 1 + \u2217 _f_ 2 + \u2217 _f_ 3 + Eq. (14) \u2217 _f_ 1 + \u2217 1 1 ~~_dV_~~ 2 2 ~~_dV_~~ 3 3 ( ) _h_ _di_ _dL_ 1 _f_ ( ) _h_ 1 1 2 _dL_ 1 _f_ _h_ _di_ _dL_ 1 _f_ _h_ _d i_ 2\n~~_di_~~ \u2217 ~~_dt_~~ + \uf8eb _di_ \uf8f6 \u2217 _dt_ ~~2~~\n_d_ ~~_dt_~~ \uf8ec\uf8ed \uf8f7\uf8f8 1 2 _f_ _f_ + \u2217 = _i_ - _V_ 1 _i_ - _V_ 2\n~~_c_~~ 1 ~~_R c_~~ 1 1 + ~~_c_~~ 2 ~~_R c_~~ 2 2\n~~_R c_~~ 1 1 ~~_R c_~~ 2 2 1 1 1 2 2 2 - 1 - 2",
+      "page_num": 9,
+      "chunk_index": 9,
+      "section_name": "\u2202 x dt \u2211 \u2202",
+      "token_count": 582
+    },
+    {
+      "text": "- 1 - 2 ~~_R c_~~ 1 1 + ~~_c_~~ 2 ~~_R c_~~ 2 2 + \u2217 + \u2217 ~~2~~ 1 1 2 2 \uf8eb _di_ \uf8f6 \uf8ec\n\uf8ed \uf8f7\n\uf8f8 2 _i_ 2 _d OCV_ 2 ~~2~~ _di_ \uf8eb\uf8ec 1 1 _dOCV_ ~~_dSOC_~~ \uf8f6\uf8f7 _d i_ 2 _i_ 2 _d OCVdSOC_ 2 ~~2~~\n~~_dt_~~ \uf8ec\uf8ec - ~~_c_~~ 1 - ~~_c_~~ 2 - ~~3600~~ ~~_Q_~~ _cell_ \uf8f7\uf8f7 - _R_ 0 _dt_ ~~2~~ + ~~(~~ 3600 _Qcell_ \uf8eb\uf8ec 1 1 _dOCV_ ~~_dSOC_~~ \uf8f6\uf8f7 _d i_ 2 _i_ 2 _d OCVdSOC_ 2 ~~2~~\n\uf8ec\uf8ec\uf8ec  - ~~_c_~~ 1  - ~~_c_~~ 2  - ~~3600~~ ~~_Q_~~ _cell_ \uf8f7\uf8f7\uf8f7  - _R_ 0 _dt_ ~~2~~ + ~~(~~ 3600 _Qcell_ ~~)~~ ~~2~~ ;\n\uf8ed \uf8f8 1 1 ~~_dSOC_~~ _d i_ 2 _dSOC_ ~~2~~ ~~_c_~~ 1 - ~~_c_~~ 2 - ~~3600~~ ~~_Q_~~ _cell_ \uf8f7\uf8f7 - _R_ 0 _dt_ ~~2~~ + ~~(~~ 3600 _Qcell_ 1 ~~_c_~~ 2 ~~3600~~ ~~_Q_~~ _cell_ \uf8f7 0 _dt_ ~~2~~ 3600 _Q_ ~~2~~ ~~(~~ 3600 _Qcell_ ~~)~~ ~~2~~",
+      "page_num": 9,
+      "chunk_index": 10,
+      "section_name": "\u2202 x dt \u2211 \u2202",
+      "token_count": 484
+    },
+    {
+      "text": "**Downloaded from SAE International by Yizhao Gao, Monday, August 05, 2024** ~~**FIGURE 9**~~ Voltage response with 1C, 1.5C, and 2C discharge current at 25\u00b0C (a). The observability matrix condition number (b).",
+      "page_num": 10,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 68
+    },
+    {
+      "text": "The OCV slope with respect to SOC ( _dOCV_ / _dSOC_ ) _n_ is\ndefined as: _dOCV_ \uf8f7\uf8f6 = _OCVn_ + 1 - _OCVn_ Eq. (17)\n~~_dSOC_~~ \uf8f8 ~~_SOC_~~ _n_ + 1 - ~~_SOC_~~ _n_ \uf8ec\uf8eb _dOCV_ \uf8f7\uf8f6 = _OCVn_ + 1 \uf8ed ~~_dSOC_~~ \uf8f8 _n_ ~~_SOC_~~ _n_ + 1 _n_ + 1 _n_ 1 1 + 1 + 1 _n_ _n_ + 1 _n_ where _OCV_ and _SOC_ are stored as vectors; _OCVn_ and\n_SOCn_ are the _n_ th value in the _OCV_ and _SOC_ vectors. To further quantify the impact of the OCV flatness\non the ECM observability, the SNR is adopted. In this\ncontext, we assume the presence of white Gaussian noise\nwith a mean value of 1 mV added to the OCV. The resulting\nSNROCV is calculated as 55 dB using Equation 1, as illustrated in Figure 11. The choice of nois ~~e with a me~~ an value\nof 1 mV i ~~s delibera~~ te, as this value aligns with the typical\naccuracy ranges of voltage sensors used in BMSs and\nbattery voltage prediction models. The resulting\n_dOCV_ / _dSOC_ with added noise is plotted in Figure 11(b). As\ndepicted in Equation 15, the _dOCV_ / _dSOC_ ~~plays a cru~~ cial\nrole in the ~~observabili~~ ty matrix. Any change in the\n_dOCV_ / _dSOC_ results in a corresponding alteration in the ~~**FIGURE 10**~~ Voltage response with 1C discharge current at 10\u00b0C, 25\u00b0C, and 45\u00b0C (a). The observability matrix condition\nnumber (b).",
+      "page_num": 10,
+      "chunk_index": 1,
+      "section_name": "**3.3. \u0007Impact of OCV Flatness on** **Estimator Design with** **Signal-to-Noise Ratio**",
+      "token_count": 465
+    },
+    {
+      "text": "**Downloaded from SAE International by Yizhao Gao, Monday, August 05, 2024** ~~**FIGURE 11**~~ OCV and OCV with added white Gaussian noise (noise mean value = 1 mV, SNROCV = 55 dB) (a); _dOCV_ / _dSOC_ and observability matrix. Furthermore, the condition number\n_\u03ba_, computed using Equation 19, relies on the observability\nmatrix. Therefore, ~~it is importa~~ nt to explore the influence\nof OCV flatness on both _dOCV_ / _dSOC_ and the condition\nnumber, especially under conditions of SNR variations\ncaused by the introduction of noise to the OCV.\nThe SNR, in decibels, of ( _dOCV_ / _dSOC_ ) vector is\ncomputed as the ratio of its summed squared magnitude\nto that of the added noise vector _noise_ : |\uf0b7 ( \u2212 \u2212 \u2212, table look up table SOC nois|Col2|\n|---|---|\n|\uf0b7<br>\u2212<br>\u2212<br>=<br>\u03a3<br>2<br>1<br>_n_<br>_N_<br>_look up table_<br>_n_<br>_SOC_|\uf0b7<br>\u2212<br>\u2212<br>=<br>\u03a3<br>2<br>1<br>_n_<br>_N_<br>_look up table_<br>_n_<br>_SOC_|\n||=<br>\u03a3<br>2<br>1<br>_N_<br>_n_<br>_n_<br>_noise_| where _N_ is the length of _SOC_ [\uf0b7] Eq. (20) 20log 10 where _N_ is the length of _SOC_ _look up table_ - - vector estimated only with the OCV\u2013SOC lookup table method; _SNRdOCV dSOC_ / _dOCV_ / _dSOC noise_, _dOCV dSOC_ / /",
+      "page_num": 11,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 433
+    },
+    {
+      "text": "/, Eq. (18) _SOC_ - _look up table_ - - _n_ is the _n_ th _SOC_ [\uf0b7] 20log10 \uf8ec 10 Also, the _SNR_ of condition number _\u03ba_ in the observability matrix can be calculated as:",
+      "page_num": 11,
+      "chunk_index": 1,
+      "section_name": "( dOCV / dSOC noise, )",
+      "token_count": 62
+    },
+    {
+      "text": "_SNR_ \u03ba \u03ba, _noise_ = 20log10 \uf8ec , _noise_ = 20log Eq. (19) |Col1|\u03a3N \u03ba2<br>n=1 n|\n|---|---|\n|=<br>\u03a3<br>2<br>1<br>_N_<br>_n_<br>_n_<br>_noise_|=<br>\u03a3<br>2<br>1<br>_N_<br>_n_<br>_n_<br>_noise_| where _N_ is the length of the condition number _\u03ba_ vector;\n_\u03ban_ is the _n_ th _\u03ba_ vector.\nThe OCV is pivotal in the SOC estimation using the\nOCV\u2013SOC lookup table method. To measure the resilience of SOC estimation employing the OCV\u2013SOC lookup\ntable against OCV flatness, the SNR of the SOC estimation\nsolely based on the OCV\u2013SOC lookup table is evaluated\nin the presence of small noise added to the OCV. Similarly,\nthe SNR for SOC estimation utilizing only the OCV\u2013SOC\nlookup table is expressed as follows: _SOC_ _look up table_ - - _n_ is the _n_ th _SOC_ _look up table_ - - vector.",
+      "page_num": 11,
+      "chunk_index": 2,
+      "section_name": "\u03ba(\u03ba, noise ) = 20log10 \uf8ec",
+      "token_count": 265
+    },
+    {
+      "text": "_SOC_ _look up table_ - - _n_ is the _n_ th _SOC_ _look up table_ - - vector. The SNR results of _dOCV_ / _dSOC_ with Equation 18 are\ndepicted in Figure 12. It can be noted t ~~hat the SNR~~ of\n_dOCV_ / _dSOC_ ~~decrease~~ s below 0 dB, even when 55 dB\nnoise is added to the OCV. On the logarithmic scale, the\nnegative SNR means the signal level is smaller than the\nnoise level and it is difficult to distinguish the desired\nsignal from the noise. This result illustrates that even if a\nminor noise (noise mean value = 1 mV, _SNROCV_ = 55 dB) is\nintroduced to the OCV signal, the prediction error of\n_dOCV_ / _dSOC_ caused by the noise will increase vastly. The\nSNR decay also signifies the impact of OCV flatness on\nthe SOC estimator. Specifically, for the SOC range of\n0.4\u20130.6 and 0.8\u20130.9, the SNR drops to \u221225 dB. This indicates that the _dOCV_ / _dSOC_ at these regions is most sensitive to uncertainty and can lead to the most significant\nestimation errors. Also, this means that the robustness\nof the ECM could be better in these regions.\nSince _dOCV_ / _dSOC_ is an essential term in the system\nobservability matrix, as shown in Equation 15, a slight\nnoise would inevitably impact the E ~~CM observab~~ ility and\nincrease the opportunity of losing the rank of the observability matrix. Furthermore, the SNR of the condition\nnumber _\u03ba_ in the observability matrix after the OCV noise",
+      "page_num": 11,
+      "chunk_index": 3,
+      "section_name": "\u03ba(\u03ba, noise ) = 20log10 \uf8ec",
+      "token_count": 393
+    },
+    {
+      "text": "**Downloaded from SAE International by Yizhao Gao, Monday, August 05, 2024** ~~**FIGURE 12**~~ SNR of _dOCV_ / _dSOC_ ( _SNRdOCV_ / _dSOC_ ) after white Gaussian noise is added to the OCV (noise mean value = 1 mV) at\ndiferent SOC ranges. is added is shown in Figure 13. It can be observed that\nthe SNR is below 30 ~~dB acros~~ s the entire SOC range.\nSimilarly, the relatively lower SNR regions are SOC ranges\nof 0.4\u20130.6 and 0.8\u20130.9. This finding also verifies that the\nECM observability within these SOC regions is most\nsusceptible to OCV noise. Therefore, it can be inferred\nthat the effect of the OCV flatness of LFP batteries on\nECM observability can be quantified with SNR.\nLastly, the SNR of the SOC estimation with only the\nSOC\u2013OCV lookup table after the OCV noise is added is\nshown in Figure 14. All the SNRs calculated with Equation 20 decrease below 40 dB. In addition, the SNR of SOC\n~~reg~~ ions of 0.4\u20130.6 and 0.8\u20130.9 remain the lowest. This\nresult illustrates that the LFP OCV noise with a mean value\nof 1 mV will lead to large SOC estimation errors with only\nthe OCV\u2013SOC lookup table and the largest SOC estimation\nerrors appear in the SOC ranges of 0.4\u20130.6 and 0.8\u20130.9.\nTo sum up, the SNR can analyze the impact of the\nLFP OCV on ECM observability and SOC estimation with\nthe OCV\u2013SOC lookup table method. The most susceptible\nSOC regions, due to OCV flatness, can be positioned with\nthe lowest SNR values. ~~**FIGURE 13**~~ SNR of observability matrix condition number ( _SNR\u03ba_ ) after white Gaussian noise is added to the OCV (noise mean\nvalue = 1 mV) at diferent SOC ranges.",
+      "page_num": 12,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 475
+    },
+    {
+      "text": "**Downloaded from SAE International by Yizhao Gao, Monday, August 05, 2024**",
+      "page_num": 13,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 25
+    },
+    {
+      "text": "the OCV (noise mean value = 1 mV) at diferent SOC ranges.",
+      "page_num": 13,
+      "chunk_index": 1,
+      "section_name": "FIGURE 14  SNR of SOC estimation only with SOC\u2013OCV lookup table ( SNRSOC \uf0b7 look up table \u2212 \u2212 ) after white Gaussian noise is added to",
+      "token_count": 19
+    },
+    {
+      "text": "In this section, the ECM-based EKF and UKF are developed for SOC estimation. The robustness of the SOC\nestimator against input noise is analyzed. The SOC estimator sensitivity with different process covariances _Q_\nand measurement noise covariances _R_ are investigated.\nThe aircraft usage profiles are used to evaluate the effectiveness of the SOC estimator.",
+      "page_num": 13,
+      "chunk_index": 2,
+      "section_name": "**4. \u0007SOC Estimator Design,** **Robustness Analysis, and** **Implementation with** **Aircraft Usage Profiles**",
+      "token_count": 73
+    },
+    {
+      "text": "The discrete-time state-space of the ECM in Equation 9\nis given as [48]: \uf8ee \uf8eb                        - _Ts_ \uf8f6 \uf8f9\n\uf8ee _V_ 1, _k_ + 1 \uf8f9 \uf8ee\uf8ef\uf8ef _e_ - ~~_R C_~~ _T_ 1 1 _s_ 0 0 \uf8f9\uf8fa\uf8fa \uf8ee _V_ 1, _k_ \uf8f9 \uf8ef\uf8ef\uf8ef\uf8ef _R_ 1 \u2217 \uf8eb\uf8ec\uf8ed\uf8ec 1 - _e_ ~~_R C_~~ - 1 1 _Ts_ \uf8f7\uf8f8\uf8f7\uf8f6\uf8fa\uf8fa\uf8fa\uf8fa\n\uf8ef \uf8fa \uf8ef - _Ts_ \uf8fa \uf8ef \uf8fa ~~_R C_~~ To implement the EKF, the ECM state-space function\nmust be linearized using the Taylor series around the\npresent estimated state _x_ [\u02c6] at time step _k_ _k_ . The calculation\nprocess of the Jacobian matrix of ECM is given as [48]:",
+      "page_num": 13,
+      "chunk_index": 3,
+      "section_name": "**4.1. \u0007Observer Design with ECM**",
+      "token_count": 276
+    },
+    {
+      "text": "_Fd_ = \u2202 _f x i_ \u2202 ~~_x_~~ _kk_, , _k_ _k_ = = \u2202 _f x ik_, _k_\n\u2202 ~~_x_~~ _k_ _x_ = _x_ \u02c6 _d_ = \u2202 ~~_x_~~ _kk_ _k_ _xk_ = _x_ \u02c6 _k_",
+      "page_num": 13,
+      "chunk_index": 4,
+      "section_name": "( k, k )",
+      "token_count": 89
+    },
+    {
+      "text": "\uf8ef \uf8fa\n\uf8ef \u2202 ~~_V_~~ 1 \u2202 ~~_V_~~ 2 \u2202 ~~_SOC_~~ \uf8fa\n\uf8ef \uf8fa",
+      "page_num": 13,
+      "chunk_index": 5,
+      "section_name": "\uf8ee \u2202 f x i 1 ( k k, ) \u2202 f x i 1 ( k k, ) \u2202 f x i 1 ( k k, ) \uf8f9",
+      "token_count": 45
+    },
+    {
+      "text": "= \uf8ef\uf8ef \u2202 ~~_V_~~ 1 \u2202 ~~_V_~~ 2 \u2202 ~~_SOC_~~ \uf8fa\uf8fa",
+      "page_num": 13,
+      "chunk_index": 6,
+      "section_name": "\uf8ef \u2202 f 2 ( x ik k, ) \u2202 f 2 ( x ik k, ) \u2202 f 2 ( x ik k, ) \uf8fa",
+      "token_count": 38
+    },
+    {
+      "text": "\uf8ef \uf8fa\n\uf8ef\uf8f0 \u2202 ~~_V_~~ 1 \u2202 ~~_V_~~ 2 \u2202 ~~_SOC_~~ \uf8fa\uf8fb = _f x i_ 1 _k k_, \u2202 _f x i_ 1 _k k_, \u2202 _f x i_ 1 _k k_, , \u2202 _f x i_ 1 _k k_, \u2202 _f x i_ 1, 1 _k k_ 1 _k k_ 1 _k k_ 1 _k k_ 1 _k k_ ~~_V_~~ 1 \u2202 ~~_V_~~ 2 \u2202 ~~_SOC_~~ 1 2",
+      "page_num": 13,
+      "chunk_index": 7,
+      "section_name": "\uf8ef \u2202 f 3 ( x ik k, ) \u2202 f 3 ( x ik k, ) \u2202 f 3 ( x ik k, ) \uf8fa",
+      "token_count": 159
+    },
+    {
+      "text": "_f_ 2 _x ik k_, \u2202 _f_ 2 _x ik k_, \u2202 _f_ 2 _x ik k_, , \u2202 _f_ 2 _x ik k_, \u2202 _f_ 2 _x i_, 2 _k k_ 2 _k k_ 2 _k k_ 2 _k k_ 2 _k k_ ~~_V_~~ 1 \u2202 ~~_V_~~ 2 \u2202 ~~_SOC_~~ 1 2",
+      "page_num": 13,
+      "chunk_index": 8,
+      "section_name": "( x ik k, ) \u2202 f 2 ( x ik k, ) \u2202 f 2 ( x ik k, )",
+      "token_count": 111
+    },
+    {
+      "text": "_f_ 3 _x ik k_, \u2202 _f_ 3 _x ik k_, \u2202 _f_ 3 _x ik k_, , \u2202 _f_ 3 _x ik k_, \u2202 _f_ 3 _x i_, 3 _k k_ 3 _k k_ 3 _k k_ 3 _k k_ 3 _k k_ ~~_V_~~ 1 \u2202 ~~_V_~~ 2 \u2202 ~~_SOC_~~ _xk_ = _x_ \u02c6 _k_ 1 2 Eq. (23) Eq. (24) \u02c6 _k_ _k_ = - _Ts_ ~~_R C_~~ 1 1 _s_ 0 0 _e_ 1 1 \uf8ee \uf8eb                        - _Ts_ \uf8f6 \uf8f9\n\uf8ee _V_ 1, _k_ + 1 \uf8f9 \uf8ee\uf8ef\uf8ef _e_ - ~~_R C_~~ _T_ 1 1 _s_ 0 0 \uf8f9\uf8fa\uf8fa \uf8ee _V_ 1, _k_ \uf8f9 \uf8ef\uf8ef\uf8ef\uf8ef _R_ 1 \u2217 \uf8eb\uf8ec\uf8ed\uf8ec 1 - _e_ ~~_R C_~~ - 1 1 _Ts_ \uf8f7\uf8f8\uf8f7\uf8f6\uf8fa\uf8fa\uf8fa\uf8fa \uf8ef\uf8ef _V_ 2, _k_ + 1 \uf8fa\uf8fa = \uf8ef\uf8ef 0 _e_ - ~~_R C_~~ _T_ 2 2 _s_ 0 \uf8fa\uf8fa \uf8ef\uf8ef _V_ 2, _k_ \uf8fa\uf8fa + \uf8ef\uf8ef _R_ 2 \u2217 \uf8ec\uf8ec 1 - _e_ ~~_R C_~~ 2 2 \uf8f7\uf8f7\uf8fa\uf8fa \uf031\uf034\uf032\uf034\uf033\uf8ef\uf8f0 _SOCk_ + 1 \uf8fa\uf8fb \uf8ef\uf8f0 0 0 1 \uf8fa\uf8fb \uf031\uf034\uf032\uf034\uf8ef\uf8f0 _SOC_ \uf033 _k_ \uf8fa\uf8fb \uf8ef \uf8ed \uf8f8\uf8fa",
+      "page_num": 13,
+      "chunk_index": 9,
+      "section_name": "( x ik k, ) \u2202 f 3 ( x ik k, ) \u2202 f 3 ( x ik k, )",
+      "token_count": 561
+    },
+    {
+      "text": "\uf031\uf034\uf032\uf034\uf033\uf8ef\uf8f0 _SOCk_ + 1 \uf8fa\uf8fb \uf8ef\uf8f0 0 0 1 \uf8fa\uf8fb \uf031\uf034\uf032\uf034\uf8ef\uf8f0 _SOC_ \uf033 _k_ \uf8fa\uf8fb \uf8ef \uf8ed \uf8f8\uf8fa _xk_ + 1 \uf031\uf034\uf034\uf034\uf032\uf034\uf034\uf034\uf033 _Ak_ _xk_ \uf8ef\uf8ef _Ts_ \uf8fa\uf8fa \uf8f0 ~~3600~~ \u2217 ~~_Q_~~ _cell_ \uf8fb \uf8ee  - _Ts_ \uf8f9\n\uf8ef _e_ ~~_R C_~~ 1 1 0 0 \uf8fa\n= \uf8ef\uf8ef\uf8ef 0 _e_ ~~_R C_~~ - 2 2 _Ts_ 0 \uf8fa\uf8fa\uf8fa\n\uf8ef 0 0 1 \uf8fa\n\uf8ef \uf8fa\n\uf8ef \uf8fa\n\uf8f0 \uf8fb _s_ _s_ - _Ts_ ~~_R C_~~ 2 2 _V_ 1, _k_ + 1 \uf8f9 \uf8ee\uf8ef\uf8ef _e_ - ~~_R C_~~ _T_ 1 1 _s_ 0 0 \uf8f9\uf8fa\uf8fa \uf8ee _V_ 1, _k_ \uf8f9 \uf8ef\uf8ef\uf8ef\uf8ef _R_ 1 \u2217 \uf8eb\uf8ec\uf8ed\uf8ec 1 - _e_ _V_ 2, _k_ + 1 \uf8fa\uf8fa = \uf8ef\uf8ef 0 _e_ - ~~_R C_~~ _T_ 2 2 _s_ 0 \uf8fa\uf8fa \uf8ef\uf8ef _V_ 2, _k_ \uf8fa\uf8fa + \uf8ef\uf8ef _R_ 2 \u2217 \uf8ec\uf8ec 1 - _e_ \uf031\uf034\uf032\uf034\uf033 _SOCk_ + 1 \uf8fa\uf8fb \uf8ef\uf8f0 0 0 1 \uf8fa\uf8fb \uf031\uf034\uf032\uf034\uf8ef\uf8f0 _SOC_ \uf033 _k_ \uf8fa\uf8fb \uf8ef \uf8ed",
+      "page_num": 13,
+      "chunk_index": 10,
+      "section_name": "( x ik k, ) \u2202 f 3 ( x ik k, ) \u2202 f 3 ( x ik k, )",
+      "token_count": 595
+    },
+    {
+      "text": "\uf031\uf034\uf032\uf034\uf033 _SOCk_ + 1 \uf8fa\uf8fb \uf8ef\uf8f0 0 0 1 \uf8fa\uf8fb \uf031\uf034\uf032\uf034\uf8ef\uf8f0 _SOC_ \uf033 _k_ \uf8fa\uf8fb \uf8ef \uf8ed _xk_ + 1 \uf031\uf034\uf034\uf034\uf032\uf034\uf034\uf034\uf033 _Ak_ _xk_ \uf8ef\uf8ef _Ts_ \uf8f0 ~~3600~~ \u2217 ~~_Q_~~ - _Ts_ ~~_R C_~~ 1 1 0 _e_ ~~_R C_~~ 2 2 0\n0 0 1 _e_ 2 2 1 1 _s_\n~~_R C_~~ 1 1 1 1 1 \uf8f9 \uf8ef _R_ 1 \u2217 \uf8ec 1 0 0 \uf8ef \uf8ec _k_ + 1 1, _k_ \uf8ef \uf8eb - _Ts_ _k_ + 1 \uf8fa\uf8fa = \uf8ef\uf8ef 0 - ~~_R C_~~ _T_ 2 2 _s_ 0 \uf8fa\uf8fa \uf8ef\uf8ef _V_ 2, _k_ \uf8fa\uf8fa + \uf8ef _R_ 2 \u2217 \uf8ec 1 - _e_ ~~_R C_~~ 2 2",
+      "page_num": 13,
+      "chunk_index": 11,
+      "section_name": "( x ik k, ) \u2202 f 3 ( x ik k, ) \u2202 f 3 ( x ik k, )",
+      "token_count": 352
+    },
+    {
+      "text": "+ 1 1, _k_ _s_ 1, _k_ + 1 1, \uf8ef _V_ 2, _k_ + 1 \uf8fa = \uf8ef 0 _e_ ~~_R C_~~ 2 2 _s_ 0 \uf8fa \uf8ef _V_ 2, _k_ \uf8fa + \uf8ef\uf8ef _R_ 2 \u2217 \uf8ec\uf8ec 1 - _e_ ~~_R C_~~ 2 2 \uf8f7\uf8f7 \uf031\uf034\uf032\uf034\uf033\uf8ef\uf8f0 _SOCk_ + 1 \uf8fa\uf8fb \uf8ef\uf8f0 0 0 1 \uf8fa\uf8fb \uf031\uf034\uf032\uf034\uf8ef\uf8f0 _SOC_ \uf033 _k_ \uf8fa\uf8fb \uf8ef \uf8ed \uf8f8 _x_ \uf031\uf034\uf034\uf034\uf032\uf034\uf034\uf034\uf033 _x_ \uf8ef _Ts_ \u2202 _h x i_, _Hd_ = \u2202 ~~_x_~~ _k_ \u2202\n=\n\u2202 2, _k_ + 1 2, _k_ 2 2 2 + 0 _s_ 0 _V_ 2, _k_ + \uf8ef _R_ 2 \u2217 \uf8ec 1 2 2 _xk_ = _x_ \u02c6 _k_ _x_ \u02c6 _k_ _k_ = , 1 0 0 1 _k_ + 1 _k_ + 1 _xk_ + 1 _Ak_ _xk_ \uf8ef _s_ \uf8f0 ~~3600~~ \u2217 ~~_Q_~~ _cell_ _k_ + 1 _Ak_ _k_ \uf031\uf034\uf034\uf034\uf032\uf034\uf034\uf034 _cell_ \uf033 ~~3600~~ 1 + 1 \u02c6 +",
+      "page_num": 13,
+      "chunk_index": 12,
+      "section_name": "( k k, )",
+      "token_count": 467
+    },
+    {
+      "text": "\uf8ef \uf8fa\n\uf8ef\uf8f0 \u2202 ~~_V_~~ 1 \u2202 ~~_V_~~ 2 \u2202 ~~_SOC_~~ \uf8fa\uf8fb _d_ = \u2202 ~~_x_~~ _k kk_ _xk_ = _x_ \u02c6 _k_ = \uf034\uf034\uf034 _cell_ \uf033 _h x ik k_, \u2202 _h x ik k_, \u2202 _h x ik k_,",
+      "page_num": 13,
+      "chunk_index": 13,
+      "section_name": "\uf8ee \u2202 h x i ( k k, ) \u2202 h x i ( k k, ) \u2202 h x i ( k k, ) \uf8f9",
+      "token_count": 109
+    },
+    {
+      "text": "~~_V_~~ 1 \u2202 ~~_V_~~ 2 \u2202 ~~_SOC_~~ _k k_ _k k_ _k k_ , \u2202 _h x ik k_, \u2202 _h x i_, =",
+      "page_num": 13,
+      "chunk_index": 14,
+      "section_name": "h x i ( k k, ) \u2202 h x i ( k k, ) \u2202 h x i ( k k, )",
+      "token_count": 51
+    },
+    {
+      "text": "_Bk_ _k_ _xk_ = _x_ \u02c6 _k_",
+      "page_num": 13,
+      "chunk_index": 15,
+      "section_name": "ik = f x i ( k k, ) \u00d7 3 1",
+      "token_count": 18
+    },
+    {
+      "text": "= \u2212\u2212\uf8ef 1 1 \uf8fa\n\uf8ef \u2202 ~~_SOC_~~ \uf8fa\n\uf8f0 \uf8fb 1 2 \uf8fb _x_ = _x_ \u02c6",
+      "page_num": 13,
+      "chunk_index": 16,
+      "section_name": "\uf8ee \u2202 OCV SOC ( k ) \uf8f9",
+      "token_count": 50
+    },
+    {
+      "text": "_xk_ = _x_ \u02c6 _k_ _k_ _k_ = _Vk_ = _OCV SOC Tk_, - _V_ 1, _k_ - _V_ 2, _k_ - _R_ 0 \u2217 _ik_ , - _V_ 1, _k_ - _V_ 2, _k_ - _R_ 0 \u2217 = _OCV SOC Tk_, - _V_ 1, _k_ - _V_ 2, _k_ _OCV SOC_ ~~_SOC_~~",
+      "page_num": 13,
+      "chunk_index": 17,
+      "section_name": "( k, ) \u2212 V 1, = h x i ( k k, )",
+      "token_count": 125
+    },
+    {
+      "text": "_k_ _k_ _k_ 1, _k_ 2, _k_ 0 _k_ Eq. (21) Eq. (22) 1 1 _x_ \u02c6 = _h x ik k_, _k k_ ,",
+      "page_num": 13,
+      "chunk_index": 18,
+      "section_name": "( k )",
+      "token_count": 52
+    },
+    {
+      "text": "**Downloaded from SAE International by Yizhao Gao, Monday, August 05, 2024** where _\ud835\udc39d_ is the discrete-time Jacobian matrix of ECM; _Ts_\nis the discrete sample time; _\ud835\udc3bd_ is the discrete-time derivative of the voltage output equation on state vector; _\ud835\udc53_ 1( _xk_,\n_ik_ ), _\ud835\udc53_ 2( _xk_, _ik_ ), and _\ud835\udc53_ 3( _xk_, _ik_ ) are the first, second, and third\nrow of _\ud835\udc53_ ( _xk_, _ik_ ), respectively. The EKF algorithm calculation\nprocess comprises initialization, prediction, and correction,\nas shown in the pseudo-code (Table 3).\nThe UKF follows the steps ~~describ~~ ed in Table 4.",
+      "page_num": 14,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 190
+    },
+    {
+      "text": "To assess the influence of SNR within various _dOCV_ / _dSOC_\nintervals on the state estimator, the EKF and UKF,\ncoupled with the second-order ECM, are applied to GITT\ndata. Biased voltage measurements are generated by\nintroducing random noise to the recorded voltage\nmeasurements. The referenced SOC is calculated using\nthe Coulomb counting. The implementation processes\nof EKF and UKF are widely reported in the literature\nand are not repeated in this article. Interested readers\ncould refer to the references for more introduction [42].\nConsider that voltage measurements with an SN ~~R o~~ f\n55 dB are added to the EKF based on second-order\nECM. The voltage estimation and estimation errors are\nplotted in Figure 15(a) and (b). In Figure 15(a) and (b), the",
+      "page_num": 14,
+      "chunk_index": 1,
+      "section_name": "**4.2. \u0007Observer Robustness** **against Input Noise**",
+      "token_count": 180
+    },
+    {
+      "text": "**Downloaded from SAE International by Yizhao Gao, Monday, August 05, 2024** ~~**FIGURE 15**~~ EKF voltage estimation with white Gaussian noise added to the voltage under GITT condition. (a) Experimental\nvoltage vs. EKF estimated voltages with and without noise. (b) EKF voltage estimation errors with and without noise. EKF with the ECM, without noise, accurately follows\nthe measured voltage, with the corresponding estimation error staying below 2 mV. Although the voltage\nestimation maintains robustness after adding noise to\nthe voltage measurement, the estimation error\nincreases. The observability analysis verifies that the\nECM is locally observable across the SOC range. Thus,\nit is feasible to estimate the SOC with added noise. The\nSOC estimation and estimation errors are shown in\nFigure 16(a) and (b). The EKF is established with the\n~~Taylor expan~~ sion ~~of~~ the ECM. Thus, the linearization of\nthe system will increase the possibility of losing the\nrank of the observability matrix. Even though the\nvoltage estimation is converged without added noise, the SOC estimation error can be found, as shown in\nFigure 16(a) and (b). Furthermore, the introduction of\n~~noise result~~ s in ~~a m~~ ore pronounced SOC estimation\nerror compared to the SOC estimation outcomes\nwithout added noise. Notably, the SOC estimation error\nexperiences the most significant increase within the\nSOC range of 0.4\u20130.6 and 0.8\u20130.9, as depicted in\nFigure 16(b). It is noteworthy that the SNR of _dOCV_ / _dSOC_\n~~is lowest in~~ these SOC ranges, indicating that even\nslight noise in these SOC regions can lead to considerable fluctuations in the _dOCV_ / _dSOC_ values.\nGiven the crucial role of _dOCV_ / _dSOC_ in linearizing the\nOCV concerning SOC, these SOC regions with low SNR\nexhibit large sensitivity to noise, resulting in substantial ~~**FIGURE 16**~~ EKF SOC estimation with white Gaussian noise added to the voltage under GITT condition. (a) Referenced SOC with\nCoulomb counting vs. EKF estimated SOC with/without noise. (b) EKF SOC estimation errors with and without noise.",
+      "page_num": 15,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 506
+    },
+    {
+      "text": "**Downloaded from SAE International by Yizhao Gao, Monday, August 05, 2024** ~~**FIGURE 17**~~ UKF voltage estimation with white Gaussian noise added to the voltage under GITT condition. (a) Experimental\nvoltage vs. UKF estimated voltages with/without noise. (b) EKF voltage estimation errors with and without noise. deviations of the EKF-based SOC estimation from its\nreference values.\nThe voltage estimation results with UKF using the\nECM are plotted in Figure 17(a) and (b). Without the added\nnoise, the voltage ~~estimation r~~ em ~~ains~~ the error below 10\nmV. Similarly, the voltage noise with an SNR of 55 dB is\nadded to the voltage measurements to investigate the\nUKF robustness against input noise. The added noise\ninevitably increases the voltage estimation errors. The\nSOC estimation results with UKF are summarized in\nFigure 18(a) and (b).\n~~Compa~~ red ~~wit~~ h the EKF, UKF uses a sigma-point\nsampling technique to approximate the state variables\u2019\ndistribution and input noise. By selecting a set of carefully\nchosen sigma points (sample points) from the current state estimate, the filter effectively captures the statistical\nproperties of the state and input variables. This allows\nthe filter to handle non-Gaussian and nonlinear noise\ndistributions, making it robust to various types of\ninput noise.\nAs shown in Figure 18(a) and (b), it can be found that\nthe SOC estimati ~~on with UKF~~ coul ~~d r~~ emain robust against\nthe input noise. The SOC estimation error is below 1%\neven if the noise is added to the observer. Note that,\nunlike the EKF, no system linearization is required.\nRemoving the linearization process leads to a computational complexity comparable between the UKF and EKF.\nIn addition, since the _dOCV_ / _dSOC_ is no longer needed in\nthe UKF calculation process, the low SNR of the\n_dOCV_ / _dSOC_ at different SOC regions will not impact the ~~**FIGURE 18**~~ UKF SOC estimation with white Gaussian noise added to the voltage under GITT condition. (a) Referenced SOC with\nCoulomb counting vs. UKF estimated SOC with/without noise. (b) UKF SOC estimation errors with and without noise.",
+      "page_num": 16,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 519
+    },
+    {
+      "text": "**Downloaded from SAE International by Yizhao Gao, Monday, August 05, 2024** performance of the SOC estimation. Hence, the robustness of the UKF against the input noise is better than\nthe EKF.",
+      "page_num": 17,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 52
+    },
+    {
+      "text": "The process noise covariance matrix _Q_ and sensor noise\ncovariance _R_ significantly affect the filter\u2019s performance.\nTherefore, they are frequently employed as tuning parameters to attain the desired filter performance. Different\n_Q_ and _R_ values are applied to the EKF and UKF with ECM.\nThe initial _Q_ and _R_ for EKF and UKF are listed in Appendix C.\nThe voltage and SOC estimation results of EKF with\ndifferent _Q_ and _R_ values are shown in Figure 19(a)\u2013(h).\nNote that _Q_ is a 3\u00d73 diagonal matrix. T ~~he three param-~~\neters ( _Q_ (1,1), _Q_ (2,2), and _Q_ (3,3)) in _Q_ are tuned separately\nto evaluate their effects on the filter. In Figure 19(a) and\n(b), it can be observed that increasing ~~_Q_~~ ~~(1,1) from 10~~ [0] to\n~~10~~ [8] does not significantly impact the convergence rate of\nvoltage estimation. Still, the convergence of the SOC estimation is accelerated when a large _Q_ (1,1) is applied. A high\nvalue of _Q_ implies substantial uncertainty in predicting\nstates solely based on the model. As a result, the accuracy\nof state corrections becomes heavily reliant on measurements. In these situations, convergence from an initial\ncondition error occurs rapidly, but if _Q_ is set too high, the",
+      "page_num": 17,
+      "chunk_index": 1,
+      "section_name": "**4.3. \u0007Observer Sensitivity**",
+      "token_count": 320
+    },
+    {
+      "text": "estimate may become noisy. Since _Q_ (1,1) is directly relevant\nto the first state of the state vector _x_, the SOC estimation\nconvergence could be improved with larger _Q_ (1,1) values.\nIn Figure 19(c) and (d), selecting a larger _Q_ (2,2) can obtain\na ~~faster conv~~ erge ~~nce~~ of the voltage estimation, but a\nslower SOC convergence. The same result is found in\nFigure 19(e) and (f) for different _Q_ (3,3) values. This is\n~~because~~ ~~_Q_~~ ~~(2~~,2) an ~~d~~ ~~_Q_~~ (3,3) correspond to states _V_ 1 and _V_ 2.\nMore considerable modifications would be imposed on\n_V_ 1 and _V_ 2 rather than on SOC. Thus, the effects of _Q_ (2,2)\nand _Q_ (3,3) on EKF are opposite compared with _Q_ (1,1).\nIn terms of _R_, a larger _R_ indicates that the measurement is uncertain and should not be trusted to make\nsignificant state corrections based on the measurements.\nTherefore, the state convergence could be slow. The\nresults of EKF performances with different _R_ values are\nplotted in Figure 19(g) and (h). It is evident that increasing\n_R_ from 1 ~~0~~ [\u22127] ~~to 10~~ [9] ~~wil~~ l yie ~~ld a~~ smaller convergence rate\nboth on voltage estimation and SOC estimation. Thus, to\navoid significant state corrections, _Q_ should be decreased,\nor _R_ should be increased to decrease the Kalman gain\nfor the EKF.\nFor UKF with different _Q_ and _R_ values, the results are\nplotted in Figure 20(a)\u2013(h). Increasing _Q_ (1,1) from 10 [\u221219] to\n10 [\u22123], the ~~UKF becomes mo~~ re sensitive to changes. It can\nhelp the filter better adapt to abrupt changes in the\nsystem behavior. However, if _Q_ is set too high, it can lead",
+      "page_num": 17,
+      "chunk_index": 2,
+      "section_name": "**4.3. \u0007Observer Sensitivity**",
+      "token_count": 481
+    },
+    {
+      "text": "~~**FIGURE 19**~~ Effect of tuning the process noise covariance _\ud835\udc44_ 3\u00d73 and sensor noise covariance _R_ on EKF estimation error for SOC\nand voltage under GITT condition. (a) Different _Q_ (1,1) on voltage estimation error. (b) Different _Q_ (1,1) on SOC estimation error. (c)\nDifferent _Q_ (2,2) on voltage estimation error. (d) Different _Q_ (2,2) on SOC estimation error. (e) Different _Q_ (3,3) on voltage estimation\nerror. (f) Different _Q_ (3,3) on SOC estimation error. (g) Different _R_ on voltage estimation error. (h) Different _R_ on SOC\nestimation error.",
+      "page_num": 17,
+      "chunk_index": 3,
+      "section_name": "**4.3. \u0007Observer Sensitivity**",
+      "token_count": 175
+    },
+    {
+      "text": "**Downloaded from SAE International by Yizhao Gao, Monday, August 05, 2024** ~~**FIGURE 20**~~ Effect of tuning the process noise covariance _\ud835\udc44_ 3\u00d73 and sensor noise covariance _R_ on UKF estimation error for SOC\nand voltage under GITT condition. (a) Different _Q_ (1,1) on voltage estimation error. (b) Different _Q_ (1,1) on SOC estimation error. (c)\nDifferent _Q_ (2,2) on voltage estimation error. (d) Different _Q_ (2,2) on SOC estimation error. (e) Different _Q_ (3,3) on voltage estimation\nerror. (f) Different _Q_ (3,3) on SOC estimation error. (g) Different _R_ on voltage estimation error. (h) Different _R_ on SOC\nestimation error. to overfitting and decreased tracking accuracy as shown\nin Figure 20(a) and (b). A lower process noise covariance\nwi ~~ll make the~~ UKF ~~mo~~ re conservative and rely more on\nthe state transition model. This can result in smoother\nstate estimates, which might be desirable when dealing\nwith noisy measurements or when the actual process is\nrelatively stable. It can be seen from Figure 20(c)\u2013(f). When\n_Q_ (2,2) and _Q_ (3,3) are increased to 4 ~~\u00d7 10~~ [\u22125] ~~and 10~~ [4] ~~, r~~ espectively, the SOC and voltage estimations could converge\nquickly. Still, they could not maintain stability in the final\nstages of the estimates. Choosing the appropriate _Q_ is\noften a trade-off between tracking accuracy and robustness. A trade-off must be considered to ensure that the\nfilter can adapt to changes in the system while not being\noverly sensitive to noise or disturbances. For _R_ in Figure\n20(g) and (h), it is seen that a larger _R_ of 10 [\u22122] will ~~lower~~\n~~the converge~~ nce of the state estimations.",
+      "page_num": 18,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 467
+    },
+    {
+      "text": "We investigate the performance of the proposed UKF\nestimator for different aircraft usage profiles. The design\nprinciple and parameters of these three scenarios (S1, S2,\nand S3) are elaborated in Section 2. The experimental current and voltage data of S1, S2, and S3 are shown in\nFigure 21(a)\u2013(f). The UKF estimator is evaluated with\n~~experimental da~~ ta of the three aircraft usage profiles at\ndifferent temperatures (10\u00b0C, 25\u00b0C, and 45\u00b0C). The UKF\nwith ECM at 10\u00b0C, 25\u00b0C, and 45\u00b0C are shown in Figure\n22. The UKF with ECM estimation errors at 10\u00b0C ~~, 25\u00b0C,~~\n~~and~~ 45\u00b0C are shown in Figure 23. An initial SOC error of\n0.5 is given in the UKF. I ~~n Figure 2~~ 3(a) and (b), the voltage\nestimation error at S1 qui ~~ckly decreas~~ es t ~~o 2~~ mV and the\nSOC estimation error drops to 1% within 5 s. The average\nerror of the voltage estimation is 11.1 mV, and the RMSE\nof the SOC estimation is 1.66%. At S2, the average error\nof the voltage estimation is 9.9 mV, and the RMSE of the\nSOC estimation is 1.27%. Also, the average error of the\nvoltage estimation at S3 is 1.6 mV, and the RMSE of the\nSOC estimation at S3 is 1.21%. Figure 22 also summarizes\nthe results of UKF estimation ~~at 10\u00b0C, 2~~ 5\u00b0C, and 45\u00b0C. It\ncan be found that the voltage estimation and SOC estimation could remain robust with three scenarios. In Figure\n23(a) and (b), the voltage estimation at S1 has an a ~~verage~~\n~~error~~ of 5. ~~2 m~~ V and the SOC estimation achieves an RMSE\nof 0.85%. For estimation results at S2 in Figure 23(c) and\n(d), the average error of voltage estimati ~~on is 6.4 mV~~ and\n~~the~~ RMSE of the SOC estimation is 1.13%. At S3, the\naverage error of voltage estimation is 2.9 mV and the\nRMSE of the SOC estimation is 0.55%. Finally, the voltage\nand SOC estimation results with UKF at 45\u00b0C are plotted",
+      "page_num": 18,
+      "chunk_index": 1,
+      "section_name": "**4.4. \u0007SOC Estimation with** **Experimental Data of** **Aircraft Usage Profiles**",
+      "token_count": 549
+    },
+    {
+      "text": "**Downloaded from SAE International by Yizhao Gao, Monday, August 05, 2024** ~~**FIGURE 21**~~ (a) Experimental current profile of S1 and temperatures are 10\u00b0C, 25\u00b0C, and 45\u00b0C. (b) Experimental voltage response\nof S1 and temperatures are 10\u00b0C, 25\u00b0C, and 45\u00b0C. (c) Experimental current profile of S2 and temperatures are 10\u00b0C, 25\u00b0C, and\n45\u00b0C. (d) Experimental voltage response of S2 and temperatures are 10\u00b0C, 25\u00b0C, and 45\u00b0C. (e) Experimental current profile of S3\nand temperatures are 10\u00b0C, 25\u00b0C, and 45\u00b0C. (f) Experimental voltage response of S3 and temperatures are 10\u00b0C, 25\u00b0C, and 45\u00b0C. ~~**FIGURE 22**~~ Voltage and SOC estimations from UKF under S1, S2, and S3, and the temperatures are 10\u00b0C, 25\u00b0C, and 45\u00b0C. (a)\nVoltage estimation of S1. (b) SOC estimation of S1. (c) Voltage estimation of S2. (d) SOC estimation of S2. (e) Voltage estimation of\nS3. (f) SOC estimation of S3. **18**",
+      "page_num": 19,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 287
+    },
+    {
+      "text": "**Downloaded from SAE International by Yizhao Gao, Monday, August 05, 2024** ~~**FIGURE 23**~~ Voltage and SOC estimation errors from UKF under S1, S2, and S3, and the temperatures are 10\u00b0C, 25\u00b0C, and 45\u00b0C.\n(a) Voltage estimation error of S1. (b) SOC estimation error of S1. (c) Voltage estimation error of S2. (d) SOC estimation error of S2.\n(e) Voltage estimation error of S3. (f) SOC estimation error of S3. in Figure 22. The UKF estimations at 45\u00b0C achieve agreea ~~ble accurac~~ y across three scenarios. As shown in Figure\n23(a) and (b), the average error of the voltage esti ~~mation~~\n~~is 5.8~~ mV, ~~an~~ d the RMSE of the SOC estimation is 0.74%.\nAt S2, as depicted in Figure 23(c) and (d), the average error\nof voltage estimatio ~~n is 9.1 mV, a~~ nd t ~~he~~ RMSE of the SOC\nestimation becomes 0.56%. For S3 in Figure 23(e) and (f),\nthe average error of the voltage esti ~~mation is 3.6 m~~ V a ~~nd~~\nthe RMSE of the SOC estimation is 0.50%. From the above\nanalysis, it can be concluded that the UKF estimation\nbased on the ECM could remain highly accurate with\naircraft applications.",
+      "page_num": 20,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 342
+    },
+    {
+      "text": "This study presents a SOC estimation scheme for a 28 V\nLFP aviation battery using a second-order ECM. RC\nparameters of ECM were accurately identified across\nvarious SOC values, temperatures, and C-rates. Nonlinear\nobservability analysis with Lie derivatives confirmed the\nlocal observability of the model. The impact of OCV\nflatness on EKF robustness was assessed by analyzing\nthe SNR changes of _dOCV_ / _dSOC_, condition numbers, and\nSOC estimations using an OCV\u2013SOC lookup table with\nadded noise. Results indicated that SOC estimation is most sensitive to input noise in the 0.5\u20130.6 and 0.8\u20130.9\nSOC ranges. EKF and UKF were applied to the model for\nSOC estimation under aviation duty cycles, revealing that\nthe accuracy of EKF was significantly influenced by\n_dOCV_ / _dSOC_, while UKF demonstrated superior performance. Sensitivity analysis of different _Q_ and _R_ values\nshowed that increasing _R_ values\u2019 reduced convergence\nrates for both EKF and UKF. For EKF, higher _Q_ (1,1) values\naccelerated SOC estimation convergence, while higher\n_Q_ (2,2) and _Q_ (3,3) values improved voltage convergence\nbut slowed SOC convergence. For UKF, higher _Q_ values\nenhanced both voltage and SOC estimation convergence.\nThe second-order ECM with UKF is tested using experimentally designed aircraft usage profiles, showing that\nthe SOC estimation RMSEs at three different temperatures are below 2%, illustrating the effectiveness of the\nUKF SOC estimation scheme for aviation batteries.",
+      "page_num": 20,
+      "chunk_index": 1,
+      "section_name": "**5. \u0007Conclusion**",
+      "token_count": 355
+    },
+    {
+      "text": "**Yizhao Gao**\nyizhaog@stanford.edu **Simona Onori**\nsonori@stanford.edu",
+      "page_num": 20,
+      "chunk_index": 2,
+      "section_name": "**Contact Information**",
+      "token_count": 28
+    },
+    {
+      "text": "**Downloaded from SAE International by Yizhao Gao, Monday, August 05, 2024**",
+      "page_num": 21,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 25
+    },
+    {
+      "text": "1. Brown, A. and Harris, W.L., \u201cVehicle Design and\nOptimization Model for Urban Air Mobility,\u201d _Journal of_\n_Aircraft_ 57, no. 6 (2020): 1003-1013. 2. Deng, H. and Aifantis, K. E., \u201cApplications of Lithium\nBatteries,\u201d in Kumar, R., Aifantis, K., and Hu, P. (eds.),\n_Rechargeable Ion Batteries_ [(2023), 83-103, Wiley, https://](https://onlinelibrary.wiley.com/doi/abs/10.1002/9783527836703)\n[onlinelibrary.wiley.com/doi/abs/10.1002/9783527836703.ch4.](https://onlinelibrary.wiley.com/doi/abs/10.1002/9783527836703) 3. Marduand, Y., \u201cCan Electric Aircraft Fly Meaningful\nDistances with Today\u2019s Technology?,\u201d 2024, accessed\n[February 6, 2024, https://www.revolution.aero/deep_](https://www.revolution.aero/deep_dive/betting-on-now-can-electricaircraft-fly-meaningful-distances-with-todays-technology/)\n[dive/betting-on-now-can-electricaircraft-fy-meaningful-](https://www.revolution.aero/deep_dive/betting-on-now-can-electricaircraft-fly-meaningful-distances-with-todays-technology/)\n[distances-with-todays-technology/.](https://www.revolution.aero/deep_dive/betting-on-now-can-electricaircraft-fly-meaningful-distances-with-todays-technology/) 4. Fallah, N. and Fitzpatrick, C., \u201cIs Shifting from Li-Ion NMC\nto LFP in EVs Beneficial for Second-Life Storages in\nElectricity Markets?\u201d _Journal of Energy Storage_ 68\n(2023): 107740. 5. Liu, K. et al., \u201cTransfer Learning for Battery Smarter\nState Estimation and Ageing Prognostics: Recent\nProgress, Challenges, and Prospects,\u201d _Advances in_\n_Applied Energy_ 9 (2022): 100117. 6. Chen, L., Yu, W., Cheng, G., and Wang, J., \u201cState-ofCharge Estimation of Lithium-Ion Batteries Based on\nFractional-Order Modeling and Adaptive Square-Root\nCubature Kalman Filter,\u201d _Energy_ 271 (2023): 127007.",
+      "page_num": 21,
+      "chunk_index": 1,
+      "section_name": "**References**",
+      "token_count": 556
+    },
+    {
+      "text": "6. Chen, L., Yu, W., Cheng, G., and Wang, J., \u201cState-ofCharge Estimation of Lithium-Ion Batteries Based on\nFractional-Order Modeling and Adaptive Square-Root\nCubature Kalman Filter,\u201d _Energy_ 271 (2023): 127007. 7. Manoharan, D., Sooriamoorthy, K.B., and Aparow, V.R.,\n\u201cElectric Vehicle Battery Pack State of Charge Estimation\nUsing Parallel Artificial Neural Networks,\u201d _Journal of_\n_Energy Storage_ 72 (2023): 108333. 8. De Angelis, A., Carbone, P., Santoni, F., Vitelli, M. et al.,\n\u201cOn the Usage of Battery Equivalent Series Resistance\nfor Shuntless Coulomb Counting and SOC Estimation,\u201d\n_Batteries_ 9, no. 6 (2023): 286. 9. Che, Y., Xu, L., Teodorescu, R., Hu, X. et al., \u201cEfficient State\nof Charge Correction for LFP Batteries Using Machine\nLearning Pipeline in Short-Term Voltage Relaxation,\u201d _ACS_\n_Energy Letters_ (2024). 10. Beelen, H., Bergveld, H.J., and Donkers, M.C.F., \u201cJoint\nEstimation of Battery Parameters and State of Charge\nUsing an Extended Kalman Filter: A Single-Parameter\nTuning Approach,\u201d _IEEE Transactions on Control Systems_\n_Technology_ [29, no. 3 (2021): 1087-1101, doi:https://doi.](http://dx.doi.org/https://doi.org/10.1109/tcst.2020.2992523)\n[org/10.1109/tcst.2020.2992523.](http://dx.doi.org/https://doi.org/10.1109/tcst.2020.2992523) 11. Takyi-Aninakwa, P., Wang, S., Zhang, H., Li, H. et al., \u201cAn\nOptimized Relevant Long Short-Term Memory-Squared Gain\nExtended Kalman Filter for the State of Charge Estimation\nof Lithium-Ion Batteries,\u201d _Energy_ 260 (2022): 125093. 12. Liu, X., Li, Q., Wang, L., Lin, M. et al., \u201cData-Driven State\nof Charge Estimation for Power Battery with Improved\nExtended Kalman Filter,\u201d _IEEE Transactions on_\n_Instrumentation and Measurement_ 72 (2023): 1-10.",
+      "page_num": 21,
+      "chunk_index": 2,
+      "section_name": "**References**",
+      "token_count": 554
+    },
+    {
+      "text": "12. Liu, X., Li, Q., Wang, L., Lin, M. et al., \u201cData-Driven State\nof Charge Estimation for Power Battery with Improved\nExtended Kalman Filter,\u201d _IEEE Transactions on_\n_Instrumentation and Measurement_ 72 (2023): 1-10. 13. Plett, G.L., \u201cExtended Kalman Filtering for Battery\nManagement Systems of LiPB-Based HEV Battery\nPacks: Part 3. State and Parameter Estimation,\u201d _Journal_\n_of Power Sources_ 134, no. 2 (2004): 277-292. 14. Maleti\u0107, F., Deur, J., and Erceg, I., \u201cA Multitimescale\nKalman Filter-Based Estimator of Li-Ion Battery\nParameters Including Adaptive Coupling of State-ofCharge and Capacity Estimation,\u201d _IEEE Transactions on_\n_Control Systems Technology_ 31, no. 2 (2022): 692-706. 15. Fan, T.-E., Liu, S.-M., Tang, X., and Qu, B., \u201cSimultaneously\nEstimating Two Battery States by Combining a Long\nShort-Term Memory Network with an Adaptive\nUnscented Kalman Filter,\u201d _Journal of Energy Storage_ 50\n(2022): 104553. 16. Chen, L., Wu, X., Lopes, A.M., Yin, L. et al., \u201cAdaptive\nState-of-Charge Estimation of Lithium-Ion Batteries\nBased on Square-Root Unscented Kalman Filter,\u201d _Energy_\n252 (2022): 123972. 17. Priya, R.P. and Sakile, R., \u201cState of Charge Estimation of\nLithium-Ion Battery Based on Extended Kalman Filter\nand Unscented Kalman Filter Techniques,\u201d _Energy_\n_Storage_ 5, no. 3 (2023): e408. 18. Lin, X., Tang, Y., Ren, J., and Wei, Y., \u201cState of Charge\nEstimation with the Adaptive Unscented Kalman Filter\nBased on an Accurate Equivalent Circuit Model,\u201d _Journal_\n_of Energy Storage_ 41 (2021): 102840. 19. Xiong, R., Duan, Y., Zhang, K., Lin, D. et al., \u201cState-of\nCharge Estimation for Onboard LiFePO4 Batteries with\nAdaptive State Update in Specific Open-Circuit-Voltage\nRanges,\u201d _Applied Energy_ 349 (2023): 121581.",
+      "page_num": 21,
+      "chunk_index": 3,
+      "section_name": "**References**",
+      "token_count": 538
+    },
+    {
+      "text": "19. Xiong, R., Duan, Y., Zhang, K., Lin, D. et al., \u201cState-of\nCharge Estimation for Onboard LiFePO4 Batteries with\nAdaptive State Update in Specific Open-Circuit-Voltage\nRanges,\u201d _Applied Energy_ 349 (2023): 121581. 20. Lim, K., Bastawrous, H.A., Duong, V.-H., See, K.W. et al.,\n\u201cFading Kalman Filter-Based Real-Time State of Charge\nEstimation in LiFePO4 Battery-Powered Electric\nVehicles,\u201d _Applied Energy_ 169 (2016): 40-48. 21. Sandrabyna, M., Sharma, S., and Basu, S., \u201cA Modified\nState of Charge Estimation Method for Li-Ion Batteries,\u201d\n_2019 IEEE Transportation Electrification Conference (ITEC-_\n_India)_, Bengaluru, India, 2019, 1-5, IEEE. 22. Zhang, K., Xiong, R., Li, Q., Chen, C. et al., \u201cA Novel\nPseudo-Open-Circuit Voltage Modeling Method for\nAccurate State-of Charge Estimation of LiFePO4\nBatteries,\u201d _Applied Energy_ 347 (2023): 121406. 23. Zheng, L., Zhu, J., Wang, G., Lu, D.D.-C. et al., \u201cDifferential\nVoltage Analysis Based State of Charge Estimation\nMethods for Lithium-Ion Batteries Using Extended\nKalman Filter and Particle Filter,\u201d _Energy_ 158 (2018):\n1028-1037. 24. Zheng, L., Zhu, J., Lu, D.D.-C., Wang, G. et al.,\n\u201cIncremental Capacity Analysis and Differential Voltage\nAnalysis Based State of Charge and Capacity Estimation\nfor Lithium-Ion Batteries,\u201d _Energy_ 150 (2018): 759-769. 25. Koga, S., Camacho-Solorio, L., and Krstic, M., \u201cState\nEstimation for Lithium-Ion Batteries with Phase\nTransition Materials via Boundary Observers,\u201d _Journal of_\n_Dynamic Systems, Measurement, and Control_ 143, no. 4\n[(2021), doi:https://doi.org/10.1115/1.4048779.](http://dx.doi.org/https://doi.org/10.1115/1.4048779)",
+      "page_num": 21,
+      "chunk_index": 4,
+      "section_name": "**References**",
+      "token_count": 526
+    },
+    {
+      "text": "26. La Rue, A., Weddle, P.J., Ma, M., Hendricks, C. et al.,\n\u201cState-of-Charge Estimation of LiFePO4\u2013Li4Ti5O12\nBatteries Using History-Dependent ComplexImpedance,\u201d _Journal of the Electrochemical Society_ 166,\nno. 16 (2019): A4041.",
+      "page_num": 21,
+      "chunk_index": 5,
+      "section_name": "**References**",
+      "token_count": 81
+    },
+    {
+      "text": "**Downloaded from SAE International by Yizhao Gao, Monday, August 05, 2024** 27. Xu, P., Li, J., Xue, Q., and Sun, F., \u201cA Syncretic State-ofCharge Estimator for LiFePO4 Batteries Leveraging\nExpansion Force,\u201d _Journal of Energy Storage_ 50\n(2022): 104559. 28. Figueroa-Santos, M.A., Siegel, J.B., and Stefanopoulou,\nA.G., \u201cLeveraging Cell Expansion Sensing in State of\nCharge Estimation: Practical Considerations,\u201d _Energies_\n13, no. 10 (2020): 2653. 29. Allam, A. and Onori, S., \u201cLinearized versus Nonlinear\nObservability Analysis for Lithium-Ion Battery Dynamics:\nWhy Respecting the Nonlinearities Is Key for Proper\nObserver Design,\u201d _IEEE Access_ 9 (2021): 163431-163440,\n[doi:https://doi.org/10.1109/access.2021.3130631.](http://dx.doi.org/https://doi.org/10.1109/access.2021.3130631) 30. Rubagotti, M., Onori, S., and Rizzoni, G., \u201cAutomotive\nBattery Prognostics Using Dual Extended Kalman Filter,\u201d\n_Proceedings of the ASME 2009 Dynamic Systems and_\n_Control Conference. ASME 2009 Dynamic Systems and_\n_Control Conference_, Vol. 2, Hollywood, CA, October 12\u201314,\n2009, 257-263, ASME. 31. Bartlett, A., Marcicki, J., Onori, S., Rizzoni, G. et al.,\n\u201cElectrochemical Model-Based State of Charge and\nCapacity Estimation for a Composite Electrode LithiumIon Battery,\u201d _IEEE Transactions on Control Systems_\n_Technology_ [24 (2015): 384-399, doi:https://doi.](http://dx.doi.org/https://doi.org/10.1109/tcst.2015.2446947)\n[org/10.1109/tcst.2015.2446947.](http://dx.doi.org/https://doi.org/10.1109/tcst.2015.2446947) 32. Zhao, S., Duncan, S.R., and Howey, D.A., \u201cObservability\nAnalysis and State Estimation of Lithium-Ion Batteries in\nthe Presence of Sensor Biases,\u201d _IEEE Transactions on_\n_Control Systems Technology_ 25, no. 1 (2016): 326-333.",
+      "page_num": 22,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 576
+    },
+    {
+      "text": "32. Zhao, S., Duncan, S.R., and Howey, D.A., \u201cObservability\nAnalysis and State Estimation of Lithium-Ion Batteries in\nthe Presence of Sensor Biases,\u201d _IEEE Transactions on_\n_Control Systems Technology_ 25, no. 1 (2016): 326-333. 33. Fotouhi, A., Auger, D.J., Propp, K., and Longo, S.,\n\u201cLithium\u2013Sulfur Battery State-of-Charge Observability\nAnalysis and Estimation,\u201d _IEEE Transactions on Power_\n_Electronics_ 33, no. 7 (2017): 5847-5859. 34. Fasolato, S. and Raimondo, D. M., \u201cObservability Analysis\nof a Li-Ion Cell Equivalent Circuit Model Based on\nInterval Arithmetic,\u201d _2022 IEEE Vehicle Power and_\n_Propulsion Conference (VPPC)_, Merced, CA, 2022, 17, IEEE. 35. Meng, J., Boukhnifer, M., and Diallo, D., \u201cLithium-Ion\nBattery Monitoring and Observability Analysis with\nExtended Equivalent Circuit Model,\u201d _2020 28th_\n_Mediterranean Conference on Control and Automation_\n_(MED)_, Saint-Rapha\u00ebl, France, 2020, 764-769, IEEE. 36. Samad, N.A., Kim, Y., Siegel, J.B., and Stefanopoulou,\nA.G., \u201cBattery Capacity Fading Estimation Using a ForceBased Incremental Capacity Analysis,\u201d _Journal of the_\n_Electrochemical Society_ 163, no. 8 (2016): A1584. 37. Kim, W.-Y., Lee, P.-Y., Kim, J., and Kim, K.-S., \u201cA Nonlinear\nOpen Circuit Voltage Representation Enabling State of\nCharge Estimation at the Voltage Plateau Region of\nLiFePO4 Battery,\u201d _2020 20th International Conference on_\n_Control, Automation and Systems (ICCAS)_, Busan, Korea,\n2020, 356-359, IEEE. 38. Shi, X. and Chatzis, M., \u201cAn Efficient Algorithm to Test\nthe Observability of Rational Nonlinear Systems with\nUnmeasured Inputs,\u201d _Mechanical Systems and Signal_\n_Processing_ 165 (2022): 108345. 39. Azkue, M., Miguel, E., Martinez-Laserna, E., Oca, L. et al.,\n\u201cCreating a Robust SoC Estimation Algorithm Based on\nLSTM Units and Trained with Synthetic Data,\u201d _World_\n_Electric Vehicle Journal_ 14, no. 7 (2023): 197.",
+      "page_num": 22,
+      "chunk_index": 1,
+      "section_name": "Content",
+      "token_count": 578
+    },
+    {
+      "text": "39. Azkue, M., Miguel, E., Martinez-Laserna, E., Oca, L. et al.,\n\u201cCreating a Robust SoC Estimation Algorithm Based on\nLSTM Units and Trained with Synthetic Data,\u201d _World_\n_Electric Vehicle Journal_ 14, no. 7 (2023): 197. 40. Lipu, M.H. et al., \u201cData-Driven State of Charge\nEstimation of Lithium-Ion Batteries: Algorithms,\nImplementation Factors, Limitations and Future Trends,\u201d\n_Journal of Cleaner Production_ 277 (2020): 124110. 41. Baure, G. and Dubarry, M., \u201cSynthetic vs. Real Driving\nCycles: A Comparison of Electric Vehicle Battery\nDegradation,\u201d _Batteries_ 5, no. 2 (2019): 42. 42. Mufti, G.M., Rehman, M.U., and Basit, A., \u201cModelling and\nSimulation of the Electrical Vehicle Using Matlab and\nVerifying It by Driving Cycles,\u201d _International Journal of_\n_Engineering & Technology_ 7, no. 4.38 (2018): 871-875. 43. Donateo, T., De Pascalis, C.L., Strafella, L., and Ficarella,\nA., \u201cOff-Line and On-Line Optimization of the Energy\nManagement Strategy in a Hybrid Electric Helicopter for\nUrban Air-Mobility,\u201d _Aerospace Science and Technology_\n[113 (2021): 106677, doi:https://doi.org/10.1016/j.](http://dx.doi.org/https://doi.org/10.1016/j.ast.2021.106677)\n[ast.2021.106677.](http://dx.doi.org/https://doi.org/10.1016/j.ast.2021.106677) 44. [https://navystp.com/vtm/print?project=N68335-](https://navystp.com/vtm/print?project=N68335-15-C-0401)\n[15-C-0401.](https://navystp.com/vtm/print?project=N68335-15-C-0401)",
+      "page_num": 22,
+      "chunk_index": 2,
+      "section_name": "Content",
+      "token_count": 472
+    },
+    {
+      "text": "44. [https://navystp.com/vtm/print?project=N68335-](https://navystp.com/vtm/print?project=N68335-15-C-0401)\n[15-C-0401.](https://navystp.com/vtm/print?project=N68335-15-C-0401) 45. Lucero, J.N.E., Sujan, V.A., and Onori, S., \u201cAn\nExperimentally Validated Electro-Thermal EV Battery\nPack Model Incorporating Cycle-Life Aging and Cell-toCell Variations,\u201d _IEEE Transactions on Transportation_\n_Electrification_ [(2024): 1, doi:https://doi.org/10.1109/](http://dx.doi.org/https://doi.org/10.1109/tte.2024.3365028)\n[tte.2024.3365028.](http://dx.doi.org/https://doi.org/10.1109/tte.2024.3365028) 46. Catenaro, E. and Onori, S., \u201cExperimental Data of\nLithium-Ion Batteries under Galvanostatic Discharge\nTests at Different Rates and Temperatures of\nOperation,\u201d _Data Brief_ [35 (2021): 106894, doi:https://doi.](http://dx.doi.org/https://doi.org/10.1016/j.dib.2021.106894)\n[org/10.1016/j.dib.2021.106894.](http://dx.doi.org/https://doi.org/10.1016/j.dib.2021.106894) 47. Hassan, K.K., \u201cNonlinear Systems,\u201d Department of\nElectrical and Computer Engineering, Michigan State\nUniversity, East Lansing, MI, 2002. 48. Plett, G.L., _Battery Management Systems, Volume II:_\n_Equivalent-Circuit Methods_ (Artech House, 2015)",
+      "page_num": 22,
+      "chunk_index": 3,
+      "section_name": "Content",
+      "token_count": 416
+    },
+    {
+      "text": "Here, we summarize the 1C capacity test results of the\nfive LFP cells used in this work. The 1C cell capacity test\nprotocol is introduced in Section 2. **TABLE A.1** 1C capacity test results for the five LFP cells [Ah]. \u00a9 SAE International",
+      "page_num": 22,
+      "chunk_index": 4,
+      "section_name": "**Appendix A: 1C Capacity Test** **Results**",
+      "token_count": 64
+    },
+    {
+      "text": "**Downloaded from SAE International by Yizhao Gao, Monday, August 05, 2024** ~~**FIGURE B.1**~~ Compare different time constants (RC) with a 7200-s relaxation. (a) Different RC responses against experiment data\nwith a 7200-s relax. (b) Voltage prediction error during the 7200-s relax.",
+      "page_num": 23,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 81
+    },
+    {
+      "text": "In this section, we detail how the RC parameters of the\nECM are identified. The RC parameters are determined\nbased on the experimental GITT data. The GITT test\nprotocol is illustrated in Section 2.\nDuring the relaxation period after each pulse of GITT\ndata, the voltage is determined by the number of time\nconstants, as shown in Figure B.1. As shown in Figure\nB.1(a), 1 RC pair is insufficient to capture the voltage relaxation, and 2 RC pairs could improve the model prediction\nsignificantly compared with 1 RC pair. Increasing the RC\npairs will enhance the model prediction capability. To\nbalance the computation time and model accuracy, 2 RC\npairs are utilized in this work, resulting in a secondorder ECM.",
+      "page_num": 23,
+      "chunk_index": 1,
+      "section_name": "**Appendix B: RC Parameter** **Identification Process and Results**",
+      "token_count": 160
+    },
+    {
+      "text": "applied immediately, the voltage drop is considered\nthe consequence of _R_ 0. Therefore, _R_ 0 is calculated as initial relaxation voltage; _VC_ 1 and _VC_ 2 are capacitor\nvoltages; _VC_ 1, _ini_ and _VC_ 2, _ini_ are initial capacitor\nvoltages. The Curve Fitting Toolbox in MATLAB was\nimplemented to fit the time constants based on the\nvoltage relaxation of GITT data as shown in Figure B.1. _R_ 0 = _Vbefore_ ~~_I_~~ - _Vafter_, where _Vbefore_ is the voltage before applying the current and _Vafter_ is the voltage after\nthe current.",
+      "page_num": 23,
+      "chunk_index": 2,
+      "section_name": "\u2022 For R 0 identification process: When the current is",
+      "token_count": 155
+    },
+    {
+      "text": "the current becomes 0, the voltage relaxation _Vlax_ is\ncontrolled by the time constants ( _\ud835\udf0f_ 1, _\ud835\udf0f_ 2) with the\nfollowing equation. _Vlax_ = _Vini_ +\u03c4 1 _dV_ ~~_dt_~~ _C_ 1 +\u03c4 2 _dV_ ~~_dt_~~ _C_ 2 - _VC ini_ 1, - _VC_ 2, _ini_ \u22c5 _Vini_ is the ~~**FIGURE B.2**~~ (a) RC pair resistance identifcation process with one discharge pulse and relaxation. (b) Voltage prediction error.",
+      "page_num": 23,
+      "chunk_index": 3,
+      "section_name": "\u2022 For time-constants identification process: When",
+      "token_count": 149
+    },
+    {
+      "text": "**Downloaded from SAE International by Yizhao Gao, Monday, August 05, 2024**",
+      "page_num": 24,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 25
+    },
+    {
+      "text": "discharge pulse and the following relaxation process,\nthe voltage _V_ could be viewed as a function of _R_ 1\nand _R_ 2 with the following equation.",
+      "page_num": 24,
+      "chunk_index": 1,
+      "section_name": "\u2022 For R 1 and R 2 identification process: Including the",
+      "token_count": 38
+    },
+    {
+      "text": "Here, the process noise covariance matrix _Q_ and sensor\nnoise covariance _R_ for EKF and UKF SOC estimator in\nthis work are summarized. **TABLE C.1** The process noise covariance matrix _Q_ and sensor\nnoise covariance _R_ for EKF and UKF SOC estimator. _V_ = _I_ \u2217 _R_ 0 +\u03c4 1 _dV_ ~~_dt_~~ _R_ 1 +\u03c4 2 _dV_ ~~_dt_~~ _R_ 2 . _VR_ 1 and _VR_ 2 are resistance voltages. By fitting this equation to experimental voltage curves, the identified process\nof _R_ 1 and _R_ 2 at each SOC are shown in Figure B.2.\nThe identified _R_ 0, _R_ 1, _R_ 2, _C_ 1, _C_ 2 are listed ~~in Tables~~\nC.2\u2013C.6, respectively. \u00a9 SAE International **TABLE C.2** _R_ 0 identification as a function of temperature, C-rate, and SOC [m\u03a9]. (The parameter values are rounded to integer.)",
+      "page_num": 24,
+      "chunk_index": 2,
+      "section_name": "**Appendix C: Q & R values**",
+      "token_count": 256
+    },
+    {
+      "text": "**Downloaded from SAE International by Yizhao Gao, Monday, August 05, 2024** **TABLE C.3** R1 identification as a function of temperature, C-rate, and SOC [m\u03a9]. (The parameter values are rounded to integer.) **TABLE C.4** _R_ 2 identification as a function of temperature, C-rate, and SOC [m\u03a9]. (The parameter values are rounded to integer.) **24**",
+      "page_num": 25,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 99
+    },
+    {
+      "text": "**Downloaded from SAE International by Yizhao Gao, Monday, August 05, 2024** **TABLE C.5** Time constant ( _\ud835\udf0f_ 1 = _R_ 1 _C_ 1) identification as a function of temperature, C-rate, and SOC [s]. (The parameter values are\nrounded to integer.) **25**",
+      "page_num": 26,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 81
+    },
+    {
+      "text": "**Downloaded from SAE International by Yizhao Gao, Monday, August 05, 2024** **TABLE C.6** Time constant ( _\ud835\udf0f_ 2 = _R_ 2 _C_ 2) identification as a function of temperature, C-rate, and SOC [s]. (The parameter values are\nrounded to integer.) \u00a9 2025 SAE International. All rights reserved. No part of this publication may be reproduced, stored in a retrieval system, transmitted, in any form or by any means,\nelectronic, mechanical, photocopying, recording, or otherwise, or used for text and data mining, AI training, or similar technologies, without the prior written permission\nof SAE. Positions and opinions advanced in this work are those of the author(s) and not necessarily those of SAE International. Responsibility for the content of the work\nlies solely with the author(s).",
+      "page_num": 27,
+      "chunk_index": 0,
+      "section_name": "Content",
+      "token_count": 192
+    }
+  ],
+  "total_chunks": 101,
+  "created_at": "2026-02-04 14:04:56"
+}
