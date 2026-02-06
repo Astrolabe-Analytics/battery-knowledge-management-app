@@ -3505,7 +3505,7 @@ def main():
             if grid_response['data'] is not None:
                 updated_df = pd.DataFrame(grid_response['data'])
                 for idx, row in updated_df.iterrows():
-                    original_status = df_data[idx]['Read']
+                    original_status = df.iloc[idx]['Read']
                     new_status = row['Read']
                     if original_status != new_status:
                         filename = row['_filename']

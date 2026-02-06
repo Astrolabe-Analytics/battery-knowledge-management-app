@@ -31,7 +31,7 @@ def build_library_dataframe(papers: List[Dict], search_query: str, filter_chemis
         Formatted DataFrame ready for AG Grid
     """
     from lib import read_status, collections
-    from lib.ui_helpers import clean_html_from_text
+    from lib.app_helpers import clean_html_from_text
 
     # Apply filters
     filtered_papers = papers

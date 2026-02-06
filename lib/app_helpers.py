@@ -5,6 +5,7 @@ Extracted from original monolithic app.py
 import streamlit as st
 import json
 import re
+import html
 import requests
 from pathlib import Path
 from typing import Dict, Any, Optional
