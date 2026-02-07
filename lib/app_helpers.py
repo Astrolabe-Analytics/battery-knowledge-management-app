@@ -27,15 +27,6 @@ def clean_html_from_text(text: str) -> str:
     return text
 
 
-# Page config
-st.set_page_config(
-    page_title="Astrolabe Research Library",
-    page_icon="⚛️",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
-
-
 def load_theme_preference():
     """Load theme preference from settings file."""
     settings_file = Path("data/settings.json")

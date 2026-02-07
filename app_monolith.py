@@ -980,8 +980,7 @@ def enrich_library_metadata(max_papers: int = None, progress_callback=None) -> d
     def log(msg):
         """Helper to log messages"""
         enrichment_logs.append(msg)
-        if progress_callback:
-            progress_callback(-1, -1, msg)  # Special callback for logs
+        # Don't update progress display for logs - let the main loop handle it
 
     for idx, (filename, paper, url, doi) in enumerate(papers_to_enrich):
         try:
@@ -1150,15 +1149,21 @@ def enrich_library_metadata(max_papers: int = None, progress_callback=None) -> d
 
 def import_csv_papers(csv_papers: list, batch_size: int, skip_existing: bool, existing_papers: list):
     """
-    Import papers from CSV with progress tracking and rate limiting.
+    Import papers from CSV with progress tracking.
+    Saves papers as-is without enrichment (no API calls during import).
+    Papers imported with minimal metadata will be marked as "Incomplete".
 
     Args:
         csv_papers: List of paper dicts from CSV
-        batch_size: Number of papers to import
-        skip_existing: Whether to skip duplicates
+        batch_size: Number of papers to import (for progress display)
+        skip_existing: Whether to skip duplicates (by title)
         existing_papers: List of existing papers in library
     """
     import time
+    import re
+    import json
+    from pathlib import Path
+    from datetime import datetime
 
     # Debug: Show column names and detected source type
     if csv_papers:
@@ -1184,80 +1189,175 @@ def import_csv_papers(csv_papers: list, batch_size: int, skip_existing: bool, ex
     failed = 0
     import_logs = []  # Collect detailed logs
 
-    # Process papers in batch
-    papers_to_process = csv_papers[:batch_size]
+    # Add batch status indicator
+    batch_status = st.empty()
 
-    for idx, csv_paper in enumerate(papers_to_process):
-        try:
-            # Update progress
-            progress = (idx + 1) / len(papers_to_process)
-            progress_bar.progress(progress)
+    # Calculate total papers and number of batches
+    total_papers = len(csv_papers)
+    num_batches = (total_papers + batch_size - 1) // batch_size  # Ceiling division
 
-            # Normalize to canonical schema
-            canonical = normalize_to_canonical_schema(csv_paper)
+    # Process ALL papers in batches
+    for batch_num in range(num_batches):
+        start_idx = batch_num * batch_size
+        end_idx = min(start_idx + batch_size, total_papers)
+        batch_papers = csv_papers[start_idx:end_idx]
 
-            # Enrich with CrossRef if we have URL/DOI
-            canonical = enrich_from_crossref(canonical)
+        batch_status.info(f"📦 Processing batch {batch_num + 1} of {num_batches} (papers {start_idx + 1}-{end_idx} of {total_papers})")
 
-            # Extract fields
-            title = canonical['title']
-            url = canonical['url']
-            authors = canonical['authors']
-            year = canonical['year']
-            journal = canonical['journal']
-            abstract = canonical['abstract']
-            tags = canonical['tags']
-            doi = canonical['doi']
-            chemistry = canonical['chemistry']
+        for idx_in_batch, csv_paper in enumerate(batch_papers):
+            global_idx = start_idx + idx_in_batch
+            try:
+                # Update progress based on total papers
+                progress = (global_idx + 1) / total_papers
+                progress_bar.progress(progress)
 
-            # Skip if no title
-            if not title:
-                import_logs.append(f"⚠️ Row {idx + 1}: No title, skipping")
-                skipped += 1
-                time.sleep(0.5)
-                continue
+                # Update status with global progress
+                status_text.text(f"Importing: {global_idx + 1}/{total_papers} ({imported} imported, {skipped} skipped, {failed} failed)")
 
-            # Check for duplicates
-            if skip_existing and is_paper_in_library(title, doi, existing_papers):
-                status_text.text(f"Importing paper {idx + 1} of {len(papers_to_process)}: {title[:50]}...")
-                import_logs.append(f"⏭️ Skipped: {title[:60]}... (already in library)")
-                skipped += 1
-                time.sleep(0.5)
-                continue
+                # Normalize to canonical schema
+                canonical = normalize_to_canonical_schema(csv_paper)
 
-            # Show current paper
-            status_text.text(f"Importing paper {idx + 1} of {len(papers_to_process)}: {title[:50]}...")
+                # Extract fields (NO enrichment during import - save as-is)
+                title = canonical['title']
+                url = canonical['url']
+                authors = canonical['authors']
+                year = canonical['year']
+                journal = canonical['journal']
+                abstract = canonical['abstract']
+                tags = canonical['tags']
+                doi = canonical['doi']
+                chemistry = canonical['chemistry']
 
-            result = add_paper_with_pdf_search(
-                doi=doi or '',
-                title=title,
-                authors=authors,
-                year=year,
-                url=url
-            )
+                # Skip if no title AND no URL
+                if not title and not url:
+                    import_logs.append(f"⚠️ Row {global_idx + 1}: No title or URL, skipping")
+                    skipped += 1
+                    continue
 
-            if result['success']:
-                pdf_icon = "📄" if result['pdf_found'] else "📝"
-                import_logs.append(f"✓ {pdf_icon} Added: {title[:60]}...")
-                imported += 1
-            else:
-                import_logs.append(f"❌ Failed: {title[:60]}... - {result['message']}")
+                # Use title or URL as fallback for duplicate detection
+                check_title = title if title else url
+
+                # Check for duplicates by title
+                if skip_existing and is_paper_in_library(check_title, doi, existing_papers):
+                    import_logs.append(f"⏭️ Skipped: {check_title[:60]}... (already in library)")
+                    skipped += 1
+                    continue
+
+                # Save metadata directly (no PDF search, no enrichment)
+                try:
+                    # Create filename from title or URL
+                    if title:
+                        safe_title = re.sub(r'[^\w\s-]', '', title[:50])
+                        safe_title = re.sub(r'[-\s]+', '_', safe_title)
+                        filename = f"{safe_title}.pdf"
+                    elif doi:
+                        safe_doi = doi.replace('/', '_').replace('.', '_')
+                        filename = f"doi_{safe_doi}.pdf"
+                    else:
+                        # Use hash of URL
+                        import hashlib
+                        url_hash = hashlib.md5(url.encode()).hexdigest()[:8]
+                        filename = f"url_{url_hash}.pdf"
+
+                    # Save to metadata.json
+                    metadata_file = Path("data/metadata.json")
+                    metadata_file.parent.mkdir(parents=True, exist_ok=True)
+
+                    all_metadata = {}
+                    if metadata_file.exists():
+                        with open(metadata_file, 'r', encoding='utf-8') as f:
+                            all_metadata = json.load(f)
+
+                    all_metadata[filename] = {
+                        'filename': filename,
+                        'title': title or url,  # Use URL as title fallback
+                        'authors': authors if authors else [],
+                        'year': year or '',
+                        'journal': journal or '',
+                        'doi': doi or '',
+                        'chemistries': chemistry if chemistry else [],
+                        'topics': [],
+                        'application': 'general',
+                        'paper_type': 'experimental',
+                        'metadata_only': True,  # No PDF
+                        'pdf_status': 'needs_pdf',
+                        'date_added': datetime.now().isoformat(),
+                        'abstract': abstract or '',
+                        'author_keywords': tags if tags else [],
+                        'volume': '',
+                        'issue': '',
+                        'pages': '',
+                        'source_url': url or '',
+                        'notes': '',
+                        'references': []
+                    }
+
+                    with open(metadata_file, 'w', encoding='utf-8') as f:
+                        json.dump(all_metadata, f, indent=2, ensure_ascii=False)
+
+                    # Add to ChromaDB (convert lists to strings for ChromaDB compatibility)
+                    from lib.rag import DatabaseClient
+                    collection = DatabaseClient.get_collection()
+
+                    doc_id = f"{filename}_metadata"
+                    try:
+                        collection.delete(ids=[doc_id])
+                    except:
+                        pass
+
+                    # Prepare metadata for ChromaDB (no lists allowed)
+                    chroma_metadata = {
+                        'filename': filename,
+                        'title': title or url or '',
+                        'authors': ', '.join(authors) if authors else '',
+                        'year': year or '',
+                        'journal': journal or '',
+                        'doi': doi or '',
+                        'chemistries': ', '.join(chemistry) if chemistry else '',
+                        'topics': '',
+                        'application': 'general',
+                        'paper_type': 'experimental',
+                        'metadata_only': True,
+                        'pdf_status': 'needs_pdf',
+                        'date_added': datetime.now().isoformat(),
+                        'abstract': abstract or '',
+                        'author_keywords': ', '.join(tags) if tags else '',
+                        'volume': '',
+                        'issue': '',
+                        'pages': '',
+                        'source_url': url or '',
+                        'notes': ''
+                    }
+
+                    collection.add(
+                        ids=[doc_id],
+                        documents=[title or url or "No title"],
+                        metadatas=[chroma_metadata]
+                    )
+
+                    import_logs.append(f"✓ 📝 Added: {(title or url)[:60]}... (incomplete)")
+                    imported += 1
+
+                except Exception as e:
+                    import_logs.append(f"❌ Failed: {(title or url)[:60]}... - {str(e)}")
+                    failed += 1
+
+                # Small sleep to avoid overwhelming the system (no API calls now)
+                time.sleep(0.1)
+
+            except Exception as e:
+                import traceback
+                error_msg = f"❌ Error processing row {global_idx + 1}: {type(e).__name__}: {str(e)}"
+                import_logs.append(error_msg)
+                import_logs.append(f"   Traceback: {traceback.format_exc()}")
                 failed += 1
-
-            # Rate limiting: 2-3 seconds between papers (for CrossRef + Unpaywall)
-            time.sleep(2.5)
-
-        except Exception as e:
-            import traceback
-            error_msg = f"❌ Error processing row {idx + 1}: {type(e).__name__}: {str(e)}"
-            import_logs.append(error_msg)
-            import_logs.append(f"   Traceback: {traceback.format_exc()}")
-            failed += 1
-            time.sleep(1)
+                time.sleep(1)
+                # Continue to next paper even if this one failed
 
     # Clear progress indicators
     progress_bar.empty()
     status_text.empty()
+    batch_status.empty()
 
     # Summary message
     summary_parts = []
@@ -1268,12 +1368,37 @@ def import_csv_papers(csv_papers: list, batch_size: int, skip_existing: bool, ex
     if failed > 0:
         summary_parts.append(f"❌ {failed} failed")
 
+    summary_msg = f"Processed all {total_papers} papers: " + ". ".join(summary_parts) + "."
+
     if imported > 0:
-        st.success(". ".join(summary_parts) + ".")
-    elif len(papers_to_process) > 0:
-        st.info(". ".join(summary_parts) + ".")
+        st.success(summary_msg)
+    elif total_papers > 0:
+        st.info(summary_msg)
     else:
         st.warning("No papers to import")
+
+    # Save import logs to file for later review
+    if import_logs:
+        from datetime import datetime
+        from pathlib import Path
+
+        log_dir = Path("data/import_logs")
+        log_dir.mkdir(parents=True, exist_ok=True)
+
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        log_file = log_dir / f"import_{timestamp}.txt"
+
+        with open(log_file, 'w', encoding='utf-8') as f:
+            f.write(f"CSV Import Log - {datetime.now().isoformat()}\n")
+            f.write(f"Total papers attempted: {total_papers}\n")
+            f.write(f"Imported: {imported}\n")
+            f.write(f"Skipped: {skipped}\n")
+            f.write(f"Failed: {failed}\n")
+            f.write("\n" + "="*80 + "\n\n")
+            for log in import_logs:
+                f.write(log + "\n")
+
+        st.info(f"📝 Import log saved to: {log_file}")
 
     # Details in expander
     if import_logs:
@@ -1361,7 +1486,6 @@ def main():
 
     # TIMING: Start
     _start_time = timing_module.time()
-    print(f"\n[TIMING] main() started", file=sys.stderr, flush=True)
 
     # Initialize session state
     if "selected_paper" not in st.session_state:
@@ -1395,27 +1519,19 @@ def main():
     # Load resources using backend with session state caching
     # Cache papers to avoid reloading ChromaDB on every rerun
     if 'cached_papers' not in st.session_state or st.session_state.get('reload_papers', False):
-        print(f"[TIMING] RELOADING papers from ChromaDB (cache miss or reload_papers={st.session_state.get('reload_papers', 'not set')})", file=sys.stderr, flush=True)
         try:
-            _reload_start = timing_module.time()
             st.session_state.cached_papers = rag.get_paper_library()
             st.session_state.cached_filter_options = rag.get_filter_options()
             st.session_state.cached_total_chunks = rag.get_collection_count()
             st.session_state.reload_papers = False
-            print(f"[TIMING] Papers reloaded in {timing_module.time() - _reload_start:.3f}s", file=sys.stderr, flush=True)
         except (FileNotFoundError, RuntimeError) as e:
             st.error(str(e))
             st.info("Please run `python scripts/ingest.py` first to create the database")
             st.stop()
-    else:
-        print(f"[TIMING] Using cached papers (no reload)", file=sys.stderr, flush=True)
 
     papers = st.session_state.cached_papers
     filter_options = st.session_state.cached_filter_options
     total_chunks = st.session_state.cached_total_chunks
-
-    # TIMING: After loading papers
-    print(f"[TIMING] Papers loaded: {timing_module.time() - _start_time:.3f}s", file=sys.stderr, flush=True)
 
     # Sidebar - Simplified and professional
     with st.sidebar:
@@ -1424,8 +1540,6 @@ def main():
 
         # Calculate stats (cached in session state to avoid slow disk I/O on every rerun)
         if 'cached_stats' not in st.session_state or st.session_state.get('reload_papers', False):
-            print(f"[TIMING] RECALCULATING sidebar stats (checking {len(papers)} PDFs)", file=sys.stderr, flush=True)
-            _stats_start = timing_module.time()
             total_papers = len(papers)
             complete_papers = 0
             metadata_only_papers = 0
@@ -1461,10 +1575,8 @@ def main():
                 'metadata_only': metadata_only_papers,
                 'incomplete': incomplete_papers
             }
-            print(f"[TIMING] Stats calculated in {timing_module.time() - _stats_start:.3f}s", file=sys.stderr, flush=True)
         else:
             # Use cached stats
-            print(f"[TIMING] Using cached stats (no recalc)", file=sys.stderr, flush=True)
             total_papers = st.session_state.cached_stats['total']
             complete_papers = st.session_state.cached_stats['complete']
             metadata_only_papers = st.session_state.cached_stats['metadata_only']
@@ -1493,9 +1605,6 @@ def main():
 
         st.divider()
         st.metric("Chunks", total_chunks)
-
-    # TIMING: After sidebar
-    print(f"[TIMING] Sidebar rendered: {timing_module.time() - _start_time:.3f}s", file=sys.stderr, flush=True)
 
     # Main content - Tabs
     tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["📥 Import", "Library", "🔍 Discover", "Research", "History", "Settings", "🗑️ Trash"])
@@ -2015,7 +2124,6 @@ def main():
                 col_back, col_pdf = st.columns([1, 2])
                 with col_back:
                     if st.button("← Back to Library", use_container_width=True):
-                        print(f"\n[TIMING] Back button clicked - clearing selected_paper", file=sys.stderr, flush=True)
                         st.session_state.selected_paper = None
                         st.rerun()
 
@@ -2158,17 +2266,13 @@ def main():
                                                     if crossref_data.get('pages'):
                                                         all_metadata[paper_filename]['pages'] = crossref_data['pages']
 
-                                                    print(f"[FIND DOI] Enriched {paper_filename} with full metadata from CrossRef")
-
                                                 # Save to metadata.json
                                                 with open(metadata_file, 'w', encoding='utf-8') as f:
                                                     json.dump(all_metadata, f, indent=2, ensure_ascii=False)
-                                                print(f"[FIND DOI] Saved enriched metadata for {paper_filename}")
 
                                                 # Update ChromaDB with all metadata
                                                 from lib.rag import DatabaseClient
                                                 DatabaseClient.update_paper_metadata(paper_filename, all_metadata[paper_filename])
-                                                print(f"[FIND DOI] Updated ChromaDB for {paper_filename}")
 
                                                 # Clear caches
                                                 DatabaseClient.clear_cache()
@@ -3037,7 +3141,6 @@ def main():
                 filter_collection=filter_collection or "All Collections",
                 filter_status=filter_status or "All Papers"
             )
-            print(f"[TIMING] DataFrame built: {timing_module.time() - _df_start:.3f}s (total: {timing_module.time() - _start_time:.3f}s)", file=sys.stderr, flush=True)
 
             # Count filtered papers
             filtered_count = len(df)
@@ -3497,6 +3600,10 @@ def main():
             # Use key to preserve grid state across reruns
             grid_key = f"library_grid_{st.session_state.theme}"
 
+            # Calculate dynamic height based on number of rows (60px per row + 100px for header/pagination)
+            # Cap at 2000px to avoid excessive page length
+            table_height = min(len(df) * 60 + 100, 2000)
+
             grid_response = AgGrid(
                 df,
                 gridOptions=grid_options,
@@ -3506,7 +3613,7 @@ def main():
                 custom_css=custom_css,
                 allow_unsafe_jscode=True,
                 enable_enterprise_modules=False,
-                height=1400,  # Fixed height to show ~23 rows with internal scrolling
+                height=table_height,  # Dynamic height based on filtered rows
                 reload_data=False,  # Improve performance by not reloading data unnecessarily
                 key=grid_key  # Preserve state across reruns
             )
@@ -3839,11 +3946,15 @@ def main():
 
                     grid_options_search = gb_search.build()
 
+                    # Calculate dynamic height based on number of results (50px per row + 100px for header)
+                    # Cap at 800px for search results
+                    search_height = min(len(df_search) * 50 + 100, 800)
+
                     # Display AG Grid
                     grid_response_search = AgGrid(
                         df_search,
                         gridOptions=grid_options_search,
-                        height=500,
+                        height=search_height,
                         theme="streamlit",
                         update_mode=GridUpdateMode.SELECTION_CHANGED,
                         allow_unsafe_jscode=True,
@@ -4084,11 +4195,15 @@ def main():
             with btn_col2:
                 add_all_button = st.button("📥 Add All", type="secondary", use_container_width=True, key="add_all_gaps")
 
+            # Calculate dynamic height based on number of gaps (60px per row + 100px for header)
+            # Cap at 800px for gap analysis results
+            gaps_height = min(len(df) * 60 + 100, 800)
+
             # Display AG Grid
             grid_response = AgGrid(
                 df,
                 gridOptions=grid_options,
-                height=600,
+                height=gaps_height,
                 theme="streamlit",
                 update_mode=GridUpdateMode.SELECTION_CHANGED,
                 allow_unsafe_jscode=True,
@@ -5704,7 +5819,8 @@ def soft_delete_paper(filename: str) -> Dict[str, Any]:
             db.collection.delete(where={"filename": filename})
         except Exception as e:
             # Non-fatal if ChromaDB deletion fails
-            pass
+            import logging
+            logging.warning(f"ChromaDB deletion failed for {filename}: {str(e)}")
 
         return {
             'success': True,
@@ -5813,7 +5929,8 @@ def permanently_delete_paper(filename: str) -> Dict[str, Any]:
             db.collection.delete(where={"filename": filename})
         except Exception as e:
             # Non-fatal if ChromaDB deletion fails
-            pass
+            import logging
+            logging.warning(f"ChromaDB deletion failed for {filename}: {str(e)}")
 
         # Delete notes file if exists
         notes_file = Path(f"data/notes/{filename}.txt")
