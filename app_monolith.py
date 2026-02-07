@@ -1352,6 +1352,11 @@ def main():
     # Import modules used throughout main() to avoid UnboundLocalError
     import re
     from pathlib import Path
+    import time as timing_module
+
+    # TIMING: Start
+    _start_time = timing_module.time()
+    print(f"\n[TIMING] main() started")
 
     # Initialize session state
     if "selected_paper" not in st.session_state:
@@ -1398,6 +1403,9 @@ def main():
     papers = st.session_state.cached_papers
     filter_options = st.session_state.cached_filter_options
     total_chunks = st.session_state.cached_total_chunks
+
+    # TIMING: After loading papers
+    print(f"[TIMING] Papers loaded: {timing_module.time() - _start_time:.3f}s")
 
     # Sidebar - Simplified and professional
     with st.sidebar:
@@ -1457,6 +1465,9 @@ def main():
 
         st.divider()
         st.metric("Chunks", total_chunks)
+
+    # TIMING: After sidebar
+    print(f"[TIMING] Sidebar rendered: {timing_module.time() - _start_time:.3f}s")
 
     # Main content - Tabs
     tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["📥 Import", "Library", "🔍 Discover", "Research", "History", "Settings", "🗑️ Trash"])
@@ -1975,6 +1986,7 @@ def main():
                 col_back, col_pdf = st.columns([1, 2])
                 with col_back:
                     if st.button("← Back to Library", use_container_width=True):
+                        print(f"\n[TIMING] Back button clicked - clearing selected_paper")
                         st.session_state.selected_paper = None
                         st.rerun()
 
@@ -2923,6 +2935,7 @@ def main():
                 )
 
             # Build library DataFrame using cached function (filters + formats data)
+            _df_start = timing_module.time()
             df = cached_operations.build_library_dataframe(
                 papers=papers,
                 search_query=search_query or "",
@@ -2932,6 +2945,7 @@ def main():
                 filter_collection=filter_collection or "All Collections",
                 filter_status=filter_status or "All Papers"
             )
+            print(f"[TIMING] DataFrame built: {timing_module.time() - _df_start:.3f}s (total: {timing_module.time() - _start_time:.3f}s)")
 
             # Count filtered papers
             filtered_count = len(df)
