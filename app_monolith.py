@@ -2120,24 +2120,53 @@ def main():
                     with doi_col2:
                         if not doi and details.get('title'):
                             if st.button("🔍 Find DOI", key=f"find_doi_{paper_filename}", use_container_width=True):
+                                # Step 1: Find DOI
                                 with st.spinner("Searching Semantic Scholar..."):
-                                    from lib.app_helpers import find_doi_via_semantic_scholar
+                                    from lib.app_helpers import find_doi_via_semantic_scholar, query_crossref_for_metadata
                                     found_doi = find_doi_via_semantic_scholar(details['title'])
-                                    if found_doi:
-                                        # Save to metadata.json
+
+                                if found_doi:
+                                    # Step 2: Enrich from CrossRef
+                                    with st.spinner(f"Enriching metadata from CrossRef..."):
                                         metadata_file = Path("data/metadata.json")
                                         if metadata_file.exists():
                                             with open(metadata_file, 'r', encoding='utf-8') as f:
                                                 all_metadata = json.load(f)
+
                                             if paper_filename in all_metadata:
+                                                # Get full metadata from CrossRef
+                                                crossref_data = query_crossref_for_metadata(found_doi)
+
+                                                # Update metadata
                                                 all_metadata[paper_filename]['doi'] = found_doi
+
+                                                if crossref_data:
+                                                    # Extract and save additional metadata
+                                                    if crossref_data.get('title'):
+                                                        all_metadata[paper_filename]['title'] = crossref_data['title']
+                                                    if crossref_data.get('authors'):
+                                                        all_metadata[paper_filename]['authors'] = crossref_data['authors']
+                                                    if crossref_data.get('year'):
+                                                        all_metadata[paper_filename]['year'] = crossref_data['year']
+                                                    if crossref_data.get('journal'):
+                                                        all_metadata[paper_filename]['journal'] = crossref_data['journal']
+                                                    if crossref_data.get('volume'):
+                                                        all_metadata[paper_filename]['volume'] = crossref_data['volume']
+                                                    if crossref_data.get('issue'):
+                                                        all_metadata[paper_filename]['issue'] = crossref_data['issue']
+                                                    if crossref_data.get('pages'):
+                                                        all_metadata[paper_filename]['pages'] = crossref_data['pages']
+
+                                                    print(f"[FIND DOI] Enriched {paper_filename} with full metadata from CrossRef")
+
+                                                # Save to metadata.json
                                                 with open(metadata_file, 'w', encoding='utf-8') as f:
                                                     json.dump(all_metadata, f, indent=2, ensure_ascii=False)
-                                                print(f"[FIND DOI] Saved DOI '{found_doi}' to metadata.json for {paper_filename}")
+                                                print(f"[FIND DOI] Saved enriched metadata for {paper_filename}")
 
-                                                # Update ChromaDB
+                                                # Update ChromaDB with all metadata
                                                 from lib.rag import DatabaseClient
-                                                DatabaseClient.update_paper_metadata(paper_filename, {"doi": found_doi})
+                                                DatabaseClient.update_paper_metadata(paper_filename, all_metadata[paper_filename])
                                                 print(f"[FIND DOI] Updated ChromaDB for {paper_filename}")
 
                                                 # Clear caches
@@ -2145,10 +2174,10 @@ def main():
                                                 st.cache_data.clear()
                                                 st.session_state.reload_papers = True
 
-                                                st.success(f"✅ Found and saved DOI: {found_doi}")
+                                                st.success(f"✅ Found DOI and enriched metadata from CrossRef")
                                                 st.rerun()
-                                    else:
-                                        st.warning("❌ No DOI found on Semantic Scholar")
+                                else:
+                                    st.warning("❌ No DOI found on Semantic Scholar")
 
                     # Application
                     if details.get('application'):

@@ -2046,25 +2046,59 @@ else:
             with open(metadata_file, 'r', encoding='utf-8') as f:
                 all_metadata = json.load(f)
 
-            from lib.app_helpers import find_doi_via_semantic_scholar
+            from lib.app_helpers import find_doi_via_semantic_scholar, query_crossref_for_metadata
             from lib.rag import DatabaseClient
 
+            enriched_count = 0
+
             for idx, paper in enumerate(papers_missing_doi):
-                progress_text.text(f"Searching for DOI {idx + 1} of {len(papers_missing_doi)}: {paper['title'][:50]}...")
+                # Update status with running counts
+                status_text = f"Finding DOIs: {idx + 1}/{len(papers_missing_doi)} complete ({found_count} found, {not_found_count} not found)"
+                progress_text.text(status_text)
                 progress_bar.progress((idx + 1) / len(papers_missing_doi))
 
+                # Step 1: Find DOI via Semantic Scholar
                 found_doi = find_doi_via_semantic_scholar(paper['title'])
 
                 if found_doi:
-                    # Save to metadata.json
-                    if paper['filename'] in all_metadata:
-                        all_metadata[paper['filename']]['doi'] = found_doi
-                        print(f"[BULK FIND DOI] Found DOI '{found_doi}' for {paper['filename']}")
+                    print(f"[BULK FIND DOI] Found DOI '{found_doi}' for {paper['filename']}")
 
-                        # Update ChromaDB
-                        DatabaseClient.update_paper_metadata(paper['filename'], {"doi": found_doi})
+                    # Step 2: Enrich from CrossRef using the found DOI
+                    progress_text.text(f"{status_text} | Enriching metadata...")
+                    crossref_data = query_crossref_for_metadata(found_doi)
+
+                    if crossref_data and paper['filename'] in all_metadata:
+                        # Update all metadata fields from CrossRef
+                        all_metadata[paper['filename']]['doi'] = found_doi
+
+                        # Extract and save additional metadata
+                        if crossref_data.get('title'):
+                            all_metadata[paper['filename']]['title'] = crossref_data['title']
+                        if crossref_data.get('authors'):
+                            all_metadata[paper['filename']]['authors'] = crossref_data['authors']
+                        if crossref_data.get('year'):
+                            all_metadata[paper['filename']]['year'] = crossref_data['year']
+                        if crossref_data.get('journal'):
+                            all_metadata[paper['filename']]['journal'] = crossref_data['journal']
+                        if crossref_data.get('volume'):
+                            all_metadata[paper['filename']]['volume'] = crossref_data['volume']
+                        if crossref_data.get('issue'):
+                            all_metadata[paper['filename']]['issue'] = crossref_data['issue']
+                        if crossref_data.get('pages'):
+                            all_metadata[paper['filename']]['pages'] = crossref_data['pages']
+
+                        # Update ChromaDB with all new metadata
+                        DatabaseClient.update_paper_metadata(paper['filename'], all_metadata[paper['filename']])
 
                         found_count += 1
+                        enriched_count += 1
+                        print(f"[BULK FIND DOI] Enriched {paper['filename']} with full metadata from CrossRef")
+                    else:
+                        # DOI found but enrichment failed - still save the DOI
+                        all_metadata[paper['filename']]['doi'] = found_doi
+                        DatabaseClient.update_paper_metadata(paper['filename'], {"doi": found_doi})
+                        found_count += 1
+                        print(f"[BULK FIND DOI] Saved DOI but CrossRef enrichment failed for {paper['filename']}")
                 else:
                     not_found_count += 1
                     print(f"[BULK FIND DOI] No DOI found for {paper['filename']}")
@@ -2084,7 +2118,7 @@ else:
 
             # Show summary
             if found_count > 0:
-                st.success(f"✅ Found DOIs for {found_count} of {len(papers_missing_doi)} selected papers. {not_found_count} not found.")
+                st.success(f"✅ Found and enriched {enriched_count} of {len(papers_missing_doi)} papers. {not_found_count} not found.")
             else:
                 st.warning(f"❌ No DOIs found for any of the {len(papers_missing_doi)} selected papers.")
 
