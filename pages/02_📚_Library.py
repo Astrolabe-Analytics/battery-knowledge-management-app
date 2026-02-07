@@ -1833,6 +1833,7 @@ else:
 
                 metadata_changed = False
                 changed_papers = []
+                changed_files = {}  # Track filename -> new_doi for ChromaDB updates
 
                 # Only check rows where DOI in grid differs from metadata
                 for idx, updated_row in updated_df.iterrows():
@@ -1854,6 +1855,7 @@ else:
                             # Update DOI in metadata
                             new_doi = grid_doi if grid_doi != '—' else ''
                             all_metadata[filename]['doi'] = new_doi
+                            changed_files[filename] = new_doi  # Track for ChromaDB update
                             metadata_changed = True
                             changed_papers.append(all_metadata[filename].get('title', filename)[:50])
 
@@ -1865,18 +1867,9 @@ else:
 
                     # Update ChromaDB for each changed paper
                     from lib.rag import DatabaseClient
-                    for idx, updated_row in updated_df.iterrows():
-                        filename = updated_row.get('_filename')
-                        if filename and filename in all_metadata:
-                            metadata_doi = all_metadata[filename].get('doi', '')
-                            metadata_doi_display = metadata_doi if metadata_doi else '—'
-                            grid_doi = str(updated_row.get('DOI', '—')).strip()
-                            if grid_doi in ['', 'nan', 'None']:
-                                grid_doi = '—'
-                            if grid_doi != metadata_doi_display:
-                                # Update ChromaDB with new DOI
-                                new_doi = grid_doi if grid_doi != '—' else ''
-                                DatabaseClient.update_paper_metadata(filename, {"doi": new_doi})
+                    for filename, new_doi in changed_files.items():
+                        print(f"[DOI UPDATE] Updating ChromaDB for {filename} with DOI: {new_doi}")
+                        DatabaseClient.update_paper_metadata(filename, {"doi": new_doi})
 
                     # Clear caches to force reload with updated DOI
                     DatabaseClient.clear_cache()
