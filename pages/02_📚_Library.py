@@ -1801,46 +1801,61 @@ else:
         key=grid_key  # Preserve state across reruns
     )
 
-    # Handle DOI cell edits
-    if grid_response['data'] is not None:
+    # Handle DOI cell edits - only check if we haven't just processed an update
+    if grid_response['data'] is not None and not st.session_state.get('just_updated_doi', False):
         updated_df = pd.DataFrame(grid_response['data'])
 
-        # Check if any DOI values changed
-        if len(updated_df) > 0 and 'DOI' in updated_df.columns and '_filename' in updated_df.columns:
-            # Load metadata
+        # Check if any DOI values changed by comparing with original
+        if len(updated_df) > 0 and len(updated_df) == len(df) and 'DOI' in updated_df.columns and '_filename' in updated_df.columns:
+            # Load metadata to compare with actual stored values
             metadata_file = Path("data/metadata.json")
             if metadata_file.exists():
                 with open(metadata_file, 'r', encoding='utf-8') as f:
                     all_metadata = json.load(f)
 
                 metadata_changed = False
+                changed_papers = []
 
-                # Compare with original df to find changes
+                # Only check rows where DOI in grid differs from metadata
                 for idx, updated_row in updated_df.iterrows():
-                    if idx < len(df):
-                        original_row = df.iloc[idx]
-                        filename = updated_row['_filename']
+                    filename = updated_row.get('_filename')
+                    if filename and filename in all_metadata:
+                        # Get DOI from metadata (source of truth)
+                        metadata_doi = all_metadata[filename].get('doi', '')
+                        metadata_doi_display = metadata_doi if metadata_doi else '—'
 
-                        # Check if DOI changed
-                        original_doi = original_row.get('DOI', '—')
-                        updated_doi = updated_row.get('DOI', '—')
+                        # Get DOI from grid (possibly edited)
+                        grid_doi = str(updated_row.get('DOI', '—')).strip()
 
-                        if original_doi != updated_doi and filename in all_metadata:
+                        # Normalize for comparison
+                        if grid_doi in ['', 'nan', 'None']:
+                            grid_doi = '—'
+
+                        # Only update if different from what's in metadata
+                        if grid_doi != metadata_doi_display:
                             # Update DOI in metadata
-                            new_doi = updated_doi if updated_doi != '—' else ''
+                            new_doi = grid_doi if grid_doi != '—' else ''
                             all_metadata[filename]['doi'] = new_doi
                             metadata_changed = True
+                            changed_papers.append(all_metadata[filename].get('title', filename)[:50])
 
-                            st.toast(f"✅ DOI updated for {all_metadata[filename].get('title', filename)[:50]}", icon="✏️")
-
-                # Save metadata if changed
+                # Save metadata and show notification only if actually changed
                 if metadata_changed:
                     with open(metadata_file, 'w', encoding='utf-8') as f:
                         json.dump(all_metadata, f, indent=2, ensure_ascii=False)
 
-                    # Invalidate cache to reload papers
+                    # Show toast for changed papers
+                    for paper_title in changed_papers:
+                        st.toast(f"✅ DOI updated for {paper_title}", icon="✏️")
+
+                    # Set flag to prevent re-checking on next rerun
+                    st.session_state.just_updated_doi = True
                     st.session_state.reload_papers = True
                     st.rerun()
+
+    # Clear the flag after one rerun
+    if st.session_state.get('just_updated_doi', False):
+        st.session_state.just_updated_doi = False
 
     # Handle delete button click
     if delete_button and grid_response['selected_rows'] is not None and len(grid_response['selected_rows']) > 0:

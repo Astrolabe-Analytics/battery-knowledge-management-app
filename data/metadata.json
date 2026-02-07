@@ -2695,7 +2695,7 @@
     ],
     "year": "2024",
     "journal": "Journal of Energy Storage",
-    "doi": "https://doi.org/10.1016/j.est.2023.110279",
+    "doi": "10.1016/j.est.2023.110279",
     "chemistries": [
       "LI-ION"
     ],
@@ -3952,7 +3952,7 @@
     ],
     "year": "2019",
     "journal": "Nature Energy",
-    "doi": "https://doi.org/10.1038/s41560-019-0356-8",
+    "doi": "10.1038/s41560-019-0356-8",
     "chemistries": [
       "LFP",
       "GRAPHITE"
@@ -4712,7 +4712,7 @@
     ],
     "year": "2019",
     "journal": "Batteries",
-    "doi": "https://doi.org/10.3390/batteries5020045",
+    "doi": "10.3390/batteries5020045",
     "chemistries": [
       "GRAPHITE",
       "LFP"
