@@ -1605,7 +1605,16 @@ else:
     gb.configure_column("_filename", hide=True)
     gb.configure_column("_doi_url", hide=True)
     gb.configure_column("_paper_title", hide=True)
-    gb.configure_column("_navigate_trigger", hide=True, editable=True)
+    gb.configure_column("_navigate_trigger",
+        hide=True,
+        editable=True,
+        suppressMenu=True,
+        lockVisible=True,
+        suppressColumnsToolPanel=True,
+        width=0,
+        minWidth=0,
+        maxWidth=0
+    )
 
     # Grid options - configured for full-width with virtualization for large datasets
     # Multi-select enabled via Select column (configured above with checkboxSelection=True)

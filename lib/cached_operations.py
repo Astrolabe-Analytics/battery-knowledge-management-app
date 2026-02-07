@@ -135,12 +135,21 @@ def build_library_dataframe(papers: List[Dict], search_query: str, filter_chemis
 
 
 def get_paper_status(paper: Dict) -> str:
-    """Determine paper status based on metadata and PDF existence."""
+    """Determine paper status based on metadata and PDF existence.
+
+    A paper is considered complete if it has:
+    - Title, authors, year, journal, AND DOI
+    - Plus a PDF file
+
+    A paper is "Metadata Only" if it has all required metadata but no PDF.
+    A paper is "Incomplete" if it's missing any required metadata (including DOI).
+    """
     has_title = bool(paper.get('title', '').strip())
     has_authors = bool(paper.get('authors') and paper.get('authors') != [])
     has_year = bool(paper.get('year', '').strip())
     has_journal = bool(paper.get('journal', '').strip())
-    metadata_complete = has_title and has_authors and has_year and has_journal
+    has_doi = bool(paper.get('doi', '').strip())  # DOI is now required
+    metadata_complete = has_title and has_authors and has_year and has_journal and has_doi
 
     pdf_path = Path("papers") / paper['filename']
     has_pdf = pdf_path.exists()
