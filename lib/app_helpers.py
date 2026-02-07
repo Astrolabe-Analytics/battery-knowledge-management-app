@@ -1160,86 +1160,95 @@ def import_csv_papers(csv_papers: list, batch_size: int, skip_existing: bool, ex
     # Progress tracking
     progress_bar = st.progress(0)
     status_text = st.empty()
+    batch_status = st.empty()
 
     imported = 0
     skipped = 0
     failed = 0
     import_logs = []  # Collect detailed logs
 
-    # Process papers in batch
-    papers_to_process = csv_papers[:batch_size]
+    total_papers = len(csv_papers)
+    num_batches = (total_papers + batch_size - 1) // batch_size  # Ceiling division
 
-    for idx, csv_paper in enumerate(papers_to_process):
-        try:
-            # Update progress
-            progress = (idx + 1) / len(papers_to_process)
-            progress_bar.progress(progress)
+    # Process ALL papers in batches
+    for batch_num in range(num_batches):
+        start_idx = batch_num * batch_size
+        end_idx = min(start_idx + batch_size, total_papers)
+        batch_papers = csv_papers[start_idx:end_idx]
 
-            # Normalize to canonical schema
-            canonical = normalize_to_canonical_schema(csv_paper)
+        batch_status.info(f"📦 Processing batch {batch_num + 1} of {num_batches} (papers {start_idx + 1}-{end_idx} of {total_papers})")
 
-            # Enrich with CrossRef if we have URL/DOI
-            canonical = enrich_from_crossref(canonical)
+        for idx_in_batch, csv_paper in enumerate(batch_papers):
+            global_idx = start_idx + idx_in_batch
+            try:
+                # Update progress based on total papers
+                progress = (global_idx + 1) / total_papers
+                progress_bar.progress(progress)
+                status_text.text(f"Importing: {global_idx + 1}/{total_papers} ({imported} imported, {skipped} skipped, {failed} failed)")
 
-            # Extract fields
-            title = canonical['title']
-            url = canonical['url']
-            authors = canonical['authors']
-            year = canonical['year']
-            journal = canonical['journal']
-            abstract = canonical['abstract']
-            tags = canonical['tags']
-            doi = canonical['doi']
-            chemistry = canonical['chemistry']
+                # Normalize to canonical schema
+                canonical = normalize_to_canonical_schema(csv_paper)
 
-            # Skip if no title
-            if not title:
-                import_logs.append(f"⚠️ Row {idx + 1}: No title, skipping")
-                skipped += 1
-                time.sleep(0.5)
-                continue
+                # Enrich with CrossRef if we have URL/DOI
+                canonical = enrich_from_crossref(canonical)
 
-            # Check for duplicates
-            if skip_existing and is_paper_in_library(title, doi, existing_papers):
-                status_text.text(f"Importing paper {idx + 1} of {len(papers_to_process)}: {title[:50]}...")
-                import_logs.append(f"⏭️ Skipped: {title[:60]}... (already in library)")
-                skipped += 1
-                time.sleep(0.5)
-                continue
+                # Extract fields
+                title = canonical['title']
+                url = canonical['url']
+                authors = canonical['authors']
+                year = canonical['year']
+                journal = canonical['journal']
+                abstract = canonical['abstract']
+                tags = canonical['tags']
+                doi = canonical['doi']
+                chemistry = canonical['chemistry']
 
-            # Show current paper
-            status_text.text(f"Importing paper {idx + 1} of {len(papers_to_process)}: {title[:50]}...")
+                # Skip if no title
+                if not title:
+                    import_logs.append(f"⚠️ Row {global_idx + 1}: No title, skipping")
+                    skipped += 1
+                    time.sleep(0.5)
+                    continue
 
-            result = add_paper_with_pdf_search(
-                doi=doi or '',
-                title=title,
-                authors=authors,
-                year=year,
-                url=url
-            )
+                # Check for duplicates
+                if skip_existing and is_paper_in_library(title, doi, existing_papers):
+                    import_logs.append(f"⏭️ Skipped: {title[:60]}... (already in library)")
+                    skipped += 1
+                    time.sleep(0.5)
+                    continue
 
-            if result['success']:
-                pdf_icon = "📄" if result['pdf_found'] else "📝"
-                import_logs.append(f"✓ {pdf_icon} Added: {title[:60]}...")
-                imported += 1
-            else:
-                import_logs.append(f"❌ Failed: {title[:60]}... - {result['message']}")
+                result = add_paper_with_pdf_search(
+                    doi=doi or '',
+                    title=title,
+                    authors=authors,
+                    year=year,
+                    url=url
+                )
+
+                if result['success']:
+                    pdf_icon = "📄" if result['pdf_found'] else "📝"
+                    import_logs.append(f"✓ {pdf_icon} Added: {title[:60]}...")
+                    imported += 1
+                else:
+                    import_logs.append(f"❌ Failed: {title[:60]}... - {result['message']}")
+                    failed += 1
+
+                # Rate limiting: 2-3 seconds between papers (for CrossRef + Unpaywall)
+                time.sleep(2.5)
+
+            except Exception as e:
+                import traceback
+                error_msg = f"❌ Error processing row {global_idx + 1}: {type(e).__name__}: {str(e)}"
+                import_logs.append(error_msg)
+                import_logs.append(f"   Traceback: {traceback.format_exc()}")
                 failed += 1
-
-            # Rate limiting: 2-3 seconds between papers (for CrossRef + Unpaywall)
-            time.sleep(2.5)
-
-        except Exception as e:
-            import traceback
-            error_msg = f"❌ Error processing row {idx + 1}: {type(e).__name__}: {str(e)}"
-            import_logs.append(error_msg)
-            import_logs.append(f"   Traceback: {traceback.format_exc()}")
-            failed += 1
-            time.sleep(1)
+                time.sleep(1)
+                # Continue to next paper even if this one failed
 
     # Clear progress indicators
     progress_bar.empty()
     status_text.empty()
+    batch_status.empty()
 
     # Summary message
     summary_parts = []
@@ -1250,10 +1259,12 @@ def import_csv_papers(csv_papers: list, batch_size: int, skip_existing: bool, ex
     if failed > 0:
         summary_parts.append(f"❌ {failed} failed")
 
+    summary_msg = f"Processed all {total_papers} papers: " + ". ".join(summary_parts) + "."
+
     if imported > 0:
-        st.success(". ".join(summary_parts) + ".")
-    elif len(papers_to_process) > 0:
-        st.info(". ".join(summary_parts) + ".")
+        st.success(summary_msg)
+    elif total_papers > 0:
+        st.info(summary_msg)
     else:
         st.warning("No papers to import")
 
