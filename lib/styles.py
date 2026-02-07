@@ -62,10 +62,18 @@ def get_professional_css(theme='light'):
         padding: 2rem 3rem;
     }}
 
-    /* Remove default Streamlit padding */
+    /* Remove default Streamlit padding and width constraints */
     .block-container {{
         padding-top: 2rem;
         padding-bottom: 2rem;
+        max-width: none !important;
+    }}
+
+    /* Force full width for main content area */
+    section.main > div {{
+        max-width: none !important;
+        padding-left: 2rem;
+        padding-right: 2rem;
     }}
 
     /* Header styling */
