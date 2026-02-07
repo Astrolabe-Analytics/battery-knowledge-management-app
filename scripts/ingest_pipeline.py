@@ -79,7 +79,7 @@ def load_pipeline_state() -> Dict[str, Any]:
     """Load pipeline state tracking which papers completed each stage."""
     if PIPELINE_STATE_FILE.exists():
         try:
-            with open(PIPELINE_STATE_FILE, 'r') as f:
+            with open(PIPELINE_STATE_FILE, 'r', encoding='utf-8') as f:
                 return json.load(f)
         except Exception as e:
             logger.warning(f"Failed to load pipeline state: {e}")
@@ -701,7 +701,7 @@ def stage_metadata(force: bool = False, new_only: bool = False):
 
     # Load existing metadata
     if METADATA_FILE.exists():
-        with open(METADATA_FILE, 'r') as f:
+        with open(METADATA_FILE, 'r', encoding='utf-8') as f:
             all_metadata = json.load(f)
     else:
         all_metadata = {}
@@ -781,7 +781,7 @@ def stage_embed(force: bool = False):
         return
 
     # Load metadata
-    with open(METADATA_FILE, 'r') as f:
+    with open(METADATA_FILE, 'r', encoding='utf-8') as f:
         all_metadata = json.load(f)
 
     # Load embedding model
