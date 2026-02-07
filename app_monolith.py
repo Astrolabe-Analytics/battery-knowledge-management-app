@@ -1391,15 +1391,20 @@ def main():
     # Load resources using backend with session state caching
     # Cache papers to avoid reloading ChromaDB on every rerun
     if 'cached_papers' not in st.session_state or st.session_state.get('reload_papers', False):
+        print(f"[TIMING] RELOADING papers from ChromaDB (cache miss or reload_papers={st.session_state.get('reload_papers', 'not set')})", file=sys.stderr, flush=True)
         try:
+            _reload_start = timing_module.time()
             st.session_state.cached_papers = rag.get_paper_library()
             st.session_state.cached_filter_options = rag.get_filter_options()
             st.session_state.cached_total_chunks = rag.get_collection_count()
             st.session_state.reload_papers = False
+            print(f"[TIMING] Papers reloaded in {timing_module.time() - _reload_start:.3f}s", file=sys.stderr, flush=True)
         except (FileNotFoundError, RuntimeError) as e:
             st.error(str(e))
             st.info("Please run `python scripts/ingest.py` first to create the database")
             st.stop()
+    else:
+        print(f"[TIMING] Using cached papers (no reload)", file=sys.stderr, flush=True)
 
     papers = st.session_state.cached_papers
     filter_options = st.session_state.cached_filter_options
@@ -1415,6 +1420,8 @@ def main():
 
         # Calculate stats (cached in session state to avoid slow disk I/O on every rerun)
         if 'cached_stats' not in st.session_state or st.session_state.get('reload_papers', False):
+            print(f"[TIMING] RECALCULATING sidebar stats (checking {len(papers)} PDFs)", file=sys.stderr, flush=True)
+            _stats_start = timing_module.time()
             total_papers = len(papers)
             complete_papers = 0
             metadata_only_papers = 0
@@ -1450,8 +1457,10 @@ def main():
                 'metadata_only': metadata_only_papers,
                 'incomplete': incomplete_papers
             }
+            print(f"[TIMING] Stats calculated in {timing_module.time() - _stats_start:.3f}s", file=sys.stderr, flush=True)
         else:
             # Use cached stats
+            print(f"[TIMING] Using cached stats (no recalc)", file=sys.stderr, flush=True)
             total_papers = st.session_state.cached_stats['total']
             complete_papers = st.session_state.cached_stats['complete']
             metadata_only_papers = st.session_state.cached_stats['metadata_only']
