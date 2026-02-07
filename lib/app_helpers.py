@@ -134,10 +134,11 @@ def query_crossref_for_metadata(doi: str) -> dict:
                 if date_parts:
                     metadata['year'] = str(date_parts[0])
 
-            # Journal
+            # Journal (with automatic normalization)
+            from lib.journal_normalizer import normalize_journal_name
             container_titles = message.get('container-title', [])
             if container_titles:
-                metadata['journal'] = container_titles[0]
+                metadata['journal'] = normalize_journal_name(container_titles[0])
 
             # Abstract
             metadata['abstract'] = message.get('abstract', '')
@@ -177,12 +178,18 @@ def save_metadata_only_paper(doi: str, crossref_metadata: dict) -> str:
         with open(metadata_file, 'r', encoding='utf-8') as f:
             all_metadata = json.load(f)
 
+    # Normalize journal name before saving
+    from lib.journal_normalizer import normalize_journal_name
+    journal_name = crossref_metadata.get('journal', '')
+    if journal_name:
+        journal_name = normalize_journal_name(journal_name)
+
     all_metadata[filename] = {
         'filename': filename,
         'title': crossref_metadata.get('title', 'Unknown Title'),
         'authors': crossref_metadata.get('authors', []),
         'year': crossref_metadata.get('year', ''),
-        'journal': crossref_metadata.get('journal', ''),
+        'journal': journal_name,
         'doi': doi,
         'chemistries': [],
         'topics': [],
@@ -361,12 +368,18 @@ def add_paper_with_pdf_search(doi: str, title: str, authors: str, year: str, url
         # Determine PDF status
         pdf_status = "available" if pdf_found else "needs_pdf"
 
+        # Normalize journal name before saving
+        from lib.journal_normalizer import normalize_journal_name
+        journal_name = crossref_metadata.get('journal', '')
+        if journal_name:
+            journal_name = normalize_journal_name(journal_name)
+
         all_metadata[filename] = {
             'filename': filename,
             'title': crossref_metadata.get('title', title),
             'authors': crossref_metadata.get('authors', [authors] if authors else []),
             'year': crossref_metadata.get('year', year),
-            'journal': crossref_metadata.get('journal', ''),
+            'journal': journal_name,
             'doi': doi,
             'chemistries': [],
             'topics': [],
@@ -899,7 +912,9 @@ def enrich_from_crossref(canonical_data: dict) -> dict:
                     canonical_data['year'] = str(crossref_metadata['year'])
 
                 if not canonical_data['journal'] and crossref_metadata.get('journal'):
-                    canonical_data['journal'] = crossref_metadata['journal']
+                    # Normalize journal name during enrichment
+                    from lib.journal_normalizer import normalize_journal_name
+                    canonical_data['journal'] = normalize_journal_name(crossref_metadata['journal'])
 
                 if not canonical_data['abstract'] and crossref_metadata.get('abstract'):
                     canonical_data['abstract'] = crossref_metadata['abstract']
@@ -1014,7 +1029,9 @@ def enrich_library_metadata(max_papers: int = None, progress_callback=None) -> d
 
                     if not all_metadata[filename].get('journal'):
                         if crossref_metadata.get('journal'):
-                            all_metadata[filename]['journal'] = crossref_metadata['journal']
+                            # Normalize journal name during enrichment
+                            from lib.journal_normalizer import normalize_journal_name
+                            all_metadata[filename]['journal'] = normalize_journal_name(crossref_metadata['journal'])
                             updated_fields.append('journal')
 
                     if not all_metadata[filename].get('abstract'):
@@ -1141,6 +1158,9 @@ def import_csv_papers(csv_papers: list, batch_size: int, skip_existing: bool, ex
         existing_papers: List of existing papers in library
     """
     import time
+    import sys
+    sys.stderr.write(f"\n[IMPORT] Function called with {len(csv_papers)} papers, batch_size={batch_size}\n")
+    sys.stderr.flush()
 
     # Debug: Show column names and detected source type
     if csv_papers:
@@ -1170,13 +1190,21 @@ def import_csv_papers(csv_papers: list, batch_size: int, skip_existing: bool, ex
     total_papers = len(csv_papers)
     num_batches = (total_papers + batch_size - 1) // batch_size  # Ceiling division
 
+    sys.stderr.write(f"[IMPORT] About to start batch loop: {num_batches} batches, {total_papers} total papers\n")
+    sys.stderr.flush()
+
     # Process ALL papers in batches
     for batch_num in range(num_batches):
+        import sys
+        sys.stderr.write(f"\n[BATCH LOOP] Starting batch {batch_num + 1} of {num_batches}\n")
+        sys.stderr.flush()
         start_idx = batch_num * batch_size
         end_idx = min(start_idx + batch_size, total_papers)
         batch_papers = csv_papers[start_idx:end_idx]
 
         batch_status.info(f"📦 Processing batch {batch_num + 1} of {num_batches} (papers {start_idx + 1}-{end_idx} of {total_papers})")
+        sys.stderr.write(f"[BATCH LOOP] Processing {len(batch_papers)} papers in batch {batch_num + 1}\n")
+        sys.stderr.flush()
 
         for idx_in_batch, csv_paper in enumerate(batch_papers):
             global_idx = start_idx + idx_in_batch
@@ -1245,6 +1273,14 @@ def import_csv_papers(csv_papers: list, batch_size: int, skip_existing: bool, ex
                 time.sleep(1)
                 # Continue to next paper even if this one failed
 
+        import sys
+        sys.stderr.write(f"[BATCH LOOP] Completed batch {batch_num + 1} of {num_batches}. Imported={imported}, Skipped={skipped}, Failed={failed}\n")
+        sys.stderr.flush()
+
+    import sys
+    sys.stderr.write(f"\n[BATCH LOOP] ALL BATCHES COMPLETE! Total imported={imported}, skipped={skipped}, failed={failed}\n")
+    sys.stderr.flush()
+
     # Clear progress indicators
     progress_bar.empty()
     status_text.empty()
@@ -1274,10 +1310,21 @@ def import_csv_papers(csv_papers: list, batch_size: int, skip_existing: bool, ex
             for log in import_logs:
                 st.text(log)
 
+    # Only rerun after ALL batches are complete to refresh library
+    import sys
+    sys.stderr.write(f"[BATCH LOOP] Checking if should rerun: imported={imported}\n")
+    sys.stderr.flush()
     if imported > 0:
-        st.info("Refreshing app to show new papers...")
+        sys.stderr.write("[BATCH LOOP] Will rerun in 2 seconds...\n")
+        sys.stderr.flush()
+        st.info("✅ Import complete! Refreshing app to show new papers...")
         time.sleep(2)
+        sys.stderr.write("[BATCH LOOP] Calling st.rerun() now...\n")
+        sys.stderr.flush()
         st.rerun()
+    else:
+        sys.stderr.write("[BATCH LOOP] No imports, not rerunning\n")
+        sys.stderr.flush()
 
 
 def update_paper_metadata(filename: str, doi: str, crossref_metadata: dict):
@@ -1299,7 +1346,12 @@ def update_paper_metadata(filename: str, doi: str, crossref_metadata: dict):
             all_metadata[filename]['title'] = crossref_metadata.get('title', all_metadata[filename].get('title', ''))
             all_metadata[filename]['authors'] = crossref_metadata.get('authors', all_metadata[filename].get('authors', []))
             all_metadata[filename]['year'] = crossref_metadata.get('year', all_metadata[filename].get('year', ''))
-            all_metadata[filename]['journal'] = crossref_metadata.get('journal', all_metadata[filename].get('journal', ''))
+            # Normalize journal name during update
+            from lib.journal_normalizer import normalize_journal_name
+            journal_name = crossref_metadata.get('journal', all_metadata[filename].get('journal', ''))
+            if journal_name:
+                journal_name = normalize_journal_name(journal_name)
+            all_metadata[filename]['journal'] = journal_name
 
         # Save updated metadata
         with open(metadata_file, 'w', encoding='utf-8') as f:

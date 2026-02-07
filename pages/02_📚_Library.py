@@ -1202,57 +1202,6 @@ else:
             label_visibility="collapsed",
             key="library_search"
         )
-    with col_enrich:
-        if st.button("🔍 Enrich Metadata", help="Fetch missing metadata from CrossRef for papers with URLs", use_container_width=True):
-            # Progress containers
-            progress_bar = st.progress(0)
-            status_text = st.empty()
-
-            def progress_update(current, total, title):
-                progress = current / total if total > 0 else 0
-                progress_bar.progress(progress)
-                status_text.text(f"Enriching paper {current} of {total}: {title[:50]}...")
-
-            result = enrich_library_metadata(max_papers=None, progress_callback=progress_update)
-
-            # Clear progress indicators
-            progress_bar.empty()
-            status_text.empty()
-
-            if result['success']:
-                # Summary message
-                enriched = result.get('enriched', 0)
-                failed = result.get('failed', 0)
-                total = result.get('total', 0)
-                skipped = total - enriched - failed
-
-                summary_parts = []
-                if enriched > 0:
-                    summary_parts.append(f"✅ Enriched {enriched} paper{'s' if enriched != 1 else ''}")
-                    st.session_state.reload_papers = True  # Invalidate cache after enrichment
-                if failed > 0:
-                    summary_parts.append(f"⚠️ {failed} failed")
-                if skipped > 0:
-                    summary_parts.append(f"⏭️ {skipped} skipped")
-
-                if enriched > 0:
-                    st.success(". ".join(summary_parts) + ".")
-                elif total > 0:
-                    st.info(". ".join(summary_parts) + ".")
-                else:
-                    st.info("No papers need enrichment")
-
-                # Details in expander
-                if result.get('logs'):
-                    with st.expander("Show details"):
-                        for log in result['logs']:
-                            st.text(log)
-
-                if enriched > 0:
-                    time.sleep(2)
-                    st.rerun()
-            else:
-                st.error(result.get('message', 'Enrichment failed'))
 
     # Horizontal filter bar
     col1, col2, col3, col4, col5 = st.columns(5)
@@ -1307,11 +1256,27 @@ else:
     # Action buttons
     if len(df) > 0:
         st.caption("💡 **Tip:** Click a row to view details • Use checkboxes for bulk actions")
-        btn_col1, btn_col2, spacer_col = st.columns([1, 1, 3])
+        btn_col1, btn_col2, btn_col3, spacer_col = st.columns([1, 1, 1.3, 2.7])
         with btn_col1:
             delete_button = st.button("🗑️ Delete Selected", type="secondary", use_container_width=True)
         with btn_col2:
-            find_doi_button = st.button("🔍 Find DOI", type="secondary", use_container_width=True)
+            find_doi_button = st.button("🔍 Find DOI & Enrich", help="Find DOIs via Semantic Scholar for selected papers, then enrich with CrossRef", type="secondary", use_container_width=True)
+        with btn_col3:
+            enrich_incomplete_button = st.button("⚡ Enrich All Incomplete", help="Automatically find DOIs and enrich all incomplete papers", type="primary", use_container_width=True)
+
+    # Progress bar placeholders (positioned above table)
+    progress_placeholder = st.empty()
+    progress_bar_placeholder = st.empty()
+
+    # Page size selector
+    col_pagesize, col_spacer = st.columns([1, 5])
+    with col_pagesize:
+        page_size = st.selectbox(
+            "Papers per page:",
+            options=[25, 50, 100, 200],
+            index=1,  # Default to 50
+            key="library_page_size"
+        )
 
     # Configure AG Grid with flex sizing for full-width layout
     gb = GridOptionsBuilder.from_dataframe(df)
@@ -1600,16 +1565,6 @@ else:
     gb.configure_column("_filename", hide=True)
     gb.configure_column("_doi_url", hide=True)
     gb.configure_column("_paper_title", hide=True)
-    gb.configure_column("_navigate_trigger",
-        hide=True,
-        editable=True,
-        suppressMenu=True,
-        lockVisible=True,
-        suppressColumnsToolPanel=True,
-        width=0,
-        minWidth=0,
-        maxWidth=0
-    )
 
     # Grid options - configured for full-width with virtualization for large datasets
     # Multi-select enabled via Select column (configured above with checkboxSelection=True)
@@ -1626,6 +1581,11 @@ else:
         suppressRowVirtualisation=False,  # Enable row virtualization for performance with many rows
         rowSelection='multiple',  # Enable multi-row selection
         rowMultiSelectWithClick=False,  # Prevent accidental multi-select on row click
+        # Pagination settings
+        pagination=True,  # Enable pagination
+        paginationAutoPageSize=False,  # Use fixed page size
+        paginationPageSize=page_size,  # Use selected page size
+        paginationPageSizeSelector=False,  # Hide page size selector - use Streamlit dropdown instead
     )
 
     grid_options = gb.build()
@@ -1654,15 +1614,11 @@ else:
                 return;
             }
 
-            // 4. NAVIGABLE COLUMNS ONLY: Navigate to detail view
+            // 4. NAVIGABLE COLUMNS ONLY: Select row for navigation
             // Only Title, Authors, Year, Journal, Chemistry, Collections should navigate
             const navigableColumns = ['Title', 'Authors', 'Year', 'Journal', 'Chemistry', 'Collections', 'Status', '#'];
             if (navigableColumns.includes(colId)) {
-                console.log('[LIBRARY] Navigable column - setting navigation trigger');
-                // Set the hidden _navigate_trigger column to trigger navigation
-                // This will cause MODEL_CHANGED event which Python code can detect
-                event.node.setDataValue('_navigate_trigger', Date.now().toString());
-                // Also select the row for visual feedback
+                console.log('[LIBRARY] Navigable column - selecting row');
                 event.node.setSelected(true, true);
             } else {
                 console.log('[LIBRARY] Non-navigable column - doing nothing');
@@ -1735,6 +1691,27 @@ else:
             # Grid background - full width
             ".ag-center-cols-viewport": {"background-color": "#1E1E1E !important"},
             ".ag-body-viewport": {"background-color": "#1E1E1E !important"},
+            # Pagination styling - dark theme
+            ".ag-paging-panel": {
+                "background-color": "#262730 !important",
+                "color": "#E0E0E0 !important",
+                "border-top": "1px solid #444444 !important",
+                "padding": "8px !important",
+                "font-size": "14px !important"
+            },
+            ".ag-paging-button": {
+                "color": "#E0E0E0 !important",
+                "background-color": "#1E1E1E !important",
+                "border": "1px solid #444444 !important",
+                "padding": "4px 8px !important",
+                "margin": "0 2px !important"
+            },
+            ".ag-paging-button:hover": {
+                "background-color": "#2D2D2D !important"
+            },
+            ".ag-paging-page-summary-panel": {
+                "color": "#E0E0E0 !important"
+            },
         }
     else:
         custom_css = {
@@ -1799,13 +1776,44 @@ else:
             # Grid background - full width
             ".ag-center-cols-viewport": {"background-color": "#FFFFFF !important"},
             ".ag-body-viewport": {"background-color": "#FFFFFF !important"},
+            # Pagination styling - light theme
+            ".ag-paging-panel": {
+                "background-color": "#F0F2F6 !important",
+                "color": "#2c3e50 !important",
+                "border-top": "1px solid #D0D0D0 !important",
+                "padding": "8px !important",
+                "font-size": "14px !important"
+            },
+            ".ag-paging-button": {
+                "color": "#2c3e50 !important",
+                "background-color": "#FFFFFF !important",
+                "border": "1px solid #D0D0D0 !important",
+                "padding": "4px 8px !important",
+                "margin": "0 2px !important"
+            },
+            ".ag-paging-button:hover": {
+                "background-color": "#f8f9fa !important"
+            },
+            ".ag-paging-page-summary-panel": {
+                "color": "#2c3e50 !important"
+            },
         }
 
     # Use streamlit theme for both modes - consistent base, colors controlled by custom CSS
     ag_theme = 'streamlit'
 
-    # Use key to preserve grid state across reruns
-    grid_key = f"library_grid_{st.session_state.theme}"
+    # Use key to preserve grid state across reruns (include page_size to force refresh on change)
+    grid_key = f"library_grid_{st.session_state.theme}_{page_size}"
+
+    # Calculate dynamic height based on number of rows and selected page size
+    # Always show all rows - no internal table scrolling, only page scrolling
+    row_height = 60
+    header_height = 40
+    pagination_height = 60
+    rows_to_show = min(page_size, len(df))
+
+    # Full height to show all rows on current page
+    table_height = (rows_to_show * row_height) + header_height + pagination_height
 
     grid_response = AgGrid(
         df,
@@ -1816,7 +1824,7 @@ else:
         custom_css=custom_css,
         allow_unsafe_jscode=True,
         enable_enterprise_modules=False,
-        height=1400,  # Fixed height to show ~23 rows with internal scrolling
+        height=table_height,  # Dynamic height based on filtered row count and page size
         reload_data=False,  # Improve performance by not reloading data unnecessarily
         key=grid_key  # Preserve state across reruns
     )
@@ -2034,9 +2042,9 @@ else:
         if len(papers_missing_doi) == 0:
             st.info("ℹ️ All selected papers already have DOIs")
         else:
-            # Process papers with progress bar
-            progress_text = st.empty()
-            progress_bar = st.progress(0)
+            # Use progress placeholders at top of page
+            progress_text = progress_placeholder
+            progress_bar = progress_bar_placeholder.progress(0)
 
             found_count = 0
             not_found_count = 0
@@ -2125,6 +2133,109 @@ else:
             time.sleep(2)
             st.rerun()
 
+    # Handle Enrich All Incomplete button click
+    if enrich_incomplete_button:
+        # Get all incomplete papers from the current filtered view
+        incomplete_papers = []
+        for _, row in df.iterrows():
+            if row['Status'] == '⚠️ Incomplete':
+                doi = row.get('DOI', '—')
+                if doi in ['—', '', 'nan', 'None']:
+                    incomplete_papers.append({
+                        'filename': row['_filename'],
+                        'title': row['_paper_title']
+                    })
+
+        if len(incomplete_papers) == 0:
+            st.info("ℹ️ No incomplete papers need enrichment (all have DOIs or are already complete)")
+        else:
+            st.info(f"🚀 Processing {len(incomplete_papers)} incomplete papers...")
+
+            # Use progress placeholders at top of page
+            progress_text = progress_placeholder
+            progress_bar = progress_bar_placeholder.progress(0)
+
+            found_count = 0
+            not_found_count = 0
+            enriched_count = 0
+
+            # Load metadata once
+            metadata_file = Path("data/metadata.json")
+            with open(metadata_file, 'r', encoding='utf-8') as f:
+                all_metadata = json.load(f)
+
+            from lib.app_helpers import find_doi_via_semantic_scholar, query_crossref_for_metadata
+            from lib.rag import DatabaseClient
+
+            for idx, paper in enumerate(incomplete_papers):
+                # Update status with running counts
+                status_text = f"Processing: {idx + 1}/{len(incomplete_papers)} complete ({found_count} found, {not_found_count} not found, {enriched_count} enriched)"
+                progress_text.text(status_text)
+                progress_bar.progress((idx + 1) / len(incomplete_papers))
+
+                # Step 1: Find DOI via Semantic Scholar
+                found_doi = find_doi_via_semantic_scholar(paper['title'])
+
+                if found_doi:
+                    # Step 2: Enrich from CrossRef using the found DOI
+                    progress_text.text(f"{status_text} | Enriching metadata...")
+                    crossref_data = query_crossref_for_metadata(found_doi)
+
+                    if crossref_data and paper['filename'] in all_metadata:
+                        # Update all metadata fields from CrossRef
+                        all_metadata[paper['filename']]['doi'] = found_doi
+
+                        # Extract and save additional metadata
+                        if crossref_data.get('title'):
+                            all_metadata[paper['filename']]['title'] = crossref_data['title']
+                        if crossref_data.get('authors'):
+                            all_metadata[paper['filename']]['authors'] = crossref_data['authors']
+                        if crossref_data.get('year'):
+                            all_metadata[paper['filename']]['year'] = crossref_data['year']
+                        if crossref_data.get('journal'):
+                            all_metadata[paper['filename']]['journal'] = crossref_data['journal']
+                        if crossref_data.get('volume'):
+                            all_metadata[paper['filename']]['volume'] = crossref_data['volume']
+                        if crossref_data.get('issue'):
+                            all_metadata[paper['filename']]['issue'] = crossref_data['issue']
+                        if crossref_data.get('pages'):
+                            all_metadata[paper['filename']]['pages'] = crossref_data['pages']
+
+                        # Update ChromaDB with all new metadata
+                        DatabaseClient.update_paper_metadata(paper['filename'], all_metadata[paper['filename']])
+
+                        found_count += 1
+                        enriched_count += 1
+                    else:
+                        # DOI found but enrichment failed - still save the DOI
+                        all_metadata[paper['filename']]['doi'] = found_doi
+                        DatabaseClient.update_paper_metadata(paper['filename'], {"doi": found_doi})
+                        found_count += 1
+                else:
+                    not_found_count += 1
+
+            # Save metadata.json
+            with open(metadata_file, 'w', encoding='utf-8') as f:
+                json.dump(all_metadata, f, indent=2, ensure_ascii=False)
+
+            # Clear caches and reload
+            DatabaseClient.clear_cache()
+            st.cache_data.clear()
+            st.session_state.reload_papers = True
+
+            # Clear progress indicators
+            progress_text.empty()
+            progress_bar.empty()
+
+            # Show summary
+            if found_count > 0:
+                st.success(f"✅ Found and enriched {enriched_count} of {len(incomplete_papers)} incomplete papers. {not_found_count} not found.")
+            else:
+                st.warning(f"❌ No DOIs found for any of the {len(incomplete_papers)} incomplete papers.")
+
+            time.sleep(2)
+            st.rerun()
+
     # Handle read status changes
     if grid_response['data'] is not None:
         updated_df = pd.DataFrame(grid_response['data'])
@@ -2140,21 +2251,6 @@ else:
                 st.rerun()
                 break
 
-    # Handle row click navigation
-    # Only navigate if a navigable column was clicked (indicated by _navigate_trigger change)
-    # Check if _navigate_trigger column changed (compare with original DataFrame)
-    if not delete_button and grid_response['data'] is not None:
-        updated_df = pd.DataFrame(grid_response['data'])
-        if len(updated_df) > 0 and '_navigate_trigger' in updated_df.columns:
-            # Find rows where _navigate_trigger changed from empty to non-empty
-            for idx, row in updated_df.iterrows():
-                if idx < len(df):
-                    original_trigger = df.iloc[idx]['_navigate_trigger']
-                    new_trigger = row['_navigate_trigger']
-                    # If trigger changed from empty to non-empty, navigate to this paper
-                    if not original_trigger and new_trigger:
-                        filename = row['_filename']
-                        st.session_state.selected_paper = filename
-                        st.rerun()
-                        break  # Only navigate to first changed row
+    # Handle row selection for navigation (navigable columns select the row via JavaScript)
+    # Navigation happens via "View Selected" button only
 

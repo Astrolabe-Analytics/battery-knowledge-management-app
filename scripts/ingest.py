@@ -230,10 +230,11 @@ def query_crossref_api(doi: str) -> Optional[dict]:
                 if date_parts:
                     metadata['year'] = str(date_parts[0])
 
-            # Journal (full name, not abbreviated)
+            # Journal (full name, not abbreviated) - normalized
+            from lib.journal_normalizer import normalize_journal_name
             container_titles = message.get('container-title', [])
             if container_titles:
-                metadata['journal'] = container_titles[0]
+                metadata['journal'] = normalize_journal_name(container_titles[0])
 
             return metadata
         else:
@@ -346,10 +347,12 @@ def extract_paper_metadata(pages: list[dict], filename: str, api_key: str) -> di
         if crossref_data:
             print(f"    ✓ CrossRef data retrieved")
             # Use CrossRef data for bibliographic fields
+            from lib.journal_normalizer import normalize_journal_name
             metadata['title'] = crossref_data.get('title', '')
             metadata['authors'] = crossref_data.get('authors', [])
             metadata['year'] = crossref_data.get('year', '')
-            metadata['journal'] = crossref_data.get('journal', '')
+            journal_name = crossref_data.get('journal', '')
+            metadata['journal'] = normalize_journal_name(journal_name) if journal_name else ''
             metadata['abstract'] = crossref_data.get('abstract', '')
             metadata['author_keywords'] = crossref_data.get('author_keywords', [])
             metadata['volume'] = crossref_data.get('volume', '')
@@ -930,10 +933,14 @@ def ingest_papers(force: bool = False):
 
     print("  Storing in ChromaDB...")
     try:
+        # Sanitize metadata before adding to ChromaDB (convert empty lists to empty strings)
+        from lib.rag import sanitize_metadata_for_chromadb
+        sanitized_metadatas = [sanitize_metadata_for_chromadb(meta) for meta in metadatas]
+
         collection.add(
             documents=texts,
             embeddings=embeddings,
-            metadatas=metadatas,
+            metadatas=sanitized_metadatas,
             ids=ids
         )
         print("  Successfully stored all chunks!")
