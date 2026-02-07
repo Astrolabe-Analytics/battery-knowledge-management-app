@@ -8,8 +8,6 @@ load_dotenv()
 
 import streamlit as st
 import pandas as pd
-import time as timing_module
-import sys
 import json
 from pathlib import Path
 from st_aggrid import AgGrid, GridOptionsBuilder, GridUpdateMode, JsCode
@@ -34,11 +32,8 @@ from lib.app_helpers import (
     save_settings
 )
 
-# Import specific functions from app_monolith (only functions, not main())
-import sys
-from pathlib import Path as PathModule
-sys.path.insert(0, str(PathModule(__file__).parent.parent))
-from app_monolith import (
+# Import library operations from dedicated module (NOT from monolith!)
+from lib.library_operations import (
     process_url_import,
     process_uploaded_pdfs,
     soft_delete_paper
@@ -154,9 +149,6 @@ with st.sidebar:
 
 # Set active tab
 st.session_state.active_tab = "Library"
-
-# Start timing
-_start_time = timing_module.time()
 
 # Main content starts here - this will be the Library tab content
 if not st.session_state.selected_paper:
@@ -356,7 +348,6 @@ if st.session_state.selected_paper:
         col_back, col_pdf = st.columns([1, 2])
         with col_back:
             if st.button("← Back to Library", use_container_width=True):
-                print(f"\n[TIMING] Back button clicked - clearing selected_paper", file=sys.stderr, flush=True)
                 st.session_state.selected_paper = None
                 st.rerun()
 
@@ -1305,7 +1296,6 @@ else:
         )
 
     # Build library DataFrame using cached function (filters + formats data)
-    _df_start = timing_module.time()
     df = cached_operations.build_library_dataframe(
         papers=papers,
         search_query=search_query or "",
@@ -1315,7 +1305,6 @@ else:
         filter_collection=filter_collection or "All Collections",
         filter_status=filter_status or "All Papers"
     )
-    print(f"[TIMING] DataFrame built: {timing_module.time() - _df_start:.3f}s (total: {timing_module.time() - _start_time:.3f}s)", file=sys.stderr, flush=True)
 
     # Count filtered papers
     filtered_count = len(df)
