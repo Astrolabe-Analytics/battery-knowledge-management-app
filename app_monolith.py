@@ -1771,17 +1771,17 @@ def main():
                     preview_df = pd.DataFrame(csv_papers[:5])
                     st.dataframe(preview_df, use_container_width=True)
 
-                # Batch size selector
+                # Import settings
                 st.markdown("**Import Settings**")
                 col_batch, col_skip = st.columns(2)
 
                 with col_batch:
                     batch_size = st.number_input(
-                        "Batch size",
-                        min_value=1,
-                        max_value=100,
-                        value=10,
-                        help="Number of papers to import (start small to test)"
+                        "Batch size (for processing)",
+                        min_value=50,
+                        max_value=500,
+                        value=200,
+                        help="Papers per batch (for progress tracking). All papers will be imported automatically."
                     )
 
                 with col_skip:
@@ -1791,10 +1791,11 @@ def main():
                         help="Skip papers already in library"
                     )
 
-                st.caption(f"Will import up to {min(batch_size, len(csv_papers))} papers")
+                st.info(f"🚀 **Will import ALL {len(csv_papers)} papers automatically in batches of {batch_size}**")
+                st.caption("Click once and walk away. Progress will be shown continuously.")
 
                 # Import button
-                if st.button("📥 Import Papers", type="primary", use_container_width=True):
+                if st.button("📥 Import All Papers", type="primary", use_container_width=True):
                     try:
                         import traceback
                         import_csv_papers(csv_papers, batch_size, skip_existing, papers)
