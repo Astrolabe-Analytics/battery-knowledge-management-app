@@ -9,6 +9,10 @@ Now uses improved retrieval pipeline with:
 - Reranking (retrieves 15 candidates, reorders by relevance, returns top 5)
 """
 
+# Load environment variables from .env file
+from dotenv import load_dotenv
+load_dotenv()
+
 import os
 import sys
 import json

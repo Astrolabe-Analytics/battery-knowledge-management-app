@@ -2,6 +2,10 @@
 Astrolabe Paper Database - Main Entry Point
 Home page with navigation to Library and other features
 """
+# Load environment variables from .env file
+from dotenv import load_dotenv
+load_dotenv()
+
 import streamlit as st
 from lib import styles
 from lib.app_helpers import load_settings

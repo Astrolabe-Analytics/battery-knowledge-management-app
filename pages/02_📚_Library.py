@@ -2,6 +2,10 @@
 Library Page - Fully extracted and independent
 Browse, search, filter, and manage papers in your library
 """
+# Load environment variables from .env file
+from dotenv import load_dotenv
+load_dotenv()
+
 import streamlit as st
 import pandas as pd
 import time as timing_module

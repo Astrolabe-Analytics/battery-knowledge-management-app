@@ -6,3 +6,4 @@ tiktoken
 streamlit
 rank-bm25
 beautifulsoup4
+python-dotenv

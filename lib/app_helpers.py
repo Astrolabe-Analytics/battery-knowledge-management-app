@@ -570,6 +570,14 @@ def find_doi_via_semantic_scholar(title: str, log_callback=None) -> str:
     try:
         log(f"  [Semantic Scholar] Searching for: {title[:60]}...")
 
+        # Get API key from environment variable
+        import os
+        api_key = os.environ.get('SEMANTIC_SCHOLAR_API_KEY')
+
+        # Enforce rate limiting (1 req/sec with key, 1 req/2sec without)
+        from lib import semantic_scholar
+        semantic_scholar._rate_limit(has_api_key=bool(api_key))
+
         # Semantic Scholar search API
         url = "https://api.semanticscholar.org/graph/v1/paper/search"
         params = {
@@ -578,7 +586,10 @@ def find_doi_via_semantic_scholar(title: str, log_callback=None) -> str:
             'fields': 'title,externalIds'
         }
 
+        # Build headers with API key if available
         headers = {'User-Agent': 'AstrolabePaperDB/1.0'}
+        if api_key:
+            headers['x-api-key'] = api_key.strip()
 
         response = requests.get(url, params=params, headers=headers, timeout=10)
 

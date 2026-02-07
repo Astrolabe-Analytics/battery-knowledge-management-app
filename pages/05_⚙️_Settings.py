@@ -1,6 +1,10 @@
 """
 Settings Page - Theme, backups, and configuration
 """
+# Load environment variables from .env file
+from dotenv import load_dotenv
+load_dotenv()
+
 import streamlit as st
 
 st.set_page_config(

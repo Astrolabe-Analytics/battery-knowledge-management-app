@@ -4,14 +4,17 @@ Semantic Scholar API integration for paper search and discovery.
 API Documentation: https://api.semanticscholar.org/api-docs/
 Rate Limits:
 - Without API key: 100 requests per 5 minutes
-- With API key: 5,000 requests per 5 minutes
+- With API key: 5,000 requests per 5 minutes (1 request per second enforced)
 
+API Key Configuration:
+Set the SEMANTIC_SCHOLAR_API_KEY environment variable.
 Sign up for free API key at: https://www.semanticscholar.org/product/api
 """
 
 import requests
 import time
 import json
+import os
 from typing import List, Dict, Optional
 from pathlib import Path
 
@@ -23,55 +26,29 @@ _min_request_interval = 2.0  # 2 seconds between requests (safer for unauthentic
 
 def get_api_key() -> Optional[str]:
     """
-    Get Semantic Scholar API key from settings file.
+    Get Semantic Scholar API key from environment variable.
 
     Returns:
         API key string or None if not set
     """
-    settings_file = Path(__file__).parent.parent / "data" / "settings.json"
-
-    if settings_file.exists():
-        try:
-            with open(settings_file, 'r') as f:
-                settings = json.load(f)
-                return settings.get('semantic_scholar_api_key')
-        except:
-            pass
-
-    return None
+    api_key = os.environ.get('SEMANTIC_SCHOLAR_API_KEY')
+    return api_key.strip() if api_key else None
 
 
 def set_api_key(api_key: str) -> bool:
     """
-    Save Semantic Scholar API key to settings file.
+    DEPRECATED: API key is now read from SEMANTIC_SCHOLAR_API_KEY environment variable.
+
+    This function is kept for backward compatibility but does nothing.
+    Set the environment variable SEMANTIC_SCHOLAR_API_KEY instead.
 
     Args:
-        api_key: API key string
+        api_key: API key string (ignored)
 
     Returns:
-        True if successful, False otherwise
+        False (not supported)
     """
-    settings_file = Path(__file__).parent.parent / "data" / "settings.json"
-    settings_file.parent.mkdir(parents=True, exist_ok=True)
-
-    try:
-        # Load existing settings
-        settings = {}
-        if settings_file.exists():
-            with open(settings_file, 'r') as f:
-                settings = json.load(f)
-
-        # Update API key
-        settings['semantic_scholar_api_key'] = api_key.strip() if api_key else None
-
-        # Save settings
-        with open(settings_file, 'w') as f:
-            json.dump(settings, f, indent=2)
-
-        return True
-    except Exception as e:
-        print(f"Error saving API key: {e}")
-        return False
+    return False
 
 
 def _rate_limit(has_api_key: bool = False):
@@ -79,12 +56,12 @@ def _rate_limit(has_api_key: bool = False):
     Enforce rate limiting between requests.
 
     Args:
-        has_api_key: Whether user has API key (allows faster requests)
+        has_api_key: Whether user has API key (1 req/sec with key, 1 req/2sec without)
     """
     global _last_request_time
 
-    # Use shorter interval if API key present (higher rate limit)
-    interval = 0.5 if has_api_key else _min_request_interval
+    # Semantic Scholar requirement: 1 request per second with API key
+    interval = 1.0 if has_api_key else _min_request_interval
 
     current_time = time.time()
     time_since_last = current_time - _last_request_time
@@ -173,7 +150,7 @@ def search_papers(
         elif response.status_code == 429:
             error_msg = 'Rate limit exceeded. '
             if not has_api_key:
-                error_msg += 'Consider adding a Semantic Scholar API key in Settings for higher rate limits.'
+                error_msg += 'Set the SEMANTIC_SCHOLAR_API_KEY environment variable for higher rate limits.'
             else:
                 error_msg += 'Please wait a moment and try again.'
 
