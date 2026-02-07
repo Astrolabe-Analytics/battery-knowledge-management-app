@@ -127,7 +127,8 @@ def build_library_dataframe(papers: List[Dict], search_query: str, filter_chemis
             'Read': read_statuses.get(paper['filename'], False),
             '_filename': paper['filename'],
             '_doi_url': doi_url,
-            '_paper_title': title
+            '_paper_title': title,
+            '_navigate_trigger': ''  # Hidden column to track navigation intent
         })
 
     return pd.DataFrame(df_data)

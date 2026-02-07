@@ -1605,6 +1605,7 @@ else:
     gb.configure_column("_filename", hide=True)
     gb.configure_column("_doi_url", hide=True)
     gb.configure_column("_paper_title", hide=True)
+    gb.configure_column("_navigate_trigger", hide=True, editable=True)
 
     # Grid options - configured for full-width with virtualization for large datasets
     # Multi-select enabled via Select column (configured above with checkboxSelection=True)
@@ -1629,25 +1630,39 @@ else:
     grid_options['onCellClicked'] = JsCode("""
         function(event) {
             const colId = event.column ? event.column.colId : null;
+            console.log('[LIBRARY] Column clicked:', colId);
 
             // 1. SELECT CHECKBOX: Do nothing, let default checkbox behavior handle it
             if (colId === 'Select') {
+                console.log('[LIBRARY] Select column - doing nothing');
                 return;
             }
 
             // 2. DOI COLUMN: Do nothing here, link click is handled by <a> tag
             if (colId === 'DOI') {
+                console.log('[LIBRARY] DOI column - doing nothing');
                 return;
             }
 
             // 3. READ CHECKBOX: Do nothing, let checkbox renderer handle it
             if (colId === 'Read') {
+                console.log('[LIBRARY] Read column - doing nothing');
                 return;
             }
 
-            // 4. ROW CLICK (all other columns): Navigate to detail view
-            // Select this row (clearing others) to trigger navigation
-            event.node.setSelected(true, true);
+            // 4. NAVIGABLE COLUMNS ONLY: Navigate to detail view
+            // Only Title, Authors, Year, Journal, Chemistry, Collections should navigate
+            const navigableColumns = ['Title', 'Authors', 'Year', 'Journal', 'Chemistry', 'Collections', 'Status', '#'];
+            if (navigableColumns.includes(colId)) {
+                console.log('[LIBRARY] Navigable column - setting navigation trigger');
+                // Set the hidden _navigate_trigger column to trigger navigation
+                // This will cause MODEL_CHANGED event which Python code can detect
+                event.node.setDataValue('_navigate_trigger', Date.now().toString());
+                // Also select the row for visual feedback
+                event.node.setSelected(true, true);
+            } else {
+                console.log('[LIBRARY] Non-navigable column - doing nothing');
+            }
         }
     """)
 
@@ -1970,14 +1985,20 @@ else:
                 break
 
     # Handle row click navigation
-    # Only navigate if exactly one row is selected (indicates row click, not checkbox multi-select)
-    # and delete button wasn't clicked
-    if not delete_button and grid_response.get('selected_rows') is not None:
-        selected_rows = grid_response['selected_rows']
-        if len(selected_rows) == 1:
-            # Single row selected - navigate to detail page
-            selected_row = pd.DataFrame(selected_rows).iloc[0]
-            filename = selected_row['_filename']
-            st.session_state.selected_paper = filename
-            st.rerun()
+    # Only navigate if a navigable column was clicked (indicated by _navigate_trigger change)
+    # Check if _navigate_trigger column changed (compare with original DataFrame)
+    if not delete_button and grid_response['data'] is not None:
+        updated_df = pd.DataFrame(grid_response['data'])
+        if len(updated_df) > 0 and '_navigate_trigger' in updated_df.columns:
+            # Find rows where _navigate_trigger changed from empty to non-empty
+            for idx, row in updated_df.iterrows():
+                if idx < len(df):
+                    original_trigger = df.iloc[idx]['_navigate_trigger']
+                    new_trigger = row['_navigate_trigger']
+                    # If trigger changed from empty to non-empty, navigate to this paper
+                    if not original_trigger and new_trigger:
+                        filename = row['_filename']
+                        st.session_state.selected_paper = filename
+                        st.rerun()
+                        break  # Only navigate to first changed row
 
