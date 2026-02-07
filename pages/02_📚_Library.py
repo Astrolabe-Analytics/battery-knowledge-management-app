@@ -85,48 +85,41 @@ papers = st.session_state.cached_papers
 filter_options = st.session_state.cached_filter_options
 total_chunks = st.session_state.cached_total_chunks
 
+# Build unfiltered DataFrame for stats calculation (before applying filters)
+# This ensures stats match the table data since they use the same get_paper_status() function
+if 'cached_stats' not in st.session_state or st.session_state.get('reload_papers', False):
+    unfiltered_df = cached_operations.build_library_dataframe(
+        papers=papers,
+        search_query="",  # No filters for stats
+        filter_chemistry="All Chemistries",
+        filter_topic="All Topics",
+        filter_paper_type="All Types",
+        filter_collection="All Collections",
+        filter_status="All Papers"
+    )
+
+    # Count stats directly from DataFrame Status column
+    # This uses the exact same get_paper_status() logic as the table
+    total_papers = len(unfiltered_df)
+    complete_papers = len(unfiltered_df[unfiltered_df['Status'] == '✅ Complete'])
+    metadata_only_papers = len(unfiltered_df[unfiltered_df['Status'] == '📋 Metadata Only'])
+    incomplete_papers = len(unfiltered_df[unfiltered_df['Status'] == '⚠️ Incomplete'])
+
+    st.session_state.cached_stats = {
+        'total': total_papers,
+        'complete': complete_papers,
+        'metadata_only': metadata_only_papers,
+        'incomplete': incomplete_papers
+    }
+else:
+    total_papers = st.session_state.cached_stats['total']
+    complete_papers = st.session_state.cached_stats['complete']
+    metadata_only_papers = st.session_state.cached_stats['metadata_only']
+    incomplete_papers = st.session_state.cached_stats['incomplete']
+
 # Sidebar with stats
 with st.sidebar:
     st.subheader("Library Stats")
-
-    # Calculate stats (cached)
-    if 'cached_stats' not in st.session_state or st.session_state.get('reload_papers', False):
-        total_papers = len(papers)
-        complete_papers = 0
-        metadata_only_papers = 0
-        incomplete_papers = 0
-
-        for paper in papers:
-            has_title = bool(paper.get('title', '').strip())
-            has_authors = bool(paper.get('authors') and paper.get('authors') != [])
-            has_year = bool(paper.get('year', '').strip())
-            has_journal = bool(paper.get('journal', '').strip())
-            metadata_complete = has_title and has_authors and has_year and has_journal
-
-            filename = paper.get('filename', '')
-            has_pdf = False
-            if filename:
-                pdf_path = Path("papers") / filename
-                has_pdf = pdf_path.exists()
-
-            if metadata_complete and has_pdf:
-                complete_papers += 1
-            elif metadata_complete and not has_pdf:
-                metadata_only_papers += 1
-            else:
-                incomplete_papers += 1
-
-        st.session_state.cached_stats = {
-            'total': total_papers,
-            'complete': complete_papers,
-            'metadata_only': metadata_only_papers,
-            'incomplete': incomplete_papers
-        }
-    else:
-        total_papers = st.session_state.cached_stats['total']
-        complete_papers = st.session_state.cached_stats['complete']
-        metadata_only_papers = st.session_state.cached_stats['metadata_only']
-        incomplete_papers = st.session_state.cached_stats['incomplete']
 
     st.metric("Total Papers", total_papers)
 
