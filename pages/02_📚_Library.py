@@ -1866,8 +1866,28 @@ else:
 
                 # Save metadata and show notification only if actually changed
                 if metadata_changed:
+                    # Save to metadata.json
                     with open(metadata_file, 'w', encoding='utf-8') as f:
                         json.dump(all_metadata, f, indent=2, ensure_ascii=False)
+
+                    # Update ChromaDB for each changed paper
+                    from lib.rag import DatabaseClient
+                    for idx, updated_row in updated_df.iterrows():
+                        filename = updated_row.get('_filename')
+                        if filename and filename in all_metadata:
+                            metadata_doi = all_metadata[filename].get('doi', '')
+                            metadata_doi_display = metadata_doi if metadata_doi else '—'
+                            grid_doi = str(updated_row.get('DOI', '—')).strip()
+                            if grid_doi in ['', 'nan', 'None']:
+                                grid_doi = '—'
+                            if grid_doi != metadata_doi_display:
+                                # Update ChromaDB with new DOI
+                                new_doi = grid_doi if grid_doi != '—' else ''
+                                DatabaseClient.update_paper_metadata(filename, {"doi": new_doi})
+
+                    # Clear caches to force reload with updated DOI
+                    DatabaseClient.clear_cache()
+                    st.cache_data.clear()
 
                     # Show toast for changed papers
                     for paper_title in changed_papers:

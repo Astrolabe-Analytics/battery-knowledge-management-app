@@ -76,6 +76,44 @@ class DatabaseClient:
         cls._collection = None
         cls._client = None
 
+    @classmethod
+    def update_paper_metadata(cls, filename: str, metadata_updates: dict) -> bool:
+        """
+        Update metadata for all chunks of a paper in ChromaDB.
+
+        Args:
+            filename: Paper filename (e.g., "paper.pdf")
+            metadata_updates: Dict of metadata fields to update (e.g., {"doi": "10.1234/abc"})
+
+        Returns:
+            True if successful, False otherwise
+        """
+        try:
+            collection = cls.get_collection()
+
+            # Get all document IDs for this filename
+            results = collection.get(where={"filename": filename})
+
+            if not results['ids']:
+                print(f"No chunks found for {filename}")
+                return False
+
+            # Update metadata for all chunks of this paper
+            for doc_id, existing_metadata in zip(results['ids'], results['metadatas']):
+                # Merge existing metadata with updates
+                updated_metadata = {**existing_metadata, **metadata_updates}
+                collection.update(
+                    ids=[doc_id],
+                    metadatas=[updated_metadata]
+                )
+
+            print(f"Updated {len(results['ids'])} chunks for {filename}")
+            return True
+
+        except Exception as e:
+            print(f"Error updating ChromaDB metadata for {filename}: {e}")
+            return False
+
 
 def get_api_key_from_env() -> Optional[str]:
     """Get Anthropic API key from environment variable."""
