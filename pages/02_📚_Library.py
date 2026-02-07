@@ -1825,8 +1825,17 @@ else:
     if grid_response['data'] is not None and not st.session_state.get('just_updated_doi', False):
         updated_df = pd.DataFrame(grid_response['data'])
 
-        # Check if any DOI values changed by comparing with original
-        if len(updated_df) > 0 and len(updated_df) == len(df) and 'DOI' in updated_df.columns and '_filename' in updated_df.columns:
+        # Quick check: compare grid DOI values with original DataFrame to see if anything changed
+        # This avoids expensive file I/O on every rerun when nothing was edited
+        doi_changed = False
+        if len(updated_df) > 0 and len(updated_df) == len(df) and 'DOI' in updated_df.columns:
+            for idx in range(len(df)):
+                if updated_df.iloc[idx]['DOI'] != df.iloc[idx]['DOI']:
+                    doi_changed = True
+                    break
+
+        # Only load metadata from disk if DOI actually changed in grid
+        if doi_changed and '_filename' in updated_df.columns:
             # Load metadata to compare with actual stored values
             metadata_file = Path("data/metadata.json")
             if metadata_file.exists():
