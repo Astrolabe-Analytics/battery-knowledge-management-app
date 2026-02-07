@@ -60,8 +60,6 @@ def get_professional_css(theme='light'):
     /* Main container */
     .main {{
         padding: 2rem 3rem;
-        max-width: 1400px;
-        margin: 0 auto;
     }}
 
     /* Remove default Streamlit padding */
