@@ -1499,18 +1499,22 @@ else:
         }
     )
 
-    # DOI column with clickable link
+    # DOI column with clickable link and inline editing
     doi_renderer = JsCode("""
         class DoiRenderer {
             init(params) {
                 this.eGui = document.createElement('div');
+                this.eGui.style.display = 'flex';
+                this.eGui.style.alignItems = 'center';
+                this.eGui.style.gap = '8px';
+                this.eGui.style.padding = '4px 8px';
 
                 if (!params.value || params.value === '—' || params.value === '') {
-                    this.eGui.innerHTML = '<span style="color: #999; font-style: italic;">No DOI</span>';
+                    this.eGui.innerHTML = '<span style="color: #1f77b4; cursor: pointer; text-decoration: underline;">➕ Add DOI</span>';
                 } else {
                     // Value is already just the DOI (10.xxxx/...), URL is in _doi_url
                     const url = params.data._doi_url || 'https://doi.org/' + params.value;
-                    this.eGui.innerHTML = '<a href="' + url + '" target="_blank" rel="noopener noreferrer" style="color: #1f77b4; text-decoration: underline;">' + params.value + '</a>';
+                    this.eGui.innerHTML = '<a href="' + url + '" target="_blank" rel="noopener noreferrer" style="color: #1f77b4; text-decoration: underline; flex: 1;">' + params.value + '</a><span style="color: #999; cursor: pointer; font-size: 12px;">✏️</span>';
                 }
             }
 
@@ -1523,11 +1527,30 @@ else:
         flex=1.5,
         minWidth=140,
         resizable=True,
+        editable=True,
         cellRenderer=doi_renderer,
+        cellEditor='agTextCellEditor',
         cellStyle={
             'overflow': 'hidden'
         },
-        tooltipField="DOI"
+        tooltipField="DOI",
+        valueSetter=JsCode("""
+            function(params) {
+                // Clean up the DOI value
+                let newValue = params.newValue.trim();
+
+                // Remove common prefixes
+                newValue = newValue.replace(/^(https?:\/\/)?(dx\.)?doi\.org\//i, '');
+
+                // Only accept valid DOI format (10.xxxx/...)
+                if (newValue && !newValue.match(/^10\.\d{4,}/)) {
+                    return false; // Invalid DOI format
+                }
+
+                params.data.DOI = newValue || '—';
+                return true;
+            }
+        """)
     )
 
     # Read column with actual checkbox
@@ -1767,7 +1790,7 @@ else:
     grid_response = AgGrid(
         df,
         gridOptions=grid_options,
-        update_mode=GridUpdateMode.SELECTION_CHANGED,  # Update on selection changes for row click navigation
+        update_mode=GridUpdateMode.MODEL_CHANGED | GridUpdateMode.SELECTION_CHANGED,  # Update on both cell edits and selection
         fit_columns_on_grid_load=True,  # Auto-fit columns to fill container width
         theme=ag_theme,
         custom_css=custom_css,
@@ -1777,6 +1800,47 @@ else:
         reload_data=False,  # Improve performance by not reloading data unnecessarily
         key=grid_key  # Preserve state across reruns
     )
+
+    # Handle DOI cell edits
+    if grid_response['data'] is not None:
+        updated_df = pd.DataFrame(grid_response['data'])
+
+        # Check if any DOI values changed
+        if len(updated_df) > 0 and 'DOI' in updated_df.columns and '_filename' in updated_df.columns:
+            # Load metadata
+            metadata_file = Path("data/metadata.json")
+            if metadata_file.exists():
+                with open(metadata_file, 'r', encoding='utf-8') as f:
+                    all_metadata = json.load(f)
+
+                metadata_changed = False
+
+                # Compare with original df to find changes
+                for idx, updated_row in updated_df.iterrows():
+                    if idx < len(df):
+                        original_row = df.iloc[idx]
+                        filename = updated_row['_filename']
+
+                        # Check if DOI changed
+                        original_doi = original_row.get('DOI', '—')
+                        updated_doi = updated_row.get('DOI', '—')
+
+                        if original_doi != updated_doi and filename in all_metadata:
+                            # Update DOI in metadata
+                            new_doi = updated_doi if updated_doi != '—' else ''
+                            all_metadata[filename]['doi'] = new_doi
+                            metadata_changed = True
+
+                            st.toast(f"✅ DOI updated for {all_metadata[filename].get('title', filename)[:50]}", icon="✏️")
+
+                # Save metadata if changed
+                if metadata_changed:
+                    with open(metadata_file, 'w', encoding='utf-8') as f:
+                        json.dump(all_metadata, f, indent=2, ensure_ascii=False)
+
+                    # Invalidate cache to reload papers
+                    st.session_state.reload_papers = True
+                    st.rerun()
 
     # Handle delete button click
     if delete_button and grid_response['selected_rows'] is not None and len(grid_response['selected_rows']) > 0:
