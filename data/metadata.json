@@ -14114,7 +14114,8 @@
     "author_keywords": [],
     "abstract": "",
     "references": [],
-    "pdf_status": "needs_pdf"
+    "pdf_status": "needs_pdf",
+    "deleted_at": "2026-02-06 23:08:08"
   },
   "10_1016_j_est_2025_115357.pdf": {
     "title": "Understanding lithium-ion battery degradation in vehicle applications: Insights from realistic and accelerated aging tests using Volkswagen ID.3 pouch cells",
@@ -27376,7 +27377,7 @@
       "Liu"
     ],
     "year": "2010",
-    "journal": "",
+    "journal": "2010 IEEE International Conference on Data Mining",
     "doi": "10.1109/ICDM.2010.35",
     "volume": "",
     "issue": "",
@@ -47146,7 +47147,7 @@
       "Peng"
     ],
     "year": "2019",
-    "journal": "",
+    "journal": "2019 IEEE Vehicle Power and Propulsion Conference (VPPC)",
     "doi": "10.1109/VPPC46532.2019.8952323",
     "volume": "",
     "issue": "",
@@ -47168,7 +47169,7 @@
       "Lotfi"
     ],
     "year": "2017",
-    "journal": "",
+    "journal": "2017 American Control Conference (ACC)",
     "doi": "10.23919/ACC.2017.7962935",
     "volume": "",
     "issue": "",
@@ -58848,7 +58849,8 @@
     "pages": "",
     "source_url": "",
     "notes": "",
-    "references": []
+    "references": [],
+    "deleted_at": "2026-02-06 23:08:08"
   },
   "Assessment_of_Real_Time_Tariffs_for_Electric_Vehic.pdf": {
     "filename": "Assessment_of_Real_Time_Tariffs_for_Electric_Vehic.pdf",
@@ -58900,7 +58902,8 @@
     "pages": "",
     "source_url": "",
     "notes": "",
-    "references": []
+    "references": [],
+    "deleted_at": "2026-02-06 23:08:08"
   },
   "EIS_Dataset_NN_code.pdf": {
     "filename": "EIS_Dataset_NN_code.pdf",
@@ -58923,7 +58926,8 @@
     "pages": "",
     "source_url": "",
     "notes": "",
-    "references": []
+    "references": [],
+    "deleted_at": "2026-02-06 23:08:09"
   },
   "A_machine_learning_prediction_method_of_lithium_io.pdf": {
     "filename": "A_machine_learning_prediction_method_of_lithium_io.pdf",

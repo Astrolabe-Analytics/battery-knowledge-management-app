@@ -725,12 +725,16 @@ def soft_delete_paper(filename: str) -> Dict[str, Any]:
         if filename not in all_metadata:
             return {'success': False, 'message': 'Paper not found in metadata'}
 
-        # Mark as deleted in metadata
-        all_metadata[filename]['deleted_at'] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        # Save paper title for success message
+        paper_title = all_metadata[filename].get("title", filename)
+
+        # Remove from metadata (delete, not mark as deleted)
+        del all_metadata[filename]
 
         # Save updated metadata
         with open(metadata_file, 'w', encoding='utf-8') as f:
             json.dump(all_metadata, f, indent=2, ensure_ascii=False)
+        print(f"[DELETE] Removed {filename} from metadata.json")
 
         # Move PDF to trash folder if it exists
         pdf_path = Path("papers") / filename
@@ -740,18 +744,21 @@ def soft_delete_paper(filename: str) -> Dict[str, Any]:
 
             trash_path = trash_dir / filename
             shutil.move(str(pdf_path), str(trash_path))
+            print(f"[DELETE] Moved PDF to trash: {filename}")
 
         # Remove from ChromaDB
         try:
-            db = rag.DatabaseClient()
-            db.collection.delete(where={"filename": filename})
+            collection = rag.DatabaseClient.get_collection()
+            collection.delete(where={"filename": filename})
+            print(f"[DELETE] Removed {filename} from ChromaDB")
         except Exception as e:
+            print(f"[DELETE] ChromaDB deletion failed for {filename}: {e}")
             # Non-fatal if ChromaDB deletion fails
             pass
 
         return {
             'success': True,
-            'message': f'Moved "{all_metadata[filename].get("title", filename)}" to trash'
+            'message': f'Deleted "{paper_title}"'
         }
 
     except Exception as e:
