@@ -1306,10 +1306,12 @@ else:
 
     # Action buttons
     if len(df) > 0:
-        st.caption("💡 **Tip:** Click a row to view details • Use checkboxes for bulk delete")
-        btn_col1, spacer_col = st.columns([1, 4])
+        st.caption("💡 **Tip:** Click a row to view details • Use checkboxes for bulk actions")
+        btn_col1, btn_col2, spacer_col = st.columns([1, 1, 3])
         with btn_col1:
             delete_button = st.button("🗑️ Delete Selected", type="secondary", use_container_width=True)
+        with btn_col2:
+            find_doi_button = st.button("🔍 Find DOI", type="secondary", use_container_width=True)
 
     # Configure AG Grid with flex sizing for full-width layout
     gb = GridOptionsBuilder.from_dataframe(df)
@@ -2005,6 +2007,80 @@ else:
                     st.rerun()
 
         confirm_delete_dialog()
+
+    # Handle Find DOI button click
+    if find_doi_button and grid_response['selected_rows'] is not None and len(grid_response['selected_rows']) > 0:
+        selected_rows_df = pd.DataFrame(grid_response['selected_rows'])
+
+        # Filter for papers missing DOI
+        papers_missing_doi = []
+        for _, row in selected_rows_df.iterrows():
+            doi = row.get('DOI', '—')
+            if doi in ['—', '', 'nan', 'None']:
+                papers_missing_doi.append({
+                    'filename': row['_filename'],
+                    'title': row['_paper_title']
+                })
+
+        if len(papers_missing_doi) == 0:
+            st.info("ℹ️ All selected papers already have DOIs")
+        else:
+            # Process papers with progress bar
+            progress_text = st.empty()
+            progress_bar = st.progress(0)
+
+            found_count = 0
+            not_found_count = 0
+
+            # Load metadata once
+            metadata_file = Path("data/metadata.json")
+            with open(metadata_file, 'r', encoding='utf-8') as f:
+                all_metadata = json.load(f)
+
+            from lib.app_helpers import find_doi_via_semantic_scholar
+            from lib.rag import DatabaseClient
+
+            for idx, paper in enumerate(papers_missing_doi):
+                progress_text.text(f"Searching for DOI {idx + 1} of {len(papers_missing_doi)}: {paper['title'][:50]}...")
+                progress_bar.progress((idx + 1) / len(papers_missing_doi))
+
+                found_doi = find_doi_via_semantic_scholar(paper['title'])
+
+                if found_doi:
+                    # Save to metadata.json
+                    if paper['filename'] in all_metadata:
+                        all_metadata[paper['filename']]['doi'] = found_doi
+                        print(f"[BULK FIND DOI] Found DOI '{found_doi}' for {paper['filename']}")
+
+                        # Update ChromaDB
+                        DatabaseClient.update_paper_metadata(paper['filename'], {"doi": found_doi})
+
+                        found_count += 1
+                else:
+                    not_found_count += 1
+                    print(f"[BULK FIND DOI] No DOI found for {paper['filename']}")
+
+            # Save metadata.json
+            with open(metadata_file, 'w', encoding='utf-8') as f:
+                json.dump(all_metadata, f, indent=2, ensure_ascii=False)
+
+            # Clear caches and reload
+            DatabaseClient.clear_cache()
+            st.cache_data.clear()
+            st.session_state.reload_papers = True
+
+            # Clear progress indicators
+            progress_text.empty()
+            progress_bar.empty()
+
+            # Show summary
+            if found_count > 0:
+                st.success(f"✅ Found DOIs for {found_count} of {len(papers_missing_doi)} selected papers. {not_found_count} not found.")
+            else:
+                st.warning(f"❌ No DOIs found for any of the {len(papers_missing_doi)} selected papers.")
+
+            time.sleep(2)
+            st.rerun()
 
     # Handle read status changes
     if grid_response['data'] is not None:
