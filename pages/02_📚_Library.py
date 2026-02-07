@@ -1854,6 +1854,7 @@ else:
                         if grid_doi != metadata_doi_display:
                             # Update DOI in metadata
                             new_doi = grid_doi if grid_doi != '—' else ''
+                            print(f"[DOI EDIT TRIGGERED] File: {filename}, Old DOI: '{metadata_doi}', New DOI: '{new_doi}'")
                             all_metadata[filename]['doi'] = new_doi
                             changed_files[filename] = new_doi  # Track for ChromaDB update
                             metadata_changed = True
@@ -1861,15 +1862,36 @@ else:
 
                 # Save metadata and show notification only if actually changed
                 if metadata_changed:
+                    print(f"[SAVING TO FILE] Writing {len(changed_files)} DOI changes to metadata.json")
+                    for fn, doi in changed_files.items():
+                        print(f"  - {fn}: '{doi}'")
+
                     # Save to metadata.json
                     with open(metadata_file, 'w', encoding='utf-8') as f:
                         json.dump(all_metadata, f, indent=2, ensure_ascii=False)
 
+                    print("[FILE WRITTEN] Successfully wrote metadata.json")
+
+                    # Verify the save by reading back immediately
+                    print("[VERIFYING SAVE] Reading metadata.json back to confirm...")
+                    with open(metadata_file, 'r', encoding='utf-8') as f:
+                        verified_metadata = json.load(f)
+                    for filename, expected_doi in changed_files.items():
+                        actual_doi = verified_metadata.get(filename, {}).get('doi', '')
+                        if actual_doi == expected_doi:
+                            print(f"  ✓ {filename}: DOI saved correctly as '{actual_doi}'")
+                        else:
+                            print(f"  ✗ {filename}: MISMATCH! Expected '{expected_doi}', got '{actual_doi}'")
+
                     # Update ChromaDB for each changed paper
                     from lib.rag import DatabaseClient
                     for filename, new_doi in changed_files.items():
-                        print(f"[DOI UPDATE] Updating ChromaDB for {filename} with DOI: {new_doi}")
-                        DatabaseClient.update_paper_metadata(filename, {"doi": new_doi})
+                        print(f"[CHROMADB UPDATE] Updating {filename} with DOI: '{new_doi}'")
+                        success = DatabaseClient.update_paper_metadata(filename, {"doi": new_doi})
+                        if success:
+                            print(f"  ✓ ChromaDB updated for {filename}")
+                        else:
+                            print(f"  ✗ ChromaDB update failed for {filename}")
 
                     # Clear caches to force reload with updated DOI
                     DatabaseClient.clear_cache()

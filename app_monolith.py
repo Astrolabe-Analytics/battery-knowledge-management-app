@@ -2109,12 +2109,46 @@ def main():
                     else:
                         st.markdown("**Journal:** _Not available_")
 
-                    # DOI
+                    # DOI with Find DOI button
                     doi = details.get('doi', '')
-                    if doi:
-                        st.markdown(f"**DOI:** [{doi}](https://doi.org/{doi})")
-                    else:
-                        st.markdown("**DOI:** _Not available_")
+                    doi_col1, doi_col2 = st.columns([3, 1])
+                    with doi_col1:
+                        if doi:
+                            st.markdown(f"**DOI:** [{doi}](https://doi.org/{doi})")
+                        else:
+                            st.markdown("**DOI:** _Not available_")
+                    with doi_col2:
+                        if not doi and details.get('title'):
+                            if st.button("🔍 Find DOI", key=f"find_doi_{paper_filename}", use_container_width=True):
+                                with st.spinner("Searching Semantic Scholar..."):
+                                    from lib.app_helpers import find_doi_via_semantic_scholar
+                                    found_doi = find_doi_via_semantic_scholar(details['title'])
+                                    if found_doi:
+                                        # Save to metadata.json
+                                        metadata_file = Path("data/metadata.json")
+                                        if metadata_file.exists():
+                                            with open(metadata_file, 'r', encoding='utf-8') as f:
+                                                all_metadata = json.load(f)
+                                            if paper_filename in all_metadata:
+                                                all_metadata[paper_filename]['doi'] = found_doi
+                                                with open(metadata_file, 'w', encoding='utf-8') as f:
+                                                    json.dump(all_metadata, f, indent=2, ensure_ascii=False)
+                                                print(f"[FIND DOI] Saved DOI '{found_doi}' to metadata.json for {paper_filename}")
+
+                                                # Update ChromaDB
+                                                from lib.rag import DatabaseClient
+                                                DatabaseClient.update_paper_metadata(paper_filename, {"doi": found_doi})
+                                                print(f"[FIND DOI] Updated ChromaDB for {paper_filename}")
+
+                                                # Clear caches
+                                                DatabaseClient.clear_cache()
+                                                st.cache_data.clear()
+                                                st.session_state.reload_papers = True
+
+                                                st.success(f"✅ Found and saved DOI: {found_doi}")
+                                                st.rerun()
+                                    else:
+                                        st.warning("❌ No DOI found on Semantic Scholar")
 
                     # Application
                     if details.get('application'):
