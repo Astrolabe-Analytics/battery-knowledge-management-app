@@ -1353,10 +1353,11 @@ def main():
     import re
     from pathlib import Path
     import time as timing_module
+    import sys
 
     # TIMING: Start
     _start_time = timing_module.time()
-    print(f"\n[TIMING] main() started")
+    print(f"\n[TIMING] main() started", file=sys.stderr, flush=True)
 
     # Initialize session state
     if "selected_paper" not in st.session_state:
@@ -1405,42 +1406,56 @@ def main():
     total_chunks = st.session_state.cached_total_chunks
 
     # TIMING: After loading papers
-    print(f"[TIMING] Papers loaded: {timing_module.time() - _start_time:.3f}s")
+    print(f"[TIMING] Papers loaded: {timing_module.time() - _start_time:.3f}s", file=sys.stderr, flush=True)
 
     # Sidebar - Simplified and professional
     with st.sidebar:
         # Quick stats with breakdown
         st.subheader("Library Stats")
 
-        # Categorize papers into three groups
-        total_papers = len(papers)
-        complete_papers = 0
-        metadata_only_papers = 0
-        incomplete_papers = 0
+        # Calculate stats (cached in session state to avoid slow disk I/O on every rerun)
+        if 'cached_stats' not in st.session_state or st.session_state.get('reload_papers', False):
+            total_papers = len(papers)
+            complete_papers = 0
+            metadata_only_papers = 0
+            incomplete_papers = 0
 
-        for paper in papers:
-            # Check if metadata is complete
-            has_title = bool(paper.get('title', '').strip())
-            has_authors = bool(paper.get('authors') and paper.get('authors') != [])
-            has_year = bool(paper.get('year', '').strip())
-            has_journal = bool(paper.get('journal', '').strip())
+            for paper in papers:
+                # Check if metadata is complete
+                has_title = bool(paper.get('title', '').strip())
+                has_authors = bool(paper.get('authors') and paper.get('authors') != [])
+                has_year = bool(paper.get('year', '').strip())
+                has_journal = bool(paper.get('journal', '').strip())
 
-            metadata_complete = has_title and has_authors and has_year and has_journal
+                metadata_complete = has_title and has_authors and has_year and has_journal
 
-            # Check if PDF exists
-            filename = paper.get('filename', '')
-            has_pdf = False
-            if filename:
-                pdf_path = Path("papers") / filename
-                has_pdf = pdf_path.exists()
+                # Check if PDF exists
+                filename = paper.get('filename', '')
+                has_pdf = False
+                if filename:
+                    pdf_path = Path("papers") / filename
+                    has_pdf = pdf_path.exists()
 
-            # Categorize
-            if metadata_complete and has_pdf:
-                complete_papers += 1
-            elif metadata_complete and not has_pdf:
-                metadata_only_papers += 1
-            else:
-                incomplete_papers += 1
+                # Categorize
+                if metadata_complete and has_pdf:
+                    complete_papers += 1
+                elif metadata_complete and not has_pdf:
+                    metadata_only_papers += 1
+                else:
+                    incomplete_papers += 1
+
+            st.session_state.cached_stats = {
+                'total': total_papers,
+                'complete': complete_papers,
+                'metadata_only': metadata_only_papers,
+                'incomplete': incomplete_papers
+            }
+        else:
+            # Use cached stats
+            total_papers = st.session_state.cached_stats['total']
+            complete_papers = st.session_state.cached_stats['complete']
+            metadata_only_papers = st.session_state.cached_stats['metadata_only']
+            incomplete_papers = st.session_state.cached_stats['incomplete']
 
         # Display total with breakdown
         st.metric("Total Papers", total_papers)
@@ -1467,7 +1482,7 @@ def main():
         st.metric("Chunks", total_chunks)
 
     # TIMING: After sidebar
-    print(f"[TIMING] Sidebar rendered: {timing_module.time() - _start_time:.3f}s")
+    print(f"[TIMING] Sidebar rendered: {timing_module.time() - _start_time:.3f}s", file=sys.stderr, flush=True)
 
     # Main content - Tabs
     tab1, tab2, tab3, tab4, tab5, tab6, tab7 = st.tabs(["📥 Import", "Library", "🔍 Discover", "Research", "History", "Settings", "🗑️ Trash"])
@@ -1986,7 +2001,7 @@ def main():
                 col_back, col_pdf = st.columns([1, 2])
                 with col_back:
                     if st.button("← Back to Library", use_container_width=True):
-                        print(f"\n[TIMING] Back button clicked - clearing selected_paper")
+                        print(f"\n[TIMING] Back button clicked - clearing selected_paper", file=sys.stderr, flush=True)
                         st.session_state.selected_paper = None
                         st.rerun()
 
@@ -2945,7 +2960,7 @@ def main():
                 filter_collection=filter_collection or "All Collections",
                 filter_status=filter_status or "All Papers"
             )
-            print(f"[TIMING] DataFrame built: {timing_module.time() - _df_start:.3f}s (total: {timing_module.time() - _start_time:.3f}s)")
+            print(f"[TIMING] DataFrame built: {timing_module.time() - _df_start:.3f}s (total: {timing_module.time() - _start_time:.3f}s)", file=sys.stderr, flush=True)
 
             # Count filtered papers
             filtered_count = len(df)
