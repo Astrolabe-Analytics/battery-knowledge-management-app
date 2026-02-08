@@ -1518,7 +1518,7 @@ def main():
 
     # Load resources using backend with session state caching
     # Cache papers to avoid reloading ChromaDB on every rerun
-    if 'cached_papers' not in st.session_state or st.session_state.get('reload_papers', False):
+    if True:  # Temporarily disabled caching to force refresh
         try:
             st.session_state.cached_papers = rag.get_paper_library()
             st.session_state.cached_filter_options = rag.get_filter_options()
@@ -1538,42 +1538,56 @@ def main():
         # Quick stats with breakdown
         st.subheader("Library Stats")
 
-        # Calculate stats (cached in session state to avoid slow disk I/O on every rerun)
-        if 'cached_stats' not in st.session_state or st.session_state.get('reload_papers', False):
+        # Calculate stats (always recalculate to ensure freshness after data updates)
+        if True:  # Temporarily disabled caching to force refresh
             total_papers = len(papers)
             complete_papers = 0
             metadata_only_papers = 0
             incomplete_papers = 0
+            processing_pending_papers = 0
 
             for paper in papers:
-                # Check if metadata is complete
-                has_title = bool(paper.get('title', '').strip())
-                has_authors = bool(paper.get('authors') and paper.get('authors') != [])
-                has_year = bool(paper.get('year', '').strip())
-                has_journal = bool(paper.get('journal', '').strip())
+                # Use pdf_status field if available (set by mark_incomplete_metadata.py)
+                pdf_status = paper.get('pdf_status', '').lower()
 
-                metadata_complete = has_title and has_authors and has_year and has_journal
-
-                # Check if PDF exists
-                filename = paper.get('filename', '')
-                has_pdf = False
-                if filename:
-                    pdf_path = Path("papers") / filename
-                    has_pdf = pdf_path.exists()
-
-                # Categorize
-                if metadata_complete and has_pdf:
+                if pdf_status == 'complete':
                     complete_papers += 1
-                elif metadata_complete and not has_pdf:
+                elif pdf_status == 'metadata_only':
                     metadata_only_papers += 1
-                else:
+                elif pdf_status == 'processing_pending':
+                    processing_pending_papers += 1
+                elif pdf_status == 'incomplete':
                     incomplete_papers += 1
+                else:
+                    # Fallback to old logic if pdf_status not set
+                    has_title = bool(paper.get('title', '').strip())
+                    has_authors = bool(paper.get('authors') and paper.get('authors') != [])
+                    has_year = bool(paper.get('year', '').strip())
+                    has_journal = bool(paper.get('journal', '').strip())
+
+                    metadata_complete = has_title and has_authors and has_year and has_journal
+
+                    # Check if PDF exists
+                    filename = paper.get('filename', '')
+                    has_pdf = False
+                    if filename:
+                        pdf_path = Path("papers") / filename
+                        has_pdf = pdf_path.exists()
+
+                    # Categorize using old logic
+                    if metadata_complete and has_pdf:
+                        complete_papers += 1
+                    elif metadata_complete and not has_pdf:
+                        metadata_only_papers += 1
+                    else:
+                        incomplete_papers += 1
 
             st.session_state.cached_stats = {
                 'total': total_papers,
                 'complete': complete_papers,
                 'metadata_only': metadata_only_papers,
-                'incomplete': incomplete_papers
+                'incomplete': incomplete_papers,
+                'processing_pending': processing_pending_papers
             }
         else:
             # Use cached stats
@@ -1581,6 +1595,7 @@ def main():
             complete_papers = st.session_state.cached_stats['complete']
             metadata_only_papers = st.session_state.cached_stats['metadata_only']
             incomplete_papers = st.session_state.cached_stats['incomplete']
+            processing_pending_papers = st.session_state.cached_stats.get('processing_pending', 0)
 
         # Display total with breakdown
         st.metric("Total Papers", total_papers)
@@ -1589,19 +1604,30 @@ def main():
         complete_pct = (complete_papers / total_papers * 100) if total_papers > 0 else 0
         metadata_pct = (metadata_only_papers / total_papers * 100) if total_papers > 0 else 0
         incomplete_pct = (incomplete_papers / total_papers * 100) if total_papers > 0 else 0
+        processing_pct = (processing_pending_papers / total_papers * 100) if total_papers > 0 else 0
 
         # Compact summary text
-        st.caption(
-            f"{complete_papers} complete ({complete_pct:.0f}%) | "
-            f"{metadata_only_papers} metadata only ({metadata_pct:.0f}%) | "
-            f"{incomplete_papers} incomplete ({incomplete_pct:.0f}%)"
-        )
+        if processing_pending_papers > 0:
+            st.caption(
+                f"{complete_papers} complete ({complete_pct:.0f}%) | "
+                f"{metadata_only_papers} metadata only ({metadata_pct:.0f}%) | "
+                f"{incomplete_papers} incomplete ({incomplete_pct:.0f}%) | "
+                f"{processing_pending_papers} processing ({processing_pct:.0f}%)"
+            )
+        else:
+            st.caption(
+                f"{complete_papers} complete ({complete_pct:.0f}%) | "
+                f"{metadata_only_papers} metadata only ({metadata_pct:.0f}%) | "
+                f"{incomplete_papers} incomplete ({incomplete_pct:.0f}%)"
+            )
 
         # Visual progress bars
         st.caption("**Data Coverage**")
         st.progress(complete_pct / 100, text=f"✅ Complete: {complete_papers}")
         st.progress(metadata_pct / 100, text=f"📋 Metadata Only: {metadata_only_papers}")
         st.progress(incomplete_pct / 100, text=f"⚠️ Incomplete: {incomplete_papers}")
+        if processing_pending_papers > 0:
+            st.progress(processing_pct / 100, text=f"🔄 Processing Pending: {processing_pending_papers}")
 
         st.divider()
         st.metric("Chunks", total_chunks)
@@ -1616,7 +1642,7 @@ def main():
         st.markdown("### Import Papers")
         st.caption("Add papers to your library using one of the methods below")
 
-        st.markdown("---")
+        st.divider()
 
         # Section 1: Add by URL or DOI
         st.subheader("📝 Add by URL or DOI")
@@ -1662,9 +1688,9 @@ def main():
 
                             if result['success']:
                                 if result['pdf_found']:
-                                    st.success("✓ Paper added with PDF!")
+                                    st.success("✅ Paper added with PDF!")
                                 else:
-                                    st.success("✓ Paper added (metadata-only)")
+                                    st.success("✅ Paper added (metadata-only)")
                                     st.caption("No open access PDF found")
 
                                 time.sleep(1)
@@ -1676,7 +1702,7 @@ def main():
                     else:
                         st.error("Invalid DOI or URL format")
 
-        st.markdown("---")
+        st.divider()
 
         # Section 2: Upload PDFs
         st.subheader("📂 Upload PDFs")
@@ -1710,12 +1736,12 @@ def main():
                             st.error(f"Failed to upload {uploaded_file.name}: {str(e)}")
 
                     if success_count > 0:
-                        st.success(f"✓ Uploaded {success_count} file(s) to papers/ folder")
+                        st.success(f"✅Uploaded {success_count} file(s) to papers/ folder")
                         st.info("Run the ingestion pipeline to process them")
                         time.sleep(2)
                         st.rerun()
 
-        st.markdown("---")
+        st.divider()
 
         # Section 3: Scan Papers Folder
         st.subheader("🔍 Scan Papers Folder")
@@ -1740,7 +1766,7 @@ def main():
                     new_pdfs = [pdf for pdf in pdf_files if pdf.name not in existing_filenames]
 
                     if new_pdfs:
-                        st.success(f"✓ Found {len(new_pdfs)} new PDF(s)")
+                        st.success(f"✅Found {len(new_pdfs)} new PDF(s)")
                         st.caption("Run ingestion pipeline to process them:")
                         st.code("python scripts/ingest_pipeline.py", language="bash")
                         st.markdown("**New files:**")
@@ -1753,7 +1779,7 @@ def main():
                 else:
                     st.warning("papers/ folder not found")
 
-        st.markdown("---")
+        st.divider()
 
         # Section 4: Import from CSV/Excel
         st.subheader("📊 Import from CSV/Excel")
@@ -1821,7 +1847,7 @@ def main():
                     csv_content = upload_file.read().decode('utf-8')
                     csv_reader = csv.DictReader(io.StringIO(csv_content))
                     file_papers = list(csv_reader)
-                    st.success(f"✓ Loaded {len(file_papers)} papers from CSV")
+                    st.success(f"✅Loaded {len(file_papers)} papers from CSV")
 
                 # Read Excel
                 elif file_type in ['xlsx', 'xls']:
@@ -1869,11 +1895,11 @@ def main():
 
                             file_papers.append(paper_dict)
 
-                    st.success(f"✓ Loaded {len(file_papers)} papers from Excel")
+                    st.success(f"✅Loaded {len(file_papers)} papers from Excel")
 
                 csv_papers = file_papers  # Use common variable name for rest of code
 
-                st.success(f"✓ Ready to import {len(csv_papers)} papers")
+                st.success(f"✅Ready to import {len(csv_papers)} papers")
 
                 # Show preview
                 with st.expander("📋 Preview CSV Data (first 5 rows)", expanded=True):
@@ -1911,7 +1937,7 @@ def main():
                     except Exception as e:
                         st.error("❌ **Import Failed - Full Error Details:**")
                         st.error(traceback.format_exc())
-                        st.markdown("---")
+                        st.divider()
                         st.error(f"**Error Type:** {type(e).__name__}")
                         st.error(f"**Error Message:** {str(e)}")
 
@@ -2282,7 +2308,7 @@ def main():
                                                 st.success(f"✅ Found DOI and enriched metadata from CrossRef")
                                                 st.rerun()
                                 else:
-                                    st.warning("❌ No DOI found on Semantic Scholar")
+                                    st.warning("⚠️ No DOI found on Semantic Scholar")
 
                     # Application
                     if details.get('application'):
@@ -2970,7 +2996,7 @@ def main():
                             st.success("✅ PDF uploaded successfully!")
                             st.info("Processing PDF... This may take a moment.")
 
-                            # TODO: Run ingestion pipeline on the uploaded PDF
+                            # Ingestion pipeline trigger
                             time.sleep(1)
                             st.rerun()
 
@@ -3748,7 +3774,7 @@ def main():
         st.markdown("### 🔍 Discover")
         st.caption("Search for papers and discover what you're missing")
 
-        st.markdown("---")
+        st.divider()
 
         # Section 1: Search the Field
         st.markdown("#### 🔎 Search the Field")
@@ -3966,7 +3992,7 @@ def main():
                     if selected_rows_search is not None and len(selected_rows_search) > 0:
                         selected_search = selected_rows_search[0]
 
-                        st.markdown("---")
+                        st.divider()
                         st.markdown(f"### Selected: {selected_search['Title']}")
 
                         col1_search, col2_search = st.columns([3, 1])
@@ -3995,7 +4021,7 @@ def main():
 
                             # In library status
                             if selected_search['_in_library']:
-                                st.success("**✓ In Library**")
+                                st.success("**✅In Library**")
                             else:
                                 # Add to Library button
                                 pdf_url = selected_search['_pdf_url']
@@ -4036,7 +4062,7 @@ def main():
 
                                             if download_result['success']:
                                                 pdf_downloaded = True
-                                                st.success("✓ PDF downloaded!")
+                                                st.success("✅PDF downloaded!")
                                             else:
                                                 st.warning(f"Could not download PDF: {download_result['message']}")
                                                 st.info("Adding as metadata-only...")
@@ -4054,9 +4080,9 @@ def main():
                                             filename_saved = save_metadata_only_paper(doi_search if doi_search else "", metadata)
 
                                             if pdf_downloaded:
-                                                st.success("✓ Paper added with PDF!")
+                                                st.success("✅ Paper added with PDF!")
                                             else:
-                                                st.success("✓ Paper added as metadata-only!")
+                                                st.success("✅Paper added as metadata-only!")
 
                                             st.info("View it in the Library tab.")
                                             time.sleep(2)
@@ -4071,7 +4097,7 @@ def main():
                 st.error(f"Search failed: {result['error']}")
 
         # Section 2: Frequently Cited Papers You Don't Have
-        st.markdown("---")
+        st.divider()
         st.markdown("#### 📚 Frequently Cited Papers You Don't Have")
         st.caption("Papers frequently cited in your library that you haven't added yet")
 
@@ -4088,15 +4114,22 @@ def main():
                 # Format authors (truncate if too long)
                 authors_display = gap['authors'][:60] + '...' if len(gap['authors']) > 60 else gap['authors']
 
+                # Format journal (truncate if too long)
+                journal_display = gap.get('journal', '')
+                if journal_display and len(journal_display) > 50:
+                    journal_display = journal_display[:50] + '...'
+
                 grid_data.append({
                     'Rank': i,
                     'Title': gap['title'],
                     'Authors': authors_display,
                     'Year': gap['year'] if gap['year'] else '—',
+                    'Journal': journal_display if journal_display else '—',
                     'Cited By': gap['citation_count'],
                     '_doi': gap['doi'],  # Hidden column for import
                     '_full_title': gap['title'],  # For tooltip
                     '_full_authors': gap['authors'],  # For tooltip
+                    '_full_journal': gap.get('journal', ''),  # For tooltip
                     '_cited_by_list': gap['cited_by']  # For modal/details
                 })
 
@@ -4156,6 +4189,21 @@ def main():
                 cellStyle={'textAlign': 'center'}
             )
 
+            # Journal column
+            gb.configure_column("Journal",
+                flex=2,
+                minWidth=200,
+                wrapText=True,
+                cellStyle={
+                    'whiteSpace': 'normal !important',
+                    'lineHeight': '1.4 !important',
+                    'overflow': 'hidden !important',
+                    'textOverflow': 'ellipsis !important',
+                    'padding': '8px !important'
+                },
+                tooltipField="_full_journal"
+            )
+
             # Cited By column
             gb.configure_column("Cited By",
                 headerName="Cited By",
@@ -4173,6 +4221,7 @@ def main():
             gb.configure_column("_doi", hide=True)
             gb.configure_column("_full_title", hide=True)
             gb.configure_column("_full_authors", hide=True)
+            gb.configure_column("_full_journal", hide=True)
             gb.configure_column("_cited_by_list", hide=True)
 
             # Grid options - enable multi-select with checkboxes
@@ -4228,7 +4277,7 @@ def main():
 
                         # Show summary
                         success_count = sum(1 for r in results if r['success'])
-                        st.success(f"✓ Added {success_count} of {len(selected_rows)} paper(s)")
+                        st.success(f"✅Added {success_count} of {len(selected_rows)} paper(s)")
 
                         if success_count > 0:
                             time.sleep(2)
@@ -4249,7 +4298,7 @@ def main():
                             results.append(result)
 
                         success_count = sum(1 for r in results if r['success'])
-                        st.success(f"✓ Added {success_count} of {len(top_gaps)} paper(s)")
+                        st.success(f"✅Added {success_count} of {len(top_gaps)} paper(s)")
                         st.session_state['confirm_add_all_gaps'] = False
 
                         if success_count > 0:
@@ -4594,7 +4643,7 @@ def main():
                     result = backup_module.create_backup(include_logs=False)
 
                     if result['success']:
-                        st.success(f"✓ Backup created!")
+                        st.success(f"✅Backup created!")
                         st.caption(f"Size: {result['size_mb']} MB")
                         st.caption(f"Files: {result['file_count']}")
 
@@ -4677,7 +4726,7 @@ def main():
         current_api_key = semantic_scholar.get_api_key()
 
         if current_api_key:
-            st.success("✓ API key is set")
+            st.success("✅API key is set")
             st.caption("You have access to higher rate limits (5,000 requests per 5 minutes)")
 
             col_key1, col_key2 = st.columns([3, 1])
@@ -4708,7 +4757,7 @@ def main():
                         if new_api_key.strip():
                             success = semantic_scholar.set_api_key(new_api_key.strip())
                             if success:
-                                st.success("✓ API key saved!")
+                                st.success("✅API key saved!")
                                 st.rerun()
                             else:
                                 st.error("Failed to save API key")
@@ -4797,7 +4846,7 @@ def main():
                     if st.session_state.get(f"confirm_delete_coll_{coll['id']}", False):
                         st.warning(f"⚠️ Click delete again to confirm removing '{coll['name']}' (papers will not be deleted)")
 
-                    st.markdown("---")
+                    st.divider()
         else:
             st.info("No collections yet. Create one below.")
 

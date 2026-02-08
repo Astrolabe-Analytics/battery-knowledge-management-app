@@ -1129,7 +1129,7 @@ if st.session_state.selected_paper:
                     st.success("✅ PDF uploaded successfully!")
                     st.info("Processing PDF... This may take a moment.")
 
-                    # TODO: Run ingestion pipeline on the uploaded PDF
+                    # Ingestion pipeline trigger
                     time.sleep(1)
                     st.rerun()
 
@@ -1873,7 +1873,6 @@ else:
                         if grid_doi != metadata_doi_display:
                             # Update DOI in metadata
                             new_doi = grid_doi if grid_doi != '—' else ''
-                            print(f"[DOI EDIT TRIGGERED] File: {filename}, Old DOI: '{metadata_doi}', New DOI: '{new_doi}'")
                             all_metadata[filename]['doi'] = new_doi
                             changed_files[filename] = new_doi  # Track for ChromaDB update
                             metadata_changed = True
@@ -1881,36 +1880,14 @@ else:
 
                 # Save metadata and show notification only if actually changed
                 if metadata_changed:
-                    print(f"[SAVING TO FILE] Writing {len(changed_files)} DOI changes to metadata.json")
-                    for fn, doi in changed_files.items():
-                        print(f"  - {fn}: '{doi}'")
-
                     # Save to metadata.json
                     with open(metadata_file, 'w', encoding='utf-8') as f:
                         json.dump(all_metadata, f, indent=2, ensure_ascii=False)
 
-                    print("[FILE WRITTEN] Successfully wrote metadata.json")
-
-                    # Verify the save by reading back immediately
-                    print("[VERIFYING SAVE] Reading metadata.json back to confirm...")
-                    with open(metadata_file, 'r', encoding='utf-8') as f:
-                        verified_metadata = json.load(f)
-                    for filename, expected_doi in changed_files.items():
-                        actual_doi = verified_metadata.get(filename, {}).get('doi', '')
-                        if actual_doi == expected_doi:
-                            print(f"  ✓ {filename}: DOI saved correctly as '{actual_doi}'")
-                        else:
-                            print(f"  ✗ {filename}: MISMATCH! Expected '{expected_doi}', got '{actual_doi}'")
-
                     # Update ChromaDB for each changed paper
                     from lib.rag import DatabaseClient
                     for filename, new_doi in changed_files.items():
-                        print(f"[CHROMADB UPDATE] Updating {filename} with DOI: '{new_doi}'")
-                        success = DatabaseClient.update_paper_metadata(filename, {"doi": new_doi})
-                        if success:
-                            print(f"  ✓ ChromaDB updated for {filename}")
-                        else:
-                            print(f"  ✗ ChromaDB update failed for {filename}")
+                        DatabaseClient.update_paper_metadata(filename, {"doi": new_doi})
 
                     # Clear caches to force reload with updated DOI
                     DatabaseClient.clear_cache()
@@ -2069,8 +2046,6 @@ else:
                 found_doi = find_doi_via_semantic_scholar(paper['title'])
 
                 if found_doi:
-                    print(f"[BULK FIND DOI] Found DOI '{found_doi}' for {paper['filename']}")
-
                     # Step 2: Enrich from CrossRef using the found DOI
                     progress_text.text(f"{status_text} | Enriching metadata...")
                     crossref_data = query_crossref_for_metadata(found_doi)
@@ -2100,16 +2075,13 @@ else:
 
                         found_count += 1
                         enriched_count += 1
-                        print(f"[BULK FIND DOI] Enriched {paper['filename']} with full metadata from CrossRef")
                     else:
                         # DOI found but enrichment failed - still save the DOI
                         all_metadata[paper['filename']]['doi'] = found_doi
                         DatabaseClient.update_paper_metadata(paper['filename'], {"doi": found_doi})
                         found_count += 1
-                        print(f"[BULK FIND DOI] Saved DOI but CrossRef enrichment failed for {paper['filename']}")
                 else:
                     not_found_count += 1
-                    print(f"[BULK FIND DOI] No DOI found for {paper['filename']}")
 
             # Save metadata.json
             with open(metadata_file, 'w', encoding='utf-8') as f:
@@ -2128,7 +2100,7 @@ else:
             if found_count > 0:
                 st.success(f"✅ Found and enriched {enriched_count} of {len(papers_missing_doi)} papers. {not_found_count} not found.")
             else:
-                st.warning(f"❌ No DOIs found for any of the {len(papers_missing_doi)} selected papers.")
+                st.warning(f"⚠️ No DOIs found for any of the {len(papers_missing_doi)} selected papers.")
 
             time.sleep(2)
             st.rerun()
@@ -2231,7 +2203,7 @@ else:
             if found_count > 0:
                 st.success(f"✅ Found and enriched {enriched_count} of {len(incomplete_papers)} incomplete papers. {not_found_count} not found.")
             else:
-                st.warning(f"❌ No DOIs found for any of the {len(incomplete_papers)} incomplete papers.")
+                st.warning(f"⚠️ No DOIs found for any of the {len(incomplete_papers)} incomplete papers.")
 
             time.sleep(2)
             st.rerun()
