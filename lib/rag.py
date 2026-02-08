@@ -28,7 +28,7 @@ PAPERS_DIR = Path(__file__).parent.parent / "papers"
 EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 COLLECTION_NAME = "battery_papers"
 TOP_K = 5
-CLAUDE_MODEL = "claude-opus-4-5-20251101"  # Using Opus 4.5 for highest quality answers
+CLAUDE_MODEL = "claude-opus-4-6"  # Using Opus 4.6 for highest quality answers (1M context, superior reasoning)
 
 
 class EmbeddingModelLoader:
@@ -42,6 +42,29 @@ class EmbeddingModelLoader:
         if cls._model is None:
             cls._model = SentenceTransformer(EMBEDDING_MODEL)
         return cls._model
+
+
+def sanitize_metadata_for_chromadb(metadata: dict) -> dict:
+    """
+    Sanitize metadata for ChromaDB by converting empty lists to empty strings.
+    ChromaDB only accepts str, int, float, bool, or None as metadata values.
+
+    Args:
+        metadata: Dictionary with metadata fields
+
+    Returns:
+        Sanitized metadata dictionary
+    """
+    sanitized = {}
+    for key, value in metadata.items():
+        if isinstance(value, list):
+            # Convert empty lists to empty string, non-empty lists to comma-separated string
+            sanitized[key] = ', '.join(str(v) for v in value) if value else ''
+        elif value is None:
+            sanitized[key] = ''
+        else:
+            sanitized[key] = value
+    return sanitized
 
 
 class DatabaseClient:
@@ -102,9 +125,11 @@ class DatabaseClient:
             for doc_id, existing_metadata in zip(results['ids'], results['metadatas']):
                 # Merge existing metadata with updates
                 updated_metadata = {**existing_metadata, **metadata_updates}
+                # Sanitize metadata before saving to ChromaDB
+                sanitized_metadata = sanitize_metadata_for_chromadb(updated_metadata)
                 collection.update(
                     ids=[doc_id],
-                    metadatas=[updated_metadata]
+                    metadatas=[sanitized_metadata]
                 )
 
             print(f"Updated {len(results['ids'])} chunks for {filename}")
@@ -159,7 +184,8 @@ def get_paper_library() -> list[dict]:
             papers[filename]['chemistries'].update(metadata['chemistries'].split(','))
         if metadata.get('topics'):
             papers[filename]['topics'].update(metadata['topics'].split(','))
-        papers[filename]['pages'].add(metadata['page_num'])
+        if metadata.get('page_num'):  # Only add page_num if it exists (metadata-only papers don't have pages)
+            papers[filename]['pages'].add(metadata['page_num'])
 
     # Convert sets to sorted lists/counts
     for paper in papers.values():
@@ -175,13 +201,15 @@ def get_paper_library() -> list[dict]:
         with open(metadata_file, 'r', encoding='utf-8') as f:
             full_metadata = json.load(f)
 
-            # Update existing papers with date_added
+            # Update existing papers with date_added and pdf_status
             for paper in papers.values():
                 filename = paper['filename']
                 if filename in full_metadata:
                     paper['date_added'] = full_metadata[filename].get('date_added', '')
+                    paper['pdf_status'] = full_metadata[filename].get('pdf_status', '')
                 else:
                     paper['date_added'] = ''
+                    paper['pdf_status'] = ''
 
             # Add metadata-only papers (not in ChromaDB yet)
             for filename, meta in full_metadata.items():
@@ -200,7 +228,8 @@ def get_paper_library() -> list[dict]:
                         'application': meta.get('application', 'general'),
                         'paper_type': meta.get('paper_type', 'reference'),
                         'num_pages': 0,  # No PDF yet
-                        'date_added': meta.get('date_added', '')
+                        'date_added': meta.get('date_added', ''),
+                        'pdf_status': meta.get('pdf_status', '')
                     }
 
             # Filter out deleted papers (papers with deleted_at field)

@@ -65,3 +65,18 @@ data_backups/
 
 # User notes
 data/notes/
+
+# Chunked data (can be regenerated from PDFs)
+data/chunks/
+
+# Runtime state files (local to each instance)
+data/query_history.db
+data/pipeline_state.json
+data/pdf_search_log.txt
+
+# Enrichment reports (generated outputs)
+ENRICHMENT_*.md
+FINAL_ENRICHMENT_REPORT.md
+
+# Task output files
+*.output

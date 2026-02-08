@@ -901,20 +901,29 @@ def stage_embed(force: bool = False):
         batch_embeddings = model.encode(batch_texts, show_progress_bar=False)
         embeddings.extend(batch_embeddings.tolist())
 
-    # Store in ChromaDB
+    # Store in ChromaDB (in batches to avoid exceeding max batch size)
     print("\nStoring in ChromaDB...")
     try:
         # Sanitize metadata before adding to ChromaDB (convert empty lists to empty strings)
         from lib.rag import sanitize_metadata_for_chromadb
         sanitized_metadatas = [sanitize_metadata_for_chromadb(meta) for meta in metadatas]
 
-        collection.add(
-            documents=texts,
-            embeddings=embeddings,
-            metadatas=sanitized_metadatas,
-            ids=ids
-        )
-        print("✓ Successfully stored all chunks!")
+        # ChromaDB max batch size is ~5461, so use 5000 to be safe
+        chroma_batch_size = 5000
+        total_chunks = len(texts)
+
+        for i in range(0, total_chunks, chroma_batch_size):
+            end_idx = min(i + chroma_batch_size, total_chunks)
+            print(f"  Adding batch {i//chroma_batch_size + 1} ({i+1}-{end_idx} of {total_chunks})...")
+
+            collection.add(
+                documents=texts[i:end_idx],
+                embeddings=embeddings[i:end_idx],
+                metadatas=sanitized_metadatas[i:end_idx],
+                ids=ids[i:end_idx]
+            )
+
+        print(f"Successfully stored all {total_chunks} chunks!")
     except Exception as e:
         print(f"ERROR: Failed to store in ChromaDB: {e}")
         return

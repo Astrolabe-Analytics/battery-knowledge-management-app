@@ -127,23 +127,37 @@ def build_library_dataframe(papers: List[Dict], search_query: str, filter_chemis
             'Read': read_statuses.get(paper['filename'], False),
             '_filename': paper['filename'],
             '_doi_url': doi_url,
-            '_paper_title': title,
-            '_navigate_trigger': ''  # Hidden column to track navigation intent
+            '_paper_title': title
         })
 
     return pd.DataFrame(df_data)
 
 
 def get_paper_status(paper: Dict) -> str:
-    """Determine paper status based on metadata and PDF existence.
+    """Determine paper status based on pdf_status field or metadata and PDF existence.
 
-    A paper is considered complete if it has:
-    - Title, authors, year, journal, AND DOI
-    - Plus a PDF file
+    Status definitions:
+    - Complete: has complete metadata + PDF + fully processed (embedded)
+    - Metadata Only: has complete metadata but no PDF
+    - Incomplete: missing critical metadata fields or processing incomplete
+    - Processing Pending: has complete metadata + PDF but not yet processed
 
-    A paper is "Metadata Only" if it has all required metadata but no PDF.
-    A paper is "Incomplete" if it's missing any required metadata (including DOI).
+    Note: Prefers pdf_status field from metadata.json (set by mark_incomplete_metadata.py).
+    Falls back to calculating from metadata if pdf_status not available.
     """
+    # Use pdf_status field if available (set by mark_incomplete_metadata.py)
+    pdf_status = paper.get('pdf_status', '').lower()
+
+    if pdf_status == 'complete':
+        return "✅ Complete"
+    elif pdf_status == 'metadata_only':
+        return "📋 Metadata Only"
+    elif pdf_status == 'incomplete':
+        return "⚠️ Incomplete"
+    elif pdf_status == 'processing_pending':
+        return "🔄 Processing Pending"
+
+    # Fallback to old calculation logic if pdf_status not set
     has_title = bool(paper.get('title', '').strip())
     has_authors = bool(paper.get('authors') and paper.get('authors') != [])
     has_year = bool(paper.get('year', '').strip())

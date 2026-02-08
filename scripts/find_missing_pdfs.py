@@ -22,14 +22,20 @@ import time
 import requests
 import argparse
 import os
+import sys
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
 from datetime import datetime
 from tqdm import tqdm
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 
 # Paths
 BASE_DIR = Path(__file__).parent.parent
+sys.path.insert(0, str(BASE_DIR))  # Add project root to Python path
 METADATA_FILE = BASE_DIR / "data" / "metadata.json"
 PAPERS_DIR = BASE_DIR / "papers"
 CHECKPOINT_FILE = BASE_DIR / "data" / "pdf_search_checkpoint.json"
@@ -398,7 +404,7 @@ def sync_to_chromadb(metadata: dict):
     # Clear cache
     DatabaseClient.clear_cache()
 
-    print(f"\n✓ Synced {updated} papers to ChromaDB")
+    print(f"\n[+] Synced {updated} papers to ChromaDB")
 
 
 def main():
@@ -438,7 +444,7 @@ def main():
     # Sort by priority: DOI papers first if requested
     if args.doi_first:
         papers_to_search.sort(key=lambda x: (0 if x[1].get('doi') else 1, x[0]))
-        print("✓ Prioritizing papers with DOIs")
+        print("[+] Prioritizing papers with DOIs")
 
     # Apply limit
     if args.limit:
@@ -450,19 +456,19 @@ def main():
     processed_set = set(checkpoint.get('processed', []))
 
     if args.resume and processed_set:
-        print(f"✓ Resuming from checkpoint ({len(processed_set)} already processed)")
+        print(f"[+] Resuming from checkpoint ({len(processed_set)} already processed)")
 
     # Filter out already processed
     papers_to_search = [(f, p) for f, p in papers_to_search if f not in processed_set]
 
     if not papers_to_search:
-        print("\n✓ All papers already processed!")
+        print("\n[+] All papers already processed!")
         return
 
     if args.dry_run:
-        print("\n⚠️ DRY RUN MODE - No files will be downloaded\n")
+        print("\n[DRY RUN] No files will be downloaded\n")
 
-    print(f"\nSearching for PDFs... (Source priority: ArXiv → PMC → Semantic Scholar → Unpaywall)")
+    print(f"\nSearching for PDFs... (Source priority: ArXiv -> PMC -> Semantic Scholar -> Unpaywall)")
     print()
 
     # Statistics
@@ -487,10 +493,10 @@ def main():
                     metadata[filename]['pdf_source'] = source
                     metadata[filename]['pdf_found_date'] = datetime.now().isoformat()
 
-                log_message(f"✓ Found PDF for {paper.get('title', filename)[:60]} (source: {source})")
+                log_message(f"[+] Found PDF for {paper.get('title', filename)[:60]} (source: {source})")
             else:
                 failed_count += 1
-                log_message(f"✗ No PDF found for {paper.get('title', filename)[:60]}")
+                log_message(f"[-] No PDF found for {paper.get('title', filename)[:60]}")
 
             # Update checkpoint
             processed_set.add(filename)
@@ -528,14 +534,14 @@ def main():
     print(f"Log file: {LOG_FILE}")
 
     if not args.dry_run:
-        print(f"\n✓ Metadata updated: {METADATA_FILE}")
-        print(f"\n⚠️ Run with --sync flag to update ChromaDB:")
+        print(f"\n[+] Metadata updated: {METADATA_FILE}")
+        print(f"\n[!] Run with --sync flag to update ChromaDB:")
         print(f"   python scripts/find_missing_pdfs.py --sync")
 
     # Clean up checkpoint if fully complete
     if not args.limit and len(processed_set) >= len(papers_to_search):
         CHECKPOINT_FILE.unlink(missing_ok=True)
-        print("\n✓ Checkpoint cleared (all papers processed)")
+        print("\n[+] Checkpoint cleared (all papers processed)")
 
 
 if __name__ == '__main__':
