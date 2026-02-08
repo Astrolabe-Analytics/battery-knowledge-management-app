@@ -2224,5 +2224,21 @@ else:
                 break
 
     # Handle row selection for navigation (navigable columns select the row via JavaScript)
-    # Navigation happens via "View Selected" button only
+    # Navigate only if exactly ONE row is selected and no bulk operations are in progress
+    # This allows checkboxes to work for bulk operations while single clicks navigate
+    selected_rows = grid_response.get('selected_rows')
+    if selected_rows is not None and len(selected_rows) > 0:
+        selected_df = pd.DataFrame(selected_rows)
+
+        if (len(selected_df) == 1 and  # Exactly one row
+            not delete_button and  # No delete button clicked
+            not find_doi_button and  # No find DOI button clicked
+            not enrich_incomplete_button):  # No enrich button clicked
+
+            # Navigate to paper detail view
+            selected_row = selected_df.iloc[0]
+            filename = selected_row.get('_filename')
+            if filename:
+                st.session_state.selected_paper = filename
+                st.rerun()
 
