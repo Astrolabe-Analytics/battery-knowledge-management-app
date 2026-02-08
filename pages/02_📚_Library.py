@@ -101,21 +101,27 @@ if 'cached_stats' not in st.session_state or st.session_state.get('reload_papers
     # Count stats directly from DataFrame Status column
     # This uses the exact same get_paper_status() logic as the table
     total_papers = len(unfiltered_df)
+    summarized_papers = len(unfiltered_df[unfiltered_df['Status'] == '🤖 Summarized'])
     complete_papers = len(unfiltered_df[unfiltered_df['Status'] == '✅ Complete'])
     metadata_only_papers = len(unfiltered_df[unfiltered_df['Status'] == '📋 Metadata Only'])
     incomplete_papers = len(unfiltered_df[unfiltered_df['Status'] == '⚠️ Incomplete'])
+    processing_pending_papers = len(unfiltered_df[unfiltered_df['Status'] == '🔄 Processing Pending'])
 
     st.session_state.cached_stats = {
         'total': total_papers,
+        'summarized': summarized_papers,
         'complete': complete_papers,
         'metadata_only': metadata_only_papers,
-        'incomplete': incomplete_papers
+        'incomplete': incomplete_papers,
+        'processing_pending': processing_pending_papers
     }
 else:
     total_papers = st.session_state.cached_stats['total']
+    summarized_papers = st.session_state.cached_stats['summarized']
     complete_papers = st.session_state.cached_stats['complete']
     metadata_only_papers = st.session_state.cached_stats['metadata_only']
     incomplete_papers = st.session_state.cached_stats['incomplete']
+    processing_pending_papers = st.session_state.cached_stats['processing_pending']
 
 # Sidebar with stats
 with st.sidebar:
@@ -123,20 +129,27 @@ with st.sidebar:
 
     st.metric("Total Papers", total_papers)
 
+    summarized_pct = (summarized_papers / total_papers * 100) if total_papers > 0 else 0
     complete_pct = (complete_papers / total_papers * 100) if total_papers > 0 else 0
     metadata_pct = (metadata_only_papers / total_papers * 100) if total_papers > 0 else 0
     incomplete_pct = (incomplete_papers / total_papers * 100) if total_papers > 0 else 0
+    processing_pct = (processing_pending_papers / total_papers * 100) if total_papers > 0 else 0
 
     st.caption(
+        f"{summarized_papers} summarized ({summarized_pct:.0f}%) | "
         f"{complete_papers} complete ({complete_pct:.0f}%) | "
         f"{metadata_only_papers} metadata only ({metadata_pct:.0f}%) | "
         f"{incomplete_papers} incomplete ({incomplete_pct:.0f}%)"
     )
 
     st.caption("**Data Coverage**")
+    if summarized_papers > 0:
+        st.progress(summarized_pct / 100, text=f"🤖 Summarized: {summarized_papers}")
     st.progress(complete_pct / 100, text=f"✅ Complete: {complete_papers}")
     st.progress(metadata_pct / 100, text=f"📋 Metadata Only: {metadata_only_papers}")
     st.progress(incomplete_pct / 100, text=f"⚠️ Incomplete: {incomplete_papers}")
+    if processing_pending_papers > 0:
+        st.progress(processing_pct / 100, text=f"🔄 Processing Pending: {processing_pending_papers}")
 
     st.divider()
     st.metric("Chunks", total_chunks)
@@ -338,320 +351,239 @@ if st.session_state.selected_paper:
     details = rag.get_paper_details(paper_filename)
 
     if details:
-        # TOP BAR: Back button + Open PDF button
-        col_back, col_pdf = st.columns([1, 2])
+        # ========== HEADER AREA ==========
+        # Back button on left, Open PDF button on right (normal sized, same row)
+        col_back, col_pdf = st.columns([1, 5])
         with col_back:
-            if st.button("← Back to Library", use_container_width=True):
+            if st.button("← Back to Library"):
                 st.session_state.selected_paper = None
                 st.rerun()
 
         with col_pdf:
+            # Only show Open PDF button if PDF exists
             if rag.check_pdf_exists(paper_filename):
                 # Start PDF server (lazy initialization)
                 from lib import pdf_server
                 pdf_server.start_pdf_server()
-
-                # Get URL for the PDF
                 pdf_url = pdf_server.get_pdf_url(paper_filename)
 
-                # Create button that opens PDF in new tab
-                st.markdown(f"""
-                <style>
-                .pdf-open-button {{
-                    display: inline-block;
-                    width: 100%;
-                    padding: 0.5rem 0.75rem;
-                    background-color: #ff4b4b;
-                    color: white;
-                    text-align: center;
-                    text-decoration: none;
-                    border-radius: 0.5rem;
-                    font-weight: 600;
-                    font-size: 1rem;
-                    transition: background-color 0.2s;
-                }}
-                .pdf-open-button:hover {{
-                    background-color: #ff6b6b;
-                    text-decoration: none;
-                }}
-                </style>
-                <a href="{pdf_url}" target="_blank" class="pdf-open-button">📄 Open PDF</a>
-                """, unsafe_allow_html=True)
-            else:
-                st.button("📄 No PDF Available", use_container_width=True, disabled=True)
+                # Small button on the right
+                col_spacer, col_btn = st.columns([4, 1])
+                with col_btn:
+                    st.markdown(f'<a href="{pdf_url}" target="_blank"><button style="width:100%; padding:0.4rem; background:#0066cc; color:white; border:none; border-radius:0.3rem; cursor:pointer; font-size:0.9rem;">📄 Open PDF</button></a>', unsafe_allow_html=True)
 
         st.divider()
 
-        # TITLE
+        # ========== BIBLIOGRAPHIC BLOCK (compact, no columns) ==========
+        # Title as H1
         display_title = clean_html_from_text(details.get('title', paper_filename.replace('.pdf', '')))
-        st.markdown(f"## {display_title}")
+        st.markdown(f"# {display_title}")
 
-        # BIBLIOGRAPHIC INFO SECTION
-        st.markdown("### 📚 Bibliographic Information")
+        # Authors on ONE line, semicolon-separated
+        if details.get('authors') and details['authors'][0]:
+            authors_list = [a.strip() for a in details['authors'] if a.strip()]
+            authors_str = "; ".join(authors_list)
+            st.markdown(f"**{authors_str}**")
 
-        col1, col2 = st.columns(2)
+        # Journal · year · paper_type on one line, dot-separated
+        info_parts = []
+        if details.get('journal'):
+            info_parts.append(details['journal'])
+        if details.get('year'):
+            info_parts.append(str(details['year']))
+        if details.get('paper_type'):
+            info_parts.append(details['paper_type'].title())
+        if info_parts:
+            st.markdown(" · ".join(info_parts))
 
-        with col1:
-            # Authors
-            if details.get('authors') and details['authors'][0]:
-                authors_list = [a.strip() for a in details['authors'] if a.strip()]
-                st.markdown("**Authors:**")
-                for author in authors_list[:10]:  # Show up to 10 authors
-                    st.markdown(f"- {author}")
-                if len(authors_list) > 10:
-                    st.caption(f"... and {len(authors_list) - 10} more")
-            else:
-                st.markdown("**Authors:** _Not available_")
+        # DOI as clickable link on its own line
+        doi = details.get('doi', '')
+        if doi:
+            st.markdown(f"[{doi}](https://doi.org/{doi})")
 
-            # Year
-            if details.get('year'):
-                st.markdown(f"**Year:** {details['year']}")
-
-            # Paper Type
-            if details.get('paper_type'):
-                st.markdown(f"**Type:** {details['paper_type'].title()}")
-
-            # Date Added
-            if details.get('date_added'):
-                try:
-                    from datetime import datetime
-                    date_str = details['date_added']
-                    formatted_date = ''
-                    # Try multiple formats
-                    for fmt in ["%Y-%m-%d %H:%M:%S", "%Y-%m-%dT%H:%M:%S.%f", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%d"]:
-                        try:
-                            dt = datetime.strptime(date_str.split('.')[0] if '.' in date_str else date_str, fmt)
-                            formatted_date = dt.strftime("%b %d, %Y")
-                            break
-                        except:
-                            continue
-                    st.markdown(f"**Added:** {formatted_date if formatted_date else date_str}")
-                except:
-                    st.markdown(f"**Added:** {details['date_added']}")
-
-        with col2:
-            # Journal
-            if details.get('journal'):
-                st.markdown(f"**Journal:** {details['journal']}")
-            else:
-                st.markdown("**Journal:** _Not available_")
-
-            # DOI
-            doi = details.get('doi', '')
-            if doi:
-                st.markdown(f"**DOI:** [{doi}](https://doi.org/{doi})")
-            else:
-                st.markdown("**DOI:** _Not available_")
-
-            # Application
-            if details.get('application'):
-                st.markdown(f"**Application:** {details['application'].title()}")
-
-            # Reference Count
-            ref_count = len(details.get('references', []))
-            if ref_count > 0:
-                st.markdown(f"**References:** {ref_count}")
-
-        st.divider()
-
-        # TAGS SECTION
-        st.markdown("### 🏷️ Tags")
+        # Tags displayed inline (colored pill badges) - no section header
+        all_tags_html = []
 
         # Author keywords
         author_keywords = details.get('author_keywords', [])
         if author_keywords and author_keywords[0]:
-            st.markdown("**Author Keywords:**")
-            author_tags_html = []
             for keyword in author_keywords:
                 if keyword:
-                    author_tags_html.append(f'<span class="tag-pill tag-author-keyword">{keyword}</span>')
-            if author_tags_html:
-                st.markdown('<div style="margin: 8px 0;">' + ''.join(author_tags_html) + '</div>', unsafe_allow_html=True)
-
-        # AI-generated tags
-        ai_tags_exist = False
-        ai_tags_html = []
+                    all_tags_html.append(f'<span class="tag-pill tag-author-keyword">{keyword}</span>')
 
         # Chemistry tags
         if details.get('chemistries') and details['chemistries'][0]:
-            ai_tags_exist = True
             for chem in details['chemistries']:
                 if chem:
-                    ai_tags_html.append(f'<span class="tag-pill tag-chemistry">{chem}</span>')
+                    all_tags_html.append(f'<span class="tag-pill tag-chemistry">{chem}</span>')
 
         # Topic tags
         if details.get('topics') and details['topics'][0]:
-            ai_tags_exist = True
             for topic in details['topics']:
                 if topic:
-                    ai_tags_html.append(f'<span class="tag-pill tag-topic">{topic}</span>')
+                    all_tags_html.append(f'<span class="tag-pill tag-topic">{topic}</span>')
 
-        if ai_tags_exist:
-            st.markdown("**AI-Generated Tags:**")
-            st.markdown('<div style="margin: 8px 0;">' + ''.join(ai_tags_html) + '</div>', unsafe_allow_html=True)
+        # Display all tags inline
+        if all_tags_html:
+            st.markdown('<div style="margin: 12px 0 20px 0;">' + ''.join(all_tags_html) + '</div>', unsafe_allow_html=True)
 
-        if not author_keywords and not ai_tags_exist:
-            st.caption("_No tags available_")
-
-        st.divider()
-
-        # ABSTRACT SECTION (placeholder for now)
-        st.markdown("### 📄 Abstract")
+        # ========== ABSTRACT (only if exists) ==========
         if details.get('abstract'):
-            st.markdown(details['abstract'])
-        else:
-            st.caption("_Abstract not yet extracted. This will be added in a future update._")
+            st.divider()
+            clean_abstract = clean_html_from_text(details['abstract'])
+            st.markdown(clean_abstract)
+
+        # ========== AI SUMMARY (only if exists) ==========
+        if details.get('ai_summary'):
+            st.divider()
+            st.subheader("🤖 AI Summary")
+            st.markdown(details['ai_summary'])
 
         st.divider()
 
-        # NOTES SECTION (editable)
-        st.markdown("### 📝 Notes")
+        # ========== COLLAPSIBLE SECTIONS (all collapsed by default) ==========
 
-        # Load notes from a notes file (or session state)
-        notes_file = Path(f"data/notes/{paper_filename}.txt")
-        notes_file.parent.mkdir(parents=True, exist_ok=True)
+        # NOTES (collapsible)
+        with st.expander("▸ Notes", expanded=False):
+            # Load notes from a notes file
+            notes_file = Path(f"data/notes/{paper_filename}.txt")
+            notes_file.parent.mkdir(parents=True, exist_ok=True)
 
-        current_notes = ""
-        if notes_file.exists():
-            with open(notes_file, 'r', encoding='utf-8') as f:
-                current_notes = f.read()
+            current_notes = ""
+            if notes_file.exists():
+                with open(notes_file, 'r', encoding='utf-8') as f:
+                    current_notes = f.read()
 
-        notes = st.text_area(
-            "Your notes about this paper:",
-            value=current_notes,
-            height=200,
-            key=f"notes_{paper_filename}",
-            placeholder="Add your notes, thoughts, or important findings here..."
-        )
+            notes = st.text_area(
+                "Your notes about this paper:",
+                value=current_notes,
+                height=200,
+                key=f"notes_{paper_filename}",
+                placeholder="Add your notes, thoughts, or important findings here...",
+                label_visibility="collapsed"
+            )
 
-        col_save, col_clear = st.columns([1, 4])
-        with col_save:
-            if st.button("💾 Save Notes", use_container_width=True):
+            if st.button("💾 Save Notes"):
                 with open(notes_file, 'w', encoding='utf-8') as f:
                     f.write(notes)
                 st.toast("Notes saved!", icon="✅")
 
-        st.divider()
+        # COLLECTIONS (collapsible)
+        with st.expander("▸ Collections", expanded=False):
+            # Get current collections for this paper
+            current_collections = collections.get_paper_collections(paper_filename)
+            all_collections_list = collections.get_all_collections()
 
-        # COLLECTIONS SECTION
-        st.markdown("### 📁 Collections")
-
-        # Get current collections for this paper
-        current_collections = collections.get_paper_collections(paper_filename)
-        all_collections_list = collections.get_all_collections()
-
-        # Display current collections as color-coded tags
-        if current_collections:
-            cols_display = st.columns(min(len(current_collections), 4))
-            for idx, coll in enumerate(current_collections):
-                with cols_display[idx % 4]:
-                    color = coll.get('color') or '#6c757d'
-                    st.markdown(
-                        f'<span style="display: inline-block; background-color: {color}; color: white; '
-                        f'padding: 4px 12px; border-radius: 12px; font-size: 13px; margin: 2px;">'
-                        f'{coll["name"]}</span>',
-                        unsafe_allow_html=True
-                    )
-        else:
-            st.caption("Not in any collections")
-
-        # Add/Remove from collection controls
-        col_add, col_remove = st.columns(2)
-
-        with col_add:
-            st.markdown("**Add to Collection:**")
-            # Filter out collections the paper is already in
-            current_collection_ids = {c['id'] for c in current_collections}
-            available_collections = [c for c in all_collections_list if c['id'] not in current_collection_ids]
-
-            if available_collections:
-                add_col1, add_col2 = st.columns([3, 1])
-                with add_col1:
-                    selected_to_add = st.selectbox(
-                        "Select collection",
-                        options=[c['name'] for c in available_collections],
-                        key=f"add_collection_{paper_filename}",
-                        label_visibility="collapsed"
-                    )
-                with add_col2:
-                    if st.button("➕", key=f"btn_add_{paper_filename}", use_container_width=True, help="Add to collection"):
-                        collection_to_add = next((c for c in available_collections if c['name'] == selected_to_add), None)
-                        if collection_to_add:
-                            result = collections.add_paper_to_collection(collection_to_add['id'], paper_filename)
-                            if result['success']:
-                                st.toast(f"Added to '{collection_to_add['name']}'", icon="✅")
-                                st.rerun()
-                            else:
-                                st.error(result['message'])
-            else:
-                st.caption("All collections added" if all_collections_list else "No collections available")
-
-        with col_remove:
-            st.markdown("**Remove from Collection:**")
+            # Display current collections as color-coded tags
             if current_collections:
-                remove_col1, remove_col2 = st.columns([3, 1])
-                with remove_col1:
-                    selected_to_remove = st.selectbox(
-                        "Select collection",
-                        options=[c['name'] for c in current_collections],
-                        key=f"remove_collection_{paper_filename}",
-                        label_visibility="collapsed"
-                    )
-                with remove_col2:
-                    if st.button("➖", key=f"btn_remove_{paper_filename}", use_container_width=True, help="Remove from collection"):
-                        collection_to_remove = next((c for c in current_collections if c['name'] == selected_to_remove), None)
-                        if collection_to_remove:
-                            result = collections.remove_paper_from_collection(collection_to_remove['id'], paper_filename)
-                            if result['success']:
-                                st.toast(f"Removed from '{collection_to_remove['name']}'", icon="✅")
-                                st.rerun()
-                            else:
-                                st.error(result['message'])
+                cols_display = st.columns(min(len(current_collections), 4))
+                for idx, coll in enumerate(current_collections):
+                    with cols_display[idx % 4]:
+                        color = coll.get('color') or '#6c757d'
+                        st.markdown(
+                            f'<span style="display: inline-block; background-color: {color}; color: white; '
+                            f'padding: 4px 12px; border-radius: 12px; font-size: 13px; margin: 2px;">'
+                            f'{coll["name"]}</span>',
+                            unsafe_allow_html=True
+                        )
             else:
                 st.caption("Not in any collections")
 
-        # Create new collection expander
-        with st.expander("➕ Create New Collection"):
-            new_coll_name = st.text_input(
-                "Collection Name",
-                placeholder="e.g., SOH Methods, Grant Proposal, EIS Papers",
-                key=f"new_coll_name_{paper_filename}"
-            )
-            new_coll_color = st.color_picker(
-                "Collection Color",
-                value="#6c757d",
-                key=f"new_coll_color_{paper_filename}"
-            )
-            new_coll_desc = st.text_area(
-                "Description (optional)",
-                placeholder="Brief description of this collection...",
-                height=80,
-                key=f"new_coll_desc_{paper_filename}"
-            )
+            # Add/Remove from collection controls
+            col_add, col_remove = st.columns(2)
 
-            if st.button("Create Collection", key=f"create_coll_{paper_filename}", type="primary"):
-                if new_coll_name.strip():
-                    result = collections.create_collection(
-                        new_coll_name.strip(),
-                        new_coll_color,
-                        new_coll_desc.strip()
-                    )
-                    if result['success']:
-                        # Automatically add current paper to the new collection
-                        collections.add_paper_to_collection(result['id'], paper_filename)
-                        st.toast(f"Collection '{new_coll_name}' created and paper added!", icon="✅")
-                        st.rerun()
-                    else:
-                        st.error(result['message'])
+            with col_add:
+                st.markdown("**Add to Collection:**")
+                # Filter out collections the paper is already in
+                current_collection_ids = {c['id'] for c in current_collections}
+                available_collections = [c for c in all_collections_list if c['id'] not in current_collection_ids]
+
+                if available_collections:
+                    add_col1, add_col2 = st.columns([3, 1])
+                    with add_col1:
+                        selected_to_add = st.selectbox(
+                            "Select collection",
+                            options=[c['name'] for c in available_collections],
+                            key=f"add_collection_{paper_filename}",
+                            label_visibility="collapsed"
+                        )
+                    with add_col2:
+                        if st.button("➕", key=f"btn_add_{paper_filename}", use_container_width=True, help="Add to collection"):
+                            collection_to_add = next((c for c in available_collections if c['name'] == selected_to_add), None)
+                            if collection_to_add:
+                                result = collections.add_paper_to_collection(collection_to_add['id'], paper_filename)
+                                if result['success']:
+                                    st.toast(f"Added to '{collection_to_add['name']}'", icon="✅")
+                                    st.rerun()
+                                else:
+                                    st.error(result['message'])
                 else:
-                    st.warning("Please enter a collection name")
+                    st.caption("All collections added" if all_collections_list else "No collections available")
 
-        st.divider()
+            with col_remove:
+                st.markdown("**Remove from Collection:**")
+                if current_collections:
+                    remove_col1, remove_col2 = st.columns([3, 1])
+                    with remove_col1:
+                        selected_to_remove = st.selectbox(
+                            "Select collection",
+                            options=[c['name'] for c in current_collections],
+                            key=f"remove_collection_{paper_filename}",
+                            label_visibility="collapsed"
+                        )
+                    with remove_col2:
+                        if st.button("➖", key=f"btn_remove_{paper_filename}", use_container_width=True, help="Remove from collection"):
+                            collection_to_remove = next((c for c in current_collections if c['name'] == selected_to_remove), None)
+                            if collection_to_remove:
+                                result = collections.remove_paper_from_collection(collection_to_remove['id'], paper_filename)
+                                if result['success']:
+                                    st.toast(f"Removed from '{collection_to_remove['name']}'", icon="✅")
+                                    st.rerun()
+                                else:
+                                    st.error(result['message'])
+                else:
+                    st.caption("Not in any collections")
 
-        # REFERENCES SECTION
+            # Create new collection expander
+            with st.expander("➕ Create New Collection"):
+                new_coll_name = st.text_input(
+                    "Collection Name",
+                    placeholder="e.g., SOH Methods, Grant Proposal, EIS Papers",
+                    key=f"new_coll_name_{paper_filename}"
+                )
+                new_coll_color = st.color_picker(
+                    "Collection Color",
+                    value="#6c757d",
+                    key=f"new_coll_color_{paper_filename}"
+                )
+                new_coll_desc = st.text_area(
+                    "Description (optional)",
+                    placeholder="Brief description of this collection...",
+                    height=80,
+                    key=f"new_coll_desc_{paper_filename}"
+                )
+
+                if st.button("Create Collection", key=f"create_coll_{paper_filename}", type="primary"):
+                    if new_coll_name.strip():
+                        result = collections.create_collection(
+                            new_coll_name.strip(),
+                            new_coll_color,
+                            new_coll_desc.strip()
+                        )
+                        if result['success']:
+                            # Automatically add current paper to the new collection
+                            collections.add_paper_to_collection(result['id'], paper_filename)
+                            st.toast(f"Collection '{new_coll_name}' created and paper added!", icon="✅")
+                            st.rerun()
+                        else:
+                            st.error(result['message'])
+                    else:
+                        st.warning("Please enter a collection name")
+
+        # Update References expander label
         references = details.get('references', [])
         if references:
-            with st.expander(f"📚 References ({len(references)})", expanded=False):
+            with st.expander(f"▸ References ({len(references)})", expanded=False):
                 st.caption("Papers cited by this work")
 
                 # Get all DOIs in the library for status checking
@@ -1135,8 +1067,8 @@ if st.session_state.selected_paper:
 
         st.divider()
 
-        # EDIT METADATA SECTION (at the bottom)
-        with st.expander("Edit Metadata", expanded=False):
+        # EDIT METADATA (collapsible)
+        with st.expander("▸ Edit Metadata", expanded=False):
             current_doi = details.get('doi', '')
             new_doi = st.text_input(
                 "DOI",
@@ -1234,7 +1166,7 @@ else:
     with col5:
         filter_status = st.selectbox(
             "Status",
-            options=["All Papers", "✅ Complete", "📋 Metadata Only", "⚠️ Incomplete"],
+            options=["All Papers", "🤖 Summarized", "✅ Complete", "📋 Metadata Only", "⚠️ Incomplete", "🔄 Processing Pending"],
             key="library_filter_status"
         )
 
@@ -1252,6 +1184,11 @@ else:
     # Count filtered papers
     filtered_count = len(df)
     st.write(f"Showing {filtered_count} of {len(papers)} papers")
+
+    # Initialize button state
+    delete_button = False
+    find_doi_button = False
+    enrich_incomplete_button = False
 
     # Action buttons
     if len(df) > 0:
@@ -1568,7 +1505,7 @@ else:
 
     # Grid options - configured for full-width with virtualization for large datasets
     # Multi-select enabled via Select column (configured above with checkboxSelection=True)
-    gb.configure_selection(selection_mode='multiple', suppressRowClickSelection=True)
+    gb.configure_selection(selection_mode='multiple', suppressRowClickSelection=False)
     gb.configure_grid_options(
         headerHeight=40,
         suppressRowHoverHighlight=False,

@@ -1,0 +1,78 @@
+2026-02-07 13:01:55.942 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread 'MainThread': missing ScriptRunContext! This warning can be ignored when running in bare mode.
+2026-02-07 13:02:03.477 WARNING streamlit.runtime.caching.cache_data_api: No runtime found, using MemoryCacheStorageManager
+2026-02-07 13:02:03.478 WARNING streamlit.runtime.caching.cache_data_api: No runtime found, using MemoryCacheStorageManager
+2026-02-07 13:02:03.479 WARNING streamlit.runtime.caching.cache_data_api: No runtime found, using MemoryCacheStorageManager
+================================================================================
+Fixing URL-as-Title Issues
+================================================================================
+
+Loaded 2111 papers from metadata.json
+
+Found 1412 papers with URL as title
+
+[1/1412] Processing: url_59e2d91a.pdf
+  Current title (URL): https://www.sciencedirect.com/science/article/pii/S266654682400048X...
+  [Method 1] Trying DOI extraction from URL...
+  [Method 2] Trying Semantic Scholar search by URL...
+  [WARN] Semantic Scholar lookup failed
+  [ERROR] Could not find real title - marked for manual review
+
+[2/1412] Processing: url_408146b6.pdf
+  Current title (URL): https://www.sciencedirect.com/science/article/abs/pii/S0960148124008309...
+  [Method 1] Trying DOI extraction from URL...
+  [Method 2] Trying Semantic Scholar search by URL...
+  [WARN] Semantic Scholar lookup failed
+  [ERROR] Could not find real title - marked for manual review
+
+[3/1412] Processing: url_871ea7ec.pdf
+  Current title (URL): https://www.sciencedirect.com/science/article/abs/pii/S0378775324006967...
+  [Method 1] Trying DOI extraction from URL...
+  [Method 2] Trying Semantic Scholar search by URL...
+  [WARN] Semantic Scholar lookup failed
+  [ERROR] Could not find real title - marked for manual review
+
+[4/1412] Processing: url_f06e813e.pdf
+  Current title (URL): https://www.sciencedirect.com/science/article/abs/pii/S0360544224013471...
+  [Method 1] Trying DOI extraction from URL...
+  [Method 2] Trying Semantic Scholar search by URL...
+  [WARN] Semantic Scholar lookup failed
+  [ERROR] Could not find real title - marked for manual review
+
+[5/1412] Processing: url_261df91a.pdf
+  Current title (URL): https://www.sciencedirect.com/science/article/abs/pii/S0959652624018705...
+  [Method 1] Trying DOI extraction from URL...
+  [Method 2] Trying Semantic Scholar search by URL...
+  [WARN] Semantic Scholar lookup failed
+  [ERROR] Could not find real title - marked for manual review
+
+[6/1412] Processing: url_c3bb1e74.pdf
+  Current title (URL): https://www.sciencedirect.com/science/article/abs/pii/S2352152X24011083...
+  [Method 1] Trying DOI extraction from URL...
+  [Method 2] Trying Semantic Scholar search by URL...
+  [WARN] Semantic Scholar lookup failed
+  [ERROR] Could not find real title - marked for manual review
+
+[7/1412] Processing: url_b580d215.pdf
+  Current title (URL): https://www.mdpi.com/2313-0105/10/4/116...
+  [Method 1] Trying DOI extraction from URL...
+  [+] Found DOI: 10.3390/2313-0105/10/4/116
+  [WARN] DOI found but CrossRef lookup failed
+  [Method 2] Trying Semantic Scholar search by URL...
+  [WARN] Semantic Scholar lookup failed
+  [ERROR] Could not find real title - marked for manual review
+
+[8/1412] Processing: url_be96fd02.pdf
+  Current title (URL): https://onlinelibrary.wiley.com/doi/full/10.1002/adma.202402024...
+  [Method 1] Trying DOI extraction from URL...
+  [+] Found DOI: 10.1002/adma.202402024
+Traceback (most recent call last):
+  File "C:\Users\rcmas\astrolabe-paper-db\scripts\fix_url_titles.py", line 239, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\rcmas\astrolabe-paper-db\scripts\fix_url_titles.py", line 140, in main
+    print(f"  [+] Found title from CrossRef: {real_title[:60]}...")
+    ~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\WindowsApps\PythonSoftwareFoundation.Python.3.13_3.13.3312.0_x64__qbz5n2kfra8p0\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\u2010' in position 64: character maps to <undefined>

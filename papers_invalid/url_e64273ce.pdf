@@ -1,0 +1,1178 @@
+
+
+	<!DOCTYPE html>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<html lang="en-US" xml:lang="en-US">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>
+		A Survey of Health Management User Objectives in Aerospace Systems Related to Diagnostic and Prognostic Metrics
+							| International Journal of Prognostics and Health Management
+			</title>
+
+	
+<meta name="generator" content="Open Journal Systems 3.2.1.4">
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />
+<meta name="DC.Creator.PersonalName" content="Kevin R. Wheeler"/>
+<meta name="DC.Creator.PersonalName" content="Tolga Kurtoglu"/>
+<meta name="DC.Creator.PersonalName" content="Scott D. Poll"/>
+<meta name="DC.Date.created" scheme="ISO8601" content="2021-03-22"/>
+<meta name="DC.Date.dateSubmitted" scheme="ISO8601" content="2020-10-17"/>
+<meta name="DC.Date.issued" scheme="ISO8601" content="2010-01-01"/>
+<meta name="DC.Date.modified" scheme="ISO8601" content="2021-03-22"/>
+<meta name="DC.Description" xml:lang="en" content="One of the most prominent technical challenges to effective deployment of health management systems is the vast difference in user objectives with respect to engineering development. In this paper, a detailed survey on the objectives of different users of health management systems is presented. These user objectives are then mapped to the metrics typically encountered in the development and testing of two main systems health management functions: diagnosis and prognosis. Using this mapping, the gaps between user goals and the metrics associated with diagnostics and prognostics are identified and presented with a collection of lessons learned from previous studies that include both industrial and military aerospace applications."/>
+<meta name="DC.Format" scheme="IMT" content="application/pdf"/>
+<meta name="DC.Identifier" content="1345"/>
+<meta name="DC.Identifier.DOI" content="10.36001/ijphm.2010.v1i1.1345"/>
+<meta name="DC.Identifier.URI" content="https://papers.phmsociety.org/index.php/ijphm/article/view/1345"/>
+<meta name="DC.Language" scheme="ISO639-1" content="en"/>
+<meta name="DC.Rights" content="Copyright (c) 2010 Kevin R. Wheeler , Tolga Kurtoglu, Scott D. Poll"/>
+<meta name="DC.Rights" content=""/>
+<meta name="DC.Source" content="International Journal of Prognostics and Health Management"/>
+<meta name="DC.Source.ISSN" content="2153-2648"/>
+<meta name="DC.Source.Issue" content="1"/>
+<meta name="DC.Source.Volume" content="1"/>
+<meta name="DC.Source.URI" content="https://papers.phmsociety.org/index.php/ijphm"/>
+<meta name="DC.Subject" xml:lang="en" content="user requirements"/>
+<meta name="DC.Title" content="A Survey of Health Management User Objectives in Aerospace Systems Related to Diagnostic and Prognostic Metrics"/>
+<meta name="DC.Type" content="Text.Serial.Journal"/>
+<meta name="DC.Type.articleType" content="Technical Papers"/>
+<meta name="gs_meta_revision" content="1.1"/>
+<meta name="citation_journal_title" content="International Journal of Prognostics and Health Management"/>
+<meta name="citation_journal_abbrev" content="IJPHM"/>
+<meta name="citation_issn" content="2153-2648"/> 
+<meta name="citation_author" content="Kevin R. Wheeler"/>
+<meta name="citation_author_institution" content="NASA Ames Research Center, Moffett Field, CA, 94035, USA"/>
+<meta name="citation_author" content="Tolga Kurtoglu"/>
+<meta name="citation_author_institution" content="Palo Alto Research Center, Palo Alto, CA, 94304, USA"/>
+<meta name="citation_author" content="Scott D. Poll"/>
+<meta name="citation_author_institution" content="NASA Ames Research Center, Moffett Field, CA, 94035, USA"/>
+<meta name="citation_title" content="A Survey of Health Management User Objectives in Aerospace Systems Related to Diagnostic and Prognostic Metrics"/>
+<meta name="citation_language" content="en"/>
+<meta name="citation_date" content="2010"/>
+<meta name="citation_volume" content="1"/>
+<meta name="citation_issue" content="1"/>
+<meta name="citation_doi" content="10.36001/ijphm.2010.v1i1.1345"/>
+<meta name="citation_abstract_html_url" content="https://papers.phmsociety.org/index.php/ijphm/article/view/1345"/>
+<meta name="citation_keywords" xml:lang="en" content="diagnosis"/>
+<meta name="citation_keywords" xml:lang="en" content="prognostics"/>
+<meta name="citation_keywords" xml:lang="en" content="health management"/>
+<meta name="citation_keywords" xml:lang="en" content="user requirements"/>
+<meta name="citation_pdf_url" content="https://papers.phmsociety.org/index.php/ijphm/article/download/1345/332"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css?v=3.2.1.4" type="text/css" /><link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i" type="text/css" /><link rel="stylesheet" href="https://papers.phmsociety.org/plugins/themes/responsive/css/jquery.bxslider/jquery.bxslider.min.css?v=3.2.1.4" type="text/css" /><link rel="stylesheet" href="https://papers.phmsociety.org/plugins/themes/responsive/css/newtheme.css?v=3.2.1.4" type="text/css" /><link rel="stylesheet" href="https://papers.phmsociety.org/plugins/themes/responsive/css/responsive.css?v=3.2.1.4" type="text/css" /><link rel="stylesheet" href="https://papers.phmsociety.org/index.php/ijphm/$$$call$$$/page/page/css?name=stylesheet" type="text/css" /><link rel="stylesheet" href="https://papers.phmsociety.org/public/journals/2/styleSheet.css?v=3.2.1.4" type="text/css" /><link rel="stylesheet" href="https://papers.phmsociety.org/public/site/styleSheet.css?v=3.2.1.4" type="text/css" />
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js?v=3.2.1.4" type="text/javascript"></script><script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js?v=3.2.1.4" type="text/javascript"></script><script src="https://papers.phmsociety.org/lib/pkp/js/lib/jquery/plugins/jquery.tag-it.js?v=3.2.1.4" type="text/javascript"></script><script src="https://papers.phmsociety.org/plugins/themes/responsive//css/jquery.bxslider/jquery.bxslider.min.js?v=3.2.1.4" type="text/javascript"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js?v=3.2.1.4" type="text/javascript"></script><script src="https://papers.phmsociety.org/plugins/themes/responsive/js/article.js?v=3.2.1.4" type="text/javascript"></script><script src="https://www.google.com/recaptcha/api.js?v=3.2.1.4" type="text/javascript"></script>
+
+
+	<script type="text/javascript">
+		function makeSlider (id){
+             var images = '';
+             var Icount = 0;
+             $(id+' img').each(function (i){
+              Icount++;
+                var activeClass="";
+                if(i==0){
+                    activeClass="active";
+                }
+
+                 images += '<div class="item '+activeClass+'">\
+                              <img src="'+ $(this).attr('src')+'"/>\
+                            </div>';
+            });
+             if(Icount==0) return;
+             
+               var slidertemplate = '<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">\
+                              <!-- Indicators -->\
+                              <ol class="carousel-indicators">\
+                                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>\
+                                <li data-target="#carousel-example-generic" data-slide-to="1"></li>\
+                                <li data-target="#carousel-example-generic" data-slide-to="2"></li>\
+                              </ol>\
+                              <!-- Wrapper for slides -->\
+                              <div class="carousel-inner" role="listbox">\
+                                '+images+'\
+                              </div>\
+                              <!-- Controls -->\
+                              <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">\
+                                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>\
+                                <span class="sr-only">Previous</span>\
+                              </a>\
+                              <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">\
+                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>\
+                                <span class="sr-only">Next</span>\
+                              </a>\
+                            </div>';
+                    $(id).html(slidertemplate);
+            $(id+' .carousel').carousel();
+
+        }
+
+
+	</script>
+	  
+</head>
+
+<body  class="pkp_page_article pkp_op_view">
+	<div class="pkp_structure_page">
+
+				 		<input type="checkbox" name="menuOnTop" id="menuOnTop">  
+          
+           		<header class="navbar navbar-default" id="headerNavigationContainer" role="banner">
+
+					
+			
+			<div class="mainNavigation">
+			    <div class="topHeader">
+                        <ul class="topLinksList">
+    <li>
+    	<a href="https://phmsociety.org/">PHMSociety.org</a>
+    	
+    </li>
+    <li class="dropdown">
+    	<a href="#">Conferences</a>
+    	<ul>
+    		<li><a href="https://phm2021.phmsociety.org/">North America</a></li>
+    		<li><a href="http://phmap.org/">Asia-Pacific</a></li>
+    		<li><a href="https://phm-europe.org/">Europe</a></li>
+    	</ul>
+    </li>
+    <li class="dropdown">
+    	<a href="https://papers.phmsociety.org">Publications</a>
+    	<ul>
+    		<li><a href="https://papers.phmsociety.org/index.php/ijphm">Journal</a></li>
+    		<li><a href="https://papers.phmsociety.org/index.php/phmconf">North America Conference</a></li>
+    		<li><a href="https://papers.phmsociety.org/index.php/phme">Europe Conference</a></li>
+    		<li><a href="https://papers.phmsociety.org/index.php/phmap">Asia-Pacific Conference</a></li>
+    	</ul>
+    </li>
+    <li><a href="https://data.phmsociety.org/">Data</a></li>
+</ul>                        <div id="showTopLinks">
+	<div id="publishingHome" style="display:none"><a href="/"><i class="fa fa-university" aria-hidden="true"></i> Publication Home </a></div>
+	<div class="topSocial">
+	  <ul>
+	    <li><a href="https://www.facebook.com/group.php?gid=251906475261" class="fa fa-facebook" target="_blank"></a></li>
+	    <li><a href="https://x.com/phmsociety/" class="fa fa-twitter"  target="_blank"></a></li>
+<!--	    <li><a href="https://feeds.feedburner.com/PhmSociety" class="fa fa-rss"  target="_blank"></a></li> -->
+
+ 
+
+    <li><a href="https://papers.phmsociety.org/index.php/ijphm/gateway/plugin/WebFeedGatewayPlugin/rss2" class="fa fa-rss" target="_blank"></a></li>
+
+
+
+	    <li><a href="https://www.linkedin.com/groups?gid=1053007" class="fa fa-linkedin"  target="_blank"></a></li>
+	  </ul>
+	</div>
+	
+</div>
+                    </div>
+				<div class="container-fluid headerMiddle" >
+					<div class="navbar-header">
+                        <div class="middleHd">
+												
+
+																			<div class="site-name">
+																																											<a href="https://papers.phmsociety.org/index.php/index" class="navbar-brand pageHeaderTitle">International Journal of Prognostics and Health Management</a>
+																				</h1>
+													
+						
+					</div>
+					<div>
+					<div id="searchWrpNav">
+						        						          <div class="searchCntNav">
+						            <form class="navbar-form navbar-left" role="search" method="post" action="https://papers.phmsociety.org/index.php/ijphm/search/search">
+  <div class="form-group">
+    <input class="form-control" name="query" value="" type="text" aria-label="Search Query" placeholder="Search">
+  </div>
+  <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+  <!-- <div class="adVSearch" > <a href="https://papers.phmsociety.org/index.php/ijphm/search/search">Advance search</a></div> -->
+</form>
+
+						          </div>
+						        							</div>
+				    	
+
+
+              <ul id="main-navigation" class="nav navbar-nav loginRegWrp ">
+                                  <li class="profile ">
+              								<a href="https://papers.phmsociety.org/index.php/ijphm/user/register" class="">
+														
+                
+                
+                Register
+
+                              </a>
+                          </li>
+                                  <li class="profile ">
+              								<a href="https://papers.phmsociety.org/index.php/ijphm/login" class="">
+														
+                
+                
+                Login
+
+                              </a>
+                          </li>
+                                            </ul>
+       
+	  
+
+
+				    </div>
+				</div>
+				</div>
+			</div>
+
+			<div id="navMenuWrp">
+				
+																									  <div id="publishingHome"><a href="/"><i class="fa fa-university" aria-hidden="true"></i> Publication Home </a>
+							  </div>
+							  <label for="menuOnTop"  data-toggle="collapse" data-target="#nav-menu">
+							      <span class="icon-bar"></span>
+							      <span class="icon-bar"></span>
+							      <span class="icon-bar"></span>
+							  </label>
+							  	<nav id="nav-menu" class="navbar-collapse collapse " aria-label="Site Navigation">
+								    <div class="container-fluid">	
+											
+																				
+
+
+              <ul id="main-navigation" class="nav navbar-nav ">
+                                  <li class=" ">
+              								<a href="https://phmpapers.org/index.php/ijphm" class="">
+														
+                
+                
+                Home
+
+                              </a>
+                          </li>
+                                  <li class="  dropdown ">
+              								<a href="javascript:void(0)" class="">
+														
+                
+                
+                About
+
+                 
+                	<i class="fa fa-angle-down" aria-hidden="true"></i> 
+                              </a>
+                              <ul class="dropdown-menu">
+                                                            <li class="">
+                        <a href="https://papers.phmsociety.org/index.php/ijphm/about">
+                          About the Journal
+                        </a>
+                      </li>
+                                                                                <li class="">
+                        <a href="https://papers.phmsociety.org/index.php/ijphm/about/submissions">
+                          Submissions
+                        </a>
+                      </li>
+                                                                                <li class="">
+                        <a href="https://papers.phmsociety.org/index.php/ijphm/about/editorialTeam">
+                          Editorial Team
+                        </a>
+                      </li>
+                                                                                <li class="">
+                        <a href="https://papers.phmsociety.org/index.php/ijphm/about/contact">
+                          Contact
+                        </a>
+                      </li>
+                                                      </ul>
+                          </li>
+                                  <li class=" ">
+              								<a href="https://papers.phmsociety.org/index.php/ijphm/issue/current" class="">
+														
+                
+                
+                Current
+
+                              </a>
+                          </li>
+                                  <li class=" ">
+              								<a href="https://papers.phmsociety.org/index.php/ijphm/issue/archive" class="">
+														
+                
+                
+                Archives
+
+                              </a>
+                          </li>
+                                            </ul>
+       
+	  
+
+
+									 	
+
+
+              <ul id="main-navigation" class="nav navbar-nav loginRegWrpRes  ">
+                                  <li class="profile ">
+              								<a href="https://papers.phmsociety.org/index.php/ijphm/user/register" class="">
+														
+                
+                
+                Register
+
+                              </a>
+                          </li>
+                                  <li class="profile ">
+              								<a href="https://papers.phmsociety.org/index.php/ijphm/login" class="">
+														
+                
+                
+                Login
+
+                              </a>
+                          </li>
+                                            </ul>
+       
+	  
+
+
+									</div>
+								</nav>
+
+													  
+
+
+
+											
+				
+
+			</div>
+			<!-- .pkp_head_wrapper -->
+		</header><!-- .pkp_structure_head -->
+		
+		
+
+			
+		<div class="pkp_structure_content container" id="mainContainer">
+			
+			<main class="pkp_structure_main col-md-9" role="main">
+			  <!--   <script type="text/javascript" src="//openjournalsystems.com/livechat/php/app.php?widget-init.js"></script>
+ -->
+
+
+<div class="deepanbrea">
+			<nav class="cmp_breadcrumbs" role="navigation" aria-label="You are here:">
+	<ol class="breadcrumb">
+		<li>
+			<a href="https://papers.phmsociety.org/index.php/ijphm/index">
+				Home
+			</a>
+		</li>
+		<li>
+			<a href="https://papers.phmsociety.org/index.php/ijphm/issue/archive">
+				Archives
+			</a>
+		</li>
+		<li>
+			<a href="https://papers.phmsociety.org/index.php/ijphm/issue/view/5">
+				Vol. 1 No. 1 (2010): International Journal of Prognostics and Health Management
+			</a>
+		</li>
+		<li class="active">
+							Technical Papers
+					</li>
+	</ol>
+</nav>
+	</div>
+<div class="page page_article">
+	
+
+		<article class="article-details">
+	<header><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	   
+		
+		<div class="headings">
+	    <section class="section">
+		<h2 class="headings">
+						A Survey of Health Management User Objectives in Aerospace Systems Related to Diagnostic and Prognostic Metrics
+									</h2></section>
+	</div>
+		
+	
+	</header>
+
+	<div class="row">
+		<div class="col-md-12">
+			<section class="article-main">
+
+								<h2 class="sr-only">##plugins.themes.bootstrap3.article.main##</h2>
+
+						<h2 class="sr-only">##plugins.themes.bootstrap3.article.sidebar##</h2>
+
+																<div class="download">
+					<div class="galleryLinksWrp">
+					    
+											
+
+
+
+
+
+
+
+	
+
+
+
+
+
+	
+	
+
+
+
+
+
+
+
+
+
+			<i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+		
+
+			
+
+<a class="galley-link "  role="button" data-type="pdf" href="https://papers.phmsociety.org/index.php/ijphm/article/download/1345/332">
+
+
+	
+	
+
+
+	PDF
+	
+</a>
+
+
+
+										</div>
+				</div>
+															<div class="list-group-item date-published">
+						<strong>Published</strong>
+						Mar 22, 2021
+					</div>
+				
+																																														<div class="list-group-item doi">
+							<strong>DOI</strong>
+							<a href="https://doi.org/10.36001/ijphm.2010.v1i1.1345">
+								https://doi.org/10.36001/ijphm.2010.v1i1.1345
+							</a>
+						</div>
+														
+									<div class="list-group-item date-published">
+													<strong>Kevin R. Wheeler</strong>
+															<div class="article-author-affilitation">
+									NASA Ames Research Center, Moffett Field, CA, 94035, USA
+								</div>
+																											<strong>Tolga Kurtoglu</strong>
+															<div class="article-author-affilitation">
+									Palo Alto Research Center, Palo Alto, CA, 94304, USA
+								</div>
+																											<strong>Scott D. Poll</strong>
+															<div class="article-author-affilitation">
+									NASA Ames Research Center, Moffett Field, CA, 94035, USA
+								</div>
+																									</div>
+				
+													<div class="article-summary" id="summary">
+						<h2>Abstract</h2>
+						<div class="article-abstract">
+							<p>One of the most prominent technical challenges to effective deployment of health management systems is the vast difference in user objectives with respect to engineering development. In this paper, a detailed survey on the objectives of different users of health management systems is presented. These user objectives are then mapped to the metrics typically encountered in the development and testing of two main systems health management functions: diagnosis and prognosis. Using this mapping, the gaps between user goals and the metrics associated with diagnostics and prognostics are identified and presented with a collection of lessons learned from previous studies that include both industrial and military aerospace applications.</p>
+						</div>
+					</div>
+				
+												
+				
+					
+
+	Abstract <span class="glyphicon glyphicon-eye-open"></span> 5408 |
+                                                PDF Downloads <span class="glyphicon glyphicon-download-alt"></span> 2690
+                        <br>
+<br>
+			</section><!-- .article-main -->
+
+			<section class="article-more-details">
+
+								<h2 class="sr-only">##plugins.themes.bootstrap3.article.details##</h2>
+								<div class="panel panel-default issue">
+					<div class="panel-heading">
+						Keywords
+					</div>
+					<div class="panel-body">
+						 
+
+
+
+
+					<p>
+ diagnosis, prognostics, health management, user requirements</p>
+
+
+					
+				</div>	</div>
+				
+								<div class="panel panel-default issue">
+					<div class="panel-heading">
+						References
+					</div>
+					<div class="panel-body">
+				
+								  10303-1, "Industrial automation systems and integration - Product data representation and exchange Part 1: Overview and fundamental principles." 1994.<br />
+I. 1636.1, "IEEE Trial-Use Standard for Software Interface for Maintenance Information Collection and Analysis (SIMICA): Exchanging Test Results and Session Information via the eXtensible Markup Language (XML)," February, 2008.<br />
+I. S. 1671.4, "IEEE Trial-Use Standard for Automatic Test Markup Language (ATML) for Exchanging Automatic Test Information via XML: Exchanging Test Configuration Information," April, 2008.<br />
+"727 to 787: Evolution of Aircraft Maintenance Systems," Avionics Magazine Special Report:http://www.aviationtoday.com/Assets/Honeyw ellsmall.pdf, 2007.<br />
+"DoD Architectural Framework: Vol. 1: Definitions and Guidelines, Vol. 2:Product Descriptions, Vol.3: Architecture Data Description," April, 2007.<br />
+Abderrahman A., M. Sawan, Y. Savaria, and A. Khouas, "New Analog Test Metrics Based on Probabilistic and Deterministic Combination Approaches," in 14th IEEE International Conference on Electronics, Circuits and Systems, 2007, pp. 82-85.<br />
+Albert A.P., E. Antoniou, S. D. Leggiero, K. A. Tooman, and R. L. Veglio, "A Systems Engineering Approach to Integrated Structural Health Monitoring for Aging Aircraft," Wright-Patterson Air Force Base, Ohio, 2006.<br />
+Alford R., "Data Management as the Key to Prognostic Capability," in SAE doD Maintenance Symposium \& Exhibition, 2007.<br />
+Ashby M.J. and R. J. Byer, "An Approach for Conducting a Cost Benefit Analysis of Aircraft Engine Prognostics and Health management Functions," in IEEE Aerospace Conference<br />
+Proceedings. vol. 6, 2002, pp. 2847-2856.<br />
+Bain K. and D. G. Orwig, "F/A-18E/F Built-in-test (BIT) Maturation Process," National Defense Industrial Associated 3rd Annual systems Engineering & Supportability Conference, October, 2000.<br />
+Banks J. and J. Merenich, "Cost Benefit Analysis for Asset Health Management Technology," in IEEE Annual Reliability and Maintainability Symposium, 2007, pp. 95-100.<br />
+Banks J., K. Reichard, E. Crow, and E. Nickell, "How Engineers Can Conduct Cost-Benefit Analysis for PHM Systems," in IEEE Aerospace Conference, 2005, pp. 3958-3967.<br />
+Boller C., "Ways and Options for Aircraft Structural Health Management," in Smart Materials and Structures. vol. 10, 2001, pp. 432-440.<br />
+Byer B., A. Hess, and L. Fila, "Writing a Convincing Cost Benefit Analysis to Substantiate Autonomic Logistics," in IEEE Aerospace Conference. vol. 6, 2001, pp. 3095-3103.<br />
+Collins J.H. and G. Edwards, "The Naval Air Systems Command's Initiatives for Aircraft Wiring Diagnostic Support Equipment for Multiple Maintenance Levels," Naval Air Systems Command, 2005.<br />
+Crow E., "Condition Based Maintenance, the Maintenance Execution Process and the Open Systems Standards, An Overview of Activities at Penn State," in Defense Maintenance Conference Reno, Nevada, 2006.<br />
+Hecht H., "Prognostics for Electronic Equipment: An Economic Perspective," in IEEE Reliability and Maintainability Symposium, 2006, pp. 165-168.<br />
+Hess A. and L. Fila, "Prognostics, from the Need to Reality - from the Fleet Users and PHM System Designer/Developers Perspectives," in IEEE Aerospace Conference. vol. 6, 2002, pp. 2791-2797.<br />
+Hess A., G. Calvello, and P. Frith, "Challenges, Issues, and Lessons Learned Chasing the Big P: Real Predictive Prognostics Part 1," in IEEE Aerospace Conference, 2005, pp. 3610-3619.<br />
+Hess A., G. Calvello, and T. Dabney, "PHM a Key Enabler for the JSF Autonomic Logistics Support Concept," in IEEE Aerospace Conference, 2004, pp. 3543-3550.<br />
+Hoyle C., A. F. Mehr, I. Y. Tumer, and W. Chen, "Cost- Benefit Quantification of ISHM in Aerospace Systems," ASME 2007 International Design Engineering Technical Conferences & Computers and Information in Engineering Conference, September 4-7, 2007 2007.<br />
+Kacprzynski G.J., A. Liberson, A. Palladino, M. J. Roemer, A. J. Hess, and M. Begin, "Metrics and Development Tools for Prognostic Algorithms," in IEEE Aerospace Conference, 2004, pp. 3809-3815.<br />
+Kurtoglu T., O. J. Mengshoel, and S. Poll, "A Framework for Systematic Benchmarking of Monitoring and Diagnostic Systems," IEEE International Conference on Prognostics and Health Management, October 6-9, 2008.<br />
+Leao B.P., T. Yoneyama, G. C. Rocha, and K. T. Fitzgibbon, "Prognostics Performance Metrics and their Relation to Requirements, Design, Verification and Cost-Benefit," IEEE International Conference on Prognostics and Health Management, 2008.<br />
+Line J.K. and N. S. Clements, "Prognostics Usefulness Criteria," in IEEE Aerospace Conference, 2006.<br />
+MacConnell J.H., "ISHM & Design: A review of the benefits of the ideal ISHM system," in IEEE Aerospace Conference, 2007.<br />
+Marz T.F., "Integrated Diagnostics: Operational Missions, Diagnostic Types, Characteristics, and Capability Gaps," 2005.<br />
+Millar R.C., "A Systems Engineering Approach to PHM for Military Aircraft Propulsion Systems," in IEEE Aerospace Conference, 2007. KIF, "Knowledge Interchange Format, Working draft of proposed American national standard," vol. Document No. X3T2/98-004, 1998.<br />
+Nenninger G., "Aviation Condition Based Maintenance (CBM)," in DoD Maintenance Symposium \& Exhibition, 2007.<br />
+Novis A. and H. Powrie, "PHM Sensor Implementation in the Real World - a Status Report," in IEEE Aerospace Conference, 2006.<br />
+Ofsthun S., "Integrated Vehicle Health Management for Aerospace Platforms," IEEE Instrumentation & Measurement Magazine, pp. 21-24, September, 2002 2002.<br />
+Pritchett A.R., B. Vandor, and K. Edwards, "Testing and Implementing cockpit Alerting systems," in Reliability Engineering and System Safety. vol. 75, 2002, pp. 193-206.<br />
+Saxena A., J. Celaya, E. Balaban, K. Goebel, B. Saha, S. Saha, and M. Schwabacher, "Metrics for Evaluating Performance of Prognostic Techniques," IEEE International Conference on<br />
+Prognostics and Health Management, October 6-9, 2008.<br />
+Scandura P.A., "Integrated Vehicle health Management as a System Engineering Discipline," in The 24th Digital Avionics Systems Conference. vol. 2, 2005.<br />
+Sheppard J..W. and T. J. Wilmering, "Recent Advances in IEEE Standards for Diagnosis and Diagnostic Maturation," in IEEE Aerospace Conference, 2006.<br />
+Sheppard J.W. and M. A. Kaufman, "IEEE Information Modeling Standards for Test and Diagnosis," in 5th Annual Joint Aerospace Weapon System Support, Sensors and Simulation Symposium San Diego, CA, 1999.<br />
+Song L. and J. K. Kuchar, "Dissonance Between Multiple Alerting Systems Part I: Modeling and Analysis," in IEEE Transactions on Systems, man, and Cybernetics-Part A: Systems and Humans. vol. 33, 2003.<br />
+Vincent B. and A. R. Pritchett, "Requirements Specification for Health Monitoring Systems Capable of Resolving flight Control System Faults," in The 20th Conference Digital Avionics Systems. vol. 1, 2001, pp. 3D4/1 - 3D4/8.<br />
+Westervelt K., "Fixing BIT on the V-22 Osprey," IEEE Aerospace Conference, March, 2006.<br />
+Wilmering T.J., "When Good Diagnostics Go Bad - Why Maturation is Still Hard," in IEEE Aerospace Conference. vol. 7, 2003, pp. 3137-3147.<br />
+Yukish M., C. Byington, and R. Campbell, "Issues in the Design and Optimization of Health Management Systems," in New Frontiers in Integrated Diagnostics and Prognostics, Proceedings of the 55th Meeting of the Society for Machinery Failure Prevention Technology Virginia Beach, Virginia, 2001.<br />
+Zhang S., R. Kang, X. He, and M. G. Pecht, "China's Efforts in Prognostics and Health Management," in IEEE Transactions on Components and Packaging Technologies. vol. 31, 2008.
+								
+								</div></div>
+								
+
+																			
+								
+				
+								<div class="panel panel-default issue">
+					<div class="panel-heading">
+						Issue
+					</div>
+					<div class="panel-body">
+						<a class="title" href="https://papers.phmsociety.org/index.php/ijphm/issue/view/5">
+							Vol. 1 No. 1 (2010): International Journal of Prognostics and Health Management
+						</a>
+
+					</div>
+				</div>
+
+									<div class="panel panel-default section">
+						<div class="panel-heading">
+							Section
+						</div>
+						<div class="panel-body">
+							Technical Papers
+						</div>
+					</div>
+				
+								
+				
+
+			</section><!-- .article-details -->
+		</div><!-- .col-md-8 -->
+	</div><!-- .row -->
+
+</article>
+
+<script type="text/javascript">
+$('document').ready(function(){
+	$('.getJsonData').click(function(){
+		url = $(this).attr('hrefs');
+	
+		$('.citationJson').html('Loading...')
+		//alert(url)
+		$.ajax({
+			url: url,
+			type:"GET",
+			success:function(result){
+				setTimeout(function(){ $('.citationJson').html(result) },2000)
+				
+				//alert(result)
+			}
+
+		})
+	})
+})
+</script>
+
+<style>
+
+.section {
+    border-top: none !important;
+}
+
+h2.headings {
+  font-weight: 300 !important;
+}
+.btn-group {
+    text-align: center;
+    margin-top: 11px;
+    border: none !important;
+    border-radius: 3px;
+    font-size: 12px;
+    line-height: 28px;
+    color: #2077db;
+    padding: 0px 0px;
+}
+.galleryLinksWrp{display: inline-block;
+    padding: 0 1em;
+    background: #fff;
+    border: 1px solid #007ab2;
+    border-radius: 3px;
+    font-size: 13px;
+    line-height: 28px;
+    color: #007ab2;
+    text-decoration: none;}
+</style>
+	
+	
+
+	
+
+</div><!-- .page -->
+	</main>
+
+									<aside id="sidebar" class="pkp_structure_sidebar col-md-3" role="complementary" aria-label="Sidebar">
+        <h2 class="titleSide">Journal Content </h2>
+				<div class="pkp_block block_make_submission">
+	<h2 class="pkp_screen_reader">
+		Make a Submission
+	</h2>
+
+	<div class="content">
+		<a class="block_make_submission_link" href="https://papers.phmsociety.org/index.php/ijphm/about/submissions">
+			Make a Submission
+		</a>
+	</div>
+</div>
+<div class="pkp_block block_information">
+	<h2 class="title">Information</h2>
+	<div class="content">
+		<ul>
+							<li>
+					<a href="https://papers.phmsociety.org/index.php/ijphm/information/readers">
+						For Readers
+					</a>
+				</li>
+										<li>
+					<a href="https://papers.phmsociety.org/index.php/ijphm/information/authors">
+						For Authors
+					</a>
+				</li>
+										<li>
+					<a href="https://papers.phmsociety.org/index.php/ijphm/information/librarians">
+						For Librarians
+					</a>
+				</li>
+					</ul>
+	</div>
+</div>
+
+			</aside><!-- pkp_sidebar.left -->
+			  </div><!-- pkp_structure_content -->
+  
+   
+ <style type="text/css">
+   footer{ background: #444; color: #fff;}
+.footer .bottom-bar {background: #2b2b2b; padding: 5px 0; } 
+
+footer img {
+    margin: 5px;
+}
+#nsf-logo {
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+.cu-engineering-logo {
+    width: 160px;
+}
+</style>
+
+
+
+<footer class="footer hidden-print">
+
+            <div class="bottom-bar">
+                <div class="container  text-center small">
+                    <div class="row footerRow">
+                        <a href="#" class="logoFooter">
+                            <img src="https://phmsociety.org/wp-content/themes/g5_helium/custom/images/logos/pmh_logo_green.gif" class="reponsive-img" alt="">
+                        </a>
+                       
+                        <ul class="g-horizontalmenu">
+                            <li><a target="_blank" href="/" title=" Terms of Use "> Terms of Use </a> </li>
+                            <li><a target="_blank" href="https://phmsociety.org/privacy-policy-2/" title="Privacy and Security Statement">Privacy and Security Statement</a></li>
+                            <li><a target="_blank" href="/" title=" PHM Community Rules "> PHM Community Rules </a></li>
+                         </ul>
+                         <div id="gtotopDiv">
+                            <a href="#"  id="g-totop" rel="nofollow" class="">
+                            Back to top <i class="fa fa-chevron-up fa-fw"></i>                    
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        
+                    <div class="footerCopyright">
+                      © The Prognostics and Health Management Society 2009 - 2026 <br>
+PHM Society is a non-profit organization dedicated to the advancement of PHM as an engineering discipline.
+                    </div>
+
+                    </div>
+                </div>
+            </div>
+
+</footer>
+        
+</div><!-- pkp_structure_page -->
+<div class="modal fade" id="editorialModel" role="dialog">
+  <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+        </div>
+
+        <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+  </div>
+</div>
+
+
+
+
+  <script type="text/javascript">
+    $(function (){
+
+
+      setTimeout(function(){
+      //currLang = $('.languages .currentLanguage').text();
+        
+      
+        currLang = $('.block_language .current a').text().replace(/\s/g, "");
+        
+        if(currLang=="العربية" || currLang=="العربية")
+        {
+          //$('body').addClass('langRTL');
+          $('body').css('direction', 'rtl');
+          
+          $('.pkp_structure_main').css('float','left');
+          $('.homepage-image + .journal-description').css({'margin-right': '220px','margin-left':'0px'});
+          $('.homepage-image, .issue-toc .thumbnail').css({'margin-left': '20px','float':'right'});
+          
+          $('#homeTabWrp .nav-tabs').css({'float':'right'});
+          $('#homeTabWrp .tab-content').css({'padding': '49px 0px','position': 'inherit'});
+          
+          $('.issueTocPublishArticles .media-body .galleryLinksWrp').css({'top': 'initial','margin': '10px'});
+
+          $('.issueTocPublishArticles .article-summary .media-heading, .issueTocPublishArticles .article-summary .meta').css({'margin-right': '20px'});
+
+
+
+          $('#searchWrpNav').css({
+              'float': 'left',
+              'position': 'sticky',
+              'right': '0px',
+              'top': '50%',
+              'margin-top': '0px'
+          });
+
+          $('.navbar-nav').css('float','right ');
+          $('.navbar-nav>li').css('float','right');
+          
+          $('#showTopLinks').css('float','left');
+          
+
+          $('#social-icons').removeClass('pull-right');
+          $('#social-icons .menu > li').css('float','right');
+          
+
+
+          $('.mainNavigation h1').css('float','right');
+          $('.site-name').css('float','right');
+          $('#nav-menu').css('float','right');
+          $('#nav-menu > ul > li').css('float','right');
+
+          $('.bread_left').css('float','right');
+          $('.social_links').css('float','left');
+            
+        }
+      },1000)
+
+
+
+      var baseUrl  = window.location ;
+      //alert(baseUrl)
+     $('#main-navigation a[href="'+baseUrl+'"]').addClass('active');
+
+        $('body').on('click', '.show-search',function(e){
+            var flag = $('#seachCheckFlag').prop('checked');
+          
+            if(flag==true){
+                $('#seachCheckFlag').prop('checked', false);
+               // if( $('#searchWrpNav form input').val()!=''){
+                    setTimeout(function (){
+                        $('#searchWrpNav button[type="submit"]').click();
+                    }, 1000);
+               // }
+            }else{
+                 $('#seachCheckFlag').prop('checked', true);
+            }
+           
+        });
+
+        //slider
+       if( $('.slider_box_area').length==0){
+               $('#customblock-headerslider, #customblock-HomePageInfo').remove();
+        }         
+        //makeSlider('#customblock-Slider');
+       
+     /* $('.issueTocPublishArticles h2').click(function (){
+        $(this).closest('.section').toggleClass('activeNow');
+      });*/
+
+
+      $('#sidebar > div').each(function (){
+          var title  = $('.blockTitle, .title', this).detach();
+            var mtitle  = $('.content .titleSide', this).detach();
+           $('.content', this).before(mtitle);
+           $('.content .titleSide', this).remove();
+           $('.content .title', this).remove();
+          var  thisEl = $(this);
+          $('.content', this).before(title);
+           $('.blockTitle, .title', this).click(function (){
+              $(this).next('.content').toggle();
+             thisEl.toggleClass('ShowDetailsSidebar');
+           });
+      });
+
+      /*$('.journals li').each(function(){
+        tag = $(this).find('a').attr('href')
+        alert(tag)
+      })*/
+
+    });
+  </script>
+  
+  
+  <style type="text/css">
+
+#customblock-newssection { display: none}
+
+</style>
+
+  <script type="text/javascript">
+
+    $(function (){
+    
+      $('.issue-toc .galleys .btn-group').before("<span>Download full issue PDF</span>");
+      var authCustomBlock = $('#customblock-currentIssueInfo').html();
+      var infoCustomBlock = $('#customblock-currentIssueInfoAuthor').html();
+
+
+      //Editoral popup
+
+      $('.detailsOpening').click(function(){
+
+        var html = '';  
+        var header = '';  
+        html += '<p>'+ $(this).find('.editoruserDetails').html() + '</p>';
+       
+        header = '<h2  class="modal-title">'+$(this).find('.editoruserHead').html()+'</small></h3>';
+
+          $("#editorialModel .modal-body").html($(html));
+          $("#editorialModel .modal-title").html(header);
+          $("#editorialModel").modal();
+      })
+      //End Editorial popup
+
+    
+
+      if(authCustomBlock)
+      {
+          $('.currentIssueInfo').html(authCustomBlock)
+      }
+      else
+      {
+          $('.currentIssueInfoAuthor').html('<div class="noInfo">- Current issue info not available -</div>')
+      }
+
+      if(infoCustomBlock)
+      {
+          $('.currentIssueInfoAuthor').html(infoCustomBlock)
+      }
+      else
+      {
+          $('.currentIssueInfoAuthor').html('<div class="noInfo">- Author info not available -</div>')
+      }
+
+     // makeSlider('.journalInfoCol');
+
+
+
+
+
+      var Ncount = 0;
+
+
+
+      var news = $('#customblock-newssection p > a').length;  
+
+     
+
+      if(news>0)
+
+      {  
+
+          var __OBJECTS = [];
+
+
+
+          $('#newsslide').show();
+
+
+
+          $('#customblock-newssection p > a').each(function() {
+
+              __OBJECTS.push($(this));
+
+          });
+
+          
+
+          addPositioningClasses();
+
+          
+
+          
+
+          var timer = 4000;
+
+          var finaltimer = news*timer;
+
+         
+
+          function addPositioningClasses() {
+
+              var card = __OBJECTS.pop();
+
+              innHTml = $(card).wrap('<div>').parent().html();
+
+              $('#latestnews-content').html(innHTml)
+
+              $(card).unwrap();
+
+              if (__OBJECTS.length) {
+
+                  setTimeout(addPositioningClasses, timer)
+
+              }
+
+          }
+
+          
+
+          setInterval(function(){ 
+
+              $('#customblock-newssection p > a').each(function() {
+
+                  __OBJECTS.push($(this));
+
+              }); 
+
+            
+
+            addPositioningClasses() 
+
+          }, finaltimer);
+
+
+
+
+
+      }// recent new section
+
+
+
+
+
+
+
+     
+
+  $('.searchBarWrp input').focusin(function (){
+
+    $(this).closest('.searchBarWrp').addClass('activeState');
+
+  }).focusout(function (){
+
+    $(this).closest('.searchBarWrp').removeClass('activeState');
+
+  });
+
+  
+
+  $('#sidebar > div .title').click(function (){
+
+    $(this).closest('.pkp_block').toggleClass('showHide');
+
+  });
+
+
+
+      var baseUrl  = window.location ;
+
+     /* var  copyBread =  $('#mainContainer .cmp_breadcrumbs').detach();
+
+       $('.breadcrumsWrpHD').prepend(copyBread);*/
+
+
+
+      //alert(baseUrl)
+
+     $('#main-navigation a[href="'+baseUrl+'"]').addClass('active');
+
+
+
+        $('body').on('click', '.show-search',function(e){
+
+            var flag = $('#seachCheckFlag').prop('checked');
+
+          
+
+            if(flag==true){
+
+                $('#seachCheckFlag').prop('checked', false);
+
+               // if( $('#searchWrpNav form input').val()!=''){
+
+                    setTimeout(function (){
+
+                        $('#searchWrpNav button[type="submit"]').click();
+
+                    }, 1000);
+
+               // }
+
+            }else{
+
+                 $('#seachCheckFlag').prop('checked', true);
+
+            }
+
+           
+
+        });
+
+
+
+          //slider
+        function makeSlider (id){
+             var images = '';
+             var Icount = 0;
+             $(id+' img').each(function (i){
+              Icount++;
+                var activeClass="";
+                if(i==0){
+                    activeClass="active";
+                }
+
+                 images += '<div class="item '+activeClass+'">\
+                              <img src="'+ $(this).attr('src')+'"/>\
+                            </div>';
+            });
+             if(Icount==0) return;
+             
+               var slidertemplate = '<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">\
+                              <!-- Indicators -->\
+                              <ol class="carousel-indicators">\
+                                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>\
+                                <li data-target="#carousel-example-generic" data-slide-to="1"></li>\
+                                <li data-target="#carousel-example-generic" data-slide-to="2"></li>\
+                              </ol>\
+                              <!-- Wrapper for slides -->\
+                              <div class="carousel-inner" role="listbox">\
+                                '+images+'\
+                              </div>\
+                              <!-- Controls -->\
+                              <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">\
+                                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>\
+                                <span class="sr-only">Previous</span>\
+                              </a>\
+                              <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">\
+                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>\
+                                <span class="sr-only">Next</span>\
+                              </a>\
+                            </div>';
+                    $(id).html(slidertemplate);
+            $('.carousel').carousel();
+
+        }
+        
+        $('.bxslider').bxSlider({
+				auto: true,
+				autoControls: true,
+				stopAutoOnClick: true,
+				pager: true,
+				slideWidth: 600
+			});
+
+        //makeSlider('#customblock-Slider .content .content');
+
+       
+
+      
+
+
+
+
+
+    });
+
+  </script>
+
+  
+  
+  
+  
+  
+  
+
+  
+  
+</body>
+</html>

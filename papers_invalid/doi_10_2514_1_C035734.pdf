@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+     <!-- disabled google tag temporary -->
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-0YJD8QMQXL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+        gtag('config', 'G-0YJD8QMQXL');
+    </script> -->
+    
+        <title> Range equation for hybrid-electric aircraft with constant power split  | TU Delft Repository</title>
+        <link rel=stylesheet href=/static/css/webapp.css type=text/css> <!-- need to remove -->
+        <link rel=stylesheet href=/static/css/global.css type=text/css> <!-- need to remove -->
+        <link rel=stylesheet href=/static/css/layout.css type=text/css>
+        <link rel=stylesheet href=/static/css/MaterialIcon.css type=text/css>
+        <link rel="icon" type="image/png" href="/static/images/favicon.ico">
+        <link rel="stylesheet" href="/static/dist/css/output.css">
+    
+    
+    <meta name="citation_title" content="Range equation for hybrid-electric aircraft with constant power split" />
+
+    <meta name="citation_publication_date"
+          content="2020" />
+
+
+
+    
+        
+            
+                <meta name="citation_author"
+                      content="None, None">
+            
+                <meta name="citation_author"
+                      content="None, None">
+            
+                <meta name="citation_author"
+                      content="None, None">
+            
+        
+    
+        
+    
+
+
+    
+    
+        
+            
+        
+    
+    
+    <meta name="citation_pdf_url" content="/file/File_9547787b-37f7-495b-bb1d-fdd2a7eacf13" />
+
+<meta name="citation_abstract" content="There has been a surge in research related to hybrid-/ electric propulsion (HEP) over the past decade, since this technology has the potential to reduce the energy consumption and in-flight emissions of commercial aircraft and, therefore, to bring the aviation sector closer to the sustainability targets established by the European Commission [1] and NASA [2]. Previous studies have shown that hybrid-electric [3,4] and fully-electric [5] general-aviation aircraft can lead to a reduction in both emissions and operating costs for short ranges, when compared with fuel-based alternatives. However, due to the enormous energy and power requirements of large passenger aircraft, fully battery-based propulsion is not a viable option to substantially reduce the climate impact of the aviation sector as a whole [6], unless the mission range is significantly reduced, or unrealistically high battery energy densities are assumed [7]. For this reason, hybrid architectures (especially parallel [8–10] and turboelectric [11–14] ones) are often investigated as a potential solution for large passenger aircraft." />
+
+<meta name="citation_abstract_html_url"
+      content="https://repository.tudelft.nl/record/uuid:c957f177-65c1-4219-a157-30c37037351d" />
+
+</head>
+<body>
+<div class="flex min-h-screen flex-col bg-off-white">
+
+    <!-- Header -->
+    <header class="bg-tu-delft-primary-blue text-white">
+        
+            <div class="xl:w-[1224px] m-auto flex flex-row justify-between px-4 py-2">
+	<div class="flex flex-row space-x-4 justify-between items-center">
+		<div class="w-20 pb-4">
+			<a href="/"
+				><img
+					class="logo"
+					src="/static/images/logo/tudelft_logo.svg"
+					alt="TU Delft"
+			/></a>
+		</div>
+		<div class="w-px h-10 bg-white"></div>
+		<div>
+			<a
+				href="https://www.tudelft.nl/library"
+				target="_blank"
+				class="hover:underline font-bold"
+				>Library</a
+			>
+		</div>
+	</div>
+
+	<div class="flex flex-row justify-end space-x-3 z-40">
+		<div class="flex flex-row space-x-5 pt-2">
+			<!-- The Figma design for the login link/button is below, but temporarily disabled -->
+			<!-- <a href="/login">
+				<span class="material-symbols-outlined align-sub text-base">
+					login
+				</span>
+				Login
+			</a> -->
+			<a href="/login"
+				><span class="material-symbols-outlined">local_library</span></a
+			>
+			<a class="text-white" href="/">Home Repository</a>
+		</div>
+	</div>
+</div>
+        
+    </header>
+
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        
+
+    <div class="flex w-full lg:w-[1000px] xl:w-[1200px] m-auto p-10 pt-12">
+
+        <div class="hidden lg:block flex-1">
+            
+
+<div class="menu record-navigator mt-12">
+    <div class="filter space-y-2">
+        
+    <div>
+        <a href="#title" class="text-gray-500">Title</a>
+    </div>
+
+        
+    <div>
+        <a href="#metadata" class="text-gray-500">Metadata</a>
+    </div>
+
+        
+    <div>
+        <a href="#abstract" class="text-gray-500">Abstract</a>
+    </div>
+
+        
+    <div>
+        <a href="#files" class="text-gray-500">Files</a>
+    </div>
+
+    </div>
+</div>
+        </div>
+
+        <div class="grow lg:grow-0 lg:w-[800px]">
+
+            <!----- Title and Subtitle -------------------------------------------------------->
+            <div id="title">
+                
+                    <h1>Range equation for hybrid-electric aircraft with constant power split</h1>
+                
+                
+            </div>
+
+            <div class="pt-3 space-x-2">
+
+                <!----- Preview File Button -------------------------------------------------------->
+                
+                    
+
+                    
+                        
+                            
+                        
+                    
+
+                    
+
+                    
+                        <a href="/file/File_9547787b-37f7-495b-bb1d-fdd2a7eacf13?preview=1" target="_blank">
+                            <button class="primary-button"><i class="icon">open_in_new</i>Preview File</button>
+                        </a>
+                    
+                
+            </div>
+
+            <!----- Metadata main and additional info -------------------------------------------------------->
+            <div id="metadata">
+                <div class="text-light-gray text-sm space-y-3 my-4 mb-8">
+    <!-------- Object Type and publication_year-------->
+    <div>
+        Journal Article
+        (2020)
+    </div>
+    <!-------- Main sections of the metadata -------->
+    
+    
+        
+            <div>
+                
+                    <div>Author(s)</div>
+                    
+
+    <p>
+        <a href="/person/Person_56cfd979-abac-40f0-86d0-14bdd0755b09" class="hover:underline text-link-blue">
+            Reynard De Vries
+        </a>
+    
+
+    
+    
+
+
+    (TU Delft - Flight Performance and Propulsion)</p>
+
+    <p>
+        <a href="/person/Person_90746a7f-c328-4cd2-b261-4ee6b342e909" class="hover:underline text-link-blue">
+            Maurice F.M. Hoogreef
+        </a>
+    
+
+    
+    
+
+
+    (TU Delft - Flight Performance and Propulsion)</p>
+
+    <p>
+        <a href="/person/Person_2053c412-b263-4c20-a9b9-d5243f474415" class="hover:underline text-link-blue">
+            Roelof Vos
+        </a>
+    
+
+    
+    
+
+
+    (TU Delft - Flight Performance and Propulsion)</p>
+
+                
+            </div>
+        
+            <div>
+                
+                    
+
+
+
+    
+    
+        
+    
+
+
+
+    
+        <div>Research Group</div>
+    
+    <div>Flight Performance and Propulsion</div>
+
+                    <!-- access_conditions -->
+                
+            </div>
+        
+    
+    <!-------- DOI -------->
+    
+        
+            
+        
+        
+            <div>DOI related publication</div>
+            <a class="hover:underline text-link-blue"
+               target="_blank"
+               href="https://doi.org/10.2514/1.C035734">https://doi.org/10.2514/1.C035734</a>
+        
+    
+    <!-------- Keywords -------->
+    
+    <!-------- Reference -------->
+    <div class="flex flex-row items-center space-x-2">
+        <div>
+            <div>To reference this document use:</div>
+            <a href="https://resolver.tudelft.nl/uuid:c957f177-65c1-4219-a157-30c37037351d"
+               target="_blank"
+               class="hover:underline text-link-blue">https://resolver.tudelft.nl/uuid:c957f177-65c1-4219-a157-30c37037351d</a>
+        </div>
+        <div class="mt-4">
+    <span class="tooltip tooltip-btn-icon" title="Copy URL">
+    <button
+            type="button"
+            class="text-gray-400 bg-white hover:bg-gray-200 border-gray-400 border
+            font-medium rounded-sm text-xs px-0.5 py-px text-center inline-flex items-center"
+            onclick="copyContent('https://resolver.tudelft.nl/uuid:c957f177-65c1-4219-a157-30c37037351d', 'https://resolver.tudelft.nl/uuid:c957f177-65c1-4219-a157-30c37037351d')">
+            <i id="icon-content-to-copy-https://resolver.tudelft.nl/uuid:c957f177-65c1-4219-a157-30c37037351d" class="text-gray-400 text-xs icon-no-style">content_copy</i>
+    </button>
+    </span>
+</div>
+    </div>
+</div>
+
+                
+                    <div class="bg-white border-t-4 border-tu-delft-primary-blue p-4 pl-6 pt-3 text-lg my-4"
+                         onclick="displayFullMetadata()">
+                        <details>
+                            <summary class="flex items-center">
+                                <div class="flex-1 mr-4 pt-3 font-bold"> More Info</div>
+                                <div class="flex-0">
+                                    <div id="btn-more" class="btn-more"> expand_more</div>
+                                </div>
+                            </summary>
+                            
+
+<div class="space-y-2">
+    
+        <div>
+            <!-- language -->
+            
+                <!-- other content -->
+                <div class="text-black font-bold">Publication Year</div>
+                2020
+            
+        </div>
+    
+        <div>
+            <!-- language -->
+            
+                
+                
+                    <div class="text-black font-bold">Language</div>
+                    English
+                
+
+            <!-- access_conditions -->
+            
+        </div>
+    
+        <div>
+            <!-- language -->
+            
+                
+
+
+
+    
+    
+        
+    
+
+
+
+    
+        <div class="text-black font-bold">Research Group</div>
+    
+    <div>Flight Performance and Propulsion</div>
+
+            
+        </div>
+    
+        <div>
+            <!-- language -->
+            
+                <!-- other content -->
+                <div class="text-black font-bold">Bibliographical Note</div>
+                Green Open Access added to TU Delft Institutional Repository ‘You share, we take care!’ – Taverne project https://www.openaccess.nl/en/you-share-we-take-care  
+Otherwise as indicated in the copyright section: the publisher is the copyright holder of this work and the author uses the Dutch legislation to make this work public.
+@en
+            
+        </div>
+    
+        <div>
+            <!-- language -->
+            
+                <!-- other content -->
+                <div class="text-black font-bold">Issue number</div>
+                3
+            
+        </div>
+    
+        <div>
+            <!-- language -->
+            
+                <!-- other content -->
+                <div class="text-black font-bold">Volume number</div>
+                57
+            
+        </div>
+    
+        <div>
+            <!-- language -->
+            
+                <!-- other content -->
+                <div class="text-black font-bold">Pages (from-to)</div>
+                552-557
+            
+        </div>
+    
+
+    <!-- Reuse Rights is displayed if files has no cc license  -->
+    
+        
+        
+            
+        
+
+        
+            <div>
+                <div class="text-black font-bold">Reuse Rights</div>
+                <p>Other than for strictly personal use, it is not permitted to download, forward or distribute the text
+                    or part of it, without the consent of the author(s) and/or copyright holder(s), unless the work is under an
+                    open content license such as Creative Commons.</p>
+            </div>
+        
+    
+</div>
+
+                        </details>
+                    </div>
+                
+            </div>
+
+            <!----- Abstract -------------------------------------------------------->
+            
+                <div id="abstract" class="space-y-3 px-20 my-8 mt-10">
+                    <h2>Abstract</h2>
+                    <p>There has been a surge in research related to hybrid-/ electric propulsion (HEP) over the past decade, since this technology has the potential to reduce the energy consumption and in-flight emissions of commercial aircraft and, therefore, to bring the aviation sector closer to the sustainability targets established by the European Commission [1] and NASA [2]. Previous studies have shown that hybrid-electric [3,4] and fully-electric [5] general-aviation aircraft can lead to a reduction in both emissions and operating costs for short ranges, when compared with fuel-based alternatives. However, due to the enormous energy and power requirements of large passenger aircraft, fully battery-based propulsion is not a viable option to substantially reduce the climate impact of the aviation sector as a whole [6], unless the mission range is significantly reduced, or unrealistically high battery energy densities are assumed [7]. For this reason, hybrid architectures (especially parallel [8–10] and turboelectric [11–14] ones) are often investigated as a potential solution for large passenger aircraft.</p>
+                </div>
+            
+
+            <!----- Files -------------------------------------------------------->
+            
+                <div id="files" class="files my-8">
+                    <h2>Files</h2>
+                    <div class="flex flex-col space-y-2 mt-1">
+
+    
+
+    
+
+        
+        
+        
+        
+        
+
+        
+            
+                
+            
+        
+
+        
+            <div class="flex flex-row gap-2 items-center">
+                <div class="grow flex-col">
+                    <a href="/file/File_9547787b-37f7-495b-bb1d-fdd2a7eacf13" download target="_blank">1.c035734.pdf</a>
+
+                    <div class="flex flex-row space-x-1">
+                        
+                            <div class="small-note-not-italic">
+                                
+                                (pdf | 0.448 Mb)
+                            </div>
+                        
+
+                        
+                            <div class="small-note-not-italic">
+                                - Embargo expired in 08-12-2021
+                            </div>
+                        
+                    </div>
+                </div>
+
+                <div class="text-black">
+                    
+
+
+    <span class="text-xs text-light-gray">
+        License info not available
+    </span>
+
+                </div>
+
+                
+                    <a href="/file/File_9547787b-37f7-495b-bb1d-fdd2a7eacf13" download target="_blank">
+                        <button class="secondary-button"><i class="icon">download</i>Download</button>
+                    </a>
+                
+            </div>
+        
+    
+</div>
+
+                </div>
+            
+        </div>
+
+        <div class="hidden xl:block flex-1"></div>
+    </div>
+
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-off-white">
+        
+            <footer class="w-full min-h-[400px] bg-[url('/static/images/logo/torch.svg')] bg-no-repeat bg-[length:270%] bg-[position:13%_75%] flex flex-col justify-between pt-4 sm:pt-16 border-t border-clear-gray">
+    <div class="px-4 py-2">
+        <div class="lg:w-[1000px] flex flex-col sm:flex-row justify-between gap-4 sm:gap-20 m-auto">
+            <!-- Info Column -->
+            <div class="basis-2/4">
+                <p class="text-4.5xl font-light font-roboto">TU Delft Repository</p>
+                <div class="py-4 sm:p-4 sm:pl-3 mt-4">The TU Delft Repository is a digital repository for TU Delft’s research and a
+                    service provided by the
+                    TU Delft Library.
+                </div>
+            </div>
+            <!-- Contact -->
+            <div class="flex flex-row grow gap-20 pb-4 sm:pb-0">
+                <div class="basis-1/2 pt-4">
+                    <div>
+                        <p class="mb-1">Building 21</p>
+                        <p class="mb-1">Prometheusplein 1</p>
+                        <p class="mb-1">2628ZC Delft</p>
+                        <p class="mb-1">
+                            <a href="mailto:library@tudelft.nl" class="hover:underline">
+                                library@tudelft.nl
+                            </a>
+                        </p>
+                        <p class="mb-1">+31 (0)15 27 85678</p>
+                    </div>
+                </div>
+                <!-- Navigation -->
+                <div class="basis-1/2 pt-2">
+                    <h2 class="text-2xl font-roboto mb-4">Navigation</h2>
+                    <nav class="flex flex-col space-y-1.5">
+                        <a class="hover:underline" href="/" title="Home repository">Home</a>
+                        <a class="hover:underline" href="/content-in-the-repository" title="FAQ">About</a>
+                        <a class="hover:underline" href="/search?" title="Search">Search</a>
+                        <a class="hover:underline" href="/upload-content" title="Upload Content">Upload Content</a>
+                        <a class="hover:underline" href="/contact" title="Contact">Contact</a>
+                        <a class="hover:underline" href="/faq" title="FAQ">FAQ</a>
+                    </nav>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="px-4 py-2 bg-darkmode-black">
+        <div class="lg:w-[1000px] flex flex-row justify-between m-auto items-center">
+            <div class="flex flex-row space-x-4 justify-between items-center">
+                <div class="w-20 pb-4">
+                    <a href="/"><img class="logo" src="/static/images/logo/tudelft_logo.svg" alt="TU Delft"></a>
+                </div>
+                <div class="w-px h-10 bg-white "></div>
+                <div>
+                    <a href="https://www.tudelft.nl/library" target="_blank"
+                       class="hover:underline text-white">Library</a>
+                </div>
+            </div>
+            <nav class="flex flex-row space-x-4 text-white">
+                <a class="hover:underline sm:hidden" href="/" title="Home repository">Home</a>
+                <a class="hover:underline hidden sm:inline-block" href="/" title="Home repository">Home (Repository)</a>
+                <a class="hover:underline" href="/record/uuid:f116c1eb-35ca-4ecb-a58f-37ae764280e8" title="Search">Privacy</a>
+                <a class="hover:underline" href="/contact" title="Contact">Contact</a>
+            </nav>
+        </div>
+    </div>
+</footer>
+        
+    </footer>
+
+</div>
+
+<!-- Javascript -->
+
+
+
+<script src="/static/js/common/search/filters.js"></script> <!-- need to remove -->
+<script src="/static/js/common/form/buttons.js"></script> <!-- need to remove -->
+<script src="/static/js/common/search/pagination.js"></script> <!-- need to remove -->
+<script src="/static/js/script.js"></script> <!-- need to remove -->
+</body>
+</html>

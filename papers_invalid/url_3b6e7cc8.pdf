@@ -1,0 +1,1928 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+	<meta name=renderer  content=webkit>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+    <title>Remaining useful life prediction of the lithium-ion battery based on CNN-LSTM fusion model and grey relational analysis</title>
+	    <meta name="_sowise_journalid" content="293126"/>
+	<meta name="WT.cg_n" content="Electronic Research Archive"/>
+    	<meta name="prism.issn" content="2688-1594"/>
+	<meta name="citation_issn" content="2688-1594"/>
+		<meta name="journal_id" content="126"/>
+	<meta name="dc.title" content="Remaining useful life prediction of the lithium-ion battery based on CNN-LSTM fusion model and grey relational analysis"/>
+
+	<meta name="dc.source" content="Electronic Research Archive 2023 2:633"/>
+	<meta name="dc.format" content="text/html"/>
+	
+	<meta name="dc.type" content="OriginalPaper"/>
+	<meta name="prism.section" content="OriginalPaper"/>
+	<meta name="prism.publicationName" content="Electronic Research Archive"/>
+		<meta name="dc.date" content=""/>
+	<meta name="dc.language" content="en"/>
+	<meta name="dc.copyright" content="2023 The Author(s)"/>
+		<meta name="dc.rightsAgent" content="era@aimspress.org"/>
+	<meta name="prism.rightsAgent" content="era@aimspress.org"/>
+			<meta name="dc.description" content="&lt;abstract&gt;
+
+&lt;p&gt;The performance of lithium-ion batteries will decline dramatically with the increase in usage time, which will cause anxiety in using lithium-ion batteries. Some data-driven models have been employed to predict the remaining useful life (RUL) model of lithium-ion batteries. However, there are limitations to the accuracy and applicability of traditional machine learning models or just a single deep learning model. This paper presents a fusion model based on convolutional neural network (CNN) and long short-term memory network (LSTM), named CNN-LSTM, to measure the RUL of lithium-ion batteries. Firstly, this model uses the grey relational analysis to extract the main features affecting the RUL as the health index (HI) of the battery. In addition, the fusion model can capture the non-linear characteristics and time-space relationships well, which helps find the capacity decay and failure threshold of lithium-ion batteries. The experimental results show that: 1) Traditional machine learning is less effective than LSTM. 2) The CNN-LSTM fusion model is superior to the single LSTM model in predicting performance. 3) The proposed model is superior to other comparable models in error indexes, which could reach 0.36% and 0.38e-4 in mean absolute percentage error (MAPE) and mean square error (MSE), respectively. 4) The proposed model can accurately find the failure threshold and the decay fluctuation for the lithium-ion battery.&lt;/p&gt;
+
+	      &lt;/abstract&gt;"/>
+	<meta name="og:description" content="The performance of lithium-ion batteries will decline dramatically with the increase in usage time, which will cause anxiety in using lithium-ion batteries. Some data-driven models have been employed to predict the remaining useful life (RUL) model of lithium-ion batteries. However, there are limitations to the accuracy and applicability of traditional machine learning models or just a single deep learning model. This paper presents a fusion model based on convolutional neural network (CNN) and long short-term memory network (LSTM), named CNN-LSTM, to measure the RUL of lithium-ion batteries. Firstly, this model uses the grey relational analysis to extract the main features affecting the RUL as the health index (HI) of the battery. In addition, the fusion model can capture the non-linear characteristics and time-space relationships well, which helps find the capacity decay and failure threshold of lithium-ion batteries. The experimental results show that: 1) Traditional machine learning is less effective than LSTM. 2) The CNN-LSTM fusion model is superior to the single LSTM model in predicting performance. 3) The proposed model is superior to other comparable models in error indexes, which could reach 0.36% and 0.38e-4 in mean absolute percentage error (MAPE) and mean square error (MSE), respectively. 4) The proposed model can accurately find the failure threshold and the decay fluctuation for the lithium-ion battery."/>
+	<meta name="description" content="&lt;abstract&gt;
+
+&lt;p&gt;The performance of lithium-ion batteries will decline dramatically with the increase in usage time, which will cause anxiety in using lithium-ion batteries. Some data-driven models have been employed to predict the remaining useful life (RUL) model of lithium-ion batteries. However, there are limitations to the accuracy and applicability of traditional machine learning models or just a single deep learning model. This paper presents a fusion model based on convolutional neural network (CNN) and long short-term memory network (LSTM), named CNN-LSTM, to measure the RUL of lithium-ion batteries. Firstly, this model uses the grey relational analysis to extract the main features affecting the RUL as the health index (HI) of the battery. In addition, the fusion model can capture the non-linear characteristics and time-space relationships well, which helps find the capacity decay and failure threshold of lithium-ion batteries. The experimental results show that: 1) Traditional machine learning is less effective than LSTM. 2) The CNN-LSTM fusion model is superior to the single LSTM model in predicting performance. 3) The proposed model is superior to other comparable models in error indexes, which could reach 0.36% and 0.38e-4 in mean absolute percentage error (MAPE) and mean square error (MSE), respectively. 4) The proposed model can accurately find the failure threshold and the decay fluctuation for the lithium-ion battery.&lt;/p&gt;
+
+	      &lt;/abstract&gt;"/>
+		<meta name="prism.publicationDate" content=""/>
+	<meta name="prism.volume" content="31"/>
+	<meta name="prism.number" content="era-31-02-031"/>
+	
+	<meta name="prism.startingPage" content="633"/>
+	<meta name="prism.endingPage" content="655"/>
+	<meta name="prism.copyright" content="2023 The Author(s)"/>
+	
+	<meta name="prism.url" content="http://www.aimspress.com/article/doi/10.3934/era.2023031"/>
+	<meta name="prism.doi" content="doi:10.3934/era.2023031"/>
+	<meta name="citation_pdf_url" content="http://www.aimspress.com/article/doi/10.3934/era.2023031"/>
+	<meta name="citation_fulltext_html_url" content="http://www.aimspress.com/article/doi/10.3934/era.2023031"/>
+	<meta name="citation_journal_title" content="Electronic Research Archive"/>
+	<meta name="citation_journal_abbrev" content="era"/>
+	
+	<meta name="citation_title" content="Remaining useful life prediction of the lithium-ion battery based on CNN-LSTM fusion model and grey relational analysis"/>
+	<meta name="citation_volume" content="31"/>
+	<meta name="citation_issue" content="2"/>
+	<meta name="citation_online_date" content=""/>
+	<meta name="citation_firstpage" content="633"/>
+	<meta name="citation_lastpage" content="655"/>
+	<meta name="citation_article_type" content="Article"/>
+	<meta name="citation_fulltext_world_readable" content=""/>
+	<meta name="citation_language" content="en"/>
+	<meta name="dc.identifier" content="doi:10.3934/era.2023031"/>
+	<meta name="DOI" content="10.3934/era.2023031"/>
+	<meta name="citation_doi" content="10.3934/era.2023031"/>
+	<meta name="dc.subject" content="Research article"/>
+	<!-- more author -->
+		<meta name="dc.creator" content="Dewang Chen"/>
+		<meta name="dc.creator" content="Xiaoyu Zheng"/>
+		<meta name="dc.creator" content="Ciyang Chen"/>
+		<meta name="dc.creator" content="Wendi Zhao"/>
+		<!-- more refers -->
+				<meta name="citation_reference" content="C. Depcik, T. Cassady, B. Collicott, S. P. Burugupally, J. Hobeck, Comparison of lithium-ion ion batteries, hydrogen fueled combustion Engines, and a hydrogen fuel cell in powering a small Unmanned Aerial Vehicle, &lt;i&gt;Energy Convers. Manage.&lt;/i&gt;, &lt;b&gt;207&lt;/b&gt; (2020), 112514. https://doi.org/10.1016/j.enconman.2020.112514"/>
+					<meta name="citation_reference" content="M. Chen, G. Rincon-Mora, Accurate electrical battery model capable of predicting runtime and &#8544;&#8211;&#8548; performance, &lt;i&gt;IEEE Trans. Power Syst.&lt;/i&gt;,  &lt;b&gt;21&lt;/b&gt; (2006), 504&#8211;511. https://doi.org/10.1109/TEC.2006.874229"/>
+					<meta name="citation_reference" content="J. B. Goodenough, K. S. Park, The li-ion rechargeable battery: A perspective, &lt;i&gt;J. Am. Chem. Soc&lt;/i&gt;., &lt;b&gt;135&lt;/b&gt; (2013), 1167&#8211;1176. https://doi.org/10.1021/ja3091438"/>
+					<meta name="citation_reference" content="Z. Liu, B. He, Z. Zhang, W. Deng, D. Dong, S. Xia, et al., Lithium/graphene composite anode with 3D structural LiF protection layer for high-performance lithium metal batteries, &lt;i&gt;ACS Appl. Mater. Interfaces.&lt;/i&gt;, &lt;b&gt;14&lt;/b&gt; (2022), 2871&#8211;2880. https://doi.org/10.1021/acsami.1c21263"/>
+					<meta name="citation_reference" content="A. Attanayaka, J. Karunadasa, K. Hemapala, Estimation of state of charge for lithium-ion batteries-A review, &lt;i&gt;AIMS Energy&lt;/i&gt;, &lt;b&gt;7&lt;/b&gt; (2019), 186&#8211;210. https://doi.org/10.3934/energy.2019.2.186"/>
+					<meta name="citation_reference" content="A. Basia, Z. Simeu-Abazi, E. Gascard, P. Zwolinski, Review on state of health estimation methodologies for lithium-ion batteries in the context of circular economy, &lt;i&gt;CIRP J. Manuf. Sci. Technol&lt;/i&gt;., &lt;b&gt;32&lt;/b&gt; (2021), 517&#8211;528. https://doi.org/10.1016/j.cirpj.2021.02.004"/>
+					<meta name="citation_reference" content="C. Julien, A. Mauger, A. Abdel-Ghany, A. Hashem, K. Zaghib, Smart materials for energy storage in Li-ion batteries, &lt;i&gt;AIMS Mater. Sci.&lt;/i&gt;, &lt;b&gt;3&lt;/b&gt; (2016), 137&#8211;148. https://doi.org/10.3934/matersci.2016.1.137"/>
+					<meta name="citation_reference" content="M. Ge, Y. Liu, X. Jiang, J. Liu, A review on state of health estimations and remaining useful life prognostics of lithium-ion batteries, &lt;i&gt;Measurement&lt;/i&gt;, &lt;b&gt;174&lt;/b&gt; (2021), 109057. https://doi.org/10.1016/j.measurement.2021.109057"/>
+					<meta name="citation_reference" content="C. Hu, B. Youn, P. Wang, J. K. Yoon, Ensemble of data-driven prognostic algorithms for robust prediction of remaining useful life, &lt;i&gt;Reliab. Eng. Syst. Saf.&lt;/i&gt;, &lt;b&gt;103&lt;/b&gt; (2012), 120&#8211;135. https://doi.org/10.1016/j.ress.2012.03.008"/>
+					<meta name="citation_reference" content="S. Jarid, M. Das, An electro-thermal model based fast optimal charging strategy for lithium-ion batteries, &lt;i&gt;AIMS Energy,&lt;/i&gt;  &lt;b&gt;9&lt;/b&gt; (2021), 915&#8211;933. https://doi.org/10.3934/energy.2021043"/>
+					<meta name="citation_reference" content="G. Ma, Y. Zhang, C. Cheng, B. Zhou, P. Hu, Y. Yuan, Remaining useful life prediction of lithium-ion batteries based on false nearest neighbors and a hybrid neural network,  &lt;i&gt;Appl. Energy&lt;/i&gt;, &lt;b&gt;253&lt;/b&gt; (2019), 113626. https://doi.org/10.1016/j.apenergy.2019.113626"/>
+					<meta name="citation_reference" content="L. Wu, X. Fu, Y. Guan, Review of the remaining useful life prognostics of vehicle lithium-ion batteries using data-driven methodologies, &lt;i&gt;Appl. Sci.&lt;/i&gt;, &lt;b&gt;6&lt;/b&gt; (2016), 166. https://doi.org/10.3390/app6060166"/>
+					<meta name="citation_reference" content="A. Nuhic, T. Terzimehic, T. Soczka-Guth, M. Buchholz, K. Dietmayer, Health diagnosis and remaining useful life prognostics of lithium-ion batteries using data-driven methods, &lt;i&gt;J. Power Sources&lt;/i&gt;, &lt;b&gt;239&lt;/b&gt; (2013), 680&#8211;688. https://doi.org/10.1016/j.jpowsour.2012.11.146"/>
+					<meta name="citation_reference" content="S. Wang, S. Jin, D. Bai, Y. Fan, H. Shi, C. Fernandez, A critical review of improved deep learning methods for the remaining useful life prediction of lithium-ion batteries, &lt;i&gt;Energy Rep.&lt;/i&gt;, &lt;b&gt;7&lt;/b&gt; (2021), 5562&#8211;5574. https://doi.org/10.1016/j.egyr.2021.08.182"/>
+					<meta name="citation_reference" content="N. Khare, P. Singh, J. K. Vassiliou, A novel magnetic field prob-ing technique for determining state of health of sealed lead-acid batteries, &lt;i&gt;J. Power Sources&lt;/i&gt;, &lt;b&gt;218&lt;/b&gt; (2012), 462&#8211;473. https://doi.org/10.1016/j.jpowsour.2012.06.085"/>
+					<meta name="citation_reference" content="A. Mevawalla, Y. Shabeer, M. K. Tran, S. Panchal, M. Fowler, R. Fraser, Thermal modelling utilizing multiple experimentally measurable parameters, &lt;i&gt;Batteries&lt;/i&gt;, &lt;b&gt;8&lt;/b&gt; (2022), 147. https://doi.org/10.3390/batteries8100147"/>
+					<meta name="citation_reference" content="Y. Wang, D. Dan, Y. Zhang, Y. Qian, S. Panchal, M. Fowler, et al., A novel heat dissipation structure based on flat heat pipe for battery thermal management system, &lt;i&gt;Int. J. Energy Res.&lt;/i&gt;, &lt;b&gt;46&lt;/b&gt; (2022), 15961&#8211;15980. https://doi.org/10.1002/er.8294"/>
+					<meta name="citation_reference" content="Y. Xie, W. Li, X. Hu, M. K. Tran, S. Panchal, M. Fowler, et al., Co-estimation of SOC and three-dimensional SOT for lithium-ion batteries based on distributed spatial-temporal online correction, &lt;i&gt;IEEE Trans. Ind. Electron.&lt;/i&gt;, &lt;b&gt;2022&lt;/b&gt; (2022), 1&#8211;10. https://doi.org/10.1109/TIE.2022.3199905"/>
+					<meta name="citation_reference" content="Y. Xing, N. Williard, K. L. Tsui, M. Pecht, A comparative review of prognostics-based reliability methods for Lithium batteries, in &lt;i&gt;2011 Prognostics and System Health Managment Confernece&lt;/i&gt;, 2011. &lt;a href=&quot;https://doi.org/10.1109/PHM.2011.5939585&quot; target=&quot;_blank&quot;&gt;https://doi.org/10.1109/PHM.2011.5939585&lt;/a&gt;"/>
+					<meta name="citation_reference" content="D. Wang, F. Yang, K. L. Tsui, Q. Zhou, B. S. Bae, Remaining useful life prediction of lithium-ion batteries based on spherical cubature particle filter,  &lt;i&gt;IEEE Trans. Instrum. Meas.&lt;/i&gt;, &lt;b&gt;65&lt;/b&gt; (2016), 1282&#8211;1291. https://doi.org/10.1109/TIM.2016.2534258"/>
+					<meta name="citation_reference" content="M. K. Tran, A. DaCosta, A. Mevawalla, S. Panchal, M. Fowler, Comparative study of equivalent circuit models performance in four common lithium-ion batteries: LFP, NMC, LMO, NCA, &lt;i&gt;Batteries&lt;/i&gt;, &lt;b&gt;7&lt;/b&gt; (2021), 51. https://doi.org/10.3390/batteries7030051"/>
+					<meta name="citation_reference" content="Z. Lyu, R. Gao, L. Chen, Li-ion battery state of health estimation and remaining useful life prediction through a model-data-fusion method, &lt;i&gt;IEEE Trans. Power Electron.&lt;/i&gt;, &lt;b&gt;36&lt;/b&gt; (2021), 6228&#8211;6240. https://doi.org/10.1109/TPEL.2020.3033297"/>
+					<meta name="citation_reference" content="S. Wang, P. Ren, P. Takyi-Aninakwa, S. Jin, C. Fernandez, A critical review of improved deep convolutional neural network for multi-timescale state prediction of lithium-ion batteries, &lt;i&gt;Energies&lt;/i&gt;, &lt;b&gt;15&lt;/b&gt; (2022), 5053. https://doi.org/10.3390/en15145053"/>
+					<meta name="citation_reference" content="S. Jin, X. Sui, X. Huang, S. Wang, R. Teodorescu, D. I. Stroe, Overview of machine learning methods for lithium-ion battery remaining useful lifetime prediction, &lt;i&gt;Electronics&lt;/i&gt;, &lt;b&gt;10 (&lt;/b&gt;2021), 3126. https://doi.org/10.3390/electronics10243126"/>
+					<meta name="citation_reference" content="P. Khumprom, N. Yodo, A data-driven predictive prognostic model for lithium-ion batteries based on a deep learning algorithm, &lt;i&gt;Energies&lt;/i&gt;, &lt;b&gt;12&lt;/b&gt; (2019), 660. https://doi.org/10.3390/en12040660"/>
+					<meta name="citation_reference" content="L. Cai, J. Meng, D. I. Stroe, J. Peng, R. Teodorescu, Multi-objective optimization of data-driven model for lithium-ion battery SOH estimation with short-term feature,  &lt;i&gt;IEEE Trans. Power Electron.&lt;/i&gt;, &lt;b&gt;35&lt;/b&gt; (2020), 11855&#8211;11864. https://doi.org/10.1109/TPEL.2020.2987383"/>
+					<meta name="citation_reference" content="T. Qin, S. Zeng, J. Guo, Robust prognostics for state of health estimation of lithium-ion batteries based on an improved PSO-SVR model, &lt;i&gt;Microelectron&lt;/i&gt;. &lt;i&gt;Reliab.&lt;/i&gt;, &lt;b&gt;55&lt;/b&gt; (2015), 1280&#8211;1284. https://doi.org/10.1016/j.microrel.2015.06.133"/>
+					<meta name="citation_reference" content="Y. Cai, Y. Lin, Z. Deng, X. Zhao, D. Hao, Prediction of lithium-ion battery remaining useful life based on hybrid data-driven method with optimized parameter, in &lt;i&gt;2017 2nd International Conference on Power and Renewable Energy (ICPRE)&lt;/i&gt;, 2017. &lt;a href=&quot;https://doi.org/10.1109/ICPRE.2017.8390489&quot; target=&quot;_blank&quot;&gt;https://doi.org/10.1109/ICPRE.2017.8390489&lt;/a&gt;"/>
+					<meta name="citation_reference" content="B. Gou, Y. Xu, X. Feng, State-of-health estimation and remaining useful life prediction for lithium-ion battery using a hybrid data-driven method, &lt;i&gt;IEEE Trans. Veh. Technol.&lt;/i&gt;, &lt;b&gt;69&lt;/b&gt; (2020), 10854&#8211;10867. https://doi.org/10.1109/TVT.2020.3014932"/>
+					<meta name="citation_reference" content="G. Ma, Y. Zhang, C. Cheng, B. Zhou, Y. Yuan, Remaining useful life prediction of lithium-ion batteries based on false nearest neighbors and a hybrid neural network, &lt;i&gt;Appl. Energy&lt;/i&gt;, &lt;b&gt;253&lt;/b&gt; (2019), 113626. https://doi.org/10.1016/j.apenergy.2019.113626"/>
+					<meta name="citation_reference" content="Y. Zhang, R. Xiong, H. He, M. Pecht, Long short-term memory recurrent neural network for remaining useful life prediction of lithium-ion batteries,  &lt;i&gt;IEEE Trans. Veh. Technol.&lt;/i&gt;,  &lt;b&gt;67&lt;/b&gt; (2018), 5695&#8211;5705. https://doi.org/10.1109/TVT.2018.2805189"/>
+					<meta name="citation_reference" content="S. Yal&#231;&#305;n, S. Panchal, M. S. Herdem, A CNN-ABC model for estimation and optimization of heat generation rate and voltage distributions of lithium-ion batteries for electric vehicles,  &lt;i&gt;Int. J. Heat Mass. Tran.&lt;/i&gt;, &lt;b&gt;199&lt;/b&gt; (2022), 123486. https://doi.org/10.1016/j.ijheatmasstransfer.2022.123486"/>
+					<meta name="citation_reference" content="F. Wang, Z. Zhao, J. Ren, Z. Zhai, S. Wang, X. Chen, A transferable lithium-ion battery remaining useful life prediction method from cycle-consistency of degradation trend, &lt;i&gt;J. Power Sources&lt;/i&gt;, &lt;b&gt;521&lt;/b&gt; (2022), 230975. https://doi.org/10.1016/j.jpowsour.2022.230975"/>
+					<meta name="citation_reference" content="S. Wang, P. Takyi-Aninakwa, S. Jin, C. Yu, C. Fernandez, D. I. Stroe, An improved feedforward-long short-term memory modeling method for the whole-life-cycle state of charge prediction of lithium-ion batteries considering current-voltage-temperature variation, &lt;i&gt;Energy&lt;/i&gt;, &lt;b&gt;254&lt;/b&gt; (2022), 124224. https://doi.org/10.1016/j.energy.2022.124224"/>
+					<meta name="citation_reference" content="M. Xia, X. Zheng, M. Imran, M. Shoaib, Data-driven prognosis method using hybrid deep recurrent neural network, &lt;i&gt;Appl. Soft Comput&lt;/i&gt;., &lt;b&gt;93&lt;/b&gt; (2020), 106351. https://doi.org/10.1016/j.asoc.2020.106351"/>
+					<meta name="citation_reference" content="A. Kara, A data-driven approach based on deep neural networks for lithium-ion battery prognostics,  &lt;i&gt;Neural Comput. Appl.&lt;/i&gt;, &lt;b&gt;33&lt;/b&gt; (2021), 13525&#8211;13538. https://doi.org/10.1007/s00521-021-05976-x"/>
+					<meta name="citation_reference" content="C. Wang, N. Lu, S. Wang, Y. Cheng, B. Jiang, Dynamic long short-term memory neural-network-based indirect remaining-useful-life prognosis for satellite lithium-ion battery, &lt;i&gt;Appl. Sci.&lt;/i&gt;,  &lt;b&gt;8 (&lt;/b&gt;2018), 2078. https://doi.org/10.3390/app8112078"/>
+					<meta name="citation_reference" content="P. Li, Z. Zhang, Q. Xiong, B. Ding, S. Li, State-of-health estimation and remaining useful life prediction for the lithium-ion battery based on a variant long short term memory neural network, &lt;i&gt;J. Power Sources&lt;/i&gt;, &lt;b&gt;459&lt;/b&gt; (2020), 228069. https://doi.org/10.1016/j.jpowsour.2020.228069"/>
+					<meta name="citation_reference" content="M. Geraldi, E. Ghisi, Data-driven framework towards realistic bottom-up energy benchmarking using an Artificial Neural Network, &lt;i&gt;Appl. Energy&lt;/i&gt;, &lt;b&gt;306&lt;/b&gt; (2022), 117960. https://doi.org/10.1016/j.apenergy.2021.117960"/>
+					<meta name="citation_reference" content="R. Lei, Z. Li, H. Sheng, S. Zhao, W. Hao, Z. Lin, Remaining useful life prediction for lithium-ion battery: A deep learning approach,  &lt;i&gt;IEEE Access&lt;/i&gt;, &lt;b&gt;6&lt;/b&gt; (2018), 50587&#8211;50598. https://doi.org/10.1109/ACCESS.2018.2858856"/>
+					<meta name="citation_reference" content="N. Harting, R. Schenkendorf, N. Wolff, U. Krewer, State-of-health identification of lithium-ion batteries based on nonlinear frequency response analysis: First steps with machine learning, &lt;i&gt;Appl. Sci.&lt;/i&gt;, &lt;b&gt;8&lt;/b&gt; (2018), 821. https://doi.org/10.3390/app8050821"/>
+					<meta name="citation_reference" content="B. Zraibi, C. Okar, H. Chaoui, M. Mansouri, Remaining useful life assessment for lithium-ion batteries using CNN-LSTM-DNN hybrid method,  &lt;i&gt;IEEE Trans. Veh. Technol.&lt;/i&gt;, &lt;b&gt;70&lt;/b&gt; (2021), 4252&#8211;4261. https://doi.org/10.1109/TVT.2021.3071622"/>
+					<meta name="citation_reference" content="Y. Anagun, S. Isik, E. Seke, SRLibrary: Comparing different loss functions for super-resolution over various convolutional architectures,  &lt;i&gt;J. Visual Commun. Image Represent.&lt;/i&gt;, &lt;b&gt;61&lt;/b&gt; (2019), 178&#8211;187. https://doi.org/10.1016/j.jvcir.2019.03.027"/>
+					<meta name="citation_reference" content="Y. Zhou, M. Huang, Lithium-ion batteries remaining useful life prediction based on a mixture of empirical mode decomposition and ARIMA model, &lt;i&gt;Microelectron. Reliab.&lt;/i&gt;, &lt;b&gt;65&lt;/b&gt; (2016), 265&#8211;273. https://doi.org/10.1016/j.microrel.2016.07.151"/>
+					<meta name="citation_reference" content="R. Sekhar, P. Shah, S. Panchal, M. Fowler, R. Fraser, Distance to empty soft sensor for ford escape electric vehicle, &lt;i&gt;Results Control Optim.&lt;/i&gt;, &lt;b&gt;9&lt;/b&gt; (2022), 100168, https://doi.org/10.1016/j.rico.2022.100168"/>
+					<meta name="citation_reference" content="M. Li, J. Lu, Z. Chen, K. Amine, 30 years of lithium-ion batteries, &lt;i&gt;Adv. Mater.&lt;/i&gt;, &lt;b&gt;30&lt;/b&gt; (2018), 1800561. https://doi.org/10.1002/adma.201800561"/>
+					<meta name="citation_reference" content="M. M. Kabir, D. E. Demirocak, Degradation mechanisms in Li-ion batteries: a state-of-the-art review, &lt;i&gt;Int. J. Energy Res.&lt;/i&gt;, &lt;b&gt;41&lt;/b&gt; (2017), 1963&#8211;1986. https://doi.org/10.1002/er.3762"/>
+					<meta name="citation_reference" content="J. Vetter, P. Nov&#225;k, M. R. Wagner, C. Veit, K. C. M&#246;ller, J. O. Besenhard, et al., Ageing mechanisms in lithium-ion batterie, &lt;i&gt;J. Power Sources&lt;/i&gt;, &lt;b&gt;147&lt;/b&gt; (2005), 269&#8211;281. https://doi.org/10.1016/j.jpowsour.2005.01.006"/>
+					<meta name="citation_reference" content="B. Saha, K. Goebel, Battery data set, in &lt;i&gt;NASA Ames Prognostics Data Repository&lt;/i&gt;, 2007. Available from: &lt;a href=&quot;http://ti.arc.nasa.gov/project/prognostic-data-repository&quot; target=&quot;_blank&quot;&gt;http://ti.arc.nasa.gov/project/prognostic-data-repository&lt;/a&gt;."/>
+					<meta name="citation_reference" content="L. Alzubaidi, J. Zhang, A. J. Humaidi, A. Al-Dujaili, Y. Duan, O. Al-Shamma, et al., Review of deep learning: Concepts, CNN architectures, challenges, applications, future directions, &lt;i&gt;J. Big Data&lt;/i&gt;, &lt;b&gt;8&lt;/b&gt; (2021), 1&#8211;74. https://doi.org/10.1186/s40537-021-00444-8"/>
+					<meta name="citation_reference" content="D. Yao, B. Li, H. Liu, J. Yang, L. Jia, Remaining useful life prediction of roller bearings based on improved 1D-CNN and simple recurrent unit, &lt;i&gt;Measurement&lt;/i&gt;, &lt;b&gt;175&lt;/b&gt; (2021), 109166. https://doi.org/10.1016/j.measurement.2021.109166"/>
+					<meta name="citation_reference" content="A. Sherstinsky, Fundamentals of recurrent neural network (RNN) and long short-term memory (LSTM) network, &lt;i&gt;Physica D&lt;/i&gt;, &lt;b&gt;404&lt;/b&gt; (2020), 132306. https://doi.org/10.1016/j.physd.2019.132306"/>
+					<meta name="citation_reference" content="Z. Shi, A. Chehade, A dual-LSTM framework combining change point detection and remaining useful life prediction, &lt;i&gt;Reliab. Eng. Syst. Saf.&lt;/i&gt;, &lt;b&gt;205&lt;/b&gt; (2021), 107257. https://doi.org/10.1016/j.ress.2020.107257"/>
+					<meta name="citation_reference" content="Y. Choi, S. Ryu, K. Park, H. Kim, Machine learning-based lithium-ion battery capacity estimation exploiting multi-channel charging profiles,  &lt;i&gt;IEEE Access&lt;/i&gt;, &lt;b&gt;7&lt;/b&gt; (2019), 75143&#8211;75152. https://doi.org/10.1109/ACCESS.2019.2920932"/>
+					<meta name="citation_reference" content="X. Hu, J. Jiang, D. Cao, B. Egardt, Battery health prognosis for electric vehicles using sample entropy and sparse bayesian predictive modeling, &lt;i&gt;IEEE Trans. Ind. Electron.&lt;/i&gt;, &lt;b&gt;63&lt;/b&gt; (2016), 2645&#8211;2656. https://doi.org/10.1109/TIE.2015.2461523"/>
+			<!-- more author-->
+		<meta name="citation_author" content="Dewang Chen"/>
+		<meta name="citation_author" content="Xiaoyu Zheng"/>
+		<meta name="citation_author" content="Ciyang Chen"/>
+		<meta name="citation_author" content="Wendi Zhao"/>
+		<!-- more addiliations -->
+		<meta name="citation_author_institution" content="School of Transportation, Fujian University of Technology, Fuzhou 350118, China"/>
+		<meta name="citation_author_institution" content="State Key Laboratory of Management and Control for Complex Systems, Institute of Automation, Chinese Academy of Sciences, Beijing 100190, China"/>
+		<meta name="citation_author_institution" content="Fujian Rural Credit Union, Fuzhou 350003, China"/>
+		<meta name="access_endpoint" content="http://www.aimspress.com/"/>
+	<meta name="twitter:site" content="@Electronic Research Archive"/>
+	<meta name="twitter:card" content="summary"/>
+	<meta name="twitter:image:alt" content="Content cover image"/>
+	<meta name="WT.z_cc_license_type" content="cc_by"/>
+	<meta name="WT.z_primary_atype" content="Electronic Research Archive"/>
+	<meta name="WT.z_subject_term" content="Research article"/>
+	<meta name="WT.z_subject_term_id" content="Research article"/>
+	<meta property="og:url" content="http://www.aimspress.com/article/doi/10.3934/era.2023031"/>
+	<meta property="og:type" content="article"/>
+	<meta property="og:site_name" content="Electronic Research Archive"/>
+	<meta property="og:title" content="Remaining useful life prediction of the lithium-ion battery based on CNN-LSTM fusion model and grey relational analysis"/>
+																																																																							<meta property="og:image" content="http://www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g001.jpg"/>
+	
+	<!-- SoWise SEO 2019-9-6 -->
+	<meta name="citation_title" content="Remaining useful life prediction of the lithium-ion battery based on CNN-LSTM fusion model and grey relational analysis" />
+		<meta name="citation_author" content="Dewang Chen" />
+		<meta name="citation_author" content="Xiaoyu Zheng" />
+		<meta name="citation_author" content="Ciyang Chen" />
+		<meta name="citation_author" content="Wendi Zhao" />
+		<meta name="citation_keywords" content="lithium-ion battery, remaining useful life prediction, convolutional neural network, long short-term memory network, fusion model, " />
+	<meta name="citation_year" content="2023"/>
+	<meta name="citation_volume" content="31"/> 
+	<meta name="citation_issue" content="2"/>
+	<meta name="citation_firstpage" content="633"/>
+	<meta name="citation_lastpage" content="655"/>
+	<meta name="citation_doi" content="10.3934/era.2023031"/>
+	<meta name="citation_id" content="63736f6dba35de77c348c7c1"/>
+	<meta name="citation_state" content="" />
+	
+   
+    <link type="text/css" href="/style/web/images/custom/favicon.ico" rel="shortcut icon" />
+    <link rel="stylesheet" href="/style/web/css/common/bootstrap.min.css">
+	<link rel="stylesheet" href="/style/web/css/common/swiper.min.css">
+	<link rel="stylesheet" href="/style/web/css/common/iconfont.css">
+	<link rel="stylesheet" href="/style/web/css/common/font-awesome.min.css">
+	<link rel="stylesheet" href="/style/web/css/common/owl.carousel.css">
+	<link rel="stylesheet" href="/style/web/css/common/base.css">
+	<link rel="stylesheet" href="/style/web/css/common/media.css">
+	<link rel="stylesheet" href="/style/web/css/style.css">
+	<link rel="stylesheet" href="/style/web/css/common/jquery.mCustomScrollbar.css">
+	<link rel="stylesheet" href="/style/web/css/common/article_en.css">
+	<link rel="stylesheet" href="/style/web/css/common/imgShow.css">
+	<link rel="stylesheet" href="/style/web/css/common/articleFont.css">
+	<link rel="stylesheet" href="/style/web/css/en/tpl5/style.css">
+	<link rel="stylesheet" href="/style/web/css/en/main.css">
+	
+	<script src="/style/web/js/common/jquery-1.11.2.min.js"></script>
+<script src="/style/web/js/common/bootstrap.min.js"></script>
+<script src="/style/web/js/common/swiper.min.js"></script>
+<script src="/style/web/js/common/jquery.colorbox.js"></script>
+<script src="/style/web/js/common/jquery.nicescroll.js"></script>
+<script src="/style/web/js/common/angular.min.js"></script>
+<script src="/style/web/js/common/angular-sanitize.min.js"></script>
+<script src="/style/web/js/common/wui-date.js"></script>
+<script src="/style/web/js/common/ng-infinite-scroll.min.js"></script>
+<script src="/style/web/js/common/rhhz.js"></script>
+<script src="/style/web/js/common/dataloading_news.js"></script>
+<script src="/style/web/js/common/dataloading_article.js"></script>
+<script src="/style/web/js/common/dataloading_filter.js"></script>
+<script src="/style/web/js/common/dataloading_other.js"></script>
+<script src="/style/web/js/common/base.js"></script>
+<script src="/style/web/js/common/common.js"></script>
+<script src="/style/web/js/common/owl.carousel.js"></script>
+<script src="/style/web/js/common/respond.js"></script>
+<script src="/style/web/js/common/search.js"></script>
+<script src="/style/web/js/common/user.js"></script>	<script src="/style/web/highcharts/highcharts.js"></script>
+	<script src="/style/web/highcharts/modules/exporting.js"></script>
+	<script src="/style/web/js/common/better-scroll.js"></script>
+	<script src="/style/web/js/common/jquery.mCustomScrollbar.concat.min.js"></script>
+	<script src="/style/web/js/common/article.js"></script>
+	<script src="/style/web/js/common/article_en.js"></script>
+	<script src="/style/web/js/common/imgShow_en.js"></script>
+	<script src="/style/web/js/en/tpl5/index.js"></script>
+	<script src="/style/web/js/en/tpl5/main.js"></script>
+    <script type="text/javascript" src="/aimspress-upload/platformTools/js/MathJax-master/MathJax-2.7.0/MathJax.js?config=TeX-AMS-MML_SVG"></script> 
+<!--   <script type="text/javascript" src="http://aimspress.com/aimspress-upload/platformTools/js/MathJax-master/MathJax-2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script> -->
+	 
+	 	<!-- 2011到2015年是   用@渲染公式 -->
+				
+							<!-- 2020年之后  除了第三方 数据特殊  九个刊  ，剩余的都用$ 渲染了
+				<script type='text/x-mathjax-config'>MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$']]},"HTML-CSS": {linebreaks: { automatic: true},scale: 100}});</script> -->
+								<script type='text/x-mathjax-config'>
+MathJax.Hub.Config({
+       jax: ["input/MathML", "output/SVG"],
+       MathML: { useMathMLspacing: true},
+       extensions: ["mml2jax.js"],
+       showProcessingMessages: false,
+       TeX:{
+			extensions:["AMSmath.js","AMSsymbols.js"],
+			Macros:{Bigggl:['\\Biggl{#1}',2],Bigggr:['\\Biggr{#1}',2]}
+		},
+		tex2jax: {
+			  inlineMath: [['$','$'], ['\\(','\\)']],
+			  processEscapes: true,
+              processEnvironments: false,
+              preview: 'none'
+},
+		"HTML-CSS": {
+			linebreaks: { automatic: true },
+			availableFonts: ["STIX", "TeX"],
+			scale:100,
+			showMathMenu: true
+		},
+        CommonHTML: {
+            linebreaks: {
+                automatic: true,
+                width: 'container'
+            }
+        },
+        SVG: {
+            linebreaks: {
+                automatic: false
+            }
+        }
+});</script>
+					<script type='text/javascript' src='https://d1bxh8uas1mnw7.cloudfront.net/assets/embed.js'></script>
+	
+	<!-- <script src="/style/web/js/common/embed.js"></script> -->
+	<script>
+	  dataLayer = [];
+	</script>
+	
+	<!-- Google Tag Manager -->
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-K33SX87');</script>
+	<!-- End Google Tag Manager -->
+
+</head>
+								
+
+<body data-spy="scroll" data-target="#myScrollspy" class="articleBody  " >
+<input type="hidden" value="Electronic Research Archive" id="journalName"/>
+<input type="hidden" value="article" id="pageViewId" />
+<input type="hidden" value="63736f6dba35de77c348c7c1" id="articleId" />
+<input type="hidden" value="10.3934/era.2023031" id="articleDoi" />
+<input type="hidden" value="" id="htmlState" />
+<input type="hidden" value="" id="articleNum" />
+<input type="hidden" value="//www.aimspress.com" id="dataPath" />
+<input type="hidden" value="/aimspress-data/era/2023/2/PIC/" id="allSrc" />
+    <input hidden type="checkbox" checked id="reference" />
+
+
+
+<div ng-app="index">
+	<!--头部 开始 -->
+	<div id="common-top">
+	    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K33SX87"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div ng-controller="j-top-menu" >
+	<div class="header header-index bgwhite     ">
+		<div class="mid topfix header-nav">
+	        <div class="container clear">
+	            <a href="/" class="logo fl">
+	                <img src="/style/web/images/custom/index_logo.png" alt="">
+	            </a>
+	            <div class="logor fr">
+            		<div class="header-nav index-nav">
+					    <div class="clear">
+					    	 <ul class="clear fl i-top-menu top-menu">
+					    	 	<li><a href="/" >Home</a> </li>
+					        	<li type="{{newsColumn.abbreviation}}" ng-repeat="newsColumn in topMenus" ng-if="newsColumn.columnNewsShowLocation == '1' && newsColumn.abbreviation =='journals'" repeat-finish-light>
+						    		<a href="javascript:void(0);">
+						    			<i ng-bind-html="newsColumn.name"></i>
+	    								<span  ng-if="newsColumn.subColumns.length > 0"></span>
+	    								<span  ng-if="newsColumn.abbreviation == 'journals'"></span>
+						    		</a>
+						    		<ol class="data-show i-menu-journals  tpl5-journal" ng-if="newsColumn.abbreviation == 'journals'"></ol>
+						    	</li>
+					        </ul>
+					        <div class="shareBox fr" >
+						        <ul class="share-right clear ">
+						            <li class="share-facebook" onclick="shareTools('facebook');" title="share this content in facebook">
+						                <img src="/style/web/images/custom/share_facebook.png" alt="">
+						            </li>
+						            <li class="share-twitter" onclick="shareTools('twitter');" title="share this content in twitter">
+						                <img src="/style/web/images/custom/share_twitter.png" alt="">
+						            </li>
+						            <li class="share-linkedin" onclick="shareTools('linkedin');" title="share this content in linkedin">
+						                <img src="/style/web/images/custom/share_linkin.png" alt="">
+						            </li>
+						            <li class="share-mendeley" onclick="shareTools('mendeley');" title="share  this content in Mendeley">
+						                <img src="/style/web/images/custom/share_mendeley.png" alt="">
+						            </li>
+						            <li class="share-researchGate" onclick="shareTools('researchGate');" title="share this content in researchGate">
+						                <img src="/style/web/images/custom/share_researchGate.png" alt="">
+						            </li>
+						            						           <!--  <li onclick="shareTools('sina');" title="分享到微博"><img src="/style/web/images/custom/share_weibo.png"></li>
+						            <li class="weixin" title="分享到微信"><img src="/style/web/images/custom/share_weixin.png"></li>
+	                    			<li class="kongjian" title="分享到qq空间"><img src="/style/web/images/custom/share_qq.png"></li> -->
+						        </ul>
+						     </div>
+					    </div>
+					</div>
+		        </div>
+		    </div>
+		</div>
+	</div>
+	<div class="header-nav  ban-header-nav4">
+	    <div class="container clear">
+	        <ul class="nav-ul clear fl top-menu">
+	            <li type="{{newsColumn.abbreviation}}" ng-repeat="newsColumn in topMenus" ng-if="newsColumn.columnNewsShowLocation == '1' && newsColumn.abbreviation !='journals'">
+		    		<a href="{{newsColumn.links}}">
+		    			<i ng-bind-html="newsColumn.name"></i>
+		    			<span  ng-if="newsColumn.subColumns.length > 0"></span>
+		    		</a>
+		    		<ol class="data-show" ng-if="newsColumn.subColumns.length > 0">
+		    			<li ng-repeat="subColumn in newsColumn.subColumns" type="{{subColumn.abbreviation}}">
+		    				<a href="{{subColumn.links}}" target="_top">{{subColumn.name}}</a>
+		    			</li>
+		    		</ol>
+		    	</li>
+	        </ul>
+	    </div>
+	</div>
+	<!--手机菜单-->
+	<div class="phone-nav ban-phone-nav">
+	    <div class="container clear">
+	        <div class="navList fl">
+	            <span class="span1"></span>
+	            <span class="span2"></span>
+	            <span class="span3"></span>
+	        </div>
+	        <a href="/journal/era" class="logo fl">
+	            <p class="romal">Electronic Research Archive</p>
+	           <!--  <img src="/style/web/images/logo-new_03.png" alt=""> -->
+	        </a>
+	        <div class="search-app fr"></div>
+	    </div>
+	    <div class="search-app-wrap">
+	        <div class="container clear">
+	            <div class="left fl">
+	            	<form action="/search" method="POST" onsubmit="return checkSearch(this);" class="topSearchForm">
+		                <input type="text" name="q" placeholder="Search" class="fl text">
+		                <input type="hidden" name="language" value="en">
+		               	<input type="hidden" name="publisherId" value="era">
+		                <input type="submit" class="sub fl" value="">
+	                </form>
+	            </div>
+	            <a href="javascript:void(0);" onclick="advanceSearchEntrance();" class="gao fr">Search Advanced</a>
+	        </div>
+	    </div>
+	    <ul class="smallUl top-menu">
+	    	<li><a href="/">Home</a></li>
+	        <li type="{{newsColumn.abbreviation}}" ng-repeat="newsColumn in topMenus" ng-if="newsColumn.columnNewsShowLocation == '1'" repeat-finish-light>
+	    		<a href="{{newsColumn.links}}" >{{newsColumn.name}}</a>
+	    		<ol class="data-show i-menu-journals" ng-if="newsColumn.abbreviation == 'journals'"></ol>
+	    		<ol class="data-show" ng-if="newsColumn.subColumns.length > 0">
+	    			<li ng-repeat="subColumn in newsColumn.subColumns" type="{{subColumn.abbreviation}}">
+	    				<a href="{{subColumn.links}}" target="_top">{{subColumn.name}}</a>
+	    			</li>
+	    		</ol>
+	    	</li>
+	    </ul>
+	</div>
+</div>
+	</div>
+	<!-- 添加文章记录 -->
+	<script type="text/javascript">
+	$(document).ready(function () {
+		 //访问文章记录
+	    var articleId =  $("#articleId").val();
+	    if(!isNull(articleId)){
+		    //var nowUrl = window.location.href;
+			//var number = nowUrl.indexOf("viewType=HTML");
+			getVisitInfo(articleId,0);
+		}
+	});
+	</script>
+	<!--头部 结束-->
+	<!--底部暂时渲染在这-->
+	<div class="common-bottom" hidden>
+		
+
+
+<div class="footer ban-footer"  ng-controller="j-bottom-menu" >
+	<input type="hidden" id="language" value="en">
+	<input type="hidden" id="websitecn" value="">
+	<input type="hidden" id="websiteen" value="">
+	<input type="hidden" class="newsShow" value="publisherNews">
+			<input type="hidden" id="publisherId" value="era">
+		<input type="hidden" id="tplPath" value="en/tpl5">
+	   <div class="bottom-fixed"></div>
+   
+   <div class="top">
+       <ul class="clear">
+           <li ng-repeat="newsColumn in newsColumns">
+           	   <a href="{{newsColumn.links}}">{{newsColumn.name}}</a>
+           </li>
+       </ul>
+   </div>
+   <div class="bot">Copyright © AIMS Press</div>
+</div>
+<!-- <script src="//plugin.sowise.cn/sowise-plugin.js" custom-options="{'citedby':false,'suggest':false,'ipRecord':true,'journalId':999}"></script> -->
+
+<link rel="stylesheet" href="https://public.xml-journal.net/rh-public/css/rh-public.css">
+<script src="https://public.xml-journal.net/rh-public/js/rh-public.js"></script>
+
+
+	</div>
+</div>
+
+<!--电脑端 开始-->
+<div class="article-pc">
+<!-- 	<div class="article-header-new">
+	    <div class="inner clear">
+	        <ul class="fl">
+	        		            <li>
+	                <a href="javascript:void(0);" class="download-pdf" data="63736f6dba35de77c348c7c1"><i class="fa fa-file-pdf-o"></i><span>PDF</span></a>
+	            </li>
+	            	            <li>
+	                <a href="javascript:void(0);" data-target="#exportCitationModal" data-toggle="modal"><i class="fa fa-quote-left"></i><span>Cite</span></a>
+	            </li>
+	            <li>
+	                <a><i class="fa fa-share-alt"></i><span>Share</span></a>
+	                <dl>
+	                    <dd>
+	                        <a href="javascript:void(0);" onclick="shareTools('facebook');" title="share to facebook">facebook</a>
+	                    </dd>
+	                    <dd>
+	                        <a href="javascript:void(0);" onclick="shareTools('twitter');" title="share to twitter">twitter</a>
+	                    </dd>
+	                    <dd>
+	                        <a href="javascript:void(0);" onclick="shareTools('google+');" title="share to google">google</a>
+	                    </dd>
+	                    <dd>
+	                        <a href="javascript:void(0);" onclick="shareTools('linkedin');" title="share to linkedin">linkedin</a>
+	                    </dd>
+	                </dl>
+	            </li>
+	        </ul>
+	        <div class="article-search fr clear">
+	            <form  class="topSearchForm" id ="searchFormTop" action="/search" method="post" onsubmit="return checkSearch(this);" role="form">
+	                <select class="fl" name="searchField">
+	                    	                        <option value="">All</option>
+	                        <option value="titleEn">Title</option>
+	                        <option value="authors.authorNameEn">Author</option>
+	                        <option value="keywords.keywordEn">Keyword</option>
+	                        <option value="abstractinfoEn">Abstract</option>
+	                        <option value="doi">DOI</option>
+	                        <option value="classifyinfoEn">Category</option>
+	                        <option value="affiliations.affliEn">Address</option>
+	                        <option value="funds.fundsInfoEn">Fund</option>
+	                    	                </select>
+	                <input type="text" name="q" placeholder="Search" class="fl text input">
+	                <input name="language" type="hidden" value="en">
+	                <input name="publisherId" type="hidden" value="era">
+	                <input type="submit" class="sub fl" value="">
+	            </form>
+        	</div>
+    	</div>
+	</div> -->
+	<div class="article-main">
+			    <div class="inner clear content" style="position:relative;">
+	      <!--   <div class="article-main-left fl">
+	            <div class="wrapper">
+	            	            			            				<img src="//www.aimspress.com/aimspress-upload/journal/era/cover_202172162552724.png" alt="" style="max-width: 100%;">
+            				            		</a>
+	            		<a href="/era/article/2023/2/archive-articles" class="volume-issue__wrap">
+	            			2023
+	            				            				<span class="volume">Volume 31</span>
+	            				            			<span class="issue">Issue 2</span>
+	                   </a>
+	            		               
+	                <div class="content-nav">
+	                    <div class="contents-title">Article Contents</div>
+	                    <a class="switchFormula" href="javascript:void(0);" onclick="switchFormula();">Turn off MathJax</a>
+	                    <div class="Abstract-left-list">
+	                        <a href=""></a>
+	                    </div>
+	                    <div class="jumplink-list">
+	                    	
+	                    		
+	                    	
+	                    </div>
+	                    <div class="References-left-list">
+	                        <a href=""></a>
+	                    </div>
+	                    <div class="Supplements-left-list">
+	                        <a href=""></a>
+	                    </div>
+	
+	                </div>
+	            </div>
+	        </div> -->
+	        <div class="article-main-mid fl bgwhite gongshi">
+				<div class="clear">
+					<div class="article-journal fl" >
+	            		<h3 class="journal-con" ><a href="/journal/era" class="journal-tit">
+					     Electronic Research Archive
+		        		 </a></h3>
+		        		 
+		        		 <div  class="article-list-time">
+		        		 
+					        <font >  2023, 						        <span><a href="/era/article/archives" class="mainColor">Volume 31</a>, </span> <a href="/era/article/2023/2/archive-articles" class="mainColor">Issue 2</a><span>:</span>  <span>633-655</span>.					        </font>
+							<font>doi: <a href="https://doi.org/10.3934/era.2023031" target="_blank" class="mainColor">10.3934/era.2023031</a></font>					    </div>
+					    
+					    
+	            	</div>
+					<div class="fr changebtn" >
+																					<a href="/article/doi/10.3934/era.2023030" class="page-btn prev-page fl">Previous Article</a>
+														
+												
+																					<a href="/article/doi/10.3934/era.2023032" class="page-btn next-page fl">Next Article</a>
+																		</div>	
+				</div>
+	            <div class="article-left">
+	            	<div class="article-column ">
+	            	
+	            							<span class="columnli">Research article</span>
+										
+											<span class="columnli access">Special Issues</span>
+										
+						<!-- <span class="columnli access">
+							Open Access
+						</span> -->
+						<!-- <span class="columnli" id="article_special_show" hidden>
+							Special Issue
+						</span> -->
+					</div>
+	                <div class="articleEn">
+	                		                    <div class="article-title left-title">
+	                        <h1>Remaining useful life prediction of the lithium-ion battery based on CNN-LSTM fusion model and grey relational analysis</h1>
+	                        	                    </div>
+	                   
+	                    <ul class="article-author clear">
+	                    		                    		<li >
+	                    			<a href="javascript:void(0);" class="mainColor" data-relate="" data="{{author.authorNameEn}}" type="authors.authorNameEn">Dewang Chen</a>
+	                    			
+	                    			
+	                    			<sup class="authorTag">
+	                    				                    			<a href="javascript:void(0);" class="com-num" data-tagVal="1,2">1,2</a>
+	                    				                    			</sup>,&nbsp;	                    		</li>
+	                    		                    		<li >
+	                    			<a href="javascript:void(0);" class="mainColor" data-relate="zhengxy774@163.com" data="{{author.authorNameEn}}" type="authors.authorNameEn">Xiaoyu Zheng</a>
+	                    			
+	                    			
+	                    			<sup class="authorTag">
+	                    				                    			<a href="javascript:void(0);" class="com-num" data-tagVal="1">1</a>
+	                    				                    				                    			,&nbsp;
+	                    				                    			<a href="javascript:void(0);" class="com-user" title="Corresponding Author:&nbsp;Xiaoyu Zheng,&nbsp;zhengxy774@163.com"></a>,&nbsp;<a href="mailto:zhengxy774@163.com" class="com-mail" title="mailto:&nbsp;zhengxy774@163.com"></a></sup>,&nbsp;	                    		</li>
+	                    		                    		<li >
+	                    			<a href="javascript:void(0);" class="mainColor" data-relate="" data="{{author.authorNameEn}}" type="authors.authorNameEn">Ciyang Chen</a>
+	                    			
+	                    			
+	                    			<sup class="authorTag">
+	                    				                    			<a href="javascript:void(0);" class="com-num" data-tagVal="3">3</a>
+	                    				                    			</sup>,&nbsp;	                    		</li>
+	                    		                    		<li >
+	                    			<a href="javascript:void(0);" class="mainColor" data-relate="" data="{{author.authorNameEn}}" type="authors.authorNameEn">Wendi Zhao</a>
+	                    			
+	                    			
+	                    			<sup class="authorTag">
+	                    				                    			<a href="javascript:void(0);" class="com-num" data-tagVal="1">1</a>
+	                    				                    			</sup>	                    		</li>
+	                    		                    </ul>
+	                    <ul class="about-author">
+	                        <!-- 英文作者地址 -->
+	                        	                        		                        		<li class="article-author-address">
+	       								<span class="">
+	       										            								1.
+            									  									</span>
+	                                    <div  class="lostOf" >
+	                                    School of Transportation, Fujian University of Technology, Fuzhou 350118, China
+	                                    </div>
+	                                </li>
+	                        		                        	                        		                        		<li class="article-author-address">
+	       								<span class="">
+	       										            								2.
+            									  									</span>
+	                                    <div  class="lostOf" >
+	                                    State Key Laboratory of Management and Control for Complex Systems, Institute of Automation, Chinese Academy of Sciences, Beijing 100190, China
+	                                    </div>
+	                                </li>
+	                        		                        	                        		                        		<li class="article-author-address">
+	       								<span class="">
+	       										            								3.
+            									  									</span>
+	                                    <div  class="lostOf" >
+	                                    Fujian Rural Credit Union, Fuzhou 350003, China
+	                                    </div>
+	                                </li>
+	                        		                        	                        	                    </ul>
+	                    <ul class="about-article">
+
+	                        <!-- 稿件日期和基金项目0308 -->
+	                        <li class="com-author-info timewrap">
+	                        				    					<span class="hidden-md hidden-sm hidden-xs"><b>Received:</b>
+			    						08 October 2022
+			    					</span>
+	                            																	<span class="hidden-md hidden-sm hidden-xs"><b>Revised:</b>
+			    						30 October 2022
+			    					</span>
+									                            			    					<span class="hidden-md hidden-sm hidden-xs"><b>Accepted:</b>
+			    						03 November 2022
+			    					</span>
+	                            	                            			    					<span><b>Published:</b>
+			    						15 November 2022
+			    					</span>
+	                            	                        </li>
+	                        <li class="fundwrap">
+	                        	 	                            		                            		                            	                        
+	                        </li>
+	                        <li class="com-author-info">
+		    							    				</li>
+		    				<li class="com-author-info">
+		    					<span class="columnli" id="article_special_show" hidden>
+									
+								</span>
+		    				</li>
+		    				
+		    										</ul>
+	                </div>
+	            </div>
+	            <ul id="myTab" class="tab-ul tab-ul-article clear">
+	                <li class="active abs"><a  href="#Abstract" data-toggle="tab">Abstract</a></li>
+	                <li class="htm"><a href="#FullTextWrap" data-toggle="tab">Full Text(HTML)</a></li>
+	               <!--  <div class="pdf-xml clearfix">
+				                       <div class="download-pdf" data="63736f6dba35de77c348c7c1"><a href="javascript:void(0);" >
+				                       Download PDF</a></div>
+				                       <div class="download-xml"><a href="javascript:void(0);" onclick="toExportXML('63736f6dba35de77c348c7c1');">
+				                       Download XML</a></div>
+				                       
+				                        <li class="pdf"><a href="javascript:void(0);" data-toggle="tab">Download PDF</a></li>
+			                     </div> -->
+	                		            <li class="pdf hidden-sm hidden-xs"><div class="download-pdf" data="63736f6dba35de77c348c7c1"><a href="javascript:void(0);" >
+				                       Download PDF</a></div></li>
+				    <li class="pdf hidden-lg hidden-md">                   
+				    					    	<a href="/aimspress-data/era/2023/2/PDF/era-31-02-031.pdf" >
+				                Download PDF
+				          </a>
+				    					     </li>                 
+				                       
+		            
+		            	               		                			            				</ul>
+							  					    			  					    			  					    			  					    			  					    			  					    			  					    			  					    			  					    			  					    	            <ul class="article-tab-box tab-content" id="myTabContent">
+	            	
+	                <!-- 摘要 -->
+	                <li id="Abstract" class="articleListBox tab-pane  fade in active">
+	                		                  <!--   <h3 class="navTitle" id="Abstract-list">Abstract</h3> -->
+	                  <!-- <abstract>
+
+<p>The performance of lithium-ion batteries will decline dramatically with the increase in usage time, which will cause anxiety in using lithium-ion batteries. Some data-driven models have been employed to predict the remaining useful life (RUL) model of lithium-ion batteries. However, there are limitations to the accuracy and applicability of traditional machine learning models or just a single deep learning model. This paper presents a fusion model based on convolutional neural network (CNN) and long short-term memory network (LSTM), named CNN-LSTM, to measure the RUL of lithium-ion batteries. Firstly, this model uses the grey relational analysis to extract the main features affecting the RUL as the health index (HI) of the battery. In addition, the fusion model can capture the non-linear characteristics and time-space relationships well, which helps find the capacity decay and failure threshold of lithium-ion batteries. The experimental results show that: 1) Traditional machine learning is less effective than LSTM. 2) The CNN-LSTM fusion model is superior to the single LSTM model in predicting performance. 3) The proposed model is superior to other comparable models in error indexes, which could reach 0.36% and 0.38e-4 in mean absolute percentage error (MAPE) and mean square error (MSE), respectively. 4) The proposed model can accurately find the failure threshold and the decay fluctuation for the lithium-ion battery.</p>
+
+	      </abstract> -->
+	                        <div class="article-abstract">
+	                        	<abstract>
+
+<p>The performance of lithium-ion batteries will decline dramatically with the increase in usage time, which will cause anxiety in using lithium-ion batteries. Some data-driven models have been employed to predict the remaining useful life (RUL) model of lithium-ion batteries. However, there are limitations to the accuracy and applicability of traditional machine learning models or just a single deep learning model. This paper presents a fusion model based on convolutional neural network (CNN) and long short-term memory network (LSTM), named CNN-LSTM, to measure the RUL of lithium-ion batteries. Firstly, this model uses the grey relational analysis to extract the main features affecting the RUL as the health index (HI) of the battery. In addition, the fusion model can capture the non-linear characteristics and time-space relationships well, which helps find the capacity decay and failure threshold of lithium-ion batteries. The experimental results show that: 1) Traditional machine learning is less effective than LSTM. 2) The CNN-LSTM fusion model is superior to the single LSTM model in predicting performance. 3) The proposed model is superior to other comparable models in error indexes, which could reach 0.36% and 0.38e-4 in mean absolute percentage error (MAPE) and mean square error (MSE), respectively. 4) The proposed model can accurately find the failure threshold and the decay fluctuation for the lithium-ion battery.</p>
+
+	      </abstract>
+	                        	 	                        </div>
+	                    		                	                    
+	                    	                    	                    		                    		                    	                    		                    		                    	                    		                    		                    	                    		                    		                    	                    		                    		                    	                    	                    	<ul class="article-keyword article-info-en">
+	                    		<b>Keywords:</b>
+			                    			                    				                    		<li><a class="underHigh mainColor" href="javascript:void(0);" data="lithium-ion battery" type="keywords.keywordEn">lithium-ion battery</a>, 			                    		</li>
+			                    				                    			                    				                    		<li><a class="underHigh mainColor" href="javascript:void(0);" data="remaining useful life prediction" type="keywords.keywordEn">remaining useful life prediction</a>, 			                    		</li>
+			                    				                    			                    				                    		<li><a class="underHigh mainColor" href="javascript:void(0);" data="convolutional neural network" type="keywords.keywordEn">convolutional neural network</a>, 			                    		</li>
+			                    				                    			                    				                    		<li><a class="underHigh mainColor" href="javascript:void(0);" data="long short-term memory network" type="keywords.keywordEn">long short-term memory network</a>, 			                    		</li>
+			                    				                    			                    				                    		<li><a class="underHigh mainColor" href="javascript:void(0);" data="fusion model" type="keywords.keywordEn">fusion model</a>			                    		</li>
+			                    				                    		                    </ul>
+	                    	                    
+	                    <p class="citation-p"><b class="subtit-b">Citation:</b> Dewang Chen, Xiaoyu Zheng, Ciyang Chen, Wendi Zhao. Remaining useful life prediction of the lithium-ion battery based on CNN-LSTM fusion model and grey relational analysis[J]. Electronic Research Archive, 2023, 31(2): 633-655. doi: 10.3934/era.2023031</p>
+	                    
+	                     <!-- 相关文章 -->
+	                    		                		                <div id="RelatedPages" class="articleListBox">
+		                	<h3><b class="subtit-b">Related Papers:</b></h3>
+		                	<div id="RelatedPagesHtml"></div>
+		                				                </div>
+		                		                	                    
+	                    
+	                </li>
+	                <!-- 全文 -->
+                	
+		                <li id="FullTextWrap" class="articleListBox FullText-all tab-pane  fade in">
+		                			                	 <h3 class="navTitle" id="Abstract-list">Abstract</h3>
+		                	    <!-- changedby qmn:20210416    //CDATA域字符-->
+		                        <div class="article-abstract">
+									<abstract>
+
+<p>The performance of lithium-ion batteries will decline dramatically with the increase in usage time, which will cause anxiety in using lithium-ion batteries. Some data-driven models have been employed to predict the remaining useful life (RUL) model of lithium-ion batteries. However, there are limitations to the accuracy and applicability of traditional machine learning models or just a single deep learning model. This paper presents a fusion model based on convolutional neural network (CNN) and long short-term memory network (LSTM), named CNN-LSTM, to measure the RUL of lithium-ion batteries. Firstly, this model uses the grey relational analysis to extract the main features affecting the RUL as the health index (HI) of the battery. In addition, the fusion model can capture the non-linear characteristics and time-space relationships well, which helps find the capacity decay and failure threshold of lithium-ion batteries. The experimental results show that: 1) Traditional machine learning is less effective than LSTM. 2) The CNN-LSTM fusion model is superior to the single LSTM model in predicting performance. 3) The proposed model is superior to other comparable models in error indexes, which could reach 0.36% and 0.38e-4 in mean absolute percentage error (MAPE) and mean square error (MSE), respectively. 4) The proposed model can accurately find the failure threshold and the decay fluctuation for the lithium-ion battery.</p>
+
+	      </abstract>
+											                       				                        </div>
+		                    			                		                    
+		                     <br />
+		                    <div class="nodeTitle"><b></b></div>
+		                    <br />
+		                    <div class="nodeContent">
+	                  		 
+		                    </div>
+		                    
+
+
+		                    
+		                
+		                			                	<div id="FullText" >
+		                    	<img style="display:block;margin:10px auto;" src="/style/web/images/article/1.gif" alt="加载中" />
+		                	 </div>
+		                			                
+		                								  <!-- 缩写 -->
+														
+		                	</br>
+		                    <!-- 致谢 -->
+									                	
+		                	  <!-- 利益冲突 -->
+														
+							
+		                	   </br>
+		                	   
+		                	 		          
+		                   		                   			                	 <h3 class="navTitle" id="References-list">References</h3>
+			                  			                  <div  id="References">
+			                    			                        <div class="References-wrap">
+	<table class="reference-tab">
+							<tr class="document-box" id="b1">
+									<td valign="top" class="td1">
+	                    [1]
+	                </td>
+					<td class="td2">
+												    <!-- C. Depcik, T. Cassady, B. Collicott, S. P. Burugupally, J. Hobeck, Comparison of lithium-ion ion batteries, hydrogen fueled combustion Engines, and a hydrogen fuel cell in powering a small Unmanned Aerial Vehicle, <i>Energy Convers. Manage.</i>, <b>207</b> (2020), 112514. https://doi.org/10.1016/j.enconman.2020.112514 -->
+						    C. Depcik, T. Cassady, B. Collicott, S. P. Burugupally, J. Hobeck, Comparison of lithium-ion ion batteries, hydrogen fueled combustion Engines, and a hydrogen fuel cell in powering a small Unmanned Aerial Vehicle, <i>Energy Convers. Manage.</i>, <b>207</b> (2020), 112514. https://doi.org/10.1016/j.enconman.2020.112514 doi: <a href="https://doi.org/10.1016/j.enconman.2020.112514" target="_blank">10.1016/j.enconman.2020.112514</a>
+																			<span><a href="https://doi.org/10.1016/j.enconman.2020.112514" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b2">
+									<td valign="top" class="td1">
+	                    [2]
+	                </td>
+					<td class="td2">
+												    <!-- M. Chen, G. Rincon-Mora, Accurate electrical battery model capable of predicting runtime and Ⅰ–Ⅴ performance, <i>IEEE Trans. Power Syst.</i>,  <b>21</b> (2006), 504–511. https://doi.org/10.1109/TEC.2006.874229 -->
+						    M. Chen, G. Rincon-Mora, Accurate electrical battery model capable of predicting runtime and Ⅰ–Ⅴ performance, <i>IEEE Trans. Power Syst.</i>,  <b>21</b> (2006), 504–511. https://doi.org/10.1109/TEC.2006.874229 doi: <a href="https://doi.org/10.1109/TEC.2006.874229" target="_blank">10.1109/TEC.2006.874229</a>
+																			<span><a href="https://doi.org/10.1109/TEC.2006.874229" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b3">
+									<td valign="top" class="td1">
+	                    [3]
+	                </td>
+					<td class="td2">
+												    <!-- J. B. Goodenough, K. S. Park, The li-ion rechargeable battery: A perspective, <i>J. Am. Chem. Soc</i>., <b>135</b> (2013), 1167–1176. https://doi.org/10.1021/ja3091438 -->
+						    J. B. Goodenough, K. S. Park, The li-ion rechargeable battery: A perspective, <i>J. Am. Chem. Soc</i>., <b>135</b> (2013), 1167–1176. https://doi.org/10.1021/ja3091438 doi: <a href="https://doi.org/10.1021/ja3091438" target="_blank">10.1021/ja3091438</a>
+																			<span><a href="https://doi.org/10.1021/ja3091438" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b4">
+									<td valign="top" class="td1">
+	                    [4]
+	                </td>
+					<td class="td2">
+												    <!-- Z. Liu, B. He, Z. Zhang, W. Deng, D. Dong, S. Xia, et al., Lithium/graphene composite anode with 3D structural LiF protection layer for high-performance lithium metal batteries, <i>ACS Appl. Mater. Interfaces.</i>, <b>14</b> (2022), 2871–2880. https://doi.org/10.1021/acsami.1c21263 -->
+						    Z. Liu, B. He, Z. Zhang, W. Deng, D. Dong, S. Xia, et al., Lithium/graphene composite anode with 3D structural LiF protection layer for high-performance lithium metal batteries, <i>ACS Appl. Mater. Interfaces.</i>, <b>14</b> (2022), 2871–2880. https://doi.org/10.1021/acsami.1c21263 doi: <a href="https://doi.org/10.1021/acsami.1c21263" target="_blank">10.1021/acsami.1c21263</a>
+																			<span><a href="https://doi.org/10.1021/acsami.1c21263" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b5">
+									<td valign="top" class="td1">
+	                    [5]
+	                </td>
+					<td class="td2">
+												    <!-- A. Attanayaka, J. Karunadasa, K. Hemapala, Estimation of state of charge for lithium-ion batteries-A review, <i>AIMS Energy</i>, <b>7</b> (2019), 186–210. https://doi.org/10.3934/energy.2019.2.186 -->
+						    A. Attanayaka, J. Karunadasa, K. Hemapala, Estimation of state of charge for lithium-ion batteries-A review, <i>AIMS Energy</i>, <b>7</b> (2019), 186–210. https://doi.org/10.3934/energy.2019.2.186 doi: <a href="https://doi.org/10.3934/energy.2019.2.186" target="_blank">10.3934/energy.2019.2.186</a>
+																			<span><a href="https://doi.org/10.3934/energy.2019.2.186" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b6">
+									<td valign="top" class="td1">
+	                    [6]
+	                </td>
+					<td class="td2">
+												    <!-- A. Basia, Z. Simeu-Abazi, E. Gascard, P. Zwolinski, Review on state of health estimation methodologies for lithium-ion batteries in the context of circular economy, <i>CIRP J. Manuf. Sci. Technol</i>., <b>32</b> (2021), 517–528. https://doi.org/10.1016/j.cirpj.2021.02.004 -->
+						    A. Basia, Z. Simeu-Abazi, E. Gascard, P. Zwolinski, Review on state of health estimation methodologies for lithium-ion batteries in the context of circular economy, <i>CIRP J. Manuf. Sci. Technol</i>., <b>32</b> (2021), 517–528. https://doi.org/10.1016/j.cirpj.2021.02.004 doi: <a href="https://doi.org/10.1016/j.cirpj.2021.02.004" target="_blank">10.1016/j.cirpj.2021.02.004</a>
+																			<span><a href="https://doi.org/10.1016/j.cirpj.2021.02.004" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b7">
+									<td valign="top" class="td1">
+	                    [7]
+	                </td>
+					<td class="td2">
+												    <!-- C. Julien, A. Mauger, A. Abdel-Ghany, A. Hashem, K. Zaghib, Smart materials for energy storage in Li-ion batteries, <i>AIMS Mater. Sci.</i>, <b>3</b> (2016), 137–148. https://doi.org/10.3934/matersci.2016.1.137 -->
+						    C. Julien, A. Mauger, A. Abdel-Ghany, A. Hashem, K. Zaghib, Smart materials for energy storage in Li-ion batteries, <i>AIMS Mater. Sci.</i>, <b>3</b> (2016), 137–148. https://doi.org/10.3934/matersci.2016.1.137 doi: <a href="https://doi.org/10.3934/matersci.2016.1.137" target="_blank">10.3934/matersci.2016.1.137</a>
+																			<span><a href="https://doi.org/10.3934/matersci.2016.1.137" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b8">
+									<td valign="top" class="td1">
+	                    [8]
+	                </td>
+					<td class="td2">
+												    <!-- M. Ge, Y. Liu, X. Jiang, J. Liu, A review on state of health estimations and remaining useful life prognostics of lithium-ion batteries, <i>Measurement</i>, <b>174</b> (2021), 109057. https://doi.org/10.1016/j.measurement.2021.109057 -->
+						    M. Ge, Y. Liu, X. Jiang, J. Liu, A review on state of health estimations and remaining useful life prognostics of lithium-ion batteries, <i>Measurement</i>, <b>174</b> (2021), 109057. https://doi.org/10.1016/j.measurement.2021.109057 doi: <a href="https://doi.org/10.1016/j.measurement.2021.109057" target="_blank">10.1016/j.measurement.2021.109057</a>
+																			<span><a href="https://doi.org/10.1016/j.measurement.2021.109057" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b9">
+									<td valign="top" class="td1">
+	                    [9]
+	                </td>
+					<td class="td2">
+												    <!-- C. Hu, B. Youn, P. Wang, J. K. Yoon, Ensemble of data-driven prognostic algorithms for robust prediction of remaining useful life, <i>Reliab. Eng. Syst. Saf.</i>, <b>103</b> (2012), 120–135. https://doi.org/10.1016/j.ress.2012.03.008 -->
+						    C. Hu, B. Youn, P. Wang, J. K. Yoon, Ensemble of data-driven prognostic algorithms for robust prediction of remaining useful life, <i>Reliab. Eng. Syst. Saf.</i>, <b>103</b> (2012), 120–135. https://doi.org/10.1016/j.ress.2012.03.008 doi: <a href="https://doi.org/10.1016/j.ress.2012.03.008" target="_blank">10.1016/j.ress.2012.03.008</a>
+																			<span><a href="https://doi.org/10.1016/j.ress.2012.03.008" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b10">
+									<td valign="top" class="td1">
+	                    [10]
+	                </td>
+					<td class="td2">
+												    <!-- S. Jarid, M. Das, An electro-thermal model based fast optimal charging strategy for lithium-ion batteries, <i>AIMS Energy,</i>  <b>9</b> (2021), 915–933. https://doi.org/10.3934/energy.2021043 -->
+						    S. Jarid, M. Das, An electro-thermal model based fast optimal charging strategy for lithium-ion batteries, <i>AIMS Energy,</i>  <b>9</b> (2021), 915–933. https://doi.org/10.3934/energy.2021043 doi: <a href="https://doi.org/10.3934/energy.2021043" target="_blank">10.3934/energy.2021043</a>
+																			<span><a href="https://doi.org/10.3934/energy.2021043" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b11">
+									<td valign="top" class="td1">
+	                    [11]
+	                </td>
+					<td class="td2">
+												    <!-- G. Ma, Y. Zhang, C. Cheng, B. Zhou, P. Hu, Y. Yuan, Remaining useful life prediction of lithium-ion batteries based on false nearest neighbors and a hybrid neural network,  <i>Appl. Energy</i>, <b>253</b> (2019), 113626. https://doi.org/10.1016/j.apenergy.2019.113626 -->
+						    G. Ma, Y. Zhang, C. Cheng, B. Zhou, P. Hu, Y. Yuan, Remaining useful life prediction of lithium-ion batteries based on false nearest neighbors and a hybrid neural network,  <i>Appl. Energy</i>, <b>253</b> (2019), 113626. https://doi.org/10.1016/j.apenergy.2019.113626 doi: <a href="https://doi.org/10.1016/j.apenergy.2019.113626" target="_blank">10.1016/j.apenergy.2019.113626</a>
+																			<span><a href="https://doi.org/10.1016/j.apenergy.2019.113626" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b12">
+									<td valign="top" class="td1">
+	                    [12]
+	                </td>
+					<td class="td2">
+												    <!-- L. Wu, X. Fu, Y. Guan, Review of the remaining useful life prognostics of vehicle lithium-ion batteries using data-driven methodologies, <i>Appl. Sci.</i>, <b>6</b> (2016), 166. https://doi.org/10.3390/app6060166 -->
+						    L. Wu, X. Fu, Y. Guan, Review of the remaining useful life prognostics of vehicle lithium-ion batteries using data-driven methodologies, <i>Appl. Sci.</i>, <b>6</b> (2016), 166. https://doi.org/10.3390/app6060166 doi: <a href="https://doi.org/10.3390/app6060166" target="_blank">10.3390/app6060166</a>
+																			<span><a href="https://doi.org/10.3390/app6060166" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b13">
+									<td valign="top" class="td1">
+	                    [13]
+	                </td>
+					<td class="td2">
+												    <!-- A. Nuhic, T. Terzimehic, T. Soczka-Guth, M. Buchholz, K. Dietmayer, Health diagnosis and remaining useful life prognostics of lithium-ion batteries using data-driven methods, <i>J. Power Sources</i>, <b>239</b> (2013), 680–688. https://doi.org/10.1016/j.jpowsour.2012.11.146 -->
+						    A. Nuhic, T. Terzimehic, T. Soczka-Guth, M. Buchholz, K. Dietmayer, Health diagnosis and remaining useful life prognostics of lithium-ion batteries using data-driven methods, <i>J. Power Sources</i>, <b>239</b> (2013), 680–688. https://doi.org/10.1016/j.jpowsour.2012.11.146 doi: <a href="https://doi.org/10.1016/j.jpowsour.2012.11.146" target="_blank">10.1016/j.jpowsour.2012.11.146</a>
+																			<span><a href="https://doi.org/10.1016/j.jpowsour.2012.11.146" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b14">
+									<td valign="top" class="td1">
+	                    [14]
+	                </td>
+					<td class="td2">
+												    <!-- S. Wang, S. Jin, D. Bai, Y. Fan, H. Shi, C. Fernandez, A critical review of improved deep learning methods for the remaining useful life prediction of lithium-ion batteries, <i>Energy Rep.</i>, <b>7</b> (2021), 5562–5574. https://doi.org/10.1016/j.egyr.2021.08.182 -->
+						    S. Wang, S. Jin, D. Bai, Y. Fan, H. Shi, C. Fernandez, A critical review of improved deep learning methods for the remaining useful life prediction of lithium-ion batteries, <i>Energy Rep.</i>, <b>7</b> (2021), 5562–5574. https://doi.org/10.1016/j.egyr.2021.08.182 doi: <a href="https://doi.org/10.1016/j.egyr.2021.08.182" target="_blank">10.1016/j.egyr.2021.08.182</a>
+																			<span><a href="https://doi.org/10.1016/j.egyr.2021.08.182" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b15">
+									<td valign="top" class="td1">
+	                    [15]
+	                </td>
+					<td class="td2">
+												    <!-- N. Khare, P. Singh, J. K. Vassiliou, A novel magnetic field prob-ing technique for determining state of health of sealed lead-acid batteries, <i>J. Power Sources</i>, <b>218</b> (2012), 462–473. https://doi.org/10.1016/j.jpowsour.2012.06.085 -->
+						    N. Khare, P. Singh, J. K. Vassiliou, A novel magnetic field prob-ing technique for determining state of health of sealed lead-acid batteries, <i>J. Power Sources</i>, <b>218</b> (2012), 462–473. https://doi.org/10.1016/j.jpowsour.2012.06.085 doi: <a href="https://doi.org/10.1016/j.jpowsour.2012.06.085" target="_blank">10.1016/j.jpowsour.2012.06.085</a>
+																			<span><a href="https://doi.org/10.1016/j.jpowsour.2012.06.085" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b16">
+									<td valign="top" class="td1">
+	                    [16]
+	                </td>
+					<td class="td2">
+												    <!-- A. Mevawalla, Y. Shabeer, M. K. Tran, S. Panchal, M. Fowler, R. Fraser, Thermal modelling utilizing multiple experimentally measurable parameters, <i>Batteries</i>, <b>8</b> (2022), 147. https://doi.org/10.3390/batteries8100147 -->
+						    A. Mevawalla, Y. Shabeer, M. K. Tran, S. Panchal, M. Fowler, R. Fraser, Thermal modelling utilizing multiple experimentally measurable parameters, <i>Batteries</i>, <b>8</b> (2022), 147. https://doi.org/10.3390/batteries8100147 doi: <a href="https://doi.org/10.3390/batteries8100147" target="_blank">10.3390/batteries8100147</a>
+																			<span><a href="https://doi.org/10.3390/batteries8100147" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b17">
+									<td valign="top" class="td1">
+	                    [17]
+	                </td>
+					<td class="td2">
+												    <!-- Y. Wang, D. Dan, Y. Zhang, Y. Qian, S. Panchal, M. Fowler, et al., A novel heat dissipation structure based on flat heat pipe for battery thermal management system, <i>Int. J. Energy Res.</i>, <b>46</b> (2022), 15961–15980. https://doi.org/10.1002/er.8294 -->
+						    Y. Wang, D. Dan, Y. Zhang, Y. Qian, S. Panchal, M. Fowler, et al., A novel heat dissipation structure based on flat heat pipe for battery thermal management system, <i>Int. J. Energy Res.</i>, <b>46</b> (2022), 15961–15980. https://doi.org/10.1002/er.8294 doi: <a href="https://doi.org/10.1002/er.8294" target="_blank">10.1002/er.8294</a>
+																			<span><a href="https://doi.org/10.1002/er.8294" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b18">
+									<td valign="top" class="td1">
+	                    [18]
+	                </td>
+					<td class="td2">
+												    <!-- Y. Xie, W. Li, X. Hu, M. K. Tran, S. Panchal, M. Fowler, et al., Co-estimation of SOC and three-dimensional SOT for lithium-ion batteries based on distributed spatial-temporal online correction, <i>IEEE Trans. Ind. Electron.</i>, <b>2022</b> (2022), 1–10. https://doi.org/10.1109/TIE.2022.3199905 -->
+						    Y. Xie, W. Li, X. Hu, M. K. Tran, S. Panchal, M. Fowler, et al., Co-estimation of SOC and three-dimensional SOT for lithium-ion batteries based on distributed spatial-temporal online correction, <i>IEEE Trans. Ind. Electron.</i>, <b>2022</b> (2022), 1–10. https://doi.org/10.1109/TIE.2022.3199905 doi: <a href="https://doi.org/10.1109/TIE.2022.3199905" target="_blank">10.1109/TIE.2022.3199905</a>
+																			<span><a href="https://doi.org/10.1109/TIE.2022.3199905" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b19">
+									<td valign="top" class="td1">
+	                    [19]
+	                </td>
+					<td class="td2">
+												    <!-- Y. Xing, N. Williard, K. L. Tsui, M. Pecht, A comparative review of prognostics-based reliability methods for Lithium batteries, in <i>2011 Prognostics and System Health Managment Confernece</i>, 2011. <a href="https://doi.org/10.1109/PHM.2011.5939585" target="_blank">https://doi.org/10.1109/PHM.2011.5939585</a> -->
+						    Y. Xing, N. Williard, K. L. Tsui, M. Pecht, A comparative review of prognostics-based reliability methods for Lithium batteries, in <i>2011 Prognostics and System Health Managment Confernece</i>, 2011. <a href="https://doi.org/10.1109/PHM.2011.5939585" target="_blank">https://doi.org/10.1109/PHM.2011.5939585</a>
+																	</td>
+							</tr>
+					<tr class="document-box" id="b20">
+									<td valign="top" class="td1">
+	                    [20]
+	                </td>
+					<td class="td2">
+												    <!-- D. Wang, F. Yang, K. L. Tsui, Q. Zhou, B. S. Bae, Remaining useful life prediction of lithium-ion batteries based on spherical cubature particle filter,  <i>IEEE Trans. Instrum. Meas.</i>, <b>65</b> (2016), 1282–1291. https://doi.org/10.1109/TIM.2016.2534258 -->
+						    D. Wang, F. Yang, K. L. Tsui, Q. Zhou, B. S. Bae, Remaining useful life prediction of lithium-ion batteries based on spherical cubature particle filter,  <i>IEEE Trans. Instrum. Meas.</i>, <b>65</b> (2016), 1282–1291. https://doi.org/10.1109/TIM.2016.2534258 doi: <a href="https://doi.org/10.1109/TIM.2016.2534258" target="_blank">10.1109/TIM.2016.2534258</a>
+																			<span><a href="https://doi.org/10.1109/TIM.2016.2534258" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b21">
+									<td valign="top" class="td1">
+	                    [21]
+	                </td>
+					<td class="td2">
+												    <!-- M. K. Tran, A. DaCosta, A. Mevawalla, S. Panchal, M. Fowler, Comparative study of equivalent circuit models performance in four common lithium-ion batteries: LFP, NMC, LMO, NCA, <i>Batteries</i>, <b>7</b> (2021), 51. https://doi.org/10.3390/batteries7030051 -->
+						    M. K. Tran, A. DaCosta, A. Mevawalla, S. Panchal, M. Fowler, Comparative study of equivalent circuit models performance in four common lithium-ion batteries: LFP, NMC, LMO, NCA, <i>Batteries</i>, <b>7</b> (2021), 51. https://doi.org/10.3390/batteries7030051 doi: <a href="https://doi.org/10.3390/batteries7030051" target="_blank">10.3390/batteries7030051</a>
+																			<span><a href="https://doi.org/10.3390/batteries7030051" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b22">
+									<td valign="top" class="td1">
+	                    [22]
+	                </td>
+					<td class="td2">
+												    <!-- Z. Lyu, R. Gao, L. Chen, Li-ion battery state of health estimation and remaining useful life prediction through a model-data-fusion method, <i>IEEE Trans. Power Electron.</i>, <b>36</b> (2021), 6228–6240. https://doi.org/10.1109/TPEL.2020.3033297 -->
+						    Z. Lyu, R. Gao, L. Chen, Li-ion battery state of health estimation and remaining useful life prediction through a model-data-fusion method, <i>IEEE Trans. Power Electron.</i>, <b>36</b> (2021), 6228–6240. https://doi.org/10.1109/TPEL.2020.3033297 doi: <a href="https://doi.org/10.1109/TPEL.2020.3033297" target="_blank">10.1109/TPEL.2020.3033297</a>
+																			<span><a href="https://doi.org/10.1109/TPEL.2020.3033297" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b23">
+									<td valign="top" class="td1">
+	                    [23]
+	                </td>
+					<td class="td2">
+												    <!-- S. Wang, P. Ren, P. Takyi-Aninakwa, S. Jin, C. Fernandez, A critical review of improved deep convolutional neural network for multi-timescale state prediction of lithium-ion batteries, <i>Energies</i>, <b>15</b> (2022), 5053. https://doi.org/10.3390/en15145053 -->
+						    S. Wang, P. Ren, P. Takyi-Aninakwa, S. Jin, C. Fernandez, A critical review of improved deep convolutional neural network for multi-timescale state prediction of lithium-ion batteries, <i>Energies</i>, <b>15</b> (2022), 5053. https://doi.org/10.3390/en15145053 doi: <a href="https://doi.org/10.3390/en15145053" target="_blank">10.3390/en15145053</a>
+																			<span><a href="https://doi.org/10.3390/en15145053" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b24">
+									<td valign="top" class="td1">
+	                    [24]
+	                </td>
+					<td class="td2">
+												    <!-- S. Jin, X. Sui, X. Huang, S. Wang, R. Teodorescu, D. I. Stroe, Overview of machine learning methods for lithium-ion battery remaining useful lifetime prediction, <i>Electronics</i>, <b>10 (</b>2021), 3126. https://doi.org/10.3390/electronics10243126 -->
+						    S. Jin, X. Sui, X. Huang, S. Wang, R. Teodorescu, D. I. Stroe, Overview of machine learning methods for lithium-ion battery remaining useful lifetime prediction, <i>Electronics</i>, <b>10 (</b>2021), 3126. https://doi.org/10.3390/electronics10243126 doi: <a href="https://doi.org/10.3390/electronics10243126" target="_blank">10.3390/electronics10243126</a>
+																			<span><a href="https://doi.org/10.3390/electronics10243126" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b25">
+									<td valign="top" class="td1">
+	                    [25]
+	                </td>
+					<td class="td2">
+												    <!-- P. Khumprom, N. Yodo, A data-driven predictive prognostic model for lithium-ion batteries based on a deep learning algorithm, <i>Energies</i>, <b>12</b> (2019), 660. https://doi.org/10.3390/en12040660 -->
+						    P. Khumprom, N. Yodo, A data-driven predictive prognostic model for lithium-ion batteries based on a deep learning algorithm, <i>Energies</i>, <b>12</b> (2019), 660. https://doi.org/10.3390/en12040660 doi: <a href="https://doi.org/10.3390/en12040660" target="_blank">10.3390/en12040660</a>
+																			<span><a href="https://doi.org/10.3390/en12040660" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b26">
+									<td valign="top" class="td1">
+	                    [26]
+	                </td>
+					<td class="td2">
+												    <!-- L. Cai, J. Meng, D. I. Stroe, J. Peng, R. Teodorescu, Multi-objective optimization of data-driven model for lithium-ion battery SOH estimation with short-term feature,  <i>IEEE Trans. Power Electron.</i>, <b>35</b> (2020), 11855–11864. https://doi.org/10.1109/TPEL.2020.2987383 -->
+						    L. Cai, J. Meng, D. I. Stroe, J. Peng, R. Teodorescu, Multi-objective optimization of data-driven model for lithium-ion battery SOH estimation with short-term feature,  <i>IEEE Trans. Power Electron.</i>, <b>35</b> (2020), 11855–11864. https://doi.org/10.1109/TPEL.2020.2987383 doi: <a href="https://doi.org/10.1109/TPEL.2020.2987383" target="_blank">10.1109/TPEL.2020.2987383</a>
+																			<span><a href="https://doi.org/10.1109/TPEL.2020.2987383" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b27">
+									<td valign="top" class="td1">
+	                    [27]
+	                </td>
+					<td class="td2">
+												    <!-- T. Qin, S. Zeng, J. Guo, Robust prognostics for state of health estimation of lithium-ion batteries based on an improved PSO-SVR model, <i>Microelectron</i>. <i>Reliab.</i>, <b>55</b> (2015), 1280–1284. https://doi.org/10.1016/j.microrel.2015.06.133 -->
+						    T. Qin, S. Zeng, J. Guo, Robust prognostics for state of health estimation of lithium-ion batteries based on an improved PSO-SVR model, <i>Microelectron</i>. <i>Reliab.</i>, <b>55</b> (2015), 1280–1284. https://doi.org/10.1016/j.microrel.2015.06.133 doi: <a href="https://doi.org/10.1016/j.microrel.2015.06.133" target="_blank">10.1016/j.microrel.2015.06.133</a>
+																			<span><a href="https://doi.org/10.1016/j.microrel.2015.06.133" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b28">
+									<td valign="top" class="td1">
+	                    [28]
+	                </td>
+					<td class="td2">
+												    <!-- Y. Cai, Y. Lin, Z. Deng, X. Zhao, D. Hao, Prediction of lithium-ion battery remaining useful life based on hybrid data-driven method with optimized parameter, in <i>2017 2nd International Conference on Power and Renewable Energy (ICPRE)</i>, 2017. <a href="https://doi.org/10.1109/ICPRE.2017.8390489" target="_blank">https://doi.org/10.1109/ICPRE.2017.8390489</a> -->
+						    Y. Cai, Y. Lin, Z. Deng, X. Zhao, D. Hao, Prediction of lithium-ion battery remaining useful life based on hybrid data-driven method with optimized parameter, in <i>2017 2nd International Conference on Power and Renewable Energy (ICPRE)</i>, 2017. <a href="https://doi.org/10.1109/ICPRE.2017.8390489" target="_blank">https://doi.org/10.1109/ICPRE.2017.8390489</a>
+																	</td>
+							</tr>
+					<tr class="document-box" id="b29">
+									<td valign="top" class="td1">
+	                    [29]
+	                </td>
+					<td class="td2">
+												    <!-- B. Gou, Y. Xu, X. Feng, State-of-health estimation and remaining useful life prediction for lithium-ion battery using a hybrid data-driven method, <i>IEEE Trans. Veh. Technol.</i>, <b>69</b> (2020), 10854–10867. https://doi.org/10.1109/TVT.2020.3014932 -->
+						    B. Gou, Y. Xu, X. Feng, State-of-health estimation and remaining useful life prediction for lithium-ion battery using a hybrid data-driven method, <i>IEEE Trans. Veh. Technol.</i>, <b>69</b> (2020), 10854–10867. https://doi.org/10.1109/TVT.2020.3014932 doi: <a href="https://doi.org/10.1109/TVT.2020.3014932" target="_blank">10.1109/TVT.2020.3014932</a>
+																			<span><a href="https://doi.org/10.1109/TVT.2020.3014932" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b30">
+									<td valign="top" class="td1">
+	                    [30]
+	                </td>
+					<td class="td2">
+												    <!-- G. Ma, Y. Zhang, C. Cheng, B. Zhou, Y. Yuan, Remaining useful life prediction of lithium-ion batteries based on false nearest neighbors and a hybrid neural network, <i>Appl. Energy</i>, <b>253</b> (2019), 113626. https://doi.org/10.1016/j.apenergy.2019.113626 -->
+						    G. Ma, Y. Zhang, C. Cheng, B. Zhou, Y. Yuan, Remaining useful life prediction of lithium-ion batteries based on false nearest neighbors and a hybrid neural network, <i>Appl. Energy</i>, <b>253</b> (2019), 113626. https://doi.org/10.1016/j.apenergy.2019.113626 doi: <a href="https://doi.org/10.1016/j.apenergy.2019.113626" target="_blank">10.1016/j.apenergy.2019.113626</a>
+																			<span><a href="https://doi.org/10.1016/j.apenergy.2019.113626" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b31">
+									<td valign="top" class="td1">
+	                    [31]
+	                </td>
+					<td class="td2">
+												    <!-- Y. Zhang, R. Xiong, H. He, M. Pecht, Long short-term memory recurrent neural network for remaining useful life prediction of lithium-ion batteries,  <i>IEEE Trans. Veh. Technol.</i>,  <b>67</b> (2018), 5695–5705. https://doi.org/10.1109/TVT.2018.2805189 -->
+						    Y. Zhang, R. Xiong, H. He, M. Pecht, Long short-term memory recurrent neural network for remaining useful life prediction of lithium-ion batteries,  <i>IEEE Trans. Veh. Technol.</i>,  <b>67</b> (2018), 5695–5705. https://doi.org/10.1109/TVT.2018.2805189 doi: <a href="https://doi.org/10.1109/TVT.2018.2805189" target="_blank">10.1109/TVT.2018.2805189</a>
+																			<span><a href="https://doi.org/10.1109/TVT.2018.2805189" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b32">
+									<td valign="top" class="td1">
+	                    [32]
+	                </td>
+					<td class="td2">
+												    <!-- S. Yalçın, S. Panchal, M. S. Herdem, A CNN-ABC model for estimation and optimization of heat generation rate and voltage distributions of lithium-ion batteries for electric vehicles,  <i>Int. J. Heat Mass. Tran.</i>, <b>199</b> (2022), 123486. https://doi.org/10.1016/j.ijheatmasstransfer.2022.123486 -->
+						    S. Yalçın, S. Panchal, M. S. Herdem, A CNN-ABC model for estimation and optimization of heat generation rate and voltage distributions of lithium-ion batteries for electric vehicles,  <i>Int. J. Heat Mass. Tran.</i>, <b>199</b> (2022), 123486. https://doi.org/10.1016/j.ijheatmasstransfer.2022.123486 doi: <a href="https://doi.org/10.1016/j.ijheatmasstransfer.2022.123486" target="_blank">10.1016/j.ijheatmasstransfer.2022.123486</a>
+																			<span><a href="https://doi.org/10.1016/j.ijheatmasstransfer.2022.123486" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b33">
+									<td valign="top" class="td1">
+	                    [33]
+	                </td>
+					<td class="td2">
+												    <!-- F. Wang, Z. Zhao, J. Ren, Z. Zhai, S. Wang, X. Chen, A transferable lithium-ion battery remaining useful life prediction method from cycle-consistency of degradation trend, <i>J. Power Sources</i>, <b>521</b> (2022), 230975. https://doi.org/10.1016/j.jpowsour.2022.230975 -->
+						    F. Wang, Z. Zhao, J. Ren, Z. Zhai, S. Wang, X. Chen, A transferable lithium-ion battery remaining useful life prediction method from cycle-consistency of degradation trend, <i>J. Power Sources</i>, <b>521</b> (2022), 230975. https://doi.org/10.1016/j.jpowsour.2022.230975 doi: <a href="https://doi.org/10.1016/j.jpowsour.2022.230975" target="_blank">10.1016/j.jpowsour.2022.230975</a>
+																			<span><a href="https://doi.org/10.1016/j.jpowsour.2022.230975" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b34">
+									<td valign="top" class="td1">
+	                    [34]
+	                </td>
+					<td class="td2">
+												    <!-- S. Wang, P. Takyi-Aninakwa, S. Jin, C. Yu, C. Fernandez, D. I. Stroe, An improved feedforward-long short-term memory modeling method for the whole-life-cycle state of charge prediction of lithium-ion batteries considering current-voltage-temperature variation, <i>Energy</i>, <b>254</b> (2022), 124224. https://doi.org/10.1016/j.energy.2022.124224 -->
+						    S. Wang, P. Takyi-Aninakwa, S. Jin, C. Yu, C. Fernandez, D. I. Stroe, An improved feedforward-long short-term memory modeling method for the whole-life-cycle state of charge prediction of lithium-ion batteries considering current-voltage-temperature variation, <i>Energy</i>, <b>254</b> (2022), 124224. https://doi.org/10.1016/j.energy.2022.124224 doi: <a href="https://doi.org/10.1016/j.energy.2022.124224" target="_blank">10.1016/j.energy.2022.124224</a>
+																			<span><a href="https://doi.org/10.1016/j.energy.2022.124224" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b35">
+									<td valign="top" class="td1">
+	                    [35]
+	                </td>
+					<td class="td2">
+												    <!-- M. Xia, X. Zheng, M. Imran, M. Shoaib, Data-driven prognosis method using hybrid deep recurrent neural network, <i>Appl. Soft Comput</i>., <b>93</b> (2020), 106351. https://doi.org/10.1016/j.asoc.2020.106351 -->
+						    M. Xia, X. Zheng, M. Imran, M. Shoaib, Data-driven prognosis method using hybrid deep recurrent neural network, <i>Appl. Soft Comput</i>., <b>93</b> (2020), 106351. https://doi.org/10.1016/j.asoc.2020.106351 doi: <a href="https://doi.org/10.1016/j.asoc.2020.106351" target="_blank">10.1016/j.asoc.2020.106351</a>
+																			<span><a href="https://doi.org/10.1016/j.asoc.2020.106351" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b36">
+									<td valign="top" class="td1">
+	                    [36]
+	                </td>
+					<td class="td2">
+												    <!-- A. Kara, A data-driven approach based on deep neural networks for lithium-ion battery prognostics,  <i>Neural Comput. Appl.</i>, <b>33</b> (2021), 13525–13538. https://doi.org/10.1007/s00521-021-05976-x -->
+						    A. Kara, A data-driven approach based on deep neural networks for lithium-ion battery prognostics,  <i>Neural Comput. Appl.</i>, <b>33</b> (2021), 13525–13538. https://doi.org/10.1007/s00521-021-05976-x doi: <a href="https://doi.org/10.1007/s00521-021-05976-x" target="_blank">10.1007/s00521-021-05976-x</a>
+																			<span><a href="https://doi.org/10.1007/s00521-021-05976-x" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b37">
+									<td valign="top" class="td1">
+	                    [37]
+	                </td>
+					<td class="td2">
+												    <!-- C. Wang, N. Lu, S. Wang, Y. Cheng, B. Jiang, Dynamic long short-term memory neural-network-based indirect remaining-useful-life prognosis for satellite lithium-ion battery, <i>Appl. Sci.</i>,  <b>8 (</b>2018), 2078. https://doi.org/10.3390/app8112078 -->
+						    C. Wang, N. Lu, S. Wang, Y. Cheng, B. Jiang, Dynamic long short-term memory neural-network-based indirect remaining-useful-life prognosis for satellite lithium-ion battery, <i>Appl. Sci.</i>,  <b>8 (</b>2018), 2078. https://doi.org/10.3390/app8112078 doi: <a href="https://doi.org/10.3390/app8112078" target="_blank">10.3390/app8112078</a>
+																			<span><a href="https://doi.org/10.3390/app8112078" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b38">
+									<td valign="top" class="td1">
+	                    [38]
+	                </td>
+					<td class="td2">
+												    <!-- P. Li, Z. Zhang, Q. Xiong, B. Ding, S. Li, State-of-health estimation and remaining useful life prediction for the lithium-ion battery based on a variant long short term memory neural network, <i>J. Power Sources</i>, <b>459</b> (2020), 228069. https://doi.org/10.1016/j.jpowsour.2020.228069 -->
+						    P. Li, Z. Zhang, Q. Xiong, B. Ding, S. Li, State-of-health estimation and remaining useful life prediction for the lithium-ion battery based on a variant long short term memory neural network, <i>J. Power Sources</i>, <b>459</b> (2020), 228069. https://doi.org/10.1016/j.jpowsour.2020.228069 doi: <a href="https://doi.org/10.1016/j.jpowsour.2020.228069" target="_blank">10.1016/j.jpowsour.2020.228069</a>
+																			<span><a href="https://doi.org/10.1016/j.jpowsour.2020.228069" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b39">
+									<td valign="top" class="td1">
+	                    [39]
+	                </td>
+					<td class="td2">
+												    <!-- M. Geraldi, E. Ghisi, Data-driven framework towards realistic bottom-up energy benchmarking using an Artificial Neural Network, <i>Appl. Energy</i>, <b>306</b> (2022), 117960. https://doi.org/10.1016/j.apenergy.2021.117960 -->
+						    M. Geraldi, E. Ghisi, Data-driven framework towards realistic bottom-up energy benchmarking using an Artificial Neural Network, <i>Appl. Energy</i>, <b>306</b> (2022), 117960. https://doi.org/10.1016/j.apenergy.2021.117960 doi: <a href="https://doi.org/10.1016/j.apenergy.2021.117960" target="_blank">10.1016/j.apenergy.2021.117960</a>
+																			<span><a href="https://doi.org/10.1016/j.apenergy.2021.117960" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b40">
+									<td valign="top" class="td1">
+	                    [40]
+	                </td>
+					<td class="td2">
+												    <!-- R. Lei, Z. Li, H. Sheng, S. Zhao, W. Hao, Z. Lin, Remaining useful life prediction for lithium-ion battery: A deep learning approach,  <i>IEEE Access</i>, <b>6</b> (2018), 50587–50598. https://doi.org/10.1109/ACCESS.2018.2858856 -->
+						    R. Lei, Z. Li, H. Sheng, S. Zhao, W. Hao, Z. Lin, Remaining useful life prediction for lithium-ion battery: A deep learning approach,  <i>IEEE Access</i>, <b>6</b> (2018), 50587–50598. https://doi.org/10.1109/ACCESS.2018.2858856 doi: <a href="https://doi.org/10.1109/ACCESS.2018.2858856" target="_blank">10.1109/ACCESS.2018.2858856</a>
+																			<span><a href="https://doi.org/10.1109/ACCESS.2018.2858856" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b41">
+									<td valign="top" class="td1">
+	                    [41]
+	                </td>
+					<td class="td2">
+												    <!-- N. Harting, R. Schenkendorf, N. Wolff, U. Krewer, State-of-health identification of lithium-ion batteries based on nonlinear frequency response analysis: First steps with machine learning, <i>Appl. Sci.</i>, <b>8</b> (2018), 821. https://doi.org/10.3390/app8050821 -->
+						    N. Harting, R. Schenkendorf, N. Wolff, U. Krewer, State-of-health identification of lithium-ion batteries based on nonlinear frequency response analysis: First steps with machine learning, <i>Appl. Sci.</i>, <b>8</b> (2018), 821. https://doi.org/10.3390/app8050821 doi: <a href="https://doi.org/10.3390/app8050821" target="_blank">10.3390/app8050821</a>
+																			<span><a href="https://doi.org/10.3390/app8050821" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b42">
+									<td valign="top" class="td1">
+	                    [42]
+	                </td>
+					<td class="td2">
+												    <!-- B. Zraibi, C. Okar, H. Chaoui, M. Mansouri, Remaining useful life assessment for lithium-ion batteries using CNN-LSTM-DNN hybrid method,  <i>IEEE Trans. Veh. Technol.</i>, <b>70</b> (2021), 4252–4261. https://doi.org/10.1109/TVT.2021.3071622 -->
+						    B. Zraibi, C. Okar, H. Chaoui, M. Mansouri, Remaining useful life assessment for lithium-ion batteries using CNN-LSTM-DNN hybrid method,  <i>IEEE Trans. Veh. Technol.</i>, <b>70</b> (2021), 4252–4261. https://doi.org/10.1109/TVT.2021.3071622 doi: <a href="https://doi.org/10.1109/TVT.2021.3071622" target="_blank">10.1109/TVT.2021.3071622</a>
+																			<span><a href="https://doi.org/10.1109/TVT.2021.3071622" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b43">
+									<td valign="top" class="td1">
+	                    [43]
+	                </td>
+					<td class="td2">
+												    <!-- Y. Anagun, S. Isik, E. Seke, SRLibrary: Comparing different loss functions for super-resolution over various convolutional architectures,  <i>J. Visual Commun. Image Represent.</i>, <b>61</b> (2019), 178–187. https://doi.org/10.1016/j.jvcir.2019.03.027 -->
+						    Y. Anagun, S. Isik, E. Seke, SRLibrary: Comparing different loss functions for super-resolution over various convolutional architectures,  <i>J. Visual Commun. Image Represent.</i>, <b>61</b> (2019), 178–187. https://doi.org/10.1016/j.jvcir.2019.03.027 doi: <a href="https://doi.org/10.1016/j.jvcir.2019.03.027" target="_blank">10.1016/j.jvcir.2019.03.027</a>
+																			<span><a href="https://doi.org/10.1016/j.jvcir.2019.03.027" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b44">
+									<td valign="top" class="td1">
+	                    [44]
+	                </td>
+					<td class="td2">
+												    <!-- Y. Zhou, M. Huang, Lithium-ion batteries remaining useful life prediction based on a mixture of empirical mode decomposition and ARIMA model, <i>Microelectron. Reliab.</i>, <b>65</b> (2016), 265–273. https://doi.org/10.1016/j.microrel.2016.07.151 -->
+						    Y. Zhou, M. Huang, Lithium-ion batteries remaining useful life prediction based on a mixture of empirical mode decomposition and ARIMA model, <i>Microelectron. Reliab.</i>, <b>65</b> (2016), 265–273. https://doi.org/10.1016/j.microrel.2016.07.151 doi: <a href="https://doi.org/10.1016/j.microrel.2016.07.151" target="_blank">10.1016/j.microrel.2016.07.151</a>
+																			<span><a href="https://doi.org/10.1016/j.microrel.2016.07.151" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b45">
+									<td valign="top" class="td1">
+	                    [45]
+	                </td>
+					<td class="td2">
+												    <!-- R. Sekhar, P. Shah, S. Panchal, M. Fowler, R. Fraser, Distance to empty soft sensor for ford escape electric vehicle, <i>Results Control Optim.</i>, <b>9</b> (2022), 100168, https://doi.org/10.1016/j.rico.2022.100168 -->
+						    R. Sekhar, P. Shah, S. Panchal, M. Fowler, R. Fraser, Distance to empty soft sensor for ford escape electric vehicle, <i>Results Control Optim.</i>, <b>9</b> (2022), 100168, https://doi.org/10.1016/j.rico.2022.100168 doi: <a href="https://doi.org/10.1016/j.rico.2022.100168" target="_blank">10.1016/j.rico.2022.100168</a>
+																			<span><a href="https://doi.org/10.1016/j.rico.2022.100168" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b46">
+									<td valign="top" class="td1">
+	                    [46]
+	                </td>
+					<td class="td2">
+												    <!-- M. Li, J. Lu, Z. Chen, K. Amine, 30 years of lithium-ion batteries, <i>Adv. Mater.</i>, <b>30</b> (2018), 1800561. https://doi.org/10.1002/adma.201800561 -->
+						    M. Li, J. Lu, Z. Chen, K. Amine, 30 years of lithium-ion batteries, <i>Adv. Mater.</i>, <b>30</b> (2018), 1800561. https://doi.org/10.1002/adma.201800561 doi: <a href="https://doi.org/10.1002/adma.201800561" target="_blank">10.1002/adma.201800561</a>
+																			<span><a href="https://doi.org/10.1002/adma.201800561" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b47">
+									<td valign="top" class="td1">
+	                    [47]
+	                </td>
+					<td class="td2">
+												    <!-- M. M. Kabir, D. E. Demirocak, Degradation mechanisms in Li-ion batteries: a state-of-the-art review, <i>Int. J. Energy Res.</i>, <b>41</b> (2017), 1963–1986. https://doi.org/10.1002/er.3762 -->
+						    M. M. Kabir, D. E. Demirocak, Degradation mechanisms in Li-ion batteries: a state-of-the-art review, <i>Int. J. Energy Res.</i>, <b>41</b> (2017), 1963–1986. https://doi.org/10.1002/er.3762 doi: <a href="https://doi.org/10.1002/er.3762" target="_blank">10.1002/er.3762</a>
+																			<span><a href="https://doi.org/10.1002/er.3762" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b48">
+									<td valign="top" class="td1">
+	                    [48]
+	                </td>
+					<td class="td2">
+												    <!-- J. Vetter, P. Novák, M. R. Wagner, C. Veit, K. C. Möller, J. O. Besenhard, et al., Ageing mechanisms in lithium-ion batterie, <i>J. Power Sources</i>, <b>147</b> (2005), 269–281. https://doi.org/10.1016/j.jpowsour.2005.01.006 -->
+						    J. Vetter, P. Novák, M. R. Wagner, C. Veit, K. C. Möller, J. O. Besenhard, et al., Ageing mechanisms in lithium-ion batterie, <i>J. Power Sources</i>, <b>147</b> (2005), 269–281. https://doi.org/10.1016/j.jpowsour.2005.01.006 doi: <a href="https://doi.org/10.1016/j.jpowsour.2005.01.006" target="_blank">10.1016/j.jpowsour.2005.01.006</a>
+																			<span><a href="https://doi.org/10.1016/j.jpowsour.2005.01.006" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b49">
+									<td valign="top" class="td1">
+	                    [49]
+	                </td>
+					<td class="td2">
+												    <!-- B. Saha, K. Goebel, Battery data set, in <i>NASA Ames Prognostics Data Repository</i>, 2007. Available from: <a href="http://ti.arc.nasa.gov/project/prognostic-data-repository" target="_blank">http://ti.arc.nasa.gov/project/prognostic-data-repository</a>. -->
+						    B. Saha, K. Goebel, Battery data set, in <i>NASA Ames Prognostics Data Repository</i>, 2007. Available from: <a href="http://ti.arc.nasa.gov/project/prognostic-data-repository" target="_blank">http://ti.arc.nasa.gov/project/prognostic-data-repository</a>.
+																	</td>
+							</tr>
+					<tr class="document-box" id="b50">
+									<td valign="top" class="td1">
+	                    [50]
+	                </td>
+					<td class="td2">
+												    <!-- L. Alzubaidi, J. Zhang, A. J. Humaidi, A. Al-Dujaili, Y. Duan, O. Al-Shamma, et al., Review of deep learning: Concepts, CNN architectures, challenges, applications, future directions, <i>J. Big Data</i>, <b>8</b> (2021), 1–74. https://doi.org/10.1186/s40537-021-00444-8 -->
+						    L. Alzubaidi, J. Zhang, A. J. Humaidi, A. Al-Dujaili, Y. Duan, O. Al-Shamma, et al., Review of deep learning: Concepts, CNN architectures, challenges, applications, future directions, <i>J. Big Data</i>, <b>8</b> (2021), 1–74. https://doi.org/10.1186/s40537-021-00444-8 doi: <a href="https://doi.org/10.1186/s40537-021-00444-8" target="_blank">10.1186/s40537-021-00444-8</a>
+																			<span><a href="https://doi.org/10.1186/s40537-021-00444-8" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b51">
+									<td valign="top" class="td1">
+	                    [51]
+	                </td>
+					<td class="td2">
+												    <!-- D. Yao, B. Li, H. Liu, J. Yang, L. Jia, Remaining useful life prediction of roller bearings based on improved 1D-CNN and simple recurrent unit, <i>Measurement</i>, <b>175</b> (2021), 109166. https://doi.org/10.1016/j.measurement.2021.109166 -->
+						    D. Yao, B. Li, H. Liu, J. Yang, L. Jia, Remaining useful life prediction of roller bearings based on improved 1D-CNN and simple recurrent unit, <i>Measurement</i>, <b>175</b> (2021), 109166. https://doi.org/10.1016/j.measurement.2021.109166 doi: <a href="https://doi.org/10.1016/j.measurement.2021.109166" target="_blank">10.1016/j.measurement.2021.109166</a>
+																			<span><a href="https://doi.org/10.1016/j.measurement.2021.109166" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b52">
+									<td valign="top" class="td1">
+	                    [52]
+	                </td>
+					<td class="td2">
+												    <!-- A. Sherstinsky, Fundamentals of recurrent neural network (RNN) and long short-term memory (LSTM) network, <i>Physica D</i>, <b>404</b> (2020), 132306. https://doi.org/10.1016/j.physd.2019.132306 -->
+						    A. Sherstinsky, Fundamentals of recurrent neural network (RNN) and long short-term memory (LSTM) network, <i>Physica D</i>, <b>404</b> (2020), 132306. https://doi.org/10.1016/j.physd.2019.132306 doi: <a href="https://doi.org/10.1016/j.physd.2019.132306" target="_blank">10.1016/j.physd.2019.132306</a>
+																			<span><a href="https://doi.org/10.1016/j.physd.2019.132306" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b53">
+									<td valign="top" class="td1">
+	                    [53]
+	                </td>
+					<td class="td2">
+												    <!-- Z. Shi, A. Chehade, A dual-LSTM framework combining change point detection and remaining useful life prediction, <i>Reliab. Eng. Syst. Saf.</i>, <b>205</b> (2021), 107257. https://doi.org/10.1016/j.ress.2020.107257 -->
+						    Z. Shi, A. Chehade, A dual-LSTM framework combining change point detection and remaining useful life prediction, <i>Reliab. Eng. Syst. Saf.</i>, <b>205</b> (2021), 107257. https://doi.org/10.1016/j.ress.2020.107257 doi: <a href="https://doi.org/10.1016/j.ress.2020.107257" target="_blank">10.1016/j.ress.2020.107257</a>
+																			<span><a href="https://doi.org/10.1016/j.ress.2020.107257" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b54">
+									<td valign="top" class="td1">
+	                    [54]
+	                </td>
+					<td class="td2">
+												    <!-- Y. Choi, S. Ryu, K. Park, H. Kim, Machine learning-based lithium-ion battery capacity estimation exploiting multi-channel charging profiles,  <i>IEEE Access</i>, <b>7</b> (2019), 75143–75152. https://doi.org/10.1109/ACCESS.2019.2920932 -->
+						    Y. Choi, S. Ryu, K. Park, H. Kim, Machine learning-based lithium-ion battery capacity estimation exploiting multi-channel charging profiles,  <i>IEEE Access</i>, <b>7</b> (2019), 75143–75152. https://doi.org/10.1109/ACCESS.2019.2920932 doi: <a href="https://doi.org/10.1109/ACCESS.2019.2920932" target="_blank">10.1109/ACCESS.2019.2920932</a>
+																			<span><a href="https://doi.org/10.1109/ACCESS.2019.2920932" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+					<tr class="document-box" id="b55">
+									<td valign="top" class="td1">
+	                    [55]
+	                </td>
+					<td class="td2">
+												    <!-- X. Hu, J. Jiang, D. Cao, B. Egardt, Battery health prognosis for electric vehicles using sample entropy and sparse bayesian predictive modeling, <i>IEEE Trans. Ind. Electron.</i>, <b>63</b> (2016), 2645–2656. https://doi.org/10.1109/TIE.2015.2461523 -->
+						    X. Hu, J. Jiang, D. Cao, B. Egardt, Battery health prognosis for electric vehicles using sample entropy and sparse bayesian predictive modeling, <i>IEEE Trans. Ind. Electron.</i>, <b>63</b> (2016), 2645–2656. https://doi.org/10.1109/TIE.2015.2461523 doi: <a href="https://doi.org/10.1109/TIE.2015.2461523" target="_blank">10.1109/TIE.2015.2461523</a>
+																			<span><a href="https://doi.org/10.1109/TIE.2015.2461523" target="_blank" class="crossref-img"><img alt="" src="/style/web/images/custom/crossref.jpeg"></a></span>
+											</td>
+							</tr>
+			</table>
+</div>			                    			                    </div>
+			                    		                    
+		                    		                    
+		                    
+		                 <!-- 权限声明 -->
+		                 
+		  				 <!--         
+		    		    		                </br>Copyright © 2023 by Electronic Research Archive
+		                		                		                2023
+		                		                		                		                <license-p>This work is licensed under a Creative Commons Attribution-NonCommercial-Share Alike 4.0 Unported License. To view a copy of this license, visit <a a-type="uri" xmlns:xlink="http://www.w3.org/1999/xlink" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">http://creativecommons.org/licenses/by-nc-sa/4.0/</a></license-p>
+		                		                -->
+		                
+		                </li>
+		               
+	                <!-- 参考文献 -->
+	                			                <li id="References" class="articleListBox">
+		                   
+		                </li>
+		                		               
+		                
+	
+	                <!-- 相关文章 -->
+	                	                <!-- <li id="RelatedPages" class="articleListBox">
+	                			                </li> -->
+	                	
+	                <!-- 附件  -->
+	                	                <li id="Supplements" class="articleListBox tab-pane fade in">
+	                		                       <!--  <h3 class="navTitle" id="Supplements-list">Supplements</h3> -->
+	                        	                        <table class="zgjx-table">
+	                        						        </table>
+				        			        </li>
+			        	
+			        <!-- 访问统计 -->
+			       <!-- <li id="metric_count" class="articleListBox">
+			            <h3 class="navTitle" id="Access-list">Access History</h3>
+			             <img id="downLoading" style="display:block;margin:10px auto;" src="/style/web/images/article/1.gif" alt="加载中" />
+			            <div class="hichart_box" id="article_visit_count_column"></div>
+			            <div class="hichart_box" id="article_visit_type_pie"></div>
+			            <div class="hichart_box" id="article_visit_area_pie"></div> 
+			            
+			            
+			        </li>-->
+			       
+			      					   	<!-- 详情页中加载被引数据  ：页面加载时使用ajax调用 citedby-info  -->
+			        <li id="citedby-info" class="articleListBox"></li>
+			      
+			        
+			        <li class="commentwrap" >
+						<div class="clearfix new-bio">	           
+	                        <!-- 作者简介和通讯作者 -->
+	                        	                        		                        			                        			                        		                        			                        			                        			                        		                        			                        			                        		                        			                        			                        		                        		                        	
+	                        <!-- 	
+	                        		                        		<li class="corresponding-author">
+	                                    <b>Corresponding author:</b>
+                                    		                                    		                                    	                                    		                                    			                                    			Email: <a href="mailto:zhengxy774@163.com">zhengxy774@163.com</a>;&nbsp;	                                    			                                    		                                    	                                    		                                    	                                    		                                    	                                </li>
+	                        		                        	 -->
+	                        						</div>			        
+			        	 <h5 class="comment-title" ><b>Reader Comments</b></h5>
+<div class="comment-content" >
+    <form id="commentForm" class="comment-form" name="commentform" >
+      	<textarea class="comment-textarea" name="textarea" id="textarea">
+      		
+      	</textarea>
+      	<div class="line-phone common-line clear">
+      		 <label class="fl">Your name:<i class="colorRed">*</i></label>
+		 	<input name="name" id="name" placeholder="" required />
+		</div>
+       	<div class="line-phone common-line clear">
+			 <label class="fl">Email:<i class="colorRed">*</i></label>
+			 <input type="email" id="email" name="email" class="fl"  required>
+		</div>
+		<input type="submit" class="submit-comment"   value="Submit">
+    </form>
+</div>			        </li>
+			        
+			         <!-- trendmd数据显示 -->
+			        				    	<li>
+							<div id="trendmd-suggestions"></div>
+							<script defer src='//js.trendmd.com/trendmd.min.js' data-trendmdconfig='{"element":"#trendmd-suggestions"}'></script>
+				   		</li>
+				    				    
+				    <li>
+				    <div>
+		                © 2023 the Author(s), licensee AIMS Press. This is an open access article distributed
+		                 under the terms of the Creative Commons Attribution License 
+		                 (<a href="http://creativecommons.org/licenses/by/4.0" target="_blank" >http://creativecommons.org/licenses/by/4.0</a>)
+		                </div>
+				    </li>
+			        
+		    	</ul>
+			        
+		        <div class=" contentArea-left-bg">
+		        	<div class="article-footer"></div>
+			        <!--鼠标点击悬浮框-->
+			        <div class="box box-top box-tan">
+			            <div class="box-tan-con">
+							<table class="box-content reference-tab"></table>
+						</div>
+			            <div class="triangle">
+			                <div class="triangle-bg"></div>
+			                <div class="triangle-content"></div>
+			            </div>
+			            <i class="close-box articleFont icon-cuo"></i>
+			        </div>
+			        <!--鼠标点击author悬浮框-->
+			        <div class="author-box">
+			            <div class="author-content">
+			                <h6>
+			                    <span>通讯作者: </span>陈斌, bchen63@163.com
+			                </h6>
+			                <ul>
+			                    <li><span class="">1.&nbsp;</span>
+			                        <p class="">沈阳化工大学材料科学与工程学院 沈阳 110142</p></li>
+			                </ul>
+			                <p></p>
+			                <ol>
+			                    <li><a href="search?q=">本站搜索</a>
+			                    </li>
+			                    <li><a href="http://xueshu.baidu.com/s?wd=author:(叶示舟)&tn=SE_baiduxueshu_c1gjeupa&bs=&ie=utf-8&sc_f_para=sc_tasktype%3D%7BfirstAdvancedSearch%7D">百度学术搜索</a>
+			                    </li>
+			                    <li><a
+			                            href="http://s.wanfangdata.com.cn/Paper.aspx?q=作者%3A叶示舟&f=top">万方数据库搜索</a>
+			                    </li>
+			                    <li><a
+			                            href="http://scholar.cnki.net/result.aspx?q=%E4%BD%9C%E8%80%85%3A%28叶示舟%29&rt=Journal&rl=&udb=">CNKI搜索</a>
+			                    </li>
+			                </ol>
+		            	</div>
+			            <div class="triangle">
+			                <div class="triangle-bg"></div>
+			                <div class="triangle-content"></div>
+			            </div>
+	            		<i class="close-box articleFont icon-cuo"></i>
+			        </div>
+			    </div>
+	    	</div>
+		    <div class="article-main-right fr">
+		        <div class="article-right">
+		        	 <div class="article-detail-right">
+		         <!-- journal -->
+			        	<div class="searchl right2-journal-wrap clear bgwhite">
+						 	<div class="clear">
+						  		<div class="journalcover fl">
+						  			<img src="//www.aimspress.com/aimspress-upload/journal/era/cover_202172162552724.png" />
+						  		</div>
+						  		<div class="journaldetail fl">
+						  			<div class="clear">
+								   		  <a href="/journal/era" class="journal-tit">
+											     Electronic Research Archive
+								         </a>
+						        	</div>
+						       </div>
+						      </div>
+						      <div class="ifcitewrap">
+																	    <span class="ifcon"> 1.1</span>
+														        						        	<span class="citecon" >1.7</span>
+						        						  	</div>
+						</div>
+			            <div class="metrics bgwhite margin20">
+		                			                    <h2>Metrics</h2>
+		                   
+							<div class="clear">
+								<div class="fl"></div>
+								<p class="all-message fl">
+			                        <span style="display:block;" href="javascript:void(0);">Article views(<span class="mainColor">6966</span>)</span>
+			                        			                        <span style="display:block;" href="javascript:void(0);">PDF downloads(<span class="mainColor">421</span>)</span>
+			                        			                        			                        <span style="display:block;" href="javascript:void(0);">Cited by(<span class="mainColor" id="citedByCount">26</span>)</span>
+			                        			                    </p>
+							</div>
+		                    
+		                    		                    <div style="padding:10px 0;" data-badge-type="donut" data-doi="10.3934/era.2023031" data-hide-no-mentions="false" class="altmetric-embed"></div>
+		                    <div style="padding:5px 0;" class='altmetric-embed' data-badge-popover='left' data-doi='10.3934/era.2023031'></div>
+		                    		                </div>
+	                
+		                <div class="download-btns clear-size margin20">
+		                     			                     <div class="pdf-xml clearfix">
+				                       <div class="preview-pdf" data="63736f6dba35de77c348c7c1"><a href="javascript:void(0);" >
+										   Preview PDF</a></div>
+				                       <div class="download-xml"><a href="javascript:void(0);" onclick="toExportXML('63736f6dba35de77c348c7c1');">
+				                       Download XML</a></div>
+			                     </div>
+		                     	                         <div class="download-btn"><a href="javascript:void(0);" data-target="#exportCitationModal" data-toggle="modal">
+		                        Export Citation</a></div>
+		                </div>
+		             </div>
+		                 <div class="content-nav bgwhite rightpadding">
+		                    <div class="contents-title">Article outline</div>
+		                   	<div class="showfullbtn">
+		                   		<label><input type="checkbox" /> Show full outline</label>
+		                   	</div>
+		                   <div class="article-nav-wrap" >
+			                    <div class="Abstract-left-list">
+			                        <a href=""></a>
+			                    </div>
+			                    <div class="jumplink-list">
+			                    		
+			                    	
+			                    </div>
+			                    <div class="References-left-list">
+			                        <a href=""></a>
+			                    </div>
+			                    <div class="Supplements-left-list">
+			                        <a href=""></a>
+			                    </div>
+			               </div>
+		                </div>
+		        																																																																																													        				        				                <div class="article-right-pic">
+			                	<h2 class="article-right-title" >Figures and Tables</h2>
+			                    <ul class="article-imgs">
+			                        <li class="atlas">
+			                            <a href="javascript:void(0);">
+			                            				                            				                            					                            					                                                <img src="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g001.jpg"
+		                                                     onerror="this.onerror=null;this.src='//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g001.jpg'"/>
+			                                        			                                     			                                			                            					                            					                                                <img src="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g002.jpg"
+		                                                     onerror="this.onerror=null;this.src='//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g002.jpg'"/>
+			                                        			                                     			                                			                            					                            					                                                <img src="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g003.jpg"
+		                                                     onerror="this.onerror=null;this.src='//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g003.jpg'"/>
+			                                        			                                     			                                			                            					                            					                                                <img src="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g004.jpg"
+		                                                     onerror="this.onerror=null;this.src='//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g004.jpg'"/>
+			                                        			                                     			                                			                            					                            					                                                <img src="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g005.jpg"
+		                                                     onerror="this.onerror=null;this.src='//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g005.jpg'"/>
+			                                        			                                     			                                			                            					                            					                                                <img src="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g006.jpg"
+		                                                     onerror="this.onerror=null;this.src='//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g006.jpg'"/>
+			                                        			                                     			                                			                            					                            					                                                <img src="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g007.jpg"
+		                                                     onerror="this.onerror=null;this.src='//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g007.jpg'"/>
+			                                        			                                     			                                			                            					                            					                                                <img src="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g008.jpg"
+		                                                     onerror="this.onerror=null;this.src='//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g008.jpg'"/>
+			                                        			                                     			                                			                            					                            					                                                <img src="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g009.jpg"
+		                                                     onerror="this.onerror=null;this.src='//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g009.jpg'"/>
+			                                        			                                     			                                			                            					                            					                                                <img src="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g010.jpg"
+		                                                     onerror="this.onerror=null;this.src='//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g010.jpg'"/>
+			                                        			                                     			                                			                            </a>
+			                        </li>
+			                    </ul>
+			                    <p style="font-size:13px;">
+			                        <span class="articleFont icon-tuce"></span>
+			                        <span class="show-tu">Figures(<span class="mainColor">10</span>)</span>			                        &nbsp;/&nbsp;			                        <span class="show-biao">Tables(<span class="mainColor">5</span>)</span>			                    </p>
+			                </div>
+			            		            		                <div class="article-metrics">
+		                			                </div>
+		                
+		               <!--  <div class="article-metrics Access-right-list">
+		                    <a href="#Access-list">
+		                        <h6>Access History</h6>
+		                        <div class="img">
+		                            <img src="/style/web/images/Access-list_03.jpg"/>
+		                        </div>
+		                    </a>
+		                </div> -->
+		                <!-- <div class="associate-wrap bgwhite rightpadding margin20" >
+		                	<h2 class="article-right-title">Associated material</h2>
+		                	<div class="article-right-con"><a class="article-right-a" href ="">PubMed record</a> </div>
+		                </div> -->
+		                <div class="metrics metric-author bgwhite margin20" >
+			                <h2>Other Articles By Authors</h2>
+			                <ul class="authorOtherArticle">
+								<li class="">
+			                        <span class="author-title"><i></i>On This Site</span>
+									<ul class="article-div clear">
+				                    					                    		<li>
+				                    			<a href="javascript:void(0);" class="search-like" data-relate="" data="Dewang Chen" type="authors.authorNameEn">Dewang Chen</a>
+				                    		</li>
+				                    					                    		<li>
+				                    			<a href="javascript:void(0);" class="search-like" data-relate="zhengxy774@163.com" data="Xiaoyu Zheng" type="authors.authorNameEn">Xiaoyu Zheng</a>
+				                    		</li>
+				                    					                    		<li>
+				                    			<a href="javascript:void(0);" class="search-like" data-relate="" data="Ciyang Chen" type="authors.authorNameEn">Ciyang Chen</a>
+				                    		</li>
+				                    					                    		<li>
+				                    			<a href="javascript:void(0);" class="search-like" data-relate="" data="Wendi Zhao" type="authors.authorNameEn">Wendi Zhao</a>
+				                    		</li>
+				                    					                    </ul>
+			                    </li>
+			                    <li class="">
+			                        <span class="author-title"><i></i>On Google Scholar</span>
+			                        <ul class="article-div clear">
+			                        				                    		<li>
+			                    			<a href="http://scholar.google.com/scholar?btnG=&amp;hl=en&amp;as_sdt=0%2C23&amp;q=author:Dewang Chen" target="_blank">Dewang Chen</a>
+			                    		</li>
+			                    					                    		<li>
+			                    			<a href="http://scholar.google.com/scholar?btnG=&amp;hl=en&amp;as_sdt=0%2C23&amp;q=author:Xiaoyu Zheng" target="_blank">Xiaoyu Zheng</a>
+			                    		</li>
+			                    					                    		<li>
+			                    			<a href="http://scholar.google.com/scholar?btnG=&amp;hl=en&amp;as_sdt=0%2C23&amp;q=author:Ciyang Chen" target="_blank">Ciyang Chen</a>
+			                    		</li>
+			                    					                    		<li>
+			                    			<a href="http://scholar.google.com/scholar?btnG=&amp;hl=en&amp;as_sdt=0%2C23&amp;q=author:Wendi Zhao" target="_blank">Wendi Zhao</a>
+			                    		</li>
+			                    											</ul>
+			                    </li>
+			                </ul>
+		                </div>
+		                <div class="related-wrap bgwhite rightpadding margin20" >
+		                	<h2 class="article-right-title">Related pages</h2>
+		                	<ul class="article-right-con">
+		                		<li><a class="article-right-a" href ="http://scholar.google.com/scholar?btnG=&amp;hl=en&amp;as_sdt=0%2C23&amp;q=author:Remaining useful life prediction of the lithium-ion battery based on CNN-LSTM fusion model and grey relational analysis" target="_blank">on Google Scholar</a></li>
+		                		<li><a class="article-right-a" href ="http://www.ncbi.nlm.nih.gov/pubmed/?term=Remaining useful life prediction of the lithium-ion battery based on CNN-LSTM fusion model and grey relational analysis" target="_blank">on PubMed</a></li>
+		                	</ul>
+		                </div>
+		                <div class="related-wrap bgwhite rightpadding margin20" >
+		                	<h2 class="article-right-title">Tools</h2>
+		                	<ul class="article-right-con">
+		                		<li><a class="article-right-a" href="javascript:void(0);" a_doi="10.3934/era.2023031" a_title="Remaining useful life prediction of the lithium-ion battery based on CNN-LSTM fusion model and grey relational analysis" onclick="emailToFriend(this);">Email to a friend</a></li>
+		                				                		<!-- <li><a class="article-right-a" href ="" target="_blank">Order reprints</a></li> -->
+		                	</ul>
+		                </div>
+	                
+	                 
+	        </div>
+	        
+	    </div>
+	</div>
+</div>
+</div>
+<!--电脑端 结束-->
+
+<!--手机端 开始-->
+
+<!--手机端 结束-->
+    <!--footer START-->
+    <footer class="hidden-lg hidden-md ">
+    	    		    	<a href="/aimspress-data/era/2023/2/PDF/era-31-02-031.pdf" >
+	                <div class="pdfView">
+	                    <div class="in-bl " >
+	                        <i class="fa fa-file-pdf-o"></i>
+	                        <span>PDF &nbsp;view</span>
+	                    </div>
+	                </div>
+	          </a>
+	    	    	
+        <!-- <div class="WeChatView">
+            <img src="" alt="WeChat" id="article-qrcode">
+            <span>follow<i></i>share</span>
+        </div> -->
+        
+        <div class="toTop">
+            <p><b>Top</b></p>
+            <span class="fa fa-angle-up"></span>
+        </div>
+    </footer>
+    <!--footer END-->
+<!--底部  开始-->
+<div id="common-bottom">
+    
+</div>
+<!--底部  结束-->
+
+<!--导出引用  开始-->
+<div class="modal fade" id="exportCitationModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h2 class="modal-title mainColor" id="myModalLabel"><b>Export File</b></h2>
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Citation</h4>
+                    </div>
+                    <div class="panel-body">
+                        <p class="quot">
+                            <!--<span class="mainColor">Citation:</span>-->
+                            <div class="copyCitationInfo" style="width: 0px;height: 0px;opacity:0;overflow: hidden;">Dewang Chen, Xiaoyu Zheng, Ciyang Chen, Wendi Zhao. Remaining useful life prediction of the lithium-ion battery based on CNN-LSTM fusion model and grey relational analysis[J]. Electronic Research Archive, 2023, 31(2): 633-655. doi: 10.3934/era.2023031</div>
+                            <span class="info citationEn" id="">										Dewang Chen, Xiaoyu Zheng, Ciyang Chen, Wendi Zhao. Remaining useful life prediction of the lithium-ion battery based on CNN-LSTM fusion model and grey relational analysis[J]. <i>Electronic Research Archive</i>, 2023, 31(2): 633-655. <span style="display:inline-block;">doi: <a class="mainColor" href="https://doi.org/10.3934/era.2023031" target="_blank" class="mainColor">10.3934/era.2023031</a></span>								</span>
+                            <div class="modal-footer modal-footer-copy">
+								<span class="copy-citation" onclick="copyArticle(this)" title="copy to clipboard">
+									<img class="shu" src="/style/web/images/article/shu.png" alt="shu" />
+								</span>
+                            </div>
+                        </p>
+                    </div>
+                </div>
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Format</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" value="ris" name="format" checked="">
+                                RIS(for EndNote,Reference Manager,ProCite)
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" value="bib" name="format">
+                                BibTex
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" value="txt" name="format">
+                                Txt
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Content</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" value="0" name="content" checked="">
+                                Citation Only
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" value="1" name="content">
+                                Citation and Abstract
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="toExportCitation(this,'en')" article_id="63736f6dba35de77c348c7c1" id="exportArticleId">Export</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--导出引用  结束-->
+
+<!--图示功能-->
+<div id="imgShow">
+    <!--大图-->
+    <div id="originalImgs-wrapper">
+        <div class="originalImgs-wrapper">
+            <img id="originalImgs" src="" alt="" />
+        </div>
+        <!--图题-->
+        <div id="imgTitle" title="鼠标滚动">
+            <div>
+                <p class="titleEn"></p>
+            </div>
+        </div>
+        <!--页码-->
+        <p id="imgsPageNum">
+            <span id="nowImgIndex" class="underHigh"></span>/<span
+                id="allImgNum"></span>
+        </p>
+        <!--下载-->
+        <div id="downloadImgs">
+            <img src="/style/web/images/article/download.png" />DownLoad:&nbsp;
+            <a id="originalImgDownload" class="underHigh" href="javascript:void(0);">Full-Size Img</a>&nbsp;
+            <a id="originalPPTDownload" class="underHigh" href="javascript:void(0);" style="border-left: 1px solid #ccc;padding-left: 5px;">PowerPoint</a>
+        </div>
+    </div>
+    <!--小图-->
+    <div id="miniImgs-wrapper">
+        <div id="imgPrev">
+            <a href="javascript:void(0);"><span
+                    class="imgShowIcon imgShowIcon-prev"></span> </a>
+        </div>
+        <div id="miniImgs">
+            <ul>
+            	            			            		<!-- changedBy:qmn  时间：2021年1月18日15:24:19 	 缩略图中图片不能正常下载 -->
+	            		<li class="" data-img="downloadImg('Figure1','63736f6dba35de77c348c7c1')" data-ppt="downloadPPT('Figure1','63736f6dba35de77c348c7c1')">
+	            			            			<a href="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g001.jpg">
+	                            <img src="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g001.jpg"
+	                                 onerror="this.onerror=null;this.src='//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g001.jpg'"/>
+	                        </a>
+	            			            		</li>
+	            	            	            			            		<!-- changedBy:qmn  时间：2021年1月18日15:24:19 	 缩略图中图片不能正常下载 -->
+	            		<li class="" data-img="downloadImg('Figure2','63736f6dba35de77c348c7c1')" data-ppt="downloadPPT('Figure2','63736f6dba35de77c348c7c1')">
+	            			            			<a href="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g002.jpg">
+	                            <img src="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g002.jpg"
+	                                 onerror="this.onerror=null;this.src='//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g002.jpg'"/>
+	                        </a>
+	            			            		</li>
+	            	            	            			            		<!-- changedBy:qmn  时间：2021年1月18日15:24:19 	 缩略图中图片不能正常下载 -->
+	            		<li class="" data-img="downloadImg('Figure3','63736f6dba35de77c348c7c1')" data-ppt="downloadPPT('Figure3','63736f6dba35de77c348c7c1')">
+	            			            			<a href="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g003.jpg">
+	                            <img src="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g003.jpg"
+	                                 onerror="this.onerror=null;this.src='//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g003.jpg'"/>
+	                        </a>
+	            			            		</li>
+	            	            	            			            		<!-- changedBy:qmn  时间：2021年1月18日15:24:19 	 缩略图中图片不能正常下载 -->
+	            		<li class="" data-img="downloadImg('Figure4','63736f6dba35de77c348c7c1')" data-ppt="downloadPPT('Figure4','63736f6dba35de77c348c7c1')">
+	            			            			<a href="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g004.jpg">
+	                            <img src="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g004.jpg"
+	                                 onerror="this.onerror=null;this.src='//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g004.jpg'"/>
+	                        </a>
+	            			            		</li>
+	            	            	            			            		<!-- changedBy:qmn  时间：2021年1月18日15:24:19 	 缩略图中图片不能正常下载 -->
+	            		<li class="" data-img="downloadImg('Figure5','63736f6dba35de77c348c7c1')" data-ppt="downloadPPT('Figure5','63736f6dba35de77c348c7c1')">
+	            			            			<a href="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g005.jpg">
+	                            <img src="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g005.jpg"
+	                                 onerror="this.onerror=null;this.src='//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g005.jpg'"/>
+	                        </a>
+	            			            		</li>
+	            	            	            			            		<!-- changedBy:qmn  时间：2021年1月18日15:24:19 	 缩略图中图片不能正常下载 -->
+	            		<li class="" data-img="downloadImg('Figure6','63736f6dba35de77c348c7c1')" data-ppt="downloadPPT('Figure6','63736f6dba35de77c348c7c1')">
+	            			            			<a href="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g006.jpg">
+	                            <img src="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g006.jpg"
+	                                 onerror="this.onerror=null;this.src='//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g006.jpg'"/>
+	                        </a>
+	            			            		</li>
+	            	            	            			            		<!-- changedBy:qmn  时间：2021年1月18日15:24:19 	 缩略图中图片不能正常下载 -->
+	            		<li class="" data-img="downloadImg('Figure7','63736f6dba35de77c348c7c1')" data-ppt="downloadPPT('Figure7','63736f6dba35de77c348c7c1')">
+	            			            			<a href="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g007.jpg">
+	                            <img src="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g007.jpg"
+	                                 onerror="this.onerror=null;this.src='//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g007.jpg'"/>
+	                        </a>
+	            			            		</li>
+	            	            	            			            		<!-- changedBy:qmn  时间：2021年1月18日15:24:19 	 缩略图中图片不能正常下载 -->
+	            		<li class="" data-img="downloadImg('Figure8','63736f6dba35de77c348c7c1')" data-ppt="downloadPPT('Figure8','63736f6dba35de77c348c7c1')">
+	            			            			<a href="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g008.jpg">
+	                            <img src="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g008.jpg"
+	                                 onerror="this.onerror=null;this.src='//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g008.jpg'"/>
+	                        </a>
+	            			            		</li>
+	            	            	            			            		<!-- changedBy:qmn  时间：2021年1月18日15:24:19 	 缩略图中图片不能正常下载 -->
+	            		<li class="" data-img="downloadImg('Figure9','63736f6dba35de77c348c7c1')" data-ppt="downloadPPT('Figure9','63736f6dba35de77c348c7c1')">
+	            			            			<a href="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g009.jpg">
+	                            <img src="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g009.jpg"
+	                                 onerror="this.onerror=null;this.src='//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g009.jpg'"/>
+	                        </a>
+	            			            		</li>
+	            	            	            			            		<!-- changedBy:qmn  时间：2021年1月18日15:24:19 	 缩略图中图片不能正常下载 -->
+	            		<li class="" data-img="downloadImg('Figure10','63736f6dba35de77c348c7c1')" data-ppt="downloadPPT('Figure10','63736f6dba35de77c348c7c1')">
+	            			            			<a href="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g010.jpg">
+	                            <img src="//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g010.jpg"
+	                                 onerror="this.onerror=null;this.src='//www.aimspress.com/aimspress-data/era/2023/2/PIC/era-31-02-031-g010.jpg'"/>
+	                        </a>
+	            			            		</li>
+	            	            	            	
+            </ul>
+        </div>
+        <div id="imgNext">
+            <a href="javascript:void(0);"><span
+                    class="imgShowIcon imgShowIcon-next"></span> </a>
+        </div>
+    </div>
+    <!--返回-->
+    <div id="imgBack">
+        <a href="javascript:void(0);"> Return<span class="triangle"></span>
+        </a>
+    </div>
+</div>
+<!-- 右侧缩略图表 -->
+<div class="show-table">
+	<div class="new-back">
+		<a href="javascript:;"> Return<span class="triangle"></span></a>
+	</div>
+    <div class="picbox">
+        <ul class="piclist">
+            
+        </ul>
+        <div id="big_play_prev" class="home-picprev thePrev"></div>
+        <div id="big_play_next" class="home-picnext theNext"></div>
+		
+    </div>
+    <div class="picsmallbox">
+		<a href="javascript:;" id="play_prev" class="play_prev">
+			<span class="imgShowIcon imgShowIcon-prev"></span>
+		</a>
+        <div class="picboxpic">
+            <ul id="picsmall" class="picsmall clear">
+                
+            </ul>
+        </div>
+        <a href="javascript:;" id="play_next" class="play_next">
+			<span class="imgShowIcon imgShowIcon-next"></span>
+		</a>
+    </div>
+</div>
+<ul id="miniImgs_title" hidden>
+	        <li>
+            Figure&nbsp;1.&nbsp;Schematic diagram of lithium-ion battery structure
+        </li>
+            <li>
+            Figure&nbsp;2.&nbsp;The lithium-ion battery working principle diagram
+        </li>
+            <li>
+            Figure&nbsp;3.&nbsp;One dimensional convolution structure
+        </li>
+            <li>
+            Figure&nbsp;4.&nbsp;LSTM neuron cell structure
+        </li>
+            <li>
+            Figure&nbsp;5.&nbsp;The flow chart of CNN-LSTM model prediction
+        </li>
+            <li>
+            Figure&nbsp;6.&nbsp;The architecture of CNN-LSTM model
+        </li>
+            <li>
+            Figure&nbsp;7.&nbsp;Prediction effect of each model in B0005 B0006, B0007 data sets
+        </li>
+            <li>
+            Figure&nbsp;8.&nbsp;Details of prediction results for each model in B0005, B0006, B0007 data sets
+        </li>
+            <li>
+            Figure&nbsp;9.&nbsp;Prediction errors for each model in different battery data
+        </li>
+            <li>
+            Figure&nbsp;10.&nbsp;The RUL prediction error histogram
+        </li>
+    </ul>
+
+<div class="article-btn">
+    <div class="_table">
+        <div class="_cell">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+</div>
+<div class="article-menu">
+    <h3>Catalog</h3>
+    <div class="article-menu-bot">
+    	<ul class="iphone-wrapper"></ul>
+    </div>
+</div>
+
+
+	
+	
+</body>
+</html>

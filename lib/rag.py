@@ -201,15 +201,19 @@ def get_paper_library() -> list[dict]:
         with open(metadata_file, 'r', encoding='utf-8') as f:
             full_metadata = json.load(f)
 
-            # Update existing papers with date_added and pdf_status
+            # Update existing papers with date_added, pdf_status, and feed_blurb
             for paper in papers.values():
                 filename = paper['filename']
                 if filename in full_metadata:
                     paper['date_added'] = full_metadata[filename].get('date_added', '')
                     paper['pdf_status'] = full_metadata[filename].get('pdf_status', '')
+                    paper['feed_blurb'] = full_metadata[filename].get('feed_blurb', '')
+                    paper['ai_summary'] = full_metadata[filename].get('ai_summary', '')
                 else:
                     paper['date_added'] = ''
                     paper['pdf_status'] = ''
+                    paper['feed_blurb'] = ''
+                    paper['ai_summary'] = ''
 
             # Add metadata-only papers (not in ChromaDB yet)
             for filename, meta in full_metadata.items():
@@ -229,7 +233,9 @@ def get_paper_library() -> list[dict]:
                         'paper_type': meta.get('paper_type', 'reference'),
                         'num_pages': 0,  # No PDF yet
                         'date_added': meta.get('date_added', ''),
-                        'pdf_status': meta.get('pdf_status', '')
+                        'pdf_status': meta.get('pdf_status', ''),
+                        'feed_blurb': meta.get('feed_blurb', ''),
+                        'ai_summary': meta.get('ai_summary', '')
                     }
 
             # Filter out deleted papers (papers with deleted_at field)
@@ -292,7 +298,7 @@ def get_paper_details(filename: str) -> Optional[dict]:
         first_chunks = []
         for i, (doc, meta) in enumerate(zip(results['documents'][:3], results['metadatas'][:3])):
             first_chunks.append({
-                'page': meta['page_num'],
+                'page': meta.get('page_num', i + 1),  # Fallback to chunk index if page_num missing
                 'text': doc
             })
 
@@ -341,6 +347,7 @@ def get_paper_details(filename: str) -> Optional[dict]:
                 'references': paper_meta.get('references', []),
                 'date_added': paper_meta.get('date_added', ''),
                 'abstract': paper_meta.get('abstract', ''),
+                'ai_summary': paper_meta.get('ai_summary', ''),
                 'volume': paper_meta.get('volume', ''),
                 'issue': paper_meta.get('issue', ''),
                 'pages': paper_meta.get('pages', '')
@@ -357,6 +364,7 @@ def get_paper_details(filename: str) -> Optional[dict]:
                 details['references'] = paper_meta.get('references', [])
                 details['date_added'] = paper_meta.get('date_added', '')
                 details['abstract'] = paper_meta.get('abstract', '')
+                details['ai_summary'] = paper_meta.get('ai_summary', '')
                 details['volume'] = paper_meta.get('volume', '')
                 details['issue'] = paper_meta.get('issue', '')
                 details['pages'] = paper_meta.get('pages', '')

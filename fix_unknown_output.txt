@@ -1,0 +1,3759 @@
+================================================================================
+Fixing Unknown Titles Using Semantic Scholar
+================================================================================
+
+Loaded 2111 papers from metadata.json
+
+Found 776 papers marked 'Unknown - needs manual review'
+
+[1/776] url_59e2d91a.pdf
+  [Strategy 1] Searching by PII: S266654682400048X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S266654682...
+  [-] Not found
+
+[2/776] url_408146b6.pdf
+  [Strategy 1] Searching by PII: S0960148124008309
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S09601...
+  [-] Not found
+
+[3/776] url_871ea7ec.pdf
+  [Strategy 1] Searching by PII: S0378775324006967
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[4/776] url_f06e813e.pdf
+  [Strategy 1] Searching by PII: S0360544224013471
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[5/776] url_261df91a.pdf
+  [Strategy 1] Searching by PII: S0959652624018705
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S09596...
+  [-] Not found
+
+[6/776] url_c3bb1e74.pdf
+  [Strategy 1] Searching by PII: S2352152X24011083
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[7/776] url_be96fd02.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/full/10.1002/adma.202402...
+  [-] Not found
+
+[8/776] url_7e970ff0.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/full/10.1002/aenm.202401...
+  [-] Not found
+
+[9/776] url_f15bc2fd.pdf
+  [Strategy 1] Searching by PII: S0378775324001885
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[10/776] url_9279a17b.pdf
+  [Strategy 1] Searching by PII: S2352152X24002743
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[11/776] url_b3c522ea.pdf
+  [Strategy 1] Searching by PII: S0378775324000570
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[12/776] url_e97f93db.pdf
+  [Strategy 1] Searching by PII: S2095495624001116
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S20954...
+  [-] Not found
+
+[13/776] url_b3d7faa0.pdf
+  [Strategy 1] Searching by PII: S2352152X2303757X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[14/776] url_3305fdb7.pdf
+  [Strategy 1] Searching by PII: S095965262304550X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S09596...
+  [-] Not found
+
+[15/776] url_9a2856fa.pdf
+  [Strategy 1] Searching by PII: S0960148123018256
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S09601...
+  [-] Not found
+
+[16/776] url_f8f88cba.pdf
+  [Strategy 1] Searching by PII: S2352152X23036009
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[17/776] url_342098a1.pdf
+  [Strategy 1] Searching by PII: S209549562400038X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S20954...
+  [-] Not found
+
+[18/776] url_8e5b57cb.pdf
+  [Strategy 1] Searching by PII: S2590116824000304
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S259011682...
+  [-] Not found
+
+[19/776] url_5f17c68d.pdf
+  [Strategy 1] Searching by PII: S2352152X22025063
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[20/776] url_8cb9e01b.pdf
+  [Strategy 3] Searching by URL: https://chemrxiv.org/engage/chemrxiv/article-details/6656457...
+  [-] Not found
+
+[21/776] url_5208bbf4.pdf
+  [Strategy 1] Searching by PII: S036054422401483X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[22/776] url_43a9ba99.pdf
+  [Strategy 1] Searching by PII: S0378775324006487
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[23/776] url_2cb18e36.pdf
+  [Strategy 1] Searching by PII: S2352152X24014816
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[24/776] url_c37dab1a.pdf
+  [Strategy 1] Searching by PII: S0378775324007602
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[25/776] url_ea2d2d97.pdf
+  [Strategy 1] Searching by PII: S2352152X24012726
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[26/776] url_4649cadb.pdf
+  [Strategy 1] Searching by PII: S2352152X24014622
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[27/776] url_fc2d9480.pdf
+  [Strategy 1] Searching by PII: S0306261924009541
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[28/776] url_1000f904.pdf
+  [Strategy 1] Searching by PII: S0306261924004537
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[29/776] url_5c1c6536.pdf
+  [Strategy 3] Searching by URL: https://www.tandfonline.com/doi/abs/10.1080/15435075.2024.23...
+  [-] Not found
+
+[30/776] url_ae8b9a8a.pdf
+  [Strategy 1] Searching by PII: S2352152X24019406
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[31/776] url_17d1338f.pdf
+  [Strategy 1] Searching by PII: S2352152X24019984
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[32/776] url_3f012edb.pdf
+  [Strategy 1] Searching by PII: S0306261924010158
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[33/776] url_fa82f792.pdf
+  [Strategy 1] Searching by PII: S2666248524000179
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S266624852...
+  [-] Not found
+
+[34/776] url_d5c604ec.pdf
+  [Strategy 1] Searching by PII: S2352152X24019923
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[35/776] url_fdfa3dee.pdf
+  [Strategy 1] Searching by PII: S1350630724006058
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S13506...
+  [-] Not found
+
+[36/776] url_0f075174.pdf
+  [Strategy 1] Searching by PII: S0306261924010134
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[37/776] url_c473bd7d.pdf
+  [Strategy 1] Searching by PII: S2590116824000286
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S25901...
+  [-] Not found
+
+[38/776] url_ee5e3c0b.pdf
+  [Strategy 1] Searching by PII: S0378775324006323
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[39/776] url_e109bf7f.pdf
+  [Strategy 1] Searching by PII: S0378775324003938
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[40/776] url_36042e8a.pdf
+  [Strategy 1] Searching by PII: S2950345024000137
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S295034502...
+  [-] Not found
+
+[41/776] url_dbc0468d.pdf
+  [Strategy 1] Searching by PII: S037877532301323X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[42/776] url_74289b93.pdf
+  [Strategy 1] Searching by PII: S0378775324002921
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[43/776] url_07d62166.pdf
+  [Strategy 3] Searching by URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002...
+  [-] Not found
+
+[44/776] url_b074e16f.pdf
+  [Strategy 1] Searching by PII: S0009250924006559
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S00092...
+  [-] Not found
+
+[45/776] url_568c4784.pdf
+  [Strategy 1] Searching by PII: S2352152X24004390
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[46/776] url_9d4a2d48.pdf
+  [Strategy 1] Searching by PII: S0378775324009200
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[47/776] url_6e72e53a.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/10.1002/aenm.202401644...
+  [-] Not found
+
+[48/776] url_d1b31fdb.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/10.1002/ente.202400494...
+  [-] Not found
+
+[49/776] url_8a257a10.pdf
+  [Strategy 1] Searching by PII: S0378779624007752
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877962...
+  [-] Not found
+
+[50/776] url_ba336ffa.pdf
+  [Strategy 1] Searching by PII: S0378775324009881
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+  [+] Checkpoint save at 50/776
+[51/776] url_85baf9f9.pdf
+  [Strategy 3] Searching by URL: https://www.cell.com/joule/abstract/S2542-4351(23)00316-1...
+  [-] Not found
+
+[52/776] url_ea964c24.pdf
+  [Strategy 1] Searching by PII: S2352152X24006145
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[53/776] url_fa689d89.pdf
+  [Strategy 1] Searching by PII: S2352152X24027634
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[54/776] url_ebe5b6b8.pdf
+  [Strategy 1] Searching by PII: S0306261924019214
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[55/776] url_96786d00.pdf
+  [Strategy 1] Searching by PII: S2352152X24036144
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[56/776] url_1ae325d0.pdf
+  [Strategy 1] Searching by PII: S2095495624006430
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S20954...
+  [-] Not found
+
+[57/776] url_bd5ad697.pdf
+  [Strategy 1] Searching by PII: S030626192401897X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[58/776] url_37b7b534.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/abs/10.1002/ente.2024010...
+  [-] Not found
+
+[59/776] url_09429ab2.pdf
+  [Strategy 1] Searching by PII: S0378775324015465
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[60/776] url_29b42ab9.pdf
+  [Strategy 1] Searching by PII: S0306261920301446
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[61/776] url_0de732be.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/10.1002/advs.202406934...
+  [-] Not found
+
+[62/776] url_872d829a.pdf
+  [Strategy 3] Searching by URL: https://chemrxiv.org/engage/chemrxiv/article-details/6653c53...
+  [-] Not found
+
+[63/776] url_e7ecaaae.pdf
+  [Strategy 3] Searching by URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002...
+  [-] Not found
+
+[64/776] url_7c9564ca.pdf
+  [Strategy 1] Searching by PII: S2590116824000468
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S259011682...
+  [-] Not found
+
+[65/776] url_1f49a531.pdf
+  [Strategy 3] Searching by URL: https://spj.science.org/doi/10.34133/energymatadv.0008...
+  [-] Not found
+
+[66/776] url_a9fe9ec3.pdf
+  [Strategy 1] Searching by PII: S2352152X24033309
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[67/776] url_88b168d1.pdf
+  [Strategy 3] Searching by URL: https://www.cell.com/cell-reports-physical-science/fulltext/...
+  [-] Not found
+
+[68/776] url_c91c1dc6.pdf
+  [Strategy 1] Searching by PII: S2590116824000456
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S259011682...
+  [-] Not found
+
+[69/776] url_18cd7b4b.pdf
+  [Strategy 3] Searching by URL: https://digital-library.theiet.org/doi/10.1049/iet-sen.2009....
+  [-] Not found
+
+[70/776] url_e5f637ac.pdf
+  [Strategy 1] Searching by PII: S209549562400593X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S209549562...
+  [-] Not found
+
+[71/776] url_7c19f594.pdf
+  [Strategy 1] Searching by PII: S0378775324003914
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[72/776] url_22d4d72a.pdf
+  [Strategy 3] Searching by URL: https://www.cell.com/joule/abstract/S2542-4351(24)00353-2...
+  [-] Not found
+
+[73/776] url_c066f793.pdf
+  [Strategy 3] Searching by URL: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4930405...
+  [-] Not found
+
+[74/776] url_1d75a46f.pdf
+  [Strategy 1] Searching by PII: S0306261924015666
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S030626192...
+  [-] Not found
+
+[75/776] url_e9c24963.pdf
+  [Strategy 1] Searching by PII: S2950264024000054
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S295026402...
+  [-] Not found
+
+[76/776] url_0d02e2d2.pdf
+  [Strategy 1] Searching by PII: S2352152X24001440
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[77/776] url_6c8fea95.pdf
+  [Strategy 1] Searching by PII: S2095495624002080
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S20954...
+  [-] Not found
+
+[78/776] url_0ccc41fe.pdf
+  [Strategy 1] Searching by PII: S2352152X24001981
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[79/776] url_636b4e80.pdf
+  [Strategy 1] Searching by PII: S1364032123010821
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S13640...
+  [-] Not found
+
+[80/776] url_87957998.pdf
+  [Strategy 1] Searching by PII: S259011682300084X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S25901...
+  [-] Not found
+
+[81/776] url_e9fa027b.pdf
+  [Strategy 1] Searching by PII: S0378775313019411
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[82/776] url_f035ed05.pdf
+  [Strategy 1] Searching by PII: S2451910318300929
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S24519...
+  [-] Not found
+
+[83/776] url_eb5f49e4.pdf
+  [Strategy 1] Searching by PII: S2095495622006763
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S20954...
+  [-] Not found
+
+[84/776] url_c4c3e749.pdf
+  [Strategy 3] Searching by URL: https://www.sandia.gov/app/uploads/sites/82/2024/08/PR2024_7...
+  [-] Not found
+
+[85/776] url_7093f77c.pdf
+  [Strategy 1] Searching by PII: S2352152X21004904
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[86/776] url_a8b9d520.pdf
+  [Strategy 1] Searching by PII: S2666546823000915
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S266654682...
+  [-] Not found
+
+[87/776] url_bb716fe4.pdf
+  [Strategy 1] Searching by PII: S2352152X24025040
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[88/776] url_f66fb604.pdf
+  [Strategy 1] Searching by PII: S0378775324010280
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[89/776] url_cde141d5.pdf
+  [Strategy 3] Searching by URL: https://www.researchgate.net/publication/317643366_Model_Bas...
+  [-] Not found
+
+[90/776] url_0fb2b3f8.pdf
+  [Strategy 3] Searching by URL: https://batterydata.energy.gov/dataset...
+  [-] Not found
+
+[91/776] url_3664f60f.pdf
+  [Strategy 1] Searching by PII: S2542435121002932
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S254243512...
+  [-] Not found
+
+[92/776] url_6c933ced.pdf
+  [Strategy 1] Searching by PII: S0378775324010991
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[93/776] url_05fe45d7.pdf
+  [Strategy 3] Searching by URL: https://arc.aiaa.org/doi/10.2514/6.2024-3700...
+  [-] Not found
+
+[94/776] url_d1a76760.pdf
+  [Strategy 3] Searching by URL: https://pubs.acs.org/doi/10.1021/acsenergylett.4c01276...
+  [-] Not found
+
+[95/776] url_2fdfd9d3.pdf
+  [Strategy 1] Searching by PII: S2352152X24020279
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[96/776] url_16c3656b.pdf
+  [Strategy 1] Searching by PII: S0378775324010012
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[97/776] url_2a3d3b63.pdf
+  [Strategy 3] Searching by URL: https://www.cell.com/joule/abstract/S2542-4351(24)00241-1...
+  [-] Not found
+
+[98/776] url_aba507af.pdf
+  [Strategy 1] Searching by PII: S2666248524000143
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S266624852...
+  [-] Not found
+
+[99/776] url_0897d672.pdf
+  [Strategy 3] Searching by URL: https://www.epri.com/research/products/000000003002030360...
+  [-] Not found
+
+[100/776] url_cc869622.pdf
+  [Strategy 3] Searching by URL: https://www.cell.com/iscience/fulltext/S2589-0042(24)01120-9...
+  [-] Not found
+
+  [+] Checkpoint save at 100/776
+[101/776] url_c91bd40f.pdf
+  [Strategy 3] Searching by URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/abs/10....
+  [-] Not found
+
+[102/776] url_1053c5c8.pdf
+  [Strategy 3] Searching by URL: https://pubs.acs.org/doi/10.1021/acs.energyfuels.4c01304...
+  [-] Not found
+
+[103/776] url_d9787993.pdf
+  [Strategy 1] Searching by PII: S0360544224013999
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[104/776] url_d7ea78b2.pdf
+  [Strategy 1] Searching by PII: S2352152X24014178
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[105/776] url_daa34f64.pdf
+  [Strategy 1] Searching by PII: S0360544224013756
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[106/776] url_3c311d42.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/10.1002/aenm.202400772...
+  [-] Not found
+
+[107/776] url_4e06086c.pdf
+  [Strategy 1] Searching by PII: S0378775324006219
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[108/776] url_2382af77.pdf
+  [Strategy 1] Searching by PII: S2352152X2401291X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[109/776] url_c8a9efce.pdf
+  [Strategy 1] Searching by PII: S0360544224010673
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[110/776] url_4f5f2c29.pdf
+  [Strategy 3] Searching by URL: https://www.cell.com/cell-reports-physical-science/fulltext/...
+  [-] Not found
+
+[111/776] url_4ad6000c.pdf
+  [Strategy 1] Searching by PII: S2352152X2401137X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[112/776] url_8dde927b.pdf
+  [Strategy 1] Searching by PII: S1452398124001159
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S145239812...
+  [-] Not found
+
+[113/776] url_95cf8cc3.pdf
+  [Strategy 1] Searching by PII: S2352152X24011174
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[114/776] url_b9ff511e.pdf
+  [Strategy 1] Searching by PII: S2352152X24010181
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[115/776] url_e7f02882.pdf
+  [Strategy 1] Searching by PII: S2352152X24012349
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[116/776] url_92219fba.pdf
+  [Strategy 1] Searching by PII: S2352152X24011095
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[117/776] url_d1d544a1.pdf
+  [Strategy 3] Searching by URL: https://www.cell.com/the-innovation/fulltext/S2666-6758(24)0...
+  [-] Not found
+
+[118/776] url_54495d1b.pdf
+  [Strategy 1] Searching by PII: S0378775324002076
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[119/776] url_31da9034.pdf
+  [Strategy 3] Searching by URL: https://pubs.acs.org/doi/10.1021/acsenergylett.3c01591...
+  [-] Not found
+
+[120/776] url_a9f7ac82.pdf
+  [Strategy 1] Searching by PII: S0306261924002319
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S030626192...
+  [-] Not found
+
+[121/776] url_733f2fd0.pdf
+  [Strategy 1] Searching by PII: S0378775324001368
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[122/776] url_5a5cb834.pdf
+  [Strategy 1] Searching by PII: S0378775324004452
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[123/776] url_1fb1d87e.pdf
+  [Strategy 1] Searching by PII: S0378775322014756
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[124/776] url_a8ac8687.pdf
+  [Strategy 1] Searching by PII: S2352152X18300665
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[125/776] url_23b30d0b.pdf
+  [Strategy 1] Searching by PII: S0378775319316593
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[126/776] url_bb30fd78.pdf
+  [Strategy 1] Searching by PII: S2352152X17306138
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[127/776] url_2fde3f67.pdf
+  [Strategy 1] Searching by PII: S0378775313016510
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[128/776] url_622ac9cc.pdf
+  [Strategy 1] Searching by PII: S2352152X24003670
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[129/776] url_792b272c.pdf
+  [Strategy 1] Searching by PII: S0378775324003926
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[130/776] url_ad51de5c.pdf
+  [Strategy 1] Searching by PII: S0378775324004312
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[131/776] url_0ac2290a.pdf
+  [Strategy 1] Searching by PII: S2405829724002071
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S24058...
+  [-] Not found
+
+[132/776] url_509414fa.pdf
+  [Strategy 3] Searching by URL: https://www.cell.com/cell-reports-physical-science/fulltext/...
+  [-] Not found
+
+[133/776] url_f8cdf2e7.pdf
+  [Strategy 1] Searching by PII: S2352152X24009137
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[134/776] url_1a8ff9a9.pdf
+  [Strategy 1] Searching by PII: S2352152X2400906X
+  [Strategy 3] Searching by URL: https://sciencedirect.com/science/article/abs/pii/S2352152X2...
+  [-] Not found
+
+[135/776] url_ca1cc803.pdf
+  [Strategy 3] Searching by URL: https://chemrxiv.org/engage/chemrxiv/article-details/6576e76...
+  [-] Not found
+
+[136/776] url_04f57753.pdf
+  [Strategy 1] Searching by PII: S0378775324002866
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[137/776] url_251d08bf.pdf
+  [Strategy 1] Searching by PII: S2405829724001703
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S24058...
+  [-] Not found
+
+[138/776] url_4d488193.pdf
+  [Strategy 1] Searching by PII: S0306261922003440
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S030626192...
+  [-] Not found
+
+[139/776] url_3095788c.pdf
+  [Strategy 1] Searching by PII: S0957582024002969
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S095758202...
+  [-] Not found
+
+[140/776] url_7a4f9bfb.pdf
+  [Strategy 1] Searching by PII: S2352152X24009575
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[141/776] url_e2fbac05.pdf
+  [Strategy 1] Searching by PII: S0306261924003015
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[142/776] url_8bab146b.pdf
+  [Strategy 1] Searching by PII: S2352152X24006236
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[143/776] url_6aeddab4.pdf
+  [Strategy 1] Searching by PII: S2352152X24008089
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[144/776] url_2179d981.pdf
+  [Strategy 1] Searching by PII: S0045790624000958
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S00457...
+  [-] Not found
+
+[145/776] url_9f4a8505.pdf
+  [Strategy 1] Searching by PII: S0360544224007813
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[146/776] url_c06e03b9.pdf
+  [Strategy 1] Searching by PII: S0013468624003888
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S00134...
+  [-] Not found
+
+[147/776] url_821c02d6.pdf
+  [Strategy 1] Searching by PII: S2666386423005611
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S266638642...
+  [-] Not found
+
+[148/776] url_7080b8ca.pdf
+  [Strategy 3] Searching by URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/epdf/10...
+  [-] Not found
+
+[149/776] url_912b3830.pdf
+  [Strategy 3] Searching by URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002...
+  [-] Not found
+
+[150/776] url_b31488c7.pdf
+  [Strategy 1] Searching by PII: S2213138823004502
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S221313882...
+  [-] Not found
+
+  [+] Checkpoint save at 150/776
+[151/776] url_3cde5233.pdf
+  [Strategy 1] Searching by PII: S0306261923012898
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[152/776] url_a92b3d59.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/full/10.1002/eem2.12386...
+  [-] Not found
+
+[153/776] url_fd32df13.pdf
+  [Strategy 1] Searching by PII: S2666546824000181
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S266654682...
+  [-] Not found
+
+[154/776] url_f746bf5b.pdf
+  [Strategy 1] Searching by PII: S2590116824000067
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S25901...
+  [-] Not found
+
+[155/776] url_be9211fb.pdf
+  [Strategy 1] Searching by PII: S0378775324002234
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[156/776] url_f24e3f4a.pdf
+  [Strategy 1] Searching by PII: S0360544224005620
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[157/776] url_ffae1cf5.pdf
+  [Strategy 3] Searching by URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/full/10...
+  [-] Not found
+
+[158/776] url_aac418eb.pdf
+  [Strategy 1] Searching by PII: S0360544224006005
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[159/776] url_1c06e9d2.pdf
+  [Strategy 1] Searching by PII: S0378775324001356
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[160/776] url_046f3bf6.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/10.1002/aenm.202304295...
+  [-] Not found
+
+[161/776] url_e61e3ff5.pdf
+  [Strategy 1] Searching by PII: S2352152X24005528
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[162/776] url_4e936983.pdf
+  [Strategy 3] Searching by URL: https://pubs.acs.org/doi/10.1021/acs.chemmater.2c01976...
+  [-] Not found
+
+[163/776] url_84cf8a3d.pdf
+  [Strategy 3] Searching by URL: https://pubs.aip.org/aip/apl/article-abstract/124/7/073902/3...
+  [-] Not found
+
+[164/776] url_66a8c47f.pdf
+  [Strategy 3] Searching by URL: https://pubs.acs.org/doi/full/10.1021/acsenergylett.3c02385...
+  [-] Not found
+
+[165/776] url_8dbca630.pdf
+  [Strategy 3] Searching by URL: https://pubs.acs.org/doi/10.1021/acs.chemrev.2c00289...
+  [-] Not found
+
+[166/776] url_7de119c4.pdf
+  [Strategy 1] Searching by PII: S2352152X24004353
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[167/776] url_9c515e20.pdf
+  [Strategy 1] Searching by PII: S0306261922004354
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[168/776] url_d5bfe04c.pdf
+  [Strategy 1] Searching by PII: S0306261924000527
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[169/776] url_bf9bce08.pdf
+  [Strategy 1] Searching by PII: S0360544224003669
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[170/776] url_60e9f7cc.pdf
+  [Strategy 1] Searching by PII: S2352152X23037830
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[171/776] url_1717cae0.pdf
+  [Strategy 1] Searching by PII: S095183202300827X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S09518...
+  [-] Not found
+
+[172/776] url_7b40be52.pdf
+  [Strategy 1] Searching by PII: S0306261923019190
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[173/776] url_168588e7.pdf
+  [Strategy 1] Searching by PII: S0378775324000582
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[174/776] url_ef978aa5.pdf
+  [Strategy 3] Searching by URL: https://pubs.acs.org/doi/10.1021/acs.jpclett.3c03129...
+  [-] Not found
+
+[175/776] url_e3ee528e.pdf
+  [Strategy 1] Searching by PII: S2405829723005469
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S24058...
+  [-] Not found
+
+[176/776] url_c0dba764.pdf
+  [Strategy 1] Searching by PII: S2352152X2400152X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[177/776] url_7ab8eaeb.pdf
+  [Strategy 1] Searching by PII: S0306261923016896
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[178/776] url_f1e6026c.pdf
+  [Strategy 1] Searching by PII: S2773153723000762
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S277315372...
+  [-] Not found
+
+[179/776] url_afc6f6bc.pdf
+  [Strategy 3] Searching by URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002...
+  [-] Not found
+
+[180/776] url_602f841a.pdf
+  [Strategy 1] Searching by PII: S2773153724000197
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S277315372...
+  [-] Not found
+
+[181/776] url_49521ad6.pdf
+  [Strategy 3] Searching by URL: https://www.cell.com/cell-reports-physical-science/fulltext/...
+  [-] Not found
+
+[182/776] url_269487f3.pdf
+  [Strategy 1] Searching by PII: S2352152X21005892
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[183/776] url_c8af13d3.pdf
+  [Strategy 1] Searching by PII: S2352152X23036782
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[184/776] url_718f4625.pdf
+  [Strategy 3] Searching by URL: https://arc.aiaa.org/doi/abs/10.2514/6.2024-2314...
+  [-] Not found
+
+[185/776] url_3c94c7be.pdf
+  [Strategy 3] Searching by URL: https://asmedigitalcollection.asme.org/dynamicsystems/articl...
+  [-] Not found
+
+[186/776] url_de93d00d.pdf
+  [Strategy 1] Searching by PII: S2590116823000802
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S259011682...
+  [-] Not found
+
+[187/776] url_232016ab.pdf
+  [Strategy 1] Searching by PII: S0967066122000879
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S096706612...
+  [-] Not found
+
+[188/776] url_63d40e70.pdf
+  [Strategy 3] Searching by URL: https://arc.aiaa.org/doi/full/10.2514/1.C037404...
+  [-] Not found
+
+[189/776] url_a93070d7.pdf
+  [Strategy 1] Searching by PII: S0378775323013241
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[190/776] url_82c6e150.pdf
+  [Strategy 1] Searching by PII: S2666386423005994
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S266638642...
+  [-] Not found
+
+[191/776] url_d24d999f.pdf
+  [Strategy 1] Searching by PII: S2352152X2303400X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[192/776] url_0c5b9bc1.pdf
+  [Strategy 1] Searching by PII: S2352711023002807
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235271102...
+  [-] Not found
+
+[193/776] url_beef0aa8.pdf
+  [Strategy 3] Searching by URL: https://www.science.org/doi/abs/10.1126/science.adn1749...
+  [-] Not found
+
+[194/776] url_a75644e2.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/10.1002/ente.202300707...
+  [-] Not found
+
+[195/776] url_141b10c1.pdf
+  [Strategy 1] Searching by PII: S0098135423003411
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S00981...
+  [-] Not found
+
+[196/776] url_39fa9941.pdf
+  [Strategy 1] Searching by PII: S2095495621006136
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S20954...
+  [-] Not found
+
+[197/776] url_755ee80e.pdf
+  [Strategy 1] Searching by PII: S2352146523002879
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235214652...
+  [-] Not found
+
+[198/776] url_335b949c.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/10.1155/2023/5513446...
+  [-] Not found
+
+[199/776] url_67bbc2ff.pdf
+  [Strategy 3] Searching by URL: https://arc.aiaa.org/doi/full/10.2514/1.C036851...
+  [-] Not found
+
+[200/776] url_8f4d737f.pdf
+  [Strategy 1] Searching by PII: S2095927323007296
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S20959...
+  [-] Not found
+
+  [+] Checkpoint save at 200/776
+[201/776] url_675973e9.pdf
+  [Strategy 1] Searching by PII: S0378775323010534
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[202/776] url_4a192548.pdf
+  [Strategy 3] Searching by URL: https://asmedigitalcollection.asme.org/electrochemical/artic...
+  [-] Not found
+
+[203/776] url_cf35c81f.pdf
+  [Strategy 1] Searching by PII: S2352152X23025951
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[204/776] url_55e3f036.pdf
+  [Strategy 3] Searching by URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002...
+  [-] Not found
+
+[205/776] url_c459e0c8.pdf
+  [Strategy 1] Searching by PII: S2590116823000498
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S259011682...
+  [-] Not found
+
+[206/776] url_e238e407.pdf
+  [Strategy 1] Searching by PII: S2405829723003434
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S240582972...
+  [-] Not found
+
+[207/776] url_85593b47.pdf
+  [Strategy 1] Searching by PII: S2666546820300069
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S266654682...
+  [-] Not found
+
+[208/776] url_84294194.pdf
+  [Strategy 1] Searching by PII: S2666386421000370
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S266638642...
+  [-] Not found
+
+[209/776] url_50bbdb9a.pdf
+  [Strategy 1] Searching by PII: S2352152X23024556
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[210/776] url_7163a545.pdf
+  [Strategy 1] Searching by PII: S2352152X23024404
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[211/776] url_1d532960.pdf
+  [Strategy 1] Searching by PII: S2590116823000590
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S259011682...
+  [-] Not found
+
+[212/776] url_ec3327ef.pdf
+  [Strategy 3] Searching by URL: https://www.cell.com/joule/fulltext/S2542-4351(23)00312-4...
+  [-] Not found
+
+[213/776] url_b37b98bb.pdf
+  [Strategy 1] Searching by PII: S2589004223018473
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S258900422...
+  [-] Not found
+
+[214/776] url_10ba2476.pdf
+  [Strategy 1] Searching by PII: S0360544224031931
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[215/776] url_71644064.pdf
+  [Strategy 1] Searching by PII: S2352152X24036983
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[216/776] url_1d5ee6a7.pdf
+  [Strategy 1] Searching by PII: S2352340923009228
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234092...
+  [-] Not found
+
+[217/776] url_25d623b9.pdf
+  [Strategy 1] Searching by PII: S2352152X24036727
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[218/776] url_bff7e802.pdf
+  [Strategy 1] Searching by PII: S2590116820300424
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S25901...
+  [-] Not found
+
+[219/776] url_11c0165d.pdf
+  [Strategy 1] Searching by PII: S0360544224033176
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[220/776] url_1f08de2b.pdf
+  [Strategy 1] Searching by PII: S2352340924010084
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234092...
+  [-] Not found
+
+[221/776] url_5e990d1e.pdf
+  [Strategy 1] Searching by PII: S2352152X23025896
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[222/776] url_00431e87.pdf
+  [Strategy 1] Searching by PII: S0959652623013781
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S09596...
+  [-] Not found
+
+[223/776] url_2b238587.pdf
+  [Strategy 1] Searching by PII: S2352152X21008185
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[224/776] url_c9fcfde4.pdf
+  [Strategy 3] Searching by URL: https://chemrxiv.org/engage/chemrxiv/article-details/67155be...
+  [-] Not found
+
+[225/776] url_c07e8b9d.pdf
+  [Strategy 1] Searching by PII: S2352152X24041100
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[226/776] url_cf4e4a10.pdf
+  [Strategy 3] Searching by URL: https://journals.sagepub.com/doi/full/10.1177/09576509241299...
+  [-] Not found
+
+[227/776] url_8a74ce68.pdf
+  [Strategy 1] Searching by PII: S2352152X24041495
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[228/776] url_8257015c.pdf
+  [Strategy 1] Searching by PII: S0360544224036594
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S036054422...
+  [-] Not found
+
+[229/776] url_b5b7bcd3.pdf
+  [Strategy 1] Searching by PII: S2095495621006136
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S20954...
+  [-] Not found
+
+[230/776] url_61d1c2e1.pdf
+  [Strategy 1] Searching by PII: S0013468623007661
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S00134...
+  [-] Not found
+
+[231/776] url_67009a0e.pdf
+  [Strategy 3] Searching by URL: https://www.cell.com/cell-reports-physical-science/fulltext/...
+  [-] Not found
+
+[232/776] url_fe19f52c.pdf
+  [Strategy 1] Searching by PII: S0378775316316998
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877531...
+  [-] Not found
+
+[233/776] url_aa538dc4.pdf
+  [Strategy 3] Searching by URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/full/10...
+  [-] Not found
+
+[234/776] url_233abb79.pdf
+  [Strategy 1] Searching by PII: S2542435123003197
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S254243512...
+  [-] Not found
+
+[235/776] url_dd59bfa2.pdf
+  [Strategy 1] Searching by PII: S2666386422003149
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S266638642...
+  [-] Not found
+
+[236/776] url_7f01d73c.pdf
+  [Strategy 1] Searching by PII: S2352152X23003286
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[237/776] url_e969ddbd.pdf
+  [Strategy 1] Searching by PII: S0378775320316438
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[238/776] url_e60d2a34.pdf
+  [Strategy 1] Searching by PII: S2542435123001368
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S254243512...
+  [-] Not found
+
+[239/776] url_dadefd2d.pdf
+  [Strategy 1] Searching by PII: S0378775322007303
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[240/776] url_6ec1c83f.pdf
+  [Strategy 1] Searching by PII: S2095495622002030
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S209549562...
+  [-] Not found
+
+[241/776] url_4e2c4121.pdf
+  [Strategy 1] Searching by PII: S030626192201546X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[242/776] url_2f78d5f5.pdf
+  [Strategy 3] Searching by URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/full/10...
+  [-] Not found
+
+[243/776] url_16d8b4b4.pdf
+  [Strategy 3] Searching by URL: https://www.cell.com/joule/fulltext/S2542-4351(22)00254-9...
+  [-] Not found
+
+[244/776] url_d0764e97.pdf
+  [Strategy 1] Searching by PII: S037877531831111X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[245/776] url_608e7d5a.pdf
+  [Strategy 1] Searching by PII: S2352152X24040301
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[246/776] url_72a5487f.pdf
+  [Strategy 1] Searching by PII: S0378775324014022
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[247/776] url_0a9edbc0.pdf
+  [Strategy 3] Searching by URL: https://journals.sagepub.com/doi/abs/10.1177/095440702412872...
+  [-] Not found
+
+[248/776] url_12883785.pdf
+  [Strategy 1] Searching by PII: S2352340924010382
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234092...
+  [-] Not found
+
+[249/776] url_82062419.pdf
+  [Strategy 1] Searching by PII: S2352152X24037009
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[250/776] url_43cf1015.pdf
+  [Strategy 1] Searching by PII: S2352152X24038465
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+  [+] Checkpoint save at 250/776
+[251/776] url_52cb5fd5.pdf
+  [Strategy 1] Searching by PII: S2352152X24038957
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[252/776] url_be1cc27a.pdf
+  [Strategy 1] Searching by PII: S2352340922002062
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234092...
+  [-] Not found
+
+[253/776] url_d4b43495.pdf
+  [Strategy 1] Searching by PII: S2352152X24040738
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[254/776] url_89f3ed28.pdf
+  [Strategy 3] Searching by URL: https://scijournals.onlinelibrary.wiley.com/doi/full/10.1002...
+  [-] Not found
+
+[255/776] url_eeef9519.pdf
+  [Strategy 3] Searching by URL: https://www.cell.com/cell-reports-physical-science/fulltext/...
+  [-] Not found
+
+[256/776] url_14666bc0.pdf
+  [Strategy 1] Searching by PII: S2352152X23005765
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[257/776] url_392262e2.pdf
+  [Strategy 1] Searching by PII: S2352152X23005583
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[258/776] url_c42cf3e2.pdf
+  [Strategy 1] Searching by PII: S0026271421003711
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S00262...
+  [-] Not found
+
+[259/776] url_fcd29e56.pdf
+  [Strategy 1] Searching by PII: S2352152X23003006
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[260/776] url_aa67bb61.pdf
+  [Strategy 1] Searching by PII: S2352152X23000427
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[261/776] url_29eb570c.pdf
+  [Strategy 1] Searching by PII: S2352152X2202182X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[262/776] url_e62e6d59.pdf
+  [Strategy 1] Searching by PII: S0378775324003975
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[263/776] url_8f8bbb36.pdf
+  [Strategy 1] Searching by PII: S2352484722022351
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235248472...
+  [-] Not found
+
+[264/776] url_f42fca75.pdf
+  [Strategy 1] Searching by PII: S2352152X23009544
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[265/776] url_26d584ed.pdf
+  [Strategy 1] Searching by PII: S2352152X23001846
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[266/776] url_85bedbd5.pdf
+  [Strategy 1] Searching by PII: S2352152X23007193
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[267/776] url_b7283d09.pdf
+  [Strategy 1] Searching by PII: S0360544223015311
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[268/776] url_df8923b9.pdf
+  [Strategy 1] Searching by PII: S0965997823000534
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S09659...
+  [-] Not found
+
+[269/776] url_74bb1669.pdf
+  [Strategy 1] Searching by PII: S0306261923012242
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S030626192...
+  [-] Not found
+
+[270/776] url_67a1fd52.pdf
+  [Strategy 1] Searching by PII: S0306261924016490
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[271/776] url_b70a10f5.pdf
+  [Strategy 1] Searching by PII: S0378775318300041
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[272/776] url_1e56fdce.pdf
+  [Strategy 1] Searching by PII: S0306261923001381
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S030626192...
+  [-] Not found
+
+[273/776] url_ad6a130b.pdf
+  [Strategy 1] Searching by PII: S2352152X2300542X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[274/776] url_8cab53fb.pdf
+  [Strategy 1] Searching by PII: S2405829722002446
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S24058...
+  [-] Not found
+
+[275/776] url_a9bea372.pdf
+  [Strategy 3] Searching by URL: https://www.cell.com/joule/fulltext/S2542-4351(21)00247-6...
+  [-] Not found
+
+[276/776] url_6fc3cb77.pdf
+  [Strategy 1] Searching by PII: S2352152X20319502
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[277/776] url_bb3ab35f.pdf
+  [Strategy 1] Searching by PII: S0360544221014729
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[278/776] url_3f3fb349.pdf
+  [Strategy 1] Searching by PII: S0167273804006678
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S01672...
+  [-] Not found
+
+[279/776] url_09fb9b25.pdf
+  [Strategy 1] Searching by PII: S0306261923002696
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S030626192...
+  [-] Not found
+
+[280/776] url_3e8d4438.pdf
+  [Strategy 1] Searching by PII: S0378775312018605
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[281/776] url_f16be6be.pdf
+  [Strategy 1] Searching by PII: S2666546821000355
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S266654682...
+  [-] Not found
+
+[282/776] url_54d0ff22.pdf
+  [Strategy 1] Searching by PII: S0360544217300452
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[283/776] url_1a895e95.pdf
+  [Strategy 1] Searching by PII: S2352340917300197
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234091...
+  [-] Not found
+
+[284/776] url_1329febc.pdf
+  [Strategy 1] Searching by PII: S2542435122004093
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S254243512...
+  [-] Not found
+
+[285/776] url_90243e41.pdf
+  [Strategy 1] Searching by PII: S2405829721003950
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S24058...
+  [-] Not found
+
+[286/776] url_eaa1241d.pdf
+  [Strategy 1] Searching by PII: S0378775321005619
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[287/776] url_1a79da92.pdf
+  [Strategy 3] Searching by URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002...
+  [-] Not found
+
+[288/776] url_6e84e10f.pdf
+  [Strategy 1] Searching by PII: S0378775320311101
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[289/776] url_2f42fa4c.pdf
+  [Strategy 1] Searching by PII: S2542435119305859
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S254243511...
+  [-] Not found
+
+[290/776] url_2c1edbd3.pdf
+  [Strategy 3] Searching by URL: https://osf.io/preprints/ecsarxiv/h7c24...
+  [-] Not found
+
+[291/776] url_9c0f4883.pdf
+  [Strategy 1] Searching by PII: S0378775322001495
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[292/776] url_c9b7954b.pdf
+  [Strategy 1] Searching by PII: S0378775322000519
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[293/776] url_6609338a.pdf
+  [Strategy 1] Searching by PII: S0378775321009952
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[294/776] url_56a276c6.pdf
+  [Strategy 1] Searching by PII: S0378775319312364
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[295/776] url_98ad12f5.pdf
+  [Strategy 1] Searching by PII: S2352152X19312009
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[296/776] url_3cb23024.pdf
+  [Strategy 1] Searching by PII: S0026271419304731
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S00262...
+  [-] Not found
+
+[297/776] url_e587d978.pdf
+  [Strategy 1] Searching by PII: S2352152X24041240
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[298/776] url_d6c161fd.pdf
+  [Strategy 1] Searching by PII: S2666546822000271
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S266654682...
+  [-] Not found
+
+[299/776] url_7ed684d4.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/10.1002/er.8216...
+  [-] Not found
+
+[300/776] url_580647bc.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/full/10.1002/er.6265...
+  [-] Not found
+
+  [+] Checkpoint save at 300/776
+[301/776] url_633209a6.pdf
+  [Strategy 3] Searching by URL: https://pubs.acs.org/doi/full/10.1021/accountsmr.2c00082...
+  [-] Not found
+
+[302/776] url_f96c0dc3.pdf
+  [Strategy 1] Searching by PII: S0378775316306140
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877531...
+  [-] Not found
+
+[303/776] url_1a698202.pdf
+  [Strategy 1] Searching by PII: S2542435121002051
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S254243512...
+  [-] Not found
+
+[304/776] url_95e64a28.pdf
+  [Strategy 1] Searching by PII: S0378775317303269
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877531...
+  [-] Not found
+
+[305/776] url_6bf34c60.pdf
+  [Strategy 3] Searching by URL: https://pubs.acs.org/doi/full/10.1021/acsenergylett.0c02584...
+  [-] Not found
+
+[306/776] url_4f952c73.pdf
+  [Strategy 1] Searching by PII: S2590116819300347
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S25901...
+  [-] Not found
+
+[307/776] url_f0270e38.pdf
+  [Strategy 1] Searching by PII: S2542435120305626
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S254243512...
+  [-] Not found
+
+[308/776] url_83a0b969.pdf
+  [Strategy 1] Searching by PII: S0378775318305573
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[309/776] url_356e9fb4.pdf
+  [Strategy 1] Searching by PII: S0378775317305670
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[310/776] url_09853d65.pdf
+  [Strategy 1] Searching by PII: S0378775322004335
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[311/776] url_65b675b8.pdf
+  [Strategy 1] Searching by PII: S2405829721003275
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S24058...
+  [-] Not found
+
+[312/776] url_0d37207e.pdf
+  [Strategy 1] Searching by PII: S2666546821000422
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S266654682...
+  [-] Not found
+
+[313/776] url_fcfd4201.pdf
+  [Strategy 3] Searching by URL: https://www.pnas.org/doi/10.1073/pnas.1900654116...
+  [-] Not found
+
+[314/776] url_979c5cb0.pdf
+  [Strategy 1] Searching by PII: S2352152X21015231
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[315/776] url_082070e1.pdf
+  [Strategy 3] Searching by URL: https://www.pnas.org/doi/10.1073/pnas.2111164118...
+  [-] Not found
+
+[316/776] url_a4931c8c.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/abs/10.1002/ente.2017006...
+  [-] Not found
+
+[317/776] url_70aac2ce.pdf
+  [Strategy 1] Searching by PII: S2666546820300161
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S266654682...
+  [-] Not found
+
+[318/776] url_ffd3acc0.pdf
+  [Strategy 1] Searching by PII: S2542435119303708
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S254243511...
+  [-] Not found
+
+[319/776] url_d41fc774.pdf
+  [Strategy 1] Searching by PII: S136403211930454X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S136403211...
+  [-] Not found
+
+[320/776] url_8b4470f7.pdf
+  [Strategy 1] Searching by PII: S0378775315001457
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[321/776] url_2eac8d39.pdf
+  [Strategy 1] Searching by PII: S1364032115013076
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S13640...
+  [-] Not found
+
+[322/776] url_8a7a2ae4.pdf
+  [Strategy 3] Searching by URL: https://chemrxiv.org/engage/chemrxiv/article-details/60c74d6...
+  [-] Not found
+
+[323/776] url_e1c39049.pdf
+  [Strategy 1] Searching by PII: S2352152X22005564
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[324/776] url_59efd137.pdf
+  [Strategy 3] Searching by URL: https://www.cell.com/cell-reports-physical-science/fulltext/...
+  [-] Not found
+
+[325/776] url_04407471.pdf
+  [Strategy 1] Searching by PII: B9780323960229002322
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/B97803...
+  [-] Not found
+
+[326/776] url_b2c414ba.pdf
+  [Strategy 3] Searching by URL: https://pubs.acs.org/doi/full/10.1021/acsenergylett.4c01390...
+  [-] Not found
+
+[327/776] url_32a77ab9.pdf
+  [Strategy 3] Searching by URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/full/10...
+  [-] Not found
+
+[328/776] url_e289b422.pdf
+  [Strategy 3] Searching by URL: https://chemrxiv.org/engage/chemrxiv/article-details/60c74cb...
+  [-] Not found
+
+[329/776] url_753e6b33.pdf
+  [Strategy 1] Searching by PII: S2405829722006973
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S240582972...
+  [-] Not found
+
+[330/776] url_49f01958.pdf
+  [Strategy 1] Searching by PII: S0378775318314137
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[331/776] url_17ad27a7.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/abs/10.1002/ente.2023008...
+  [-] Not found
+
+[332/776] url_ae7d2fdf.pdf
+  [Strategy 1] Searching by PII: S1876610217361362
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S187661021...
+  [-] Not found
+
+[333/776] url_4904ac83.pdf
+  [Strategy 1] Searching by PII: S2590116823000838
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S25901...
+  [-] Not found
+
+[334/776] url_7f7af3e3.pdf
+  [Strategy 1] Searching by PII: S145239812300069X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S145239812...
+  [-] Not found
+
+[335/776] url_89ea0a5d.pdf
+  [Strategy 1] Searching by PII: S2352152X2201502X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[336/776] url_49410dc3.pdf
+  [Strategy 1] Searching by PII: S2352152X21004758
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[337/776] url_39e9d23b.pdf
+  [Strategy 1] Searching by PII: S2352152X23004607
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[338/776] url_2bc5d51f.pdf
+  [Strategy 1] Searching by PII: S0360544219321620
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[339/776] url_68a9d7d1.pdf
+  [Strategy 1] Searching by PII: S2352152X23003663
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[340/776] url_b9c7688c.pdf
+  [Strategy 1] Searching by PII: S2352152X21015218
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[341/776] url_d8c61f88.pdf
+  [Strategy 1] Searching by PII: S0263224121013853
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S02632...
+  [-] Not found
+
+[342/776] url_876827a9.pdf
+  [Strategy 1] Searching by PII: S2352152X21009075
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[343/776] url_13924ac5.pdf
+  [Strategy 1] Searching by PII: S0306261916306316
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[344/776] url_65c36555.pdf
+  [Strategy 1] Searching by PII: S2352152X22013275
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[345/776] url_470a12bd.pdf
+  [Strategy 1] Searching by PII: S0951832023002661
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S09518...
+  [-] Not found
+
+[346/776] url_a22f112c.pdf
+  [Strategy 1] Searching by PII: S0378775322014069
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[347/776] url_a899ab4c.pdf
+  [Strategy 1] Searching by PII: S0360544223024611
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[348/776] url_50680680.pdf
+  [Strategy 1] Searching by PII: S2352152X23027688
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[349/776] url_dd1dd0b6.pdf
+  [Strategy 1] Searching by PII: S0360544222031930
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[350/776] url_47ee1e60.pdf
+  [Strategy 1] Searching by PII: S0360544223024556
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+  [+] Checkpoint save at 350/776
+[351/776] url_6f7d08ba.pdf
+  [Strategy 1] Searching by PII: S0306261923003562
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[352/776] url_d8040f72.pdf
+  [Strategy 1] Searching by PII: S2352152X2300823X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[353/776] url_767bfdad.pdf
+  [Strategy 1] Searching by PII: S2352152X2202312X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[354/776] url_51230802.pdf
+  [Strategy 1] Searching by PII: S2405896323017093
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S240589632...
+  [-] Not found
+
+[355/776] url_d781a230.pdf
+  [Strategy 3] Searching by URL: http://kth.diva-portal.org/smash/get/diva2:1765910/FULLTEXT0...
+  [-] Not found
+
+[356/776] url_48de5be8.pdf
+  [Strategy 1] Searching by PII: S0378775314007162
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[357/776] url_33ea46da.pdf
+  [Strategy 1] Searching by PII: S0378775304008146
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[358/776] url_b86e92e4.pdf
+  [Strategy 1] Searching by PII: S0378775317307723
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[359/776] url_a4681f52.pdf
+  [Strategy 1] Searching by PII: S0378775317300265
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[360/776] url_5a1ee42d.pdf
+  [Strategy 1] Searching by PII: S2211339816300508
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S22113...
+  [-] Not found
+
+[361/776] url_a67a027e.pdf
+  [Strategy 1] Searching by PII: S2352152X18307291
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[362/776] url_2016ee5d.pdf
+  [Strategy 1] Searching by PII: S0378775317312788
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[363/776] url_cdffb6c6.pdf
+  [Strategy 1] Searching by PII: S0378775317304500
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[364/776] url_e7b156cb.pdf
+  [Strategy 1] Searching by PII: S0167273817308779
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S01672...
+  [-] Not found
+
+[365/776] url_3f114260.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/10.1155/2020/8840240...
+  [-] Not found
+
+[366/776] url_49259be8.pdf
+  [Strategy 1] Searching by PII: S0360544220311075
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[367/776] url_e1a0c61f.pdf
+  [Strategy 1] Searching by PII: S1876610218313419
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S187661021...
+  [-] Not found
+
+[368/776] url_59317a89.pdf
+  [Strategy 1] Searching by PII: S2352152X21011270
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[369/776] url_7f65d8ce.pdf
+  [Strategy 1] Searching by PII: S0959652619322383
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S09596...
+  [-] Not found
+
+[370/776] url_ae9beb12.pdf
+  [Strategy 1] Searching by PII: S2352152X23016651
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[371/776] url_7c3fcb7f.pdf
+  [Strategy 1] Searching by PII: S2352152X2300556X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[372/776] url_639b9fc2.pdf
+  [Strategy 1] Searching by PII: S2352152X16302031
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[373/776] url_a2b4ff86.pdf
+  [Strategy 1] Searching by PII: S0360544217317127
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S036054421...
+  [-] Not found
+
+[374/776] url_6da38b0f.pdf
+  [Strategy 1] Searching by PII: S0306261922016944
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S030626192...
+  [-] Not found
+
+[375/776] url_c2437760.pdf
+  [Strategy 1] Searching by PII: S0378775318306323
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[376/776] url_f2b33dbb.pdf
+  [Strategy 1] Searching by PII: S2352152X22020370
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[377/776] url_8baae261.pdf
+  [Strategy 1] Searching by PII: S0013468622009197
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S00134...
+  [-] Not found
+
+[378/776] url_b1a8f2ad.pdf
+  [Strategy 1] Searching by PII: S2405829722004500
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S24058...
+  [-] Not found
+
+[379/776] url_072435ff.pdf
+  [Strategy 1] Searching by PII: S0306261916310741
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[380/776] url_9a1a730f.pdf
+  [Strategy 1] Searching by PII: S2095495622007057
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S20954...
+  [-] Not found
+
+[381/776] url_398dada2.pdf
+  [Strategy 1] Searching by PII: S1364032117306275
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S13640...
+  [-] Not found
+
+[382/776] url_758896b9.pdf
+  [Strategy 1] Searching by PII: S2352152X22009859
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[383/776] url_91cabd30.pdf
+  [Strategy 1] Searching by PII: S2212827114001140
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S221282711...
+  [-] Not found
+
+[384/776] url_f4b84f15.pdf
+  [Strategy 3] Searching by URL: https://dl.acm.org/doi/10.1145/3369810...
+  [-] Not found
+
+[385/776] url_61ae8894.pdf
+  [Strategy 1] Searching by PII: S2352152X23002360
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[386/776] url_f66abb05.pdf
+  [Strategy 1] Searching by PII: S0306261918302484
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[387/776] url_e6015f24.pdf
+  [Strategy 1] Searching by PII: S2352152X21006691
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[388/776] url_3850768a.pdf
+  [Strategy 1] Searching by PII: S2352152X23006229
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[389/776] url_086fe1c7.pdf
+  [Strategy 1] Searching by PII: S1452398123001384
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S145239812...
+  [-] Not found
+
+[390/776] url_aae30dd4.pdf
+  [Strategy 1] Searching by PII: S037877532300112X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[391/776] url_31cee0b6.pdf
+  [Strategy 1] Searching by PII: S2405829722004998
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S240582972...
+  [-] Not found
+
+[392/776] url_af782fac.pdf
+  [Strategy 1] Searching by PII: S0360544222015559
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[393/776] url_b07b2475.pdf
+  [Strategy 1] Searching by PII: S0378775322008175
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[394/776] url_f026b1be.pdf
+  [Strategy 1] Searching by PII: S2590116822000133
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S259011682...
+  [-] Not found
+
+[395/776] url_296c0a24.pdf
+  [Strategy 1] Searching by PII: S1000936119301268
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S100093611...
+  [-] Not found
+
+[396/776] url_23485c96.pdf
+  [Strategy 1] Searching by PII: S0144164722004354
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/org/science/article/pii/S01441...
+  [-] Not found
+
+[397/776] url_0563f508.pdf
+  [Strategy 1] Searching by PII: S0378775319308237
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[398/776] url_38db644d.pdf
+  [Strategy 1] Searching by PII: S0360544222026044
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[399/776] url_39cf565a.pdf
+  [Strategy 1] Searching by PII: S0378775322015324
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[400/776] url_39de0f32.pdf
+  [Strategy 1] Searching by PII: S2213138820300527
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S22131...
+  [-] Not found
+
+  [+] Checkpoint save at 400/776
+[401/776] url_dea3dac4.pdf
+  [Strategy 1] Searching by PII: S2666386421004082
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S266638642...
+  [-] Not found
+
+[402/776] url_e7ea5767.pdf
+  [Strategy 1] Searching by PII: S2352152X23034230
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[403/776] url_01e344d7.pdf
+  [Strategy 1] Searching by PII: S2352152X22012828
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[404/776] url_8da95818.pdf
+  [Strategy 1] Searching by PII: S0306261924002083
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[405/776] url_e8366f1c.pdf
+  [Strategy 3] Searching by URL: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3946848...
+  [-] Not found
+
+[406/776] url_f19d1b7d.pdf
+  [Strategy 1] Searching by PII: S235234092200796X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234092...
+  [-] Not found
+
+[407/776] url_cb02e6ac.pdf
+  [Strategy 3] Searching by URL: https://pubs.acs.org/doi/full/10.1021/acsenergylett.3c01216...
+  [-] Not found
+
+[408/776] url_5e3f4978.pdf
+  [Strategy 1] Searching by PII: S0378775314009069
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[409/776] url_31c5be04.pdf
+  [Strategy 1] Searching by PII: S0306261916319262
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S030626191...
+  [-] Not found
+
+[410/776] url_197882cb.pdf
+  [Strategy 1] Searching by PII: S0959652618309405
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S09596...
+  [-] Not found
+
+[411/776] url_c636c313.pdf
+  [Strategy 1] Searching by PII: S0306261919310554
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[412/776] url_0ea959d8.pdf
+  [Strategy 1] Searching by PII: S2352152X23008903
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[413/776] url_aacae72f.pdf
+  [Strategy 1] Searching by PII: S2352152X19308175
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[414/776] url_70df77ef.pdf
+  [Strategy 1] Searching by PII: S1364032119304332
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S13640...
+  [-] Not found
+
+[415/776] url_dcd514d9.pdf
+  [Strategy 3] Searching by URL: https://arc.aiaa.org/doi/full/10.2514/1.C033416...
+  [-] Not found
+
+[416/776] url_a4db3d8a.pdf
+  [Strategy 1] Searching by PII: S0306261922004135
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[417/776] url_12f66cce.pdf
+  [Strategy 1] Searching by PII: S2352340920309276
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234092...
+  [-] Not found
+
+[418/776] url_14b896fa.pdf
+  [Strategy 1] Searching by PII: S0378775324001101
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[419/776] url_73428672.pdf
+  [Strategy 1] Searching by PII: S0959652617323077
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S09596...
+  [-] Not found
+
+[420/776] url_e8f142cf.pdf
+  [Strategy 1] Searching by PII: S0306261920310163
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[421/776] url_9aba3c4f.pdf
+  [Strategy 3] Searching by URL: https://www.techrxiv.org/doi/full/10.36227/techrxiv.21778685...
+  [-] Not found
+
+[422/776] url_f4110540.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/10.1111/jiec.13414...
+  [-] Not found
+
+[423/776] url_9d200365.pdf
+  [Strategy 1] Searching by PII: S1364032123010298
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S136403212...
+  [-] Not found
+
+[424/776] url_19caf1cf.pdf
+  [Strategy 1] Searching by PII: S2352340923002767
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234092...
+  [-] Not found
+
+[425/776] url_a5f34146.pdf
+  [Strategy 1] Searching by PII: S2352152X22022848
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[426/776] url_14e89864.pdf
+  [Strategy 1] Searching by PII: S2352152X19313799
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[427/776] url_1479453b.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/10.1002/aenm.202102448...
+  [-] Not found
+
+[428/776] url_b88d8269.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/full/10.1002/ente.202001...
+  [-] Not found
+
+[429/776] url_39599b48.pdf
+  [Strategy 1] Searching by PII: S2405896317305931
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S240589631...
+  [-] Not found
+
+[430/776] url_add37c6a.pdf
+  [Strategy 3] Searching by URL: https://www.cell.com/joule/fulltext/S2542-4351(21)00443-8...
+  [-] Not found
+
+[431/776] url_9aa14d6a.pdf
+  [Strategy 1] Searching by PII: S2666546821000434
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S266654682...
+  [-] Not found
+
+[432/776] url_e0a1ab5c.pdf
+  [Strategy 3] Searching by URL: https://arc.aiaa.org/doi/full/10.2514/1.C035734...
+  [-] Not found
+
+[433/776] url_69169b64.pdf
+  [Strategy 3] Searching by URL: https://arc.aiaa.org/doi/abs/10.2514/8.2956...
+  [-] Not found
+
+[434/776] url_058a84e5.pdf
+  [Strategy 3] Searching by URL: https://arc.aiaa.org/doi/abs/10.2514/1.17696...
+  [-] Not found
+
+[435/776] url_a4736b73.pdf
+  [Strategy 3] Searching by URL: https://arc.aiaa.org/doi/full/10.2514/1.C031748...
+  [-] Not found
+
+[436/776] url_7508c2e1.pdf
+  [Strategy 1] Searching by PII: S0378775323007048
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[437/776] url_85420fb1.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/10.1002/er.7339...
+  [-] Not found
+
+[438/776] url_2e0c9f5c.pdf
+  [Strategy 1] Searching by PII: S001346861101142X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S00134...
+  [-] Not found
+
+[439/776] url_21d3f6ad.pdf
+  [Strategy 3] Searching by URL: https://www.cell.com/patterns/fulltext/S2666-3899(21)00145-8...
+  [-] Not found
+
+[440/776] url_9357786e.pdf
+  [Strategy 3] Searching by URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/abs/10....
+  [-] Not found
+
+[441/776] url_40d81d75.pdf
+  [Strategy 3] Searching by URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/full/10...
+  [-] Not found
+
+[442/776] url_f3c72c6a.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/abs/10.1002/adma.2021014...
+  [-] Not found
+
+[443/776] url_86953617.pdf
+  [Strategy 1] Searching by PII: S2405829724007037
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S240582972...
+  [-] Not found
+
+[444/776] url_d17ae704.pdf
+  [Strategy 1] Searching by PII: S2352152X24042828
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[445/776] url_05a2bcc4.pdf
+  [Strategy 1] Searching by PII: S036054422403771X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[446/776] url_27e8a322.pdf
+  [Strategy 1] Searching by PII: S0360544222034478
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[447/776] url_1580eb54.pdf
+  [Strategy 1] Searching by PII: S0360544224037563
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[448/776] url_381168ad.pdf
+  [Strategy 1] Searching by PII: S2666546821000501
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S266654682...
+  [-] Not found
+
+[449/776] url_3b1c322d.pdf
+  [Strategy 1] Searching by PII: S2352152X21003352
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[450/776] url_a23f00a3.pdf
+  [Strategy 3] Searching by URL: https://ietresearch.onlinelibrary.wiley.com/doi/full/10.1049...
+  [-] Not found
+
+  [+] Checkpoint save at 450/776
+[451/776] url_297a5007.pdf
+  [Strategy 1] Searching by PII: S0378775321005528
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[452/776] url_d15208e5.pdf
+  [Strategy 1] Searching by PII: S0378775321007667
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[453/776] url_c672fc24.pdf
+  [Strategy 1] Searching by PII: S2352152X22005618
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[454/776] url_dba6affe.pdf
+  [Strategy 1] Searching by PII: S2352152X22007307
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[455/776] url_f2a83e58.pdf
+  [Strategy 1] Searching by PII: S2352152X19317219
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[456/776] url_a89b670f.pdf
+  [Strategy 1] Searching by PII: S0378775320309599
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[457/776] url_df6ad513.pdf
+  [Strategy 1] Searching by PII: S0378775314001876
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[458/776] url_c2396ff8.pdf
+  [Strategy 1] Searching by PII: S0378775313014584
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877531...
+  [-] Not found
+
+[459/776] url_cb1418cf.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/full/10.1002/ente.202201...
+  [-] Not found
+
+[460/776] url_ce975210.pdf
+  [Strategy 3] Searching by URL: https://asmedigitalcollection.asme.org/electrochemical/artic...
+  [-] Not found
+
+[461/776] url_26e60cb3.pdf
+  [Strategy 1] Searching by PII: S2352152X18305255
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X1...
+  [-] Not found
+
+[462/776] url_7db63dd3.pdf
+  [Strategy 1] Searching by PII: S0306261921000088
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[463/776] url_2d5d1677.pdf
+  [Strategy 1] Searching by PII: S2352152X20308495
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[464/776] url_7f9afb16.pdf
+  [Strategy 1] Searching by PII: S2352152X2100311X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[465/776] url_f34e3d2a.pdf
+  [Strategy 1] Searching by PII: S0378775321010259
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[466/776] url_a80f8152.pdf
+  [Strategy 3] Searching by URL: https://scijournals.onlinelibrary.wiley.com/doi/10.1002/ese3...
+  [-] Not found
+
+[467/776] url_49860a73.pdf
+  [Strategy 1] Searching by PII: S0306261921013933
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[468/776] url_bcc1829b.pdf
+  [Strategy 1] Searching by PII: S0306261921015956
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[469/776] url_17083461.pdf
+  [Strategy 3] Searching by URL: https://www.cell.com/joule/fulltext/S2542-4351(21)00454-2...
+  [-] Not found
+
+[470/776] url_57925bc7.pdf
+  [Strategy 1] Searching by PII: S2590116821000047
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S259011682...
+  [-] Not found
+
+[471/776] url_7549593f.pdf
+  [Strategy 3] Searching by URL: https://pubs.acs.org/doi/10.1021/acsenergylett.8b02195...
+  [-] Not found
+
+[472/776] url_b9cc1718.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/10.1002/ente.202200801...
+  [-] Not found
+
+[473/776] url_85dffc7e.pdf
+  [Strategy 3] Searching by URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/full/10...
+  [-] Not found
+
+[474/776] url_5a557445.pdf
+  [Strategy 3] Searching by URL: https://docs.google.com/document/d/1OBPGVdzpx4vEQRD62RrSVU6e...
+  [-] Not found
+
+[475/776] url_6017fa38.pdf
+  [Strategy 3] Searching by URL: https://pubs.acs.org/doi/10.1021/acs.jpcc.3c00033...
+  [-] Not found
+
+[476/776] url_34adef54.pdf
+  [Strategy 1] Searching by PII: S2352152X23005832
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[477/776] url_b3336865.pdf
+  [Strategy 1] Searching by PII: S0360544223002499
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[478/776] url_ed32bf03.pdf
+  [Strategy 1] Searching by PII: S1877705811020418
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S187770581...
+  [-] Not found
+
+[479/776] url_a1e266dc.pdf
+  [Strategy 3] Searching by URL: https://pubs.acs.org/doi/full/10.1021/acsenergylett.3c00695...
+  [-] Not found
+
+[480/776] url_b28c0019.pdf
+  [Strategy 3] Searching by URL: https://www.researchgate.net/publication/235602059_A_Cell_Le...
+  [-] Not found
+
+[481/776] url_422b11e3.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/full/10.1002/er.7202...
+  [-] Not found
+
+[482/776] url_a4a05f12.pdf
+  [Strategy 1] Searching by PII: S2352152X22017406
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[483/776] url_dd6393cc.pdf
+  [Strategy 1] Searching by PII: S095965262034155X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S09596...
+  [-] Not found
+
+[484/776] url_fe658318.pdf
+  [Strategy 1] Searching by PII: S0959652618327793
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S09596...
+  [-] Not found
+
+[485/776] url_1cc527c5.pdf
+  [Strategy 1] Searching by PII: S0378775318307080
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[486/776] url_fa660592.pdf
+  [Strategy 1] Searching by PII: S0378775315001615
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[487/776] url_21ab29cc.pdf
+  [Strategy 1] Searching by PII: S0306261914000956
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[488/776] url_6b5600cd.pdf
+  [Strategy 1] Searching by PII: S2590116820300084
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S25901...
+  [-] Not found
+
+[489/776] url_93e6097a.pdf
+  [Strategy 1] Searching by PII: S2352711020300492
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235271102...
+  [-] Not found
+
+[490/776] url_4ad874f3.pdf
+  [Strategy 1] Searching by PII: S037877532031538X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[491/776] url_07d235b9.pdf
+  [Strategy 1] Searching by PII: S0378775317306250
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877531...
+  [-] Not found
+
+[492/776] url_369fa91f.pdf
+  [Strategy 1] Searching by PII: S2352152X18307734
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X1...
+  [-] Not found
+
+[493/776] url_e45d6ee9.pdf
+  [Strategy 1] Searching by PII: S2405896320323788
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S240589632...
+  [-] Not found
+
+[494/776] url_c21377f0.pdf
+  [Strategy 3] Searching by URL: https://pubs.acs.org/doi/10.1021/acsenergylett.1c00870...
+  [-] Not found
+
+[495/776] url_46c37eb5.pdf
+  [Strategy 3] Searching by URL: https://chemrxiv.org/engage/chemrxiv/article-details/60cc4e4...
+  [-] Not found
+
+[496/776] url_a29a6b9a.pdf
+  [Strategy 1] Searching by PII: S0378775320311678
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[497/776] url_348eb8b2.pdf
+  [Strategy 1] Searching by PII: S2590116821000278
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S25901...
+  [-] Not found
+
+[498/776] url_063d2dcc.pdf
+  [Strategy 1] Searching by PII: S2405829721003123
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S24058...
+  [-] Not found
+
+[499/776] url_239dc23c.pdf
+  [Strategy 1] Searching by PII: S2405896317313307
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S240589631...
+  [-] Not found
+
+[500/776] url_c9f6a7eb.pdf
+  [Strategy 3] Searching by URL: https://www.nasa.gov/intelligent-systems-division/discovery-...
+  [-] Not found
+
+  [+] Checkpoint save at 500/776
+[501/776] url_f39a99b7.pdf
+  [Strategy 1] Searching by PII: S0378775320312829
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[502/776] url_37c653ea.pdf
+  [Strategy 3] Searching by URL: https://data.nasa.gov/dataset/Optimizing-Battery-Life-for-El...
+  [-] Not found
+
+[503/776] url_a0085f34.pdf
+  [Strategy 3] Searching by URL: https://data.nasa.gov/dataset/Battery-Health-Management-Syst...
+  [-] Not found
+
+[504/776] url_5a873697.pdf
+  [Strategy 3] Searching by URL: https://dl.acm.org/doi/10.1145/3462203.3475878...
+  [-] Not found
+
+[505/776] url_014da28e.pdf
+  [Strategy 3] Searching by URL: https://pubs.acs.org/doi/10.1021/acsaem.2c02047...
+  [-] Not found
+
+[506/776] url_65509c5a.pdf
+  [Strategy 3] Searching by URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/full/10...
+  [-] Not found
+
+[507/776] url_d96c210b.pdf
+  [Strategy 3] Searching by URL: https://catalog.data.gov/dataset/predicting-battery-life-for...
+  [-] Not found
+
+[508/776] url_02919f60.pdf
+  [Strategy 3] Searching by URL: https://catalog.data.gov/dataset/battery-charge-depletion-pr...
+  [-] Not found
+
+[509/776] url_05e65401.pdf
+  [Strategy 3] Searching by URL: https://catalog.data.gov/dataset/exploring-the-model-design-...
+  [-] Not found
+
+[510/776] url_62b07108.pdf
+  [Strategy 3] Searching by URL: https://data.nasa.gov/dataset/Designing-Data-Driven-Battery-...
+  [-] Not found
+
+[511/776] url_49a061cf.pdf
+  [Strategy 1] Searching by PII: S0378775322001331
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[512/776] url_20616803.pdf
+  [Strategy 1] Searching by PII: S0378775318303768
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[513/776] url_6533c80d.pdf
+  [Strategy 1] Searching by PII: S037877531830630X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[514/776] url_79a41434.pdf
+  [Strategy 1] Searching by PII: S2352340924009107
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234092...
+  [-] Not found
+
+[515/776] url_7ddbd5ba.pdf
+  [Strategy 1] Searching by PII: S0360544221015140
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S036054422...
+  [-] Not found
+
+[516/776] url_33250d3f.pdf
+  [Strategy 1] Searching by PII: S0378775318305950
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[517/776] url_0ef767c5.pdf
+  [Strategy 1] Searching by PII: S0378775315011210
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[518/776] url_15ce224a.pdf
+  [Strategy 1] Searching by PII: S2352152X17303699
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[519/776] url_544ebd52.pdf
+  [Strategy 1] Searching by PII: S2352152X22010763
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[520/776] url_93b6c52e.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/full/10.1155/2022/727744...
+  [-] Not found
+
+[521/776] url_843be38f.pdf
+  [Strategy 1] Searching by PII: S2352152X22009690
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[522/776] url_375f3e37.pdf
+  [Strategy 1] Searching by PII: S2352152X19311429
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[523/776] url_c45ca90a.pdf
+  [Strategy 1] Searching by PII: S1364032124006488
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S136403212...
+  [-] Not found
+
+[524/776] url_f4bd59f3.pdf
+  [Strategy 1] Searching by PII: S0306261917306931
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[525/776] url_499df5c0.pdf
+  [Strategy 1] Searching by PII: S0306261920308503
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[526/776] url_985c7f8f.pdf
+  [Strategy 1] Searching by PII: S0378775324005718
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[527/776] url_5606e6f8.pdf
+  [Strategy 1] Searching by PII: S2405896323019535
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S240589632...
+  [-] Not found
+
+[528/776] url_4b2db1c0.pdf
+  [Strategy 3] Searching by URL: https://paperswithcode.com/paper/non-destructive-degradation...
+  [-] Not found
+
+[529/776] url_d00f1683.pdf
+  [Strategy 1] Searching by PII: S2352152X19312113
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[530/776] url_dcf53b3d.pdf
+  [Strategy 1] Searching by PII: S0378775321009630
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[531/776] url_872caf13.pdf
+  [Strategy 1] Searching by PII: S0013468622008593
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S00134...
+  [-] Not found
+
+[532/776] url_ea0b6df9.pdf
+  [Strategy 3] Searching by URL: https://zenodo.org/records/13772461...
+  [-] Not found
+
+[533/776] url_420e610f.pdf
+  [Strategy 3] Searching by URL: https://zenodo.org/records/6414008...
+  [-] Not found
+
+[534/776] url_5db8fd02.pdf
+  [Strategy 1] Searching by PII: S2405896320317365
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S240589632...
+  [-] Not found
+
+[535/776] url_d195c5ac.pdf
+  [Strategy 3] Searching by URL: https://zenodo.org/records/7896429...
+  [-] Not found
+
+[536/776] url_eed20760.pdf
+  [Strategy 1] Searching by PII: S2666248524000027
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S266624852...
+  [-] Not found
+
+[537/776] url_1e16fd53.pdf
+  [Strategy 3] Searching by URL: https://journals.sagepub.com/doi/10.1177/0959651818774481...
+  [-] Not found
+
+[538/776] url_622038c9.pdf
+  [Strategy 3] Searching by URL: https://www.emerald.com/insight/content/doi/10.1108/compel-1...
+  [-] Not found
+
+[539/776] url_0064bd52.pdf
+  [Strategy 1] Searching by PII: S2352152X19315105
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X1...
+  [-] Not found
+
+[540/776] url_1c852fd1.pdf
+  [Strategy 1] Searching by PII: S2352152X24021571
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[541/776] url_fc4963de.pdf
+  [Strategy 3] Searching by URL: https://zenodo.org/records/14214784...
+  [-] Not found
+
+[542/776] url_de361f72.pdf
+  [Strategy 1] Searching by PII: S2352152X24022734
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[543/776] url_94ace062.pdf
+  [Strategy 1] Searching by PII: S2352152X19318390
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[544/776] url_667803d4.pdf
+  [Strategy 1] Searching by PII: S240589632031185X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S240589632...
+  [-] Not found
+
+[545/776] url_8092d443.pdf
+  [Strategy 3] Searching by URL: https://zenodo.org/records/13682870...
+  [-] Not found
+
+[546/776] url_60c930e2.pdf
+  [Strategy 3] Searching by URL: https://zenodo.org/records/8318660...
+  [-] Not found
+
+[547/776] url_b2fd89f2.pdf
+  [Strategy 3] Searching by URL: https://zenodo.org/records/6391971...
+  [-] Not found
+
+[548/776] url_1144149f.pdf
+  [Strategy 3] Searching by URL: https://open-research-europe.ec.europa.eu/articles/2-15...
+  [-] Not found
+
+[549/776] url_7e56640e.pdf
+  [Strategy 1] Searching by PII: S0378775321001166
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[550/776] url_788d3037.pdf
+  [Strategy 1] Searching by PII: S2352340924008461
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234092...
+  [-] Not found
+
+  [+] Checkpoint save at 550/776
+[551/776] url_9a0d5d4c.pdf
+  [Strategy 1] Searching by PII: S0360544224025568
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[552/776] url_62d3ae88.pdf
+  [Strategy 1] Searching by PII: S0888327024004837
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S08883...
+  [-] Not found
+
+[553/776] url_c0640bd7.pdf
+  [Strategy 1] Searching by PII: S1452398124004358
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S145239812...
+  [-] Not found
+
+[554/776] url_a22c629b.pdf
+  [Strategy 1] Searching by PII: S2405829724003581
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S24058...
+  [-] Not found
+
+[555/776] url_296d8727.pdf
+  [Strategy 1] Searching by PII: S2352152X23034643
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[556/776] url_df6697be.pdf
+  [Strategy 1] Searching by PII: S0306261923012527
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[557/776] url_446e3e1a.pdf
+  [Strategy 1] Searching by PII: S0360544223033121
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[558/776] url_76978c7e.pdf
+  [Strategy 1] Searching by PII: S036054422302710X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S036054422...
+  [-] Not found
+
+[559/776] url_be39db2b.pdf
+  [Strategy 1] Searching by PII: S095758202301008X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S09575...
+  [-] Not found
+
+[560/776] url_3c00993b.pdf
+  [Strategy 1] Searching by PII: S0013468623005406
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S00134...
+  [-] Not found
+
+[561/776] url_ddff1e65.pdf
+  [Strategy 1] Searching by PII: S2352152X23005042
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[562/776] url_38038132.pdf
+  [Strategy 1] Searching by PII: S2214157X20300629
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2214157X2...
+  [-] Not found
+
+[563/776] url_bdbb86da.pdf
+  [Strategy 3] Searching by URL: https://zenodo.org/records/10884918...
+  [-] Not found
+
+[564/776] url_6ae1f17a.pdf
+  [Strategy 3] Searching by URL: https://zenodo.org/records/7091419...
+  [-] Not found
+
+[565/776] url_8407b462.pdf
+  [Strategy 3] Searching by URL: https://zenodo.org/records/1264258...
+  [-] Not found
+
+[566/776] url_0d8307f9.pdf
+  [Strategy 3] Searching by URL: https://zenodo.org/records/11562591...
+  [-] Not found
+
+[567/776] url_0d666775.pdf
+  [Strategy 3] Searching by URL: https://ietresearch.onlinelibrary.wiley.com/doi/10.1049/rpg2...
+  [-] Not found
+
+[568/776] url_1712cb1e.pdf
+  [Strategy 3] Searching by URL: https://www.cell.com/iscience/fulltext/S2589-0042(22)00530-2...
+  [-] Not found
+
+[569/776] url_34fee8f3.pdf
+  [Strategy 1] Searching by PII: S0377221722008116
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03772...
+  [-] Not found
+
+[570/776] url_ecb2a4a8.pdf
+  [Strategy 1] Searching by PII: S2666386424003606
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S266638642...
+  [-] Not found
+
+[571/776] url_ca059b57.pdf
+  [Strategy 3] Searching by URL: https://zenodo.org/records/7823546...
+  [-] Not found
+
+[572/776] url_f9d64531.pdf
+  [Strategy 3] Searching by URL: https://zenodo.org/records/8325241...
+  [-] Not found
+
+[573/776] url_5e67a9e1.pdf
+  [Strategy 1] Searching by PII: S2542435122005256
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S254243512...
+  [-] Not found
+
+[574/776] url_c58dfc34.pdf
+  [Strategy 1] Searching by PII: S0378775312011330
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[575/776] url_b86341c0.pdf
+  [Strategy 1] Searching by PII: S0306261923003185
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[576/776] url_f17b0902.pdf
+  [Strategy 3] Searching by URL: https://batterydata.energy.gov/project...
+  [-] Not found
+
+[577/776] url_9bc35070.pdf
+  [Strategy 3] Searching by URL: https://pubs.acs.org/doi/10.1021/acs.jcim.2c00035...
+  [-] Not found
+
+[578/776] url_5d3ba298.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/full/10.1002/advs.202305...
+  [-] Not found
+
+[579/776] url_7eb12ada.pdf
+  [Strategy 1] Searching by PII: S0360544217306825
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S036054421...
+  [-] Not found
+
+[580/776] url_498866c3.pdf
+  [Strategy 1] Searching by PII: S2352152X18301191
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[581/776] url_8a6c9e93.pdf
+  [Strategy 1] Searching by PII: S0360544215003138
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[582/776] url_97edbef9.pdf
+  [Strategy 3] Searching by URL: https://dl.acm.org/doi/10.1145/3307772.3331020...
+  [-] Not found
+
+[583/776] url_b1b01b8c.pdf
+  [Strategy 1] Searching by PII: S0950705121001635
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S09507...
+  [-] Not found
+
+[584/776] url_52223460.pdf
+  [Strategy 3] Searching by URL: https://www.cell.com/joule/fulltext/S2542-4351(23)00316-1...
+  [-] Not found
+
+[585/776] url_bfb3633a.pdf
+  [Strategy 1] Searching by PII: S2352152X24044037
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[586/776] url_b4007b41.pdf
+  [Strategy 1] Searching by PII: S0360544224038088
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S036054422...
+  [-] Not found
+
+[587/776] url_28db435f.pdf
+  [Strategy 1] Searching by PII: S2352152X24041288
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[588/776] url_970b995c.pdf
+  [Strategy 1] Searching by PII: S2352484723015330
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235248472...
+  [-] Not found
+
+[589/776] url_4891d013.pdf
+  [Strategy 1] Searching by PII: S0378775323005839
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[590/776] url_7b125b55.pdf
+  [Strategy 1] Searching by PII: S0378775323010625
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[591/776] url_afc658cd.pdf
+  [Strategy 1] Searching by PII: S0378775323011205
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[592/776] url_b535640c.pdf
+  [Strategy 1] Searching by PII: S0378775323011369
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[593/776] url_0f428316.pdf
+  [Strategy 1] Searching by PII: S0378775323012181
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[594/776] url_c15580f4.pdf
+  [Strategy 1] Searching by PII: S0378775323012843
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[595/776] url_9be2b718.pdf
+  [Strategy 1] Searching by PII: S0378775323012867
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[596/776] url_51e354e4.pdf
+  [Strategy 1] Searching by PII: S0378775323013022
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[597/776] url_483c7975.pdf
+  [Strategy 1] Searching by PII: S0378775324001113
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[598/776] url_44725fb2.pdf
+  [Strategy 1] Searching by PII: S0378775324002143
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[599/776] url_8bca8ac3.pdf
+  [Strategy 1] Searching by PII: S0378775324006220
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[600/776] url_141a6777.pdf
+  [Strategy 1] Searching by PII: S0378775324005421
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+  [+] Checkpoint save at 600/776
+[601/776] url_5473bc29.pdf
+  [Strategy 1] Searching by PII: S0378775323013836
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[602/776] url_b4db34a8.pdf
+  [Strategy 1] Searching by PII: S2352152X2031673X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[603/776] url_430b80d5.pdf
+  [Strategy 1] Searching by PII: S0306261919320951
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[604/776] url_fd9ff2fd.pdf
+  [Strategy 1] Searching by PII: S2352152X20318855
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[605/776] url_738c3236.pdf
+  [Strategy 1] Searching by PII: S1364032120303087
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S13640...
+  [-] Not found
+
+[606/776] url_48da7bfd.pdf
+  [Strategy 1] Searching by PII: S2352152X20315474
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[607/776] url_4dc6ef56.pdf
+  [Strategy 1] Searching by PII: S0360544220308859
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S036054422...
+  [-] Not found
+
+[608/776] url_fe0ffa2c.pdf
+  [Strategy 1] Searching by PII: S2352152X2201756X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[609/776] url_2c391763.pdf
+  [Strategy 1] Searching by PII: S2352152X2101344X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[610/776] url_03e05de1.pdf
+  [Strategy 1] Searching by PII: S2352340924005766
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234092...
+  [-] Not found
+
+[611/776] url_6282848e.pdf
+  [Strategy 1] Searching by PII: S2352152X23001950
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[612/776] url_2d909fc1.pdf
+  [Strategy 1] Searching by PII: S2352340923006613
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234092...
+  [-] Not found
+
+[613/776] url_a34d6f76.pdf
+  [Strategy 1] Searching by PII: S0360544215007756
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[614/776] url_cefe852a.pdf
+  [Strategy 1] Searching by PII: S2352340922010423
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234092...
+  [-] Not found
+
+[615/776] url_713e7bda.pdf
+  [Strategy 1] Searching by PII: S0379711222001722
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037971122...
+  [-] Not found
+
+[616/776] url_6a72287a.pdf
+  [Strategy 1] Searching by PII: S2352467723002035
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235246772...
+  [-] Not found
+
+[617/776] url_eb429517.pdf
+  [Strategy 1] Searching by PII: S2352340924005833
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234092...
+  [-] Not found
+
+[618/776] url_12d7c6bb.pdf
+  [Strategy 1] Searching by PII: S2352340924002737
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234092...
+  [-] Not found
+
+[619/776] url_9af333d0.pdf
+  [Strategy 1] Searching by PII: S235234092300728X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234092...
+  [-] Not found
+
+[620/776] url_fe28b4ac.pdf
+  [Strategy 1] Searching by PII: S2352340923001981
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234092...
+  [-] Not found
+
+[621/776] url_f3825cd3.pdf
+  [Strategy 1] Searching by PII: S2352340921003553
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234092...
+  [-] Not found
+
+[622/776] url_f872d0f6.pdf
+  [Strategy 1] Searching by PII: S0306261920303925
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[623/776] url_0c0efbd4.pdf
+  [Strategy 1] Searching by PII: S037877531401026X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[624/776] url_1579c9d9.pdf
+  [Strategy 1] Searching by PII: S2352340921009951
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234092...
+  [-] Not found
+
+[625/776] url_1211b6c7.pdf
+  [Strategy 1] Searching by PII: S0378775321011848
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[626/776] url_9f8e85d4.pdf
+  [Strategy 1] Searching by PII: S2352340919307334
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234091...
+  [-] Not found
+
+[627/776] url_31559f0f.pdf
+  [Strategy 1] Searching by PII: S1359431119301991
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S13594...
+  [-] Not found
+
+[628/776] url_fd9cba7c.pdf
+  [Strategy 1] Searching by PII: S2352340921007587
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234092...
+  [-] Not found
+
+[629/776] url_55ca55e0.pdf
+  [Strategy 1] Searching by PII: S2352340920300317
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234092...
+  [-] Not found
+
+[630/776] url_0823b3e3.pdf
+  [Strategy 1] Searching by PII: S2352340916306394
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234091...
+  [-] Not found
+
+[631/776] url_98ef7033.pdf
+  [Strategy 1] Searching by PII: S0360544216312312
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[632/776] url_49c47ff8.pdf
+  [Strategy 1] Searching by PII: S2352340921001785
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234092...
+  [-] Not found
+
+[633/776] url_8a8d6232.pdf
+  [Strategy 1] Searching by PII: S2352340923005644
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234092...
+  [-] Not found
+
+[634/776] url_ac8c037e.pdf
+  [Strategy 1] Searching by PII: S2352340921010027
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234092...
+  [-] Not found
+
+[635/776] url_239475bc.pdf
+  [Strategy 1] Searching by PII: S2352340922009039
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234092...
+  [-] Not found
+
+[636/776] url_bdf550a8.pdf
+  [Strategy 1] Searching by PII: S2352152X22010246
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[637/776] url_a3da15d5.pdf
+  [Strategy 1] Searching by PII: S2352340922009027
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234092...
+  [-] Not found
+
+[638/776] url_751ad571.pdf
+  [Strategy 3] Searching by URL: https://www.cell.com/cell-reports-physical-science/fulltext/...
+  [-] Not found
+
+[639/776] url_4355b93f.pdf
+  [Strategy 1] Searching by PII: S2352152X21015735
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[640/776] url_9102ebf5.pdf
+  [Strategy 1] Searching by PII: S2352152X24005528
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[641/776] url_af0218fb.pdf
+  [Strategy 1] Searching by PII: S2352152X20317278
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[642/776] url_6ecdc41c.pdf
+  [Strategy 1] Searching by PII: S037877531630965X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877531...
+  [-] Not found
+
+[643/776] url_ac0948b3.pdf
+  [Strategy 3] Searching by URL: https://chemrxiv.org/engage/chemrxiv/article-details/66e8717...
+  [-] Not found
+
+[644/776] url_aae3bb26.pdf
+  [Strategy 1] Searching by PII: S2352152X22012166
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[645/776] url_b8eb9773.pdf
+  [Strategy 1] Searching by PII: S2352152X2201622X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[646/776] url_de098d63.pdf
+  [Strategy 1] Searching by PII: S2666248522000154
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S266624852...
+  [-] Not found
+
+[647/776] url_8c445a0f.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/10.1002/aenm.202300942...
+  [-] Not found
+
+[648/776] url_f452e45b.pdf
+  [Strategy 1] Searching by PII: S2212827123001580
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S221282712...
+  [-] Not found
+
+[649/776] url_1e9d7113.pdf
+  [Strategy 1] Searching by PII: S2352340924001987
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235234092...
+  [-] Not found
+
+[650/776] url_922bbb88.pdf
+  [Strategy 1] Searching by PII: S0013468619321899
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S00134...
+  [-] Not found
+
+  [+] Checkpoint save at 650/776
+[651/776] url_b43749b3.pdf
+  [Strategy 3] Searching by URL: https://dl.acm.org/doi/10.1145/3529399.3529402...
+  [-] Not found
+
+[652/776] url_02772ad4.pdf
+  [Strategy 1] Searching by PII: S2352152X22024616
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[653/776] url_765c8a62.pdf
+  [Strategy 1] Searching by PII: S0013468616304625
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S00134...
+  [-] Not found
+
+[654/776] url_8e1fda73.pdf
+  [Strategy 1] Searching by PII: S0196890422013085
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S01968...
+  [-] Not found
+
+[655/776] url_cb8c0e1a.pdf
+  [Strategy 1] Searching by PII: S2542435123004403
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S254243512...
+  [-] Not found
+
+[656/776] url_45f22856.pdf
+  [Strategy 1] Searching by PII: S2352152X21010768
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[657/776] url_34019cc4.pdf
+  [Strategy 1] Searching by PII: S0360544217319886
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[658/776] url_d20ca62a.pdf
+  [Strategy 1] Searching by PII: S0959652623044724
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S095965262...
+  [-] Not found
+
+[659/776] url_9203efa5.pdf
+  [Strategy 1] Searching by PII: S2666546822000192
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S266654682...
+  [-] Not found
+
+[660/776] url_3abfb791.pdf
+  [Strategy 1] Searching by PII: S2352152X24016281
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[661/776] url_3e4e3067.pdf
+  [Strategy 1] Searching by PII: S2352152X23018194
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[662/776] url_e566b054.pdf
+  [Strategy 3] Searching by URL: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4620843...
+  [-] Not found
+
+[663/776] url_2d9045b1.pdf
+  [Strategy 1] Searching by PII: S0142061519315765
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S01420...
+  [-] Not found
+
+[664/776] url_7b0262a6.pdf
+  [Strategy 1] Searching by PII: S0360544220314432
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[665/776] url_636afac1.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/full/10.1002/smtd.202100...
+  [-] Not found
+
+[666/776] url_d71e8501.pdf
+  [Strategy 1] Searching by PII: S2352152X19307340
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[667/776] url_0a1c81be.pdf
+  [Strategy 1] Searching by PII: S0378775323008054
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[668/776] url_a075df53.pdf
+  [Strategy 1] Searching by PII: S0378775324006530
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[669/776] url_014554fa.pdf
+  [Strategy 1] Searching by PII: S266638642300588X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S266638642...
+  [-] Not found
+
+[670/776] url_488cf50f.pdf
+  [Strategy 1] Searching by PII: S2352152X21005594
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[671/776] url_4235b925.pdf
+  [Strategy 1] Searching by PII: S0306261921003822
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[672/776] url_2bc9d689.pdf
+  [Strategy 1] Searching by PII: S036054422100150X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[673/776] url_4e0bff4e.pdf
+  [Strategy 1] Searching by PII: S1568494618305714
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S15684...
+  [-] Not found
+
+[674/776] url_81f936ee.pdf
+  [Strategy 1] Searching by PII: S0142061517333422
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S01420...
+  [-] Not found
+
+[675/776] url_9d84cf0d.pdf
+  [Strategy 1] Searching by PII: S0378775322011028
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[676/776] url_419eda0c.pdf
+  [Strategy 1] Searching by PII: S0378775323008509
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[677/776] url_0765c2a7.pdf
+  [Strategy 1] Searching by PII: S2352152X22014943
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[678/776] url_77cb5fab.pdf
+  [Strategy 1] Searching by PII: S2405829722003683
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S24058...
+  [-] Not found
+
+[679/776] url_c06b4213.pdf
+  [Strategy 1] Searching by PII: S2352152X22010751
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[680/776] url_dbd4620d.pdf
+  [Strategy 1] Searching by PII: S2405829722003154
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S24058...
+  [-] Not found
+
+[681/776] url_0e700e84.pdf
+  [Strategy 1] Searching by PII: S0306261920306164
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[682/776] url_b5c9cd7c.pdf
+  [Strategy 3] Searching by URL: https://community.nxp.com/t5/NXP-Model-Based-Design-Tools/De...
+  [-] Not found
+
+[683/776] url_8522a9f5.pdf
+  [Strategy 1] Searching by PII: S2352152X22001608
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[684/776] url_0814f6ea.pdf
+  [Strategy 1] Searching by PII: S0306261922001842
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[685/776] url_de623f5a.pdf
+  [Strategy 1] Searching by PII: S2352152X22003334
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[686/776] url_51ec6331.pdf
+  [Strategy 1] Searching by PII: S2352152X21004394
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[687/776] url_a79ea25e.pdf
+  [Strategy 1] Searching by PII: S2352152X22017571
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[688/776] url_506b0a88.pdf
+  [Strategy 1] Searching by PII: S0360544219306991
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[689/776] url_9f09ac01.pdf
+  [Strategy 1] Searching by PII: S2352152X21009646
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[690/776] url_72f84133.pdf
+  [Strategy 1] Searching by PII: S2352152X22015493
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[691/776] url_32f034cf.pdf
+  [Strategy 1] Searching by PII: S0306261917306645
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[692/776] url_11ff845b.pdf
+  [Strategy 1] Searching by PII: S0306261917310504
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[693/776] url_206bd329.pdf
+  [Strategy 1] Searching by PII: S2352152X20305235
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[694/776] url_4f5b7453.pdf
+  [Strategy 1] Searching by PII: S0378775319311103
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[695/776] url_6b6378ab.pdf
+  [Strategy 1] Searching by PII: S0378775322005651
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[696/776] url_f9dd793c.pdf
+  [Strategy 1] Searching by PII: S2352152X18308053
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[697/776] url_13d0627a.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/10.1002/aenm.202103712...
+  [-] Not found
+
+[698/776] url_74f61e88.pdf
+  [Strategy 1] Searching by PII: S2352152X21006162
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[699/776] url_5425dff6.pdf
+  [Strategy 1] Searching by PII: S0960148119312510
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S09601...
+  [-] Not found
+
+[700/776] url_77ac3a91.pdf
+  [Strategy 1] Searching by PII: S0378775319308626
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+  [+] Checkpoint save at 700/776
+[701/776] url_474631bc.pdf
+  [Strategy 3] Searching by URL: https://www.cell.com/joule/fulltext/S2542-4351(21)00532-8...
+  [-] Not found
+
+[702/776] url_defc8ce9.pdf
+  [Strategy 1] Searching by PII: S0378775322014549
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[703/776] url_f4fb2624.pdf
+  [Strategy 1] Searching by PII: S0306261922009618
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[704/776] url_eb7cb189.pdf
+  [Strategy 1] Searching by PII: S0378775322008072
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[705/776] url_ce98eacb.pdf
+  [Strategy 1] Searching by PII: S2773153722000019
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S277315372...
+  [-] Not found
+
+[706/776] url_014a6872.pdf
+  [Strategy 1] Searching by PII: S0378775321013458
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[707/776] url_5f186e83.pdf
+  [Strategy 1] Searching by PII: S2405829721004864
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S240582972...
+  [-] Not found
+
+[708/776] url_8b8c0ecf.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/abs/10.1002/aenm.2023014...
+  [-] Not found
+
+[709/776] url_709973d6.pdf
+  [Strategy 1] Searching by PII: S0378775322000957
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[710/776] url_507d8cc5.pdf
+  [Strategy 1] Searching by PII: S2352152X20315449
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[711/776] url_c686c3b1.pdf
+  [Strategy 1] Searching by PII: S1359431121002052
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S13594...
+  [-] Not found
+
+[712/776] url_e8ed6427.pdf
+  [Strategy 1] Searching by PII: S2405829716303464
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S24058...
+  [-] Not found
+
+[713/776] url_8a3aa793.pdf
+  [Strategy 3] Searching by URL: https://www.mdpi.com/2313-0105/7/2/25/htm...
+  [-] Not found
+
+[714/776] url_2e5d501d.pdf
+  [Strategy 1] Searching by PII: S2352152X2100339X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[715/776] url_c885504f.pdf
+  [Strategy 1] Searching by PII: S2352152X21005405
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[716/776] url_e589aa2f.pdf
+  [Strategy 1] Searching by PII: S2352152X22003280
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[717/776] url_848416e6.pdf
+  [Strategy 1] Searching by PII: S2352152X20316704
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[718/776] url_8598d5b6.pdf
+  [Strategy 1] Searching by PII: S1364032120305165
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S136403212...
+  [-] Not found
+
+[719/776] url_dea9e1db.pdf
+  [Strategy 3] Searching by URL: https://chemrxiv.org/engage/chemrxiv/article-details/60ed40e...
+  [-] Not found
+
+[720/776] url_68e22992.pdf
+  [Strategy 1] Searching by PII: S0378775321007722
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[721/776] url_aacaa48e.pdf
+  [Strategy 3] Searching by URL: https://pubs.acs.org/doi/10.1021/accountsmr.1c00244#...
+  [-] Not found
+
+[722/776] url_1be007ab.pdf
+  [Strategy 3] Searching by URL: https://www.cell.com/patterns/fulltext/S2666-3899(22)00128-3...
+  [-] Not found
+
+[723/776] url_2c01bee2.pdf
+  [Strategy 1] Searching by PII: S0013468621020119
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S001346862...
+  [-] Not found
+
+[724/776] url_72bd3bfe.pdf
+  [Strategy 3] Searching by URL: https://pubs.acs.org/doi/10.1021/acsomega.3c06796...
+  [-] Not found
+
+[725/776] url_e79dbfe5.pdf
+  [Strategy 3] Searching by URL: https://www.cell.com/cell-reports-physical-science/fulltext/...
+  [-] Not found
+
+[726/776] url_fa96ba53.pdf
+  [Strategy 1] Searching by PII: S2590116823000565
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S25901...
+  [-] Not found
+
+[727/776] url_7fe52b44.pdf
+  [Strategy 1] Searching by PII: S2352152X23022818
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[728/776] url_63480848.pdf
+  [Strategy 3] Searching by URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/full/10...
+  [-] Not found
+
+[729/776] url_01ca40f0.pdf
+  [Strategy 3] Searching by URL: https://chemrxiv.org/engage/chemrxiv/article-details/6463bdf...
+  [-] Not found
+
+[730/776] url_5fb77d27.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/10.1002/aenm.202102702...
+  [-] Not found
+
+[731/776] url_7adf73fb.pdf
+  [Strategy 1] Searching by PII: S030626192301111X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03062...
+  [-] Not found
+
+[732/776] url_9acd02ca.pdf
+  [Strategy 1] Searching by PII: S0379711223001534
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03797...
+  [-] Not found
+
+[733/776] url_e82dfb11.pdf
+  [Strategy 1] Searching by PII: S0306261923008954
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S030626192...
+  [-] Not found
+
+[734/776] url_f75ba256.pdf
+  [Strategy 1] Searching by PII: S235248472301079X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S235248472...
+  [-] Not found
+
+[735/776] url_92dcea8f.pdf
+  [Strategy 3] Searching by URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002...
+  [-] Not found
+
+[736/776] url_bc98fd4d.pdf
+  [Strategy 1] Searching by PII: S2352152X23013075
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[737/776] url_4d0db78b.pdf
+  [Strategy 1] Searching by PII: S2352152X23012811
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[738/776] url_bac8c562.pdf
+  [Strategy 1] Searching by PII: S2352152X23014317
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[739/776] url_c8b322b9.pdf
+  [Strategy 1] Searching by PII: S2352152X23014974
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[740/776] url_93109a6e.pdf
+  [Strategy 1] Searching by PII: S2352152X23014354
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[741/776] url_b06ead8f.pdf
+  [Strategy 1] Searching by PII: S2352152X23014421
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[742/776] url_cfdc3ab8.pdf
+  [Strategy 1] Searching by PII: S0378775323006584
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[743/776] url_473f2aa1.pdf
+  [Strategy 1] Searching by PII: S0306261923005937
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S030626192...
+  [-] Not found
+
+[744/776] url_a8877ef4.pdf
+  [Strategy 3] Searching by URL: https://www.cell.com/joule/fulltext/S2542-4351(23)00120-4...
+  [-] Not found
+
+[745/776] url_56d3803e.pdf
+  [Strategy 3] Searching by URL: https://onlinelibrary.wiley.com/doi/full/10.1002/aenm.202300...
+  [-] Not found
+
+[746/776] url_1508bbe5.pdf
+  [Strategy 3] Searching by URL: https://pubs.acs.org/doi/10.1021/acsenergylett.3c00724...
+  [-] Not found
+
+[747/776] url_05b9cb95.pdf
+  [Strategy 1] Searching by PII: S2590116823000309
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S25901...
+  [-] Not found
+
+[748/776] url_039b09fe.pdf
+  [Strategy 1] Searching by PII: S2352152X2300974X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[749/776] url_e25ac960.pdf
+  [Strategy 1] Searching by PII: S2352152X23010733
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[750/776] url_240f45be.pdf
+  [Strategy 1] Searching by PII: S2542435123001952
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S254243512...
+  [-] Not found
+
+  [+] Checkpoint save at 750/776
+[751/776] url_9657e627.pdf
+  [Strategy 1] Searching by PII: S030626192300555X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S030626192...
+  [-] Not found
+
+[752/776] url_79bdb429.pdf
+  [Strategy 1] Searching by PII: S2352152X23009829
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[753/776] url_caeeacb3.pdf
+  [Strategy 1] Searching by PII: S2352152X2300840X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[754/776] url_5a34713b.pdf
+  [Strategy 1] Searching by PII: S2352152X23009726
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[755/776] url_2468581b.pdf
+  [Strategy 1] Searching by PII: S2352152X23010022
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[756/776] url_9ef80eb9.pdf
+  [Strategy 1] Searching by PII: S0378775323004937
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[757/776] url_ca3b2c9a.pdf
+  [Strategy 1] Searching by PII: S2352152X23009064
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[758/776] url_95595750.pdf
+  [Strategy 1] Searching by PII: S2352152X23008575
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[759/776] url_6054bcf1.pdf
+  [Strategy 3] Searching by URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002...
+  [-] Not found
+
+[760/776] url_c828bca3.pdf
+  [Strategy 1] Searching by PII: S2352152X23008277
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[761/776] url_651fbd15.pdf
+  [Strategy 1] Searching by PII: S2352152X23008927
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S23521...
+  [-] Not found
+
+[762/776] url_6784d8af.pdf
+  [Strategy 1] Searching by PII: S0360544224038970
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S036054422...
+  [-] Not found
+
+[763/776] url_a56ad129.pdf
+  [Strategy 1] Searching by PII: S0378775324019359
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S037877532...
+  [-] Not found
+
+[764/776] url_16b06a10.pdf
+  [Strategy 1] Searching by PII: S2772671124004479
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S277267112...
+  [-] Not found
+
+[765/776] url_68d008bc.pdf
+  [Strategy 1] Searching by PII: S2352152X24044748
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[766/776] url_688ae460.pdf
+  [Strategy 1] Searching by PII: S2352152X24045419
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[767/776] url_5a6b689a.pdf
+  [Strategy 1] Searching by PII: S0306261924025005
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S030626192...
+  [-] Not found
+
+[768/776] url_7af58a04.pdf
+  [Strategy 1] Searching by PII: S1364032124009304
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S136403212...
+  [-] Not found
+
+[769/776] url_9286af8a.pdf
+  [Strategy 3] Searching by URL: https://ebiltegia.mondragon.edu/xmlui/handle/20.500.11984/68...
+  [-] Not found
+
+[770/776] url_7d582327.pdf
+  [Strategy 1] Searching by PII: S0378775304003593
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03787...
+  [-] Not found
+
+[771/776] url_eeb22f10.pdf
+  [Strategy 1] Searching by PII: S0306261924025455
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S030626192...
+  [-] Not found
+
+[772/776] url_c35806aa.pdf
+  [Strategy 1] Searching by PII: S2352152X2404622X
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/pii/S2352152X2...
+  [-] Not found
+
+[773/776] url_02d791a9.pdf
+  [Strategy 1] Searching by PII: S0360544224040714
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[774/776] url_6478a34a.pdf
+  [Strategy 1] Searching by PII: S0360544224040362
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[775/776] url_d56b1318.pdf
+  [Strategy 1] Searching by PII: S0360544224040507
+  [Strategy 3] Searching by URL: https://www.sciencedirect.com/science/article/abs/pii/S03605...
+  [-] Not found
+
+[776/776] url_e7062bf4.pdf
+  [Strategy 3] Searching by URL: https://www.cell.com/joule/fulltext/S2542-4351(24)00510-5...
+  [-] Not found
+
+================================================================================
+Saving changes...
+
+[+] Saved metadata.json
+[+] Updating ChromaDB...
+2026-02-07 14:17:00.992 WARNING streamlit.runtime.caching.cache_data_api: No runtime found, using MemoryCacheStorageManager
+2026-02-07 14:17:00.993 WARNING streamlit.runtime.caching.cache_data_api: No runtime found, using MemoryCacheStorageManager
+2026-02-07 14:17:00.993 WARNING streamlit.runtime.caching.cache_data_api: No runtime found, using MemoryCacheStorageManager
+[+] Updated 0 papers in ChromaDB
+[+] Cleared caches
+
+================================================================================
+SUMMARY
+================================================================================
+Papers to process:            776
+Successfully fixed:           0 (0.0%)
+Still unknown:                776 (100.0%)
+
+[NOTE] Papers still marked 'Unknown - needs manual review':
+  - url_59e2d91a.pdf: N/A
+  - url_408146b6.pdf: N/A
+  - url_871ea7ec.pdf: N/A
+  - url_f06e813e.pdf: N/A
+  - url_261df91a.pdf: N/A
+  - url_c3bb1e74.pdf: N/A
+  - url_be96fd02.pdf: N/A
+  - url_7e970ff0.pdf: N/A
+  - url_f15bc2fd.pdf: N/A
+  - url_9279a17b.pdf: N/A
+  ... and 766 more
+
+[OK] Done! Restart the Streamlit app to see changes.

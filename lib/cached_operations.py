@@ -137,6 +137,7 @@ def get_paper_status(paper: Dict) -> str:
     """Determine paper status based on pdf_status field or metadata and PDF existence.
 
     Status definitions:
+    - Summarized: has complete metadata + PDF + fully processed + AI summary
     - Complete: has complete metadata + PDF + fully processed (embedded)
     - Metadata Only: has complete metadata but no PDF
     - Incomplete: missing critical metadata fields or processing incomplete
@@ -148,7 +149,9 @@ def get_paper_status(paper: Dict) -> str:
     # Use pdf_status field if available (set by mark_incomplete_metadata.py)
     pdf_status = paper.get('pdf_status', '').lower()
 
-    if pdf_status == 'complete':
+    if pdf_status == 'summarized':
+        return "🤖 Summarized"
+    elif pdf_status == 'complete':
         return "✅ Complete"
     elif pdf_status == 'metadata_only':
         return "📋 Metadata Only"

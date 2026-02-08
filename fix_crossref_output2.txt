@@ -1,0 +1,4770 @@
+================================================================================
+Fixing Unknown Titles Using CrossRef API (PII Method)
+================================================================================
+
+Loaded 2111 papers from metadata.json
+
+Found 776 papers marked 'Unknown - needs manual review'
+
+[1/776] url_59e2d91a.pdf
+  [PII] S266654682400048X
+  [+] FOUND: Transfer learning from synthetic data for open-circuit voltage curve r...
+      DOI: 10.1016/j.egyai.2024.100382
+      Authors: Tobias Hofmann, Jacob Hamar, Bastian Mager...
+
+[2/776] url_408146b6.pdf
+  [PII] S0960148124008309
+  [+] FOUND: A comprehensive review on thermal runaway model of a lithium-ion batte...
+      DOI: 10.1016/j.renene.2024.120762
+      Authors: Jiaqiang E, Hanxu Xiao, Sicheng Tian...
+
+[3/776] url_871ea7ec.pdf
+  [PII] S0378775324006967
+  [+] FOUND: Enhancing thermal runaway characterization in NMC811 lithium-ion batte...
+      DOI: 10.1016/j.jpowsour.2024.234744
+      Authors: Antonio García, Javier Monsalve-Serrano, Felipe de Vargas Lewiski...
+
+[4/776] url_f06e813e.pdf
+  [PII] S0360544224013471
+  [+] FOUND: Lithium plating detection of lithium-ion batteries based on the improv...
+      DOI: 10.1016/j.energy.2024.131574
+      Authors: Yingjie Chen, Huaqin Zhang, Jichao Hong...
+
+[5/776] url_261df91a.pdf
+  [PII] S0959652624018705
+  [+] FOUND: Early warning for thermal runaway in lithium-ion batteries during vari...
+      DOI: 10.1016/j.jclepro.2024.142422
+      Authors: Kuijie Li, Long Chen, Xuebing Han...
+
+[6/776] url_c3bb1e74.pdf
+  [PII] S2352152X24011083
+  [+] FOUND: Effects of capacity on the thermal runaway and gas venting behaviors o...
+      DOI: 10.1016/j.est.2024.111523
+      Authors: Rongxue Kang, Chenxi Jia, Jinlong Zhao...
+
+[7/776] url_be96fd02.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/full/10.1002/adma.202402...
+
+[8/776] url_7e970ff0.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/full/10.1002/aenm.202401...
+
+[9/776] url_f15bc2fd.pdf
+  [PII] S0378775324001885
+  [+] FOUND: Effects of charging rates on heat and gas generation in lithium-ion ba...
+      DOI: 10.1016/j.jpowsour.2024.234237
+      Authors: Qianzhen Guo, Shaoyan Liu, Jiabo Zhang...
+
+[10/776] url_9279a17b.pdf
+  [PII] S2352152X24002743
+  [+] FOUND: The early warning for thermal runaway of lithium-ion batteries based o...
+      DOI: 10.1016/j.est.2024.110690
+      Authors: Teng Jia, Ying Zhang, Chuyuan Ma...
+
+[11/776] url_b3c522ea.pdf
+  [PII] S0378775324000570
+  [+] FOUND: The battery failure databank: Insights from an open-access database of...
+      DOI: 10.1016/j.jpowsour.2024.234106
+      Authors: Donal P. Finegan, Julia Billman, Jacob Darst...
+
+[12/776] url_e97f93db.pdf
+  [PII] S2095495624001116
+  [+] FOUND: Thermal runaway evolution of a 280 Ah lithium-ion battery with LiFePO4...
+      DOI: 10.1016/j.jechem.2024.01.073
+      Authors: Zhixiang Cheng, Chengdong Wang, Wenxin Mei...
+
+[13/776] url_b3d7faa0.pdf
+  [PII] S2352152X2303757X
+  [+] FOUND: An automatic identification method of thermal physical parameter for l...
+      DOI: 10.1016/j.est.2023.110358
+      Authors: Xuning FENG, Shaw Kang WONG, Tianyu CHEN...
+
+[14/776] url_3305fdb7.pdf
+  [PII] S095965262304550X
+  [+] FOUND: Experimental study of the suppressing effect of the primary fire and t...
+      DOI: 10.1016/j.jclepro.2023.140392
+      Authors: Yan Hong, Changyong Jin, Siqi Chen...
+
+[15/776] url_9a2856fa.pdf
+  [PII] S0960148123018256
+  [+] FOUND: Effect of thermal impact on the onset and propagation of thermal runaw...
+      DOI: 10.1016/j.renene.2023.119910
+      Authors: Yanhui Liu, Lei Zhang, Yifei Ding...
+
+[16/776] url_f8f88cba.pdf
+  [PII] S2352152X23036009
+  [+] FOUND: Investigation on gas generation and corresponding explosion characteri...
+      DOI: 10.1016/j.est.2023.110201
+      Authors: Jiabo Zhang, Qianzhen Guo, Shaoyan Liu...
+
+[17/776] url_342098a1.pdf
+  [PII] S209549562400038X
+  [+] FOUND: Early warning method for thermal runaway of lithium-ion batteries unde...
+      DOI: 10.1016/j.jechem.2023.12.049
+      Authors: Yuxuan Li, Lihua Jiang, Ningjie Zhang...
+
+[18/776] url_8e5b57cb.pdf
+  [PII] S2590116824000304
+  [+] FOUND: Thermodynamic and kinetic degradation of LTO batteries: Impact of diff...
+      DOI: 10.1016/j.etran.2024.100340
+      Authors: Haoze Chen, Ahmed Chahbaz, Sijia Yang...
+
+[19/776] url_5f17c68d.pdf
+  [PII] S2352152X22025063
+  [+] FOUND: Capacity and degradation mode estimation for lithium-ion batteries bas...
+      DOI: 10.1016/j.est.2022.106517
+      Authors: Julius Schmitt, Mathias Rehm, Alexander Karger...
+
+[20/776] url_8cb9e01b.pdf
+  [SKIP] No PII found in URL: https://chemrxiv.org/engage/chemrxiv/article-details/6656457...
+
+[21/776] url_5208bbf4.pdf
+  [PII] S036054422401483X
+  [+] FOUND: A hybrid data-driven method optimized by physical rules for online sta...
+      DOI: 10.1016/j.energy.2024.131710
+      Authors: Ying Zhang, Pingwei Gu, Bin Duan...
+
+[22/776] url_43a9ba99.pdf
+  [PII] S0378775324006487
+  [+] FOUND: Domain generalization-based state-of-health estimation of lithium-ion ...
+      DOI: 10.1016/j.jpowsour.2024.234696
+      Authors: Liping Chen, Xinyuan Bao, António M. Lopes...
+
+[23/776] url_2cb18e36.pdf
+  [PII] S2352152X24014816
+  [+] FOUND: A heterogeneous learner fusion method with supplementary feature for l...
+      DOI: 10.1016/j.est.2024.111896
+      Authors: Hailin Feng, Lu Zhang
+
+[24/776] url_c37dab1a.pdf
+  [PII] S0378775324007602
+  [+] FOUND: Early-stage degradation trajectory prediction for lithium-ion batterie...
+      DOI: 10.1016/j.jpowsour.2024.234808
+      Authors: Xianbin Yang, Haicheng Xie, Lisheng Zhang...
+
+[25/776] url_ea2d2d97.pdf
+  [PII] S2352152X24012726
+  [+] FOUND: Experimental and modeling approaches to investigate overcharge-induced...
+      DOI: 10.1016/j.est.2024.111687
+      Authors: Peipei Xu, Junqiu Li, Zhixiong Chai...
+
+[26/776] url_4649cadb.pdf
+  [PII] S2352152X24014622
+  [+] FOUND: Improved deep learning based state of charge estimation of lithium ion...
+      DOI: 10.1016/j.est.2024.111877
+      Authors: Uzair Khan, Sheeraz Kirmani, Yasser Rafat...
+
+[27/776] url_fc2d9480.pdf
+  [PII] S0306261924009541
+  [+] FOUND: Cell-to-cell dispersion impact on zero-dimensional models for predicti...
+      DOI: 10.1016/j.apenergy.2024.123571
+      Authors: Antonio García, José V. Pastor, Javier Monsalve-Serrano...
+
+[28/776] url_1000f904.pdf
+  [PII] S0306261924004537
+  [+] FOUND: Investigating thermal runaway dynamics and integrated safety mechanism...
+      DOI: 10.1016/j.apenergy.2024.123070
+      Authors: Matilda Fransson, Ludovic Broche, Hamish T. Reid...
+
+[29/776] url_5c1c6536.pdf
+  [SKIP] No PII found in URL: https://www.tandfonline.com/doi/abs/10.1080/15435075.2024.23...
+
+[30/776] url_ae8b9a8a.pdf
+  [PII] S2352152X24019406
+  [+] FOUND: An improved electrochemical equivalent circuit model and precise state...
+      DOI: 10.1016/j.est.2024.112354
+      Authors: Hongyu Zhao, Chengzhong Zhang, Chenglin Liao...
+
+[31/776] url_17d1338f.pdf
+  [PII] S2352152X24019984
+  [+] FOUND: An improved log-cosine variation slime mold - simplified gated recurre...
+      DOI: 10.1016/j.est.2024.112412
+      Authors: Junjie Tao, Shunli Wang, Wen Cao...
+
+[32/776] url_3f012edb.pdf
+  [PII] S0306261924010158
+  [+] FOUND: Battery state of health estimation under dynamic operations with physi...
+      DOI: 10.1016/j.apenergy.2024.123632
+      Authors: Aihua Tang, Yuchen Xu, Yuanzhi Hu...
+
+[33/776] url_fa82f792.pdf
+  [PII] S2666248524000179
+  [+] FOUND: State of charge estimation with hysteresis-prone open circuit voltage ...
+      DOI: 10.1016/j.powera.2024.100151
+      Authors: Jakob Schmitt, Ivo Horstkötter, Bernard Bäker
+
+[34/776] url_d5c604ec.pdf
+  [PII] S2352152X24019923
+  [+] FOUND: A review on health estimation techniques of end-of-first-use lithium-i...
+      DOI: 10.1016/j.est.2024.112406
+      Authors: Liang Cong, Wanhua Wang, Yue Wang
+
+[35/776] url_fdfa3dee.pdf
+  [PII] S1350630724006058
+  [+] FOUND: A failure risk assessment method for lithium-ion batteries based on bi...
+      DOI: 10.1016/j.engfailanal.2024.108559
+      Authors: Chenghao Liu, Kai Zhang, Zhongwei Deng...
+
+[36/776] url_0f075174.pdf
+  [PII] S0306261924010134
+  [+] FOUND: Quantitative failure analysis of lithium-ion batteries based on direct...
+      DOI: 10.1016/j.apenergy.2024.123630
+      Authors: Ruhui Xu, Xinhai Li, Siqi Tang...
+
+[37/776] url_c473bd7d.pdf
+  [PII] S2590116824000286
+  [+] FOUND: Towards real-world state of health estimation, Part 1: Cell-level meth...
+      DOI: 10.1016/j.etran.2024.100338
+      Authors: Yufang Lu, Jiazhen Lin, Dongxu Guo...
+
+[38/776] url_ee5e3c0b.pdf
+  [PII] S0378775324006323
+  [+] FOUND: State of health estimation for lithium-ion batteries using a hybrid ne...
+      DOI: 10.1016/j.jpowsour.2024.234680
+      Authors: Tao He, Ziyang Gong
+
+[39/776] url_e109bf7f.pdf
+  [PII] S0378775324003938
+  [+] FOUND: Thermal data-driven model reduction for enhanced battery health monito...
+      DOI: 10.1016/j.jpowsour.2024.234442
+      Authors: Michael Khasin, Mohit R. Mehta, Chetan Kulkarni...
+
+[40/776] url_36042e8a.pdf
+  [PII] S2950345024000137
+  [+] FOUND: Voltage relaxation characterization methods in lithium-ion batteries...
+      DOI: 10.1016/j.meaene.2024.100013
+      Authors: Alexa Fernando, Matthias Kuipers, Georg Angenendt...
+
+[41/776] url_dbc0468d.pdf
+  [PII] S037877532301323X
+  [+] FOUND: Mechanistic cycle aging model for the open-circuit voltage curve of li...
+      DOI: 10.1016/j.jpowsour.2023.233947
+      Authors: Alexander Karger, Julius Schmitt, Cedric Kirst...
+
+[42/776] url_74289b93.pdf
+  [PII] S0378775324002921
+  [+] FOUND: Non-destructive electrode potential and open-circuit voltage aging est...
+      DOI: 10.1016/j.jpowsour.2024.234341
+      Authors: Cedric Kirst, Alexander Karger, Jan P. Singer...
+
+[43/776] url_07d62166.pdf
+  [SKIP] No PII found in URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002...
+
+[44/776] url_b074e16f.pdf
+  [PII] S0009250924006559
+  [+] FOUND: Comprehensive study of high-temperature calendar aging on cylinder Li-...
+      DOI: 10.1016/j.ces.2024.120355
+      Authors: Qingsong Cai, Qing Ji, Xiaoping Chen...
+
+[45/776] url_568c4784.pdf
+  [PII] S2352152X24004390
+  [+] FOUND: A fast data analysis method for abnormity detecting of lithium-ion bat...
+      DOI: 10.1016/j.est.2024.110855
+      Authors: Huaqin Zhang, Jichao Hong, Kerui Li...
+
+[46/776] url_9d4a2d48.pdf
+  [PII] S0378775324009200
+  [+] FOUND: In situ measurement and modeling of internal thermal runaway propagati...
+      DOI: 10.1016/j.jpowsour.2024.234968
+      Authors: Stefan Schaeffler, Andreas Jossen
+
+[47/776] url_6e72e53a.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/10.1002/aenm.202401644...
+
+[48/776] url_d1b31fdb.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/10.1002/ente.202400494...
+
+[49/776] url_8a257a10.pdf
+  [PII] S0378779624007752
+  [+] FOUND: Comparative study of machine learning techniques for the state of heal...
+      DOI: 10.1016/j.epsr.2024.110889
+      Authors: Panagiotis Eleftheriadis, Manfredi Gangi, Sonia Leva...
+
+[50/776] url_ba336ffa.pdf
+  [PII] S0378775324009881
+  [+] FOUND: Operando determination of lithium-ion cell temperature based on electr...
+      DOI: 10.1016/j.jpowsour.2024.235036
+      Authors: Tobias Hackmann, Sebastian Esser, Michael A. Danzer
+
+  [+] Checkpoint save at 50/776
+
+[51/776] url_85baf9f9.pdf
+  [SKIP] No PII found in URL: https://www.cell.com/joule/abstract/S2542-4351(23)00316-1...
+
+[52/776] url_ea964c24.pdf
+  [PII] S2352152X24006145
+  [+] FOUND: Battery Electric Vehicles in Commercial Fleets: Use profiles, battery ...
+      DOI: 10.1016/j.est.2024.111030
+      Authors: Fabian Rücker, Jan Figgener, Ilka Schoeneberger...
+
+[53/776] url_fa689d89.pdf
+  [PII] S2352152X24027634
+  [+] FOUND: Analysis of the age-, current- and temperature-dependent expansion of ...
+      DOI: 10.1016/j.est.2024.113177
+      Authors: Jessica Hemmerling, Alexander Fill, Kai Peter Birke
+
+[54/776] url_ebe5b6b8.pdf
+  [PII] S0306261924019214
+  [+] FOUND: The design of fast charging strategy for lithium-ion batteries and int...
+      DOI: 10.1016/j.apenergy.2024.124538
+      Authors: Guansong Ji, Lianfang He, Tianyuan Wu...
+
+[55/776] url_96786d00.pdf
+  [PII] S2352152X24036144
+  [+] FOUND: A high-precision state of health estimation method based on data augme...
+      DOI: 10.1016/j.est.2024.114028
+      Authors: Hong Xu, Jun Jia, Wei Xiao...
+
+[56/776] url_1ae325d0.pdf
+  [PII] S2095495624006430
+  [+] FOUND: Multi-model ensemble learning for battery state-of-health estimation: ...
+      DOI: 10.1016/j.jechem.2024.09.021
+      Authors: Chuanping Lin, Jun Xu, Delong Jiang...
+
+[57/776] url_bd5ad697.pdf
+  [PII] S030626192401897X
+  [+] FOUND: A novel method for state of charge estimation of lithium-ion batteries...
+      DOI: 10.1016/j.apenergy.2024.124514
+      Authors: Rui Xiong, Zhengyang Li, Hailong Li...
+
+[58/776] url_37b7b534.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/abs/10.1002/ente.2024010...
+
+[59/776] url_09429ab2.pdf
+  [PII] S0378775324015465
+  [+] FOUND: An accurate state-of-charge estimation of lithium-ion batteries based ...
+      DOI: 10.1016/j.jpowsour.2024.235594
+      Authors: Shunli Wang, Shaojie Zhang, Sufang Wen...
+
+[60/776] url_29b42ab9.pdf
+  [PII] S0306261920301446
+  [+] FOUND: Analysis of degradation in residential battery energy storage systems ...
+      DOI: 10.1016/j.apenergy.2020.114632
+      Authors: Partha Pratim Mishra, Aadil Latif, Michael Emmanuel...
+
+[61/776] url_0de732be.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/10.1002/advs.202406934...
+
+[62/776] url_872d829a.pdf
+  [SKIP] No PII found in URL: https://chemrxiv.org/engage/chemrxiv/article-details/6653c53...
+
+[63/776] url_e7ecaaae.pdf
+  [SKIP] No PII found in URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002...
+
+[64/776] url_7c9564ca.pdf
+  [PII] S2590116824000468
+  [+] FOUND: Battery pack diagnostics for electric vehicles: Transfer of differenti...
+      DOI: 10.1016/j.etran.2024.100356
+      Authors: Philip Bilfinger, Philipp Rosner, Markus Schreiber...
+
+[65/776] url_1f49a531.pdf
+  [SKIP] No PII found in URL: https://spj.science.org/doi/10.34133/energymatadv.0008...
+
+[66/776] url_a9fe9ec3.pdf
+  [PII] S2352152X24033309
+  [+] FOUND: Improving the state-of-health estimation of lithium-ion batteries base...
+      DOI: 10.1016/j.est.2024.113744
+      Authors: Dou Han, Yongzhi Zhang, Haijun Ruan
+
+[67/776] url_88b168d1.pdf
+  [SKIP] No PII found in URL: https://www.cell.com/cell-reports-physical-science/fulltext/...
+
+[68/776] url_c91c1dc6.pdf
+  [PII] S2590116824000456
+  [+] FOUND: Benchmarking battery management system algorithms - Requirements, scen...
+      DOI: 10.1016/j.etran.2024.100355
+      Authors: Franziska Berger, Dominik Joest, Elias Barbers...
+
+[69/776] url_18cd7b4b.pdf
+  [SKIP] No PII found in URL: https://digital-library.theiet.org/doi/10.1049/iet-sen.2009....
+
+[70/776] url_e5f637ac.pdf
+  [PII] S209549562400593X
+  [+] FOUND: Unlocking the potential of unlabeled data: Self-supervised machine lea...
+      DOI: 10.1016/j.jechem.2024.08.037
+      Authors: Qiao Wang, Min Ye, Sehriban Celik...
+
+[71/776] url_7c19f594.pdf
+  [PII] S0378775324003914
+  [+] FOUND: Unraveling capacity recovery behavior of 78 Ah pouch cells after long-...
+      DOI: 10.1016/j.jpowsour.2024.234440
+      Authors: Siyoung Park, Tai-Jong Jung, Hyobin Lee...
+
+[72/776] url_22d4d72a.pdf
+  [SKIP] No PII found in URL: https://www.cell.com/joule/abstract/S2542-4351(24)00353-2...
+
+[73/776] url_c066f793.pdf
+  [SKIP] No PII found in URL: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4930405...
+
+[74/776] url_1d75a46f.pdf
+  [PII] S0306261924015666
+  [+] FOUND: Comparative analysis and test bench validation of energy management me...
+      DOI: 10.1016/j.apenergy.2024.124183
+      Authors: Cem Ünlübayir, Hiba Youssfi, Rehan Ahmad Khan...
+
+[75/776] url_e9c24963.pdf
+  [PII] S2950264024000054
+  [+] FOUND: Degradation of lithium-ion batteries under automotive-like conditions:...
+      DOI: 10.1016/j.fub.2024.100005
+      Authors: G. Sordi, A. Rondi, D. Conti...
+
+[76/776] url_0d02e2d2.pdf
+  [PII] S2352152X24001440
+  [+] FOUND: Aging datasets of commercial lithium-ion batteries: A review...
+      DOI: 10.1016/j.est.2024.110560
+      Authors: Quentin Mayemba, Rémy Mingant, An Li...
+
+[77/776] url_6c8fea95.pdf
+  [PII] S2095495624002080
+  [+] FOUND: Insights and reviews on battery lifetime prediction from research to p...
+      DOI: 10.1016/j.jechem.2024.03.013
+      Authors: Xudong Qu, Dapai Shi, Jingyuan Zhao...
+
+[78/776] url_0ccc41fe.pdf
+  [PII] S2352152X24001981
+  [+] FOUND: EV battery fault diagnostics and prognostics using deep learning: Revi...
+      DOI: 10.1016/j.est.2024.110614
+      Authors: Ram Machlev
+
+[79/776] url_636b4e80.pdf
+  [PII] S1364032123010821
+  [+] FOUND: Towards machine-learning driven prognostics and health management of L...
+      DOI: 10.1016/j.rser.2023.114224
+      Authors: Sahar Khaleghi, Md Sazzad Hosen, Joeri Van Mierlo...
+
+[80/776] url_87957998.pdf
+  [PII] S259011682300084X
+  [+] FOUND: Battery health diagnostics: Bridging the gap between academia and indu...
+      DOI: 10.1016/j.etran.2023.100309
+      Authors: Zhenghong Wang, Dapai Shi, Jingyuan Zhao...
+
+[81/776] url_e9fa027b.pdf
+  [PII] S0378775313019411
+  [+] FOUND: Calendar aging of commercial graphite/LiFePO4 cell – Predicting capaci...
+      DOI: 10.1016/j.jpowsour.2013.11.098
+      Authors: Sébastien Grolleau, Arnaud Delaille, Hamid Gualous...
+
+[82/776] url_f035ed05.pdf
+  [PII] S2451910318300929
+  [+] FOUND: Calendar aging of commercial Li-ion cells of different chemistries – A...
+      DOI: 10.1016/j.coelec.2018.05.023
+      Authors: Matthieu Dubarry, Nan Qin, Paul Brooker
+
+[83/776] url_eb5f49e4.pdf
+  [PII] S2095495622006763
+  [+] FOUND: Overdischarge-induced evolution of Cu dendrites and degradation of mec...
+      DOI: 10.1016/j.jechem.2022.12.013
+      Authors: Zixin Guo, Siguo Yang, Wenyang Zhao...
+
+[84/776] url_c4c3e749.pdf
+  [SKIP] No PII found in URL: https://www.sandia.gov/app/uploads/sites/82/2024/08/PR2024_7...
+
+[85/776] url_7093f77c.pdf
+  [PII] S2352152X21004904
+  [+] FOUND: Modelling the cycling degradation of Li-ion batteries: Chemistry influ...
+      DOI: 10.1016/j.est.2021.102765
+      Authors: Josu Olmos, Iñigo Gandiaga, Andoni Saez-de-Ibarra...
+
+[86/776] url_a8b9d520.pdf
+  [PII] S2666546823000915
+  [+] FOUND: A machine learning framework for remaining useful lifetime prediction ...
+      DOI: 10.1016/j.egyai.2023.100319
+      Authors: Junghwan Lee, Huanli Sun, Yongshan Liu...
+
+[87/776] url_bb716fe4.pdf
+  [PII] S2352152X24025040
+  [+] FOUND: Calendar ageing of commercial 18650 cells with nickel-rich cathode and...
+      DOI: 10.1016/j.est.2024.112918
+      Authors: Izaro Laresgoiti, Haohao Yi, Dominique Koster...
+
+[88/776] url_f66fb604.pdf
+  [PII] S0378775324010280
+  [+] FOUND: Investigation of calendar ageing of lithium-ion battery through physic...
+      DOI: 10.1016/j.jpowsour.2024.235076
+      Authors: Gabriele Sordi, Daniel Luder, Weihan Li...
+
+[89/776] url_cde141d5.pdf
+  [SKIP] No PII found in URL: https://www.researchgate.net/publication/317643366_Model_Bas...
+
+[90/776] url_0fb2b3f8.pdf
+  [SKIP] No PII found in URL: https://batterydata.energy.gov/dataset...
+
+[91/776] url_3664f60f.pdf
+  [PII] S2542435121002932
+  [+] FOUND: The challenge and opportunity of battery lifetime prediction from fiel...
+      DOI: 10.1016/j.joule.2021.06.005
+      Authors: Valentin Sulzer, Peyman Mohtat, Antti Aitio...
+
+[92/776] url_6c933ced.pdf
+  [PII] S0378775324010991
+  [+] FOUND: Real-time simultaneous monitoring of internal temperature and gas pres...
+      DOI: 10.1016/j.jpowsour.2024.235147
+      Authors: B. Gulsoy, H. Chen, C. Briggs...
+
+[93/776] url_05fe45d7.pdf
+  [SKIP] No PII found in URL: https://arc.aiaa.org/doi/10.2514/6.2024-3700...
+
+[94/776] url_d1a76760.pdf
+  [SKIP] No PII found in URL: https://pubs.acs.org/doi/10.1021/acsenergylett.4c01276...
+
+[95/776] url_2fdfd9d3.pdf
+  [PII] S2352152X24020279
+  [+] FOUND: Online detection and identification of cathode cracking in Lithium-ion...
+      DOI: 10.1016/j.est.2024.112441
+      Authors: Shanthan Kumar Padisala, Sara Sattarzadeh, Satadru Dey
+
+[96/776] url_16c3656b.pdf
+  [PII] S0378775324010012
+  [+] FOUND: Open source online electrochemical impedance spectroscopy data analyti...
+      DOI: 10.1016/j.jpowsour.2024.235049
+      Authors: Alexander Blömeke, Ole Kappelhoff, David Wasylowski...
+
+[97/776] url_2a3d3b63.pdf
+  [SKIP] No PII found in URL: https://www.cell.com/joule/abstract/S2542-4351(24)00241-1...
+
+[98/776] url_aba507af.pdf
+  [PII] S2666248524000143
+  [+] FOUND: Evaluation of commercial 18650 and 26700 sodium-ion cells and comparis...
+      DOI: 10.1016/j.powera.2024.100148
+      Authors: Katharina Bischof, Vittorio Marangon, Michael Kasper...
+
+[99/776] url_0897d672.pdf
+  [SKIP] No PII found in URL: https://www.epri.com/research/products/000000003002030360...
+
+[100/776] url_cc869622.pdf
+  [SKIP] No PII found in URL: https://www.cell.com/iscience/fulltext/S2589-0042(24)01120-9...
+
+  [+] Checkpoint save at 100/776
+
+[101/776] url_c91bd40f.pdf
+  [SKIP] No PII found in URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/abs/10....
+
+[102/776] url_1053c5c8.pdf
+  [SKIP] No PII found in URL: https://pubs.acs.org/doi/10.1021/acs.energyfuels.4c01304...
+
+[103/776] url_d9787993.pdf
+  [PII] S0360544224013999
+  [+] FOUND: A modeling and state of charge estimation approach to lithium-ion batt...
+      DOI: 10.1016/j.energy.2024.131626
+      Authors: Laien Chen, Xiaoyong Zeng, Xiangyang Xia...
+
+[104/776] url_d7ea78b2.pdf
+  [PII] S2352152X24014178
+  [+] FOUND: Interactive fusion of local and global degradation representations for...
+      DOI: 10.1016/j.est.2024.111832
+      Authors: Ziqiang Sun, Guodong Fan, Yisheng Liu...
+
+[105/776] url_daa34f64.pdf
+  [PII] S0360544224013756
+  [+] FOUND: State-of-charge estimation hybrid method for lithium-ion batteries usi...
+      DOI: 10.1016/j.energy.2024.131602
+      Authors: Pan Kuang, Fei Zhou, Shuai Xu...
+
+[106/776] url_3c311d42.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/10.1002/aenm.202400772...
+
+[107/776] url_4e06086c.pdf
+  [PII] S0378775324006219
+  [+] FOUND: An end-cloud collaboration approach for online state-of-health estimat...
+      DOI: 10.1016/j.jpowsour.2024.234669
+      Authors: Wentao Wang, Kaiyi Yang, Lisheng Zhang...
+
+[108/776] url_2382af77.pdf
+  [PII] S2352152X2401291X
+  [-] Not found in CrossRef
+
+[109/776] url_c8a9efce.pdf
+  [PII] S0360544224010673
+  [+] FOUND: Battery state of health estimation across electrochemistry and working...
+      DOI: 10.1016/j.energy.2024.131294
+      Authors: Chenghao Liu, Zhongwei Deng, Xiaohong Zhang...
+
+[110/776] url_4f5f2c29.pdf
+  [SKIP] No PII found in URL: https://www.cell.com/cell-reports-physical-science/fulltext/...
+
+[111/776] url_4ad6000c.pdf
+  [PII] S2352152X2401137X
+  [+] FOUND: An improved Cauchy robust correction-sage Husa extended Kalman filteri...
+      DOI: 10.1016/j.est.2024.111552
+      Authors: Chenyu Zhu, Shunli Wang, Chunmei Yu...
+
+[112/776] url_8dde927b.pdf
+  [PII] S1452398124001159
+  [+] FOUND: State-of-charge estimation for lithium-ion batteries based on modified...
+      DOI: 10.1016/j.ijoes.2024.100574
+      Authors: Bin Yao, Yongxiang Cai, Wei Liu...
+
+[113/776] url_95cf8cc3.pdf
+  [PII] S2352152X24011174
+  [+] FOUND: Insights into extreme thermal runaway scenarios of lithium-ion batteri...
+      DOI: 10.1016/j.est.2024.111532
+      Authors: Tongxin Shan, Puchen Zhang, Zhenpo Wang...
+
+[114/776] url_b9ff511e.pdf
+  [PII] S2352152X24010181
+  [+] FOUND: Application of pulsed thermography for defect recognition in lithium-i...
+      DOI: 10.1016/j.est.2024.111433
+      Authors: Edurne Jaime-Barquero, Jean-Luc Dauvergne, Nicholas E. Drewett...
+
+[115/776] url_e7f02882.pdf
+  [PII] S2352152X24012349
+  [+] FOUND: State-of-Health prediction of lithium-ion batteries based on a low dim...
+      DOI: 10.1016/j.est.2024.111649
+      Authors: Sebastian Pohlmann, Ali Mashayekh, Florian Stroebl...
+
+[116/776] url_92219fba.pdf
+  [PII] S2352152X24011095
+  [+] FOUND: A self-attention-based CNN-Bi-LSTM model for accurate state-of-charge ...
+      DOI: 10.1016/j.est.2024.111524
+      Authors: Zeinab Sherkatghanad, Amin Ghazanfari, Vladimir Makarenkov
+
+[117/776] url_d1d544a1.pdf
+  [SKIP] No PII found in URL: https://www.cell.com/the-innovation/fulltext/S2666-6758(24)0...
+
+[118/776] url_54495d1b.pdf
+  [PII] S0378775324002076
+  [+] FOUND: Is silicon worth it? Modelling degradation in composite silicon–graphi...
+      DOI: 10.1016/j.jpowsour.2024.234256
+      Authors: Mayur P. Bonkile, Yang Jiang, Niall Kirkaldy...
+
+[119/776] url_31da9034.pdf
+  [SKIP] No PII found in URL: https://pubs.acs.org/doi/10.1021/acsenergylett.3c01591...
+
+[120/776] url_a9f7ac82.pdf
+  [PII] S0306261924002319
+  [+] FOUND: Novel battery power capability assessment for improved eVTOL aircraft ...
+      DOI: 10.1016/j.apenergy.2024.122848
+      Authors: Ollie Hatherall, Anup Barai, Mona Faraji Niri...
+
+[121/776] url_733f2fd0.pdf
+  [PII] S0378775324001368
+  [+] FOUND: Lithium-ion battery degradation: Comprehensive cycle ageing data and a...
+      DOI: 10.1016/j.jpowsour.2024.234185
+      Authors: Niall Kirkaldy, Mohammad A. Samieian, Gregory J. Offer...
+
+[122/776] url_5a5cb834.pdf
+  [PII] S0378775324004452
+  [+] FOUND: Lithium loss, resistance growth, electrode expansion, gas evolution, a...
+      DOI: 10.1016/j.jpowsour.2024.234494
+      Authors: Paul Gasper, Nathaniel Sunderlin, Nathan Dunlap...
+
+[123/776] url_1fb1d87e.pdf
+  [PII] S0378775322014756
+  [+] FOUND: Experimental degradation study of a commercial lithium-ion battery...
+      DOI: 10.1016/j.jpowsour.2022.232498
+      Authors: Leo Wildfeuer, Alexander Karger, Deniz Aygül...
+
+[124/776] url_a8ac8687.pdf
+  [PII] S2352152X18300665
+  [+] FOUND: Analysis and modeling of calendar aging of a commercial LiFePO4/graphi...
+      DOI: 10.1016/j.est.2018.01.019
+      Authors: Maik Naumann, Michael Schimpe, Peter Keil...
+
+[125/776] url_23b30d0b.pdf
+  [PII] S0378775319316593
+  [+] FOUND: Analysis and modeling of cycle aging of a commercial LiFePO4/graphite ...
+      DOI: 10.1016/j.jpowsour.2019.227666
+      Authors: Maik Naumann, Franz B. Spingler, Andreas Jossen
+
+[126/776] url_bb30fd78.pdf
+  [PII] S2352152X17306138
+  [+] FOUND: Battery durability and reliability under electric utility grid operati...
+      DOI: 10.1016/j.est.2018.04.004
+      Authors: Matthieu Dubarry, Arnaud Devie
+
+[127/776] url_2fde3f67.pdf
+  [PII] S0378775313016510
+  [+] FOUND: Calendar and cycle life study of Li(NiMnCo)O2-based 18650 lithium-ion ...
+      DOI: 10.1016/j.jpowsour.2013.09.143
+      Authors: Madeleine Ecker, Nerea Nieto, Stefan Käbitz...
+
+[128/776] url_622ac9cc.pdf
+  [PII] S2352152X24003670
+  [+] FOUND: Unveiling the performance impact of module level features on parallel-...
+      DOI: 10.1016/j.est.2024.110783
+      Authors: Gabriele Piombo, Simone Fasolato, Robert Heymer...
+
+[129/776] url_792b272c.pdf
+  [PII] S0378775324003926
+  [+] FOUND: Diagnosis of Li-ion battery degradation based on resistive and diffusi...
+      DOI: 10.1016/j.jpowsour.2024.234441
+      Authors: Davide Cavaliere, Atsunori Ikezawa, Takeyoshi Okajima...
+
+[130/776] url_ad51de5c.pdf
+  [PII] S0378775324004312
+  [+] FOUND: Pyrolysis-based modelling of 18650-type lithium-ion battery fires in t...
+      DOI: 10.1016/j.jpowsour.2024.234480
+      Authors: Hosein Sadeghi, Francesco Restuccia
+
+[131/776] url_0ac2290a.pdf
+  [PII] S2405829724002071
+  [+] FOUND: The trade-off characteristic between battery thermal runaway and combu...
+      DOI: 10.1016/j.ensm.2024.103380
+      Authors: Liqi Zhao, Junxian Hou, Xuning Feng...
+
+[132/776] url_509414fa.pdf
+  [SKIP] No PII found in URL: https://www.cell.com/cell-reports-physical-science/fulltext/...
+
+[133/776] url_f8cdf2e7.pdf
+  [PII] S2352152X24009137
+  [+] FOUND: Research on state-of-charge estimation of lithium-ion batteries based ...
+      DOI: 10.1016/j.est.2024.111328
+      Authors: Biao Chen, Haobin Jiang, Huanhuan Li...
+
+[134/776] url_1a8ff9a9.pdf
+  [PII] S2352152X2400906X
+  [+] FOUND: A Bayesian optimized machine learning approach for accurate state of c...
+      DOI: 10.1016/j.est.2024.111321
+      Authors: Vedhanayaki Selvaraj, Indragandhi Vairavasundaram
+
+[135/776] url_ca1cc803.pdf
+  [SKIP] No PII found in URL: https://chemrxiv.org/engage/chemrxiv/article-details/6576e76...
+
+[136/776] url_04f57753.pdf
+  [PII] S0378775324002866
+  [+] FOUND: Impact of cycling conditions on lithium-ion battery performance for el...
+      DOI: 10.1016/j.jpowsour.2024.234335
+      Authors: Anuj Bisht, Ruhul Amin, Marm Dixit...
+
+[137/776] url_251d08bf.pdf
+  [PII] S2405829724001703
+  [+] FOUND: Physics-informed machine learning for battery degradation diagnostics:...
+      DOI: 10.1016/j.ensm.2024.103343
+      Authors: Sina Navidi, Adam Thelen, Tingkai Li...
+
+[138/776] url_4d488193.pdf
+  [PII] S0306261922003440
+  [+] FOUND: In situ key aging parameter determination of a vehicle battery using o...
+      DOI: 10.1016/j.apenergy.2022.118932
+      Authors: Zeyang Geng, Torbjörn Thiringer
+
+[139/776] url_3095788c.pdf
+  [PII] S0957582024002969
+  [+] FOUND: Thermal runaway of Li-ion battery with different aging histories...
+      DOI: 10.1016/j.psep.2024.03.077
+      Authors: Liwen Zhang, Lu Liu, Alexander Terekhov...
+
+[140/776] url_7a4f9bfb.pdf
+  [PII] S2352152X24009575
+  [+] FOUND: Causes and mechanism of thermal runaway in lithium-ion batteries, cont...
+      DOI: 10.1016/j.est.2024.111372
+      Authors: Nikolay E. Galushkin, Nataliya N. Yazvinskaya, Dmitriy N. Galushkin
+
+[141/776] url_e2fbac05.pdf
+  [PII] S0306261924003015
+  [+] FOUND: Life-extending optimal charging for lithium-ion batteries based on a m...
+      DOI: 10.1016/j.apenergy.2024.122918
+      Authors: Boru Zhou, Guodong Fan, Yansong Wang...
+
+[142/776] url_8bab146b.pdf
+  [PII] S2352152X24006236
+  [+] FOUND: Multi-innovation and strong tracking based H
+                    <mml:...
+      DOI: 10.1016/j.est.2024.111039
+      Authors: Jie Ding, Yu Yang, Jianxin Yao
+
+[143/776] url_6aeddab4.pdf
+  [PII] S2352152X24008089
+  [+] FOUND: Electrochemical–mechanical coupled model for computationally efficient...
+      DOI: 10.1016/j.est.2024.111224
+      Authors: Kwangrae Kim, Gyeonghwan Lee, Huiyong Chun...
+
+[144/776] url_2179d981.pdf
+  [PII] S0045790624000958
+  [+] FOUND: State of health estimation of lithium-ion batteries based on multiple ...
+      DOI: 10.1016/j.compeleceng.2024.109167
+      Authors: Qilin Wang, Song Xie, Wenqi Guo...
+
+[145/776] url_9f4a8505.pdf
+  [PII] S0360544224007813
+  [+] FOUND: Flexible method for estimating the state of health of lithium-ion batt...
+      DOI: 10.1016/j.energy.2024.131009
+      Authors: Chaolong Zhang, Laijin Luo, Zhong Yang...
+
+[146/776] url_c06e03b9.pdf
+  [PII] S0013468624003888
+  [+] FOUND: State of health prediction of lithium-ion batteries based on SSA optim...
+      DOI: 10.1016/j.electacta.2024.144146
+      Authors: Jiani Zhou, Shunli Wang, Wen Cao...
+
+[147/776] url_821c02d6.pdf
+  [PII] S2666386423005611
+  [+] FOUND: Large-scale field data-based battery aging prediction driven by statis...
+      DOI: 10.1016/j.xcrp.2023.101720
+      Authors: Qiushi Wang, Zhenpo Wang, Peng Liu...
+
+[148/776] url_7080b8ca.pdf
+  [SKIP] No PII found in URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/epdf/10...
+
+[149/776] url_912b3830.pdf
+  [SKIP] No PII found in URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002...
+
+[150/776] url_b31488c7.pdf
+  [PII] S2213138823004502
+  [+] FOUND: A review on rapid state of health estimation of lithium-ion batteries ...
+      DOI: 10.1016/j.seta.2023.103457
+      Authors: Zuolu Wang, Xiaoyu Zhao, Lei Fu...
+
+  [+] Checkpoint save at 150/776
+
+[151/776] url_3cde5233.pdf
+  [PII] S0306261923012898
+  [+] FOUND: Rapid and flexible battery capacity estimation using random short-time...
+      DOI: 10.1016/j.apenergy.2023.121925
+      Authors: Yisheng Liu, Guodong Fan, Boru Zhou...
+
+[152/776] url_a92b3d59.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/full/10.1002/eem2.12386...
+
+[153/776] url_fd32df13.pdf
+  [PII] S2666546824000181
+  [+] FOUND: Diagnosing health in composite battery electrodes with explainable dee...
+      DOI: 10.1016/j.egyai.2024.100352
+      Authors: Haijun Ruan, Niall Kirkaldy, Gregory J. Offer...
+
+[154/776] url_f746bf5b.pdf
+  [PII] S2590116824000067
+  [+] FOUND: Quantifying the impact of V2X operation on electric vehicle battery de...
+      DOI: 10.1016/j.etran.2024.100316
+      Authors: Jingyu Gong, David Wasylowski, Jan Figgener...
+
+[155/776] url_be9211fb.pdf
+  [PII] S0378775324002234
+  [+] FOUND: Machine learning for battery systems applications: Progress, challenge...
+      DOI: 10.1016/j.jpowsour.2024.234272
+      Authors: Zahra Nozarijouybari, Hosam K. Fathy
+
+[156/776] url_f24e3f4a.pdf
+  [PII] S0360544224005620
+  [+] FOUND: Online state of health estimation for lithium-ion batteries based on g...
+      DOI: 10.1016/j.energy.2024.130790
+      Authors: Zhengjie Zhang, Rui Cao, Yifan Zheng...
+
+[157/776] url_ffae1cf5.pdf
+  [SKIP] No PII found in URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/full/10...
+
+[158/776] url_aac418eb.pdf
+  [PII] S0360544224006005
+  [+] FOUND: A method for estimating the state of health of lithium-ion batteries b...
+      DOI: 10.1016/j.energy.2024.130828
+      Authors: Jinhua Ye, Quan Xie, Mingqiang Lin...
+
+[159/776] url_1c06e9d2.pdf
+  [PII] S0378775324001356
+  [+] FOUND: A million cycles in a day: Enabling high-throughput computing of lithi...
+      DOI: 10.1016/j.jpowsour.2024.234184
+      Authors: Ruihe Li, Simon O'Kane, Jianbo Huang...
+
+[160/776] url_046f3bf6.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/10.1002/aenm.202304295...
+
+[161/776] url_e61e3ff5.pdf
+  [PII] S2352152X24005528
+  [+] FOUND: Revealing the effect of initial conditions and the potential of self-h...
+      DOI: 10.1016/j.est.2024.110968
+      Authors: Kareem Abo Gamra, Nikolaos Wassiliadis, Christian Allgäuer...
+
+[162/776] url_4e936983.pdf
+  [SKIP] No PII found in URL: https://pubs.acs.org/doi/10.1021/acs.chemmater.2c01976...
+
+[163/776] url_84cf8a3d.pdf
+  [SKIP] No PII found in URL: https://pubs.aip.org/aip/apl/article-abstract/124/7/073902/3...
+
+[164/776] url_66a8c47f.pdf
+  [SKIP] No PII found in URL: https://pubs.acs.org/doi/full/10.1021/acsenergylett.3c02385...
+
+[165/776] url_8dbca630.pdf
+  [SKIP] No PII found in URL: https://pubs.acs.org/doi/10.1021/acs.chemrev.2c00289...
+
+[166/776] url_7de119c4.pdf
+  [PII] S2352152X24004353
+  [+] FOUND: Exploring the effects of cell-to-cell variability on battery aging thr...
+      DOI: 10.1016/j.est.2024.110851
+      Authors: Elias Barbers, Friedrich Emanuel Hust, Felix Emil Arthur Hildenbrand...
+
+[167/776] url_9c515e20.pdf
+  [PII] S0306261922004354
+  [+] FOUND: Towards unified machine learning characterization of lithium-ion batte...
+      DOI: 10.1016/j.apenergy.2022.119030
+      Authors: Alan G. Li, Alan C. West, Matthias Preindl
+
+[168/776] url_d5bfe04c.pdf
+  [PII] S0306261924000527
+  [+] FOUND: Enhancing state of charge and state of energy estimation in Lithium-io...
+      DOI: 10.1016/j.apenergy.2024.122669
+      Authors: Chu Zhang, Yue Zhang, Zhengbo Li...
+
+[169/776] url_bf9bce08.pdf
+  [PII] S0360544224003669
+  [+] FOUND: Improved cooperative competitive particle swarm optimization and nonli...
+      DOI: 10.1016/j.energy.2024.130594
+      Authors: Ran Xiong, Shunli Wang, Qi Huang...
+
+[170/776] url_60e9f7cc.pdf
+  [PII] S2352152X23037830
+  [+] FOUND: A critical look at efficient parameter estimation methodologies of ele...
+      DOI: 10.1016/j.est.2023.110384
+      Authors: C. Rojas, L. Oca, I. Lopetegi...
+
+[171/776] url_1717cae0.pdf
+  [PII] S095183202300827X
+  [+] FOUND: Health prognostics of lithium-ion batteries based on universal voltage...
+      DOI: 10.1016/j.ress.2023.109913
+      Authors: Yongfang Guo, Xiangyuan Yu, Yashuang Wang...
+
+[172/776] url_7b40be52.pdf
+  [PII] S0306261923019190
+  [+] FOUND: A hybrid deep learning approach for remaining useful life prediction o...
+      DOI: 10.1016/j.apenergy.2023.122555
+      Authors: Yunpeng Liu, Bo Hou, Moin Ahmed...
+
+[173/776] url_168588e7.pdf
+  [PII] S0378775324000582
+  [+] FOUND: The <mml:math xmlns:mml="http://www.w3.org/1998/Math/MathML" altimg="s...
+      DOI: 10.1016/j.jpowsour.2024.234107
+      Authors: Tobias Hofmann, Jiahao Li, Jacob Hamar...
+
+[174/776] url_ef978aa5.pdf
+  [SKIP] No PII found in URL: https://pubs.acs.org/doi/10.1021/acs.jpclett.3c03129...
+
+[175/776] url_e3ee528e.pdf
+  [PII] S2405829723005469
+  [+] FOUND: Fast discharging mitigates cathode-electrolyte interface degradation o...
+      DOI: 10.1016/j.ensm.2023.103169
+      Authors: Suyeon Oh, A-Re Jeon, Gukhyun Lim...
+
+[176/776] url_c0dba764.pdf
+  [PII] S2352152X2400152X
+  [+] FOUND: Levelized cost of charging of extreme fast charging with stationary LM...
+      DOI: 10.1016/j.est.2024.110568
+      Authors: Darice Guittet, Paul Gasper, Matt Shirk...
+
+[177/776] url_7ab8eaeb.pdf
+  [PII] S0306261923016896
+  [+] FOUND: Research on the remaining useful life prediction method for lithium-io...
+      DOI: 10.1016/j.apenergy.2023.122325
+      Authors: Bo Zhao, Weige Zhang, Yanru Zhang...
+
+[178/776] url_f1e6026c.pdf
+  [PII] S2773153723000762
+  [+] FOUND: Autonomous eVTOL: A summary of researches and challenges...
+      DOI: 10.1016/j.geits.2023.100140
+      Authors: Senwei Xiang, Anhuan Xie, Minxiang Ye...
+
+[179/776] url_afc6f6bc.pdf
+  [SKIP] No PII found in URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002...
+
+[180/776] url_602f841a.pdf
+  [PII] S2773153724000197
+  [+] FOUND: Intelligent lithium plating detection and prediction method for Li-ion...
+      DOI: 10.1016/j.geits.2024.100167
+      Authors: Guangying Zhu, Jianguo Chen, Xuyang Liu...
+
+[181/776] url_49521ad6.pdf
+  [SKIP] No PII found in URL: https://www.cell.com/cell-reports-physical-science/fulltext/...
+
+[182/776] url_269487f3.pdf
+  [PII] S2352152X21005892
+  [+] FOUND: State-of-health estimation based on real data of electric vehicles con...
+      DOI: 10.1016/j.est.2021.102867
+      Authors: Zhigang He, Xiaoyu Shen, Yanyan Sun...
+
+[183/776] url_c8af13d3.pdf
+  [PII] S2352152X23036782
+  [+] FOUND: History-agnostic battery degradation inference...
+      DOI: 10.1016/j.est.2023.110279
+      Authors: Mehrad Ansari, Steven B. Torrisi, Amalie Trewartha...
+
+[184/776] url_718f4625.pdf
+  [SKIP] No PII found in URL: https://arc.aiaa.org/doi/abs/10.2514/6.2024-2314...
+
+[185/776] url_3c94c7be.pdf
+  [SKIP] No PII found in URL: https://asmedigitalcollection.asme.org/dynamicsystems/articl...
+
+[186/776] url_de93d00d.pdf
+  [PII] S2590116823000802
+  [+] FOUND: Thermal runaway propagation in automotive lithium-ion batteries with N...
+      DOI: 10.1016/j.etran.2023.100305
+      Authors: Jan Schöberl, Manuel Ank, Markus Schreiber...
+
+[187/776] url_232016ab.pdf
+  [PII] S0967066122000879
+  [+] FOUND: Interpretable machine learning for battery capacities prediction and c...
+      DOI: 10.1016/j.conengprac.2022.105202
+      Authors: Kailong Liu, Mona Faraji Niri, Geanina Apachitei...
+
+[188/776] url_63d40e70.pdf
+  [SKIP] No PII found in URL: https://arc.aiaa.org/doi/full/10.2514/1.C037404...
+
+[189/776] url_a93070d7.pdf
+  [PII] S0378775323013241
+  [+] FOUND: Temperature-driven path dependence in Li-ion battery cyclic aging...
+      DOI: 10.1016/j.jpowsour.2023.233948
+      Authors: Max Feinauer, Margret Wohlfahrt-Mehrens, Markus Hölzle...
+
+[190/776] url_82c6e150.pdf
+  [PII] S2666386423005994
+  [+] FOUND: Benchmark dataset for the study of the relaxation of commercial NMC-81...
+      DOI: 10.1016/j.xcrp.2023.101754
+      Authors: Alexa Fernando, Matthias Kuipers, Georg Angenendt...
+
+[191/776] url_d24d999f.pdf
+  [PII] S2352152X2303400X
+  [+] FOUND: Influence of state of charge window on the degradation of Tesla lithiu...
+      DOI: 10.1016/j.est.2023.110001
+      Authors: Nildari Roy Chowdhury, Alexander J. Smith, Kristian Frenander...
+
+[192/776] url_0c5b9bc1.pdf
+  [PII] S2352711023002807
+  [+] FOUND: DATTES: Data analysis tools for tests on energy storage...
+      DOI: 10.1016/j.softx.2023.101584
+      Authors: Eduardo Redondo-Iglesias, Marwan Hassini, Pascal Venet...
+
+[193/776] url_beef0aa8.pdf
+  [SKIP] No PII found in URL: https://www.science.org/doi/abs/10.1126/science.adn1749...
+
+[194/776] url_a75644e2.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/10.1002/ente.202300707...
+
+[195/776] url_141b10c1.pdf
+  [PII] S0098135423003411
+  [+] FOUND: Interpretation of high-dimensional linear regression: Effects of nulls...
+      DOI: 10.1016/j.compchemeng.2023.108471
+      Authors: Joachim Schaeffer, Eric Lenz, William C. Chueh...
+
+[196/776] url_39fa9941.pdf
+  [PII] S2095495621006136
+  [+] FOUND: Rapid determination of lithium-ion battery degradation: High C-rate LA...
+      DOI: 10.1016/j.jechem.2021.11.009
+      Authors: Gyuwon Seo, Jaeyun Ha, Moonsu Kim...
+
+[197/776] url_755ee80e.pdf
+  [PII] S2352146523002879
+  [+] FOUND: Experimental Investigation of Voltage Limitation Modes and State of Po...
+      DOI: 10.1016/j.trpro.2023.11.006
+      Authors: Adriano Schommer, Marcelo A. Xavier, Denise Morrey...
+
+[198/776] url_335b949c.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/10.1155/2023/5513446...
+
+[199/776] url_67bbc2ff.pdf
+  [SKIP] No PII found in URL: https://arc.aiaa.org/doi/full/10.2514/1.C036851...
+
+[200/776] url_8f4d737f.pdf
+  [PII] S2095927323007296
+  [+] FOUND: Accelerated aging of lithium-ion batteries: bridging battery aging ana...
+      DOI: 10.1016/j.scib.2023.10.029
+      Authors: Rui Li, Liying Bao, Lai Chen...
+
+  [+] Checkpoint save at 200/776
+
+[201/776] url_675973e9.pdf
+  [PII] S0378775323010534
+  [+] FOUND: Cell-to-cell variation beyond parameter analysis — Identification and ...
+      DOI: 10.1016/j.jpowsour.2023.233677
+      Authors: Tom Rüther, Maximilian Schamel, Christian Plank...
+
+[202/776] url_4a192548.pdf
+  [SKIP] No PII found in URL: https://asmedigitalcollection.asme.org/electrochemical/artic...
+
+[203/776] url_cf35c81f.pdf
+  [PII] S2352152X23025951
+  [+] FOUND: Design approaches for Li-ion battery packs: A review...
+      DOI: 10.1016/j.est.2023.109197
+      Authors: Paolo Cicconi, Pradeep Kumar
+
+[204/776] url_55e3f036.pdf
+  [SKIP] No PII found in URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002...
+
+[205/776] url_c459e0c8.pdf
+  [PII] S2590116823000498
+  [+] FOUND: Lithium-ion battery utilization in various modes of e-transportation...
+      DOI: 10.1016/j.etran.2023.100274
+      Authors: Benedikt Tepe, Sammy Jablonski, Holger Hesse...
+
+[206/776] url_e238e407.pdf
+  [PII] S2405829723003434
+  [+] FOUND: A digital twin to quantitatively understand aging mechanisms coupled e...
+      DOI: 10.1016/j.ensm.2023.102965
+      Authors: Wendi Guo, Yaqi Li, Zhongchao Sun...
+
+[207/776] url_85593b47.pdf
+  [PII] S2666546820300069
+  [+] FOUND: Identification and machine learning prediction of knee-point and knee-...
+      DOI: 10.1016/j.egyai.2020.100006
+      Authors: Paula Fermín-Cueto, Euan McTurk, Michael Allerhand...
+
+[208/776] url_84294194.pdf
+  [PII] S2666386421000370
+  [+] FOUND: A machine learning framework for early detection of lithium plating co...
+      DOI: 10.1016/j.xcrp.2021.100352
+      Authors: Bor-Rong Chen, M. Ross Kunz, Tanvir R. Tanim...
+
+[209/776] url_50bbdb9a.pdf
+  [PII] S2352152X23024556
+  [+] FOUND: Machine learning for beyond Li-ion batteries: Powering the research...
+      DOI: 10.1016/j.est.2023.109057
+      Authors: Aysegul Kilic, Burcu Oral, Damla Eroglu...
+
+[210/776] url_7163a545.pdf
+  [PII] S2352152X23024404
+  [+] FOUND: Degradation and modeling of large-format commercial lithium-ion cells ...
+      DOI: 10.1016/j.est.2023.109042
+      Authors: Paul Gasper, Aron Saxon, Ying Shi...
+
+[211/776] url_1d532960.pdf
+  [PII] S2590116823000590
+  [+] FOUND: Wire bond contact defect identification in battery modules of electric...
+      DOI: 10.1016/j.etran.2023.100284
+      Authors: Manuel Ank, Tobias Brehler, Markus Lienkamp
+
+[212/776] url_ec3327ef.pdf
+  [SKIP] No PII found in URL: https://www.cell.com/joule/fulltext/S2542-4351(23)00312-4...
+
+[213/776] url_b37b98bb.pdf
+  [PII] S2589004223018473
+  [+] FOUND: Unraveling capacity fading in lithium-ion batteries using advanced cyc...
+      DOI: 10.1016/j.isci.2023.107770
+      Authors: Sai Krishna Mulpuri, Bikash Sah, Praveen Kumar
+
+[214/776] url_10ba2476.pdf
+  [PII] S0360544224031931
+  [+] FOUND: Battery state of charge estimation for electric vehicle using Kolmogor...
+      DOI: 10.1016/j.energy.2024.133417
+      Authors: Mohd Herwan Sulaiman, Zuriani Mustaffa, Amir Izzani Mohamed...
+
+[215/776] url_71644064.pdf
+  [PII] S2352152X24036983
+  [+] FOUND: State of health estimation of lithium-ion batteries based on interval ...
+      DOI: 10.1016/j.est.2024.114112
+      Authors: Zuxin Li, Fengying Zhang, Zhiduan Cai...
+
+[216/776] url_1d5ee6a7.pdf
+  [PII] S2352340923009228
+  [+] FOUND: Dataset of lithium-ion battery degradation based on a forklift mission...
+      DOI: 10.1016/j.dib.2023.109861
+      Authors: Søren B. Vilsen, Daniel-Ioan Stroe
+
+[217/776] url_25d623b9.pdf
+  [PII] S2352152X24036727
+  [+] FOUND: Unveiling the secrets behind physics-based modeling of lithium-ion bat...
+      DOI: 10.1016/j.est.2024.114086
+      Authors: Guodong Fan, Boru Zhou, Siyi Ye...
+
+[218/776] url_bff7e802.pdf
+  [PII] S2590116820300424
+  [+] FOUND: Improved prospects for V2X with longer range 2nd generation electric v...
+      DOI: 10.1016/j.etran.2020.100085
+      Authors: K. Darcovich, T. Laurent, H. Ribberink
+
+[219/776] url_11c0165d.pdf
+  [PII] S0360544224033176
+  [+] FOUND: Innovative multiscale fusion – Antinoise extended long short-term memo...
+      DOI: 10.1016/j.energy.2024.133541
+      Authors: Junjie Tao, Shunli Wang, Wen Cao...
+
+[220/776] url_1f08de2b.pdf
+  [PII] S2352340924010084
+  [+] FOUND: Second-life lithium-ion battery aging dataset based on grid storage cy...
+      DOI: 10.1016/j.dib.2024.111046
+      Authors: Kevin Moy, Muhammad Aadil Khan, Simone Fasolato...
+
+[221/776] url_5e990d1e.pdf
+  [PII] S2352152X23025896
+  [+] FOUND: Data-driven state of health estimation for lithium-ion battery based o...
+      DOI: 10.1016/j.est.2023.109191
+      Authors: Jiang Wu, Zelong Liu, Yan Zhang...
+
+[222/776] url_00431e87.pdf
+  [PII] S0959652623013781
+  [+] FOUND: Capacity estimation for lithium-ion battery via a novel health indicat...
+      DOI: 10.1016/j.jclepro.2023.137220
+      Authors: Shuzhi Zhang, Shaojie Wu, Ganglin Cao...
+
+[223/776] url_2b238587.pdf
+  [PII] S2352152X21008185
+  [+] FOUND: A remaining capacity estimation approach of lithium-ion batteries base...
+      DOI: 10.1016/j.est.2021.103115
+      Authors: Lingfeng Fan, Ping Wang, Ze Cheng
+
+[224/776] url_c9fcfde4.pdf
+  [SKIP] No PII found in URL: https://chemrxiv.org/engage/chemrxiv/article-details/67155be...
+
+[225/776] url_c07e8b9d.pdf
+  [PII] S2352152X24041100
+  [+] FOUND: A comparative analysis of the influence of data-processing on battery ...
+      DOI: 10.1016/j.est.2024.114524
+      Authors: Meghana Sudarshan, Ritesh Gautam, Mahavir Singh...
+
+[226/776] url_cf4e4a10.pdf
+  [SKIP] No PII found in URL: https://journals.sagepub.com/doi/full/10.1177/09576509241299...
+
+[227/776] url_8a74ce68.pdf
+  [PII] S2352152X24041495
+  [+] FOUND: Rapid residual value evaluation and clustering of retired lithium-ion ...
+      DOI: 10.1016/j.est.2024.114563
+      Authors: Xin Lai, Penghui Ke, Yuejiu Zheng...
+
+[228/776] url_8257015c.pdf
+  [PII] S0360544224036594
+  [+] FOUND: Capacity estimation for lithium-ion batteries based on heterogeneous s...
+      DOI: 10.1016/j.energy.2024.133881
+      Authors: Guixiang Mu, Qingguo Wei, Yonghong Xu...
+
+[229/776] url_b5b7bcd3.pdf
+  [PII] S2095495621006136
+  [+] FOUND: Rapid determination of lithium-ion battery degradation: High C-rate LA...
+      DOI: 10.1016/j.jechem.2021.11.009
+      Authors: Gyuwon Seo, Jaeyun Ha, Moonsu Kim...
+
+[230/776] url_61d1c2e1.pdf
+  [PII] S0013468623007661
+  [+] FOUND: Lithium-ion battery degradation diagnosis and state-of-health estimati...
+      DOI: 10.1016/j.electacta.2023.142588
+      Authors: Chen Zhu, Liqing Sun, Cheng Chen...
+
+[231/776] url_67009a0e.pdf
+  [SKIP] No PII found in URL: https://www.cell.com/cell-reports-physical-science/fulltext/...
+
+[232/776] url_fe19f52c.pdf
+  [PII] S0378775316316998
+  [+] FOUND: Degradation diagnostics for lithium ion cells...
+      DOI: 10.1016/j.jpowsour.2016.12.011
+      Authors: Christoph R. Birkl, Matthew R. Roberts, Euan McTurk...
+
+[233/776] url_aa538dc4.pdf
+  [SKIP] No PII found in URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/full/10...
+
+[234/776] url_233abb79.pdf
+  [PII] S2542435123003197
+  [+] FOUND: Selecting the appropriate features in battery lifetime predictions...
+      DOI: 10.1016/j.joule.2023.07.021
+      Authors: Alexis Geslin, Bruis van Vlijmen, Xiao Cui...
+
+[235/776] url_dd59bfa2.pdf
+  [PII] S2666386422003149
+  [+] FOUND: Accelerated battery life predictions through synergistic combination o...
+      DOI: 10.1016/j.xcrp.2022.101023
+      Authors: Sangwook Kim, Zonggen Yi, M. Ross Kunz...
+
+[236/776] url_7f01d73c.pdf
+  [PII] S2352152X23003286
+  [+] FOUND: Rethinking lithium-ion battery management: Eliminating routine cell ba...
+      DOI: 10.1016/j.est.2023.106931
+      Authors: John Hardy, John Steggall, Peter Hardy
+
+[237/776] url_e969ddbd.pdf
+  [PII] S0378775320316438
+  [+] FOUND: Unlocking extra value from grid batteries using advanced models...
+      DOI: 10.1016/j.jpowsour.2020.229355
+      Authors: Jorn M. Reniers, Grietus Mulder, David A. Howey
+
+[238/776] url_e60d2a34.pdf
+  [PII] S2542435123001368
+  [+] FOUND: Battery passports for promoting electric vehicle resale and repurposin...
+      DOI: 10.1016/j.joule.2023.04.002
+      Authors: Andrew Weng, Eric Dufek, Anna Stefanopoulou
+
+[239/776] url_dadefd2d.pdf
+  [PII] S0378775322007303
+  [+] FOUND: A convolutional neural network model for battery capacity fade curve p...
+      DOI: 10.1016/j.jpowsour.2022.231736
+      Authors: Saurabh Saxena, Logan Ward, Joseph Kubal...
+
+[240/776] url_6ec1c83f.pdf
+  [PII] S2095495622002030
+  [+] FOUND: Nonlinear health evaluation for lithium-ion battery within full-lifesp...
+      DOI: 10.1016/j.jechem.2022.04.013
+      Authors: Heze You, Jiangong Zhu, Xueyuan Wang...
+
+[241/776] url_4e2c4121.pdf
+  [PII] S030626192201546X
+  [+] FOUND: Integrating physics-based modeling with machine learning for lithium-i...
+      DOI: 10.1016/j.apenergy.2022.120289
+      Authors: Hao Tu, Scott Moura, Yebin Wang...
+
+[242/776] url_2f78d5f5.pdf
+  [SKIP] No PII found in URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/full/10...
+
+[243/776] url_16d8b4b4.pdf
+  [SKIP] No PII found in URL: https://www.cell.com/joule/fulltext/S2542-4351(22)00254-9...
+
+[244/776] url_d0764e97.pdf
+  [PII] S037877531831111X
+  [+] FOUND: Towards a smarter battery management system: A critical review on batt...
+      DOI: 10.1016/j.jpowsour.2018.10.019
+      Authors: Rui Xiong, Linlin Li, Jinpeng Tian
+
+[245/776] url_608e7d5a.pdf
+  [PII] S2352152X24040301
+  [+] FOUND: An improved progressive window-strong tracking multiple fading algorit...
+      DOI: 10.1016/j.est.2024.114444
+      Authors: Chenyu Zhu, Shunli Wang, Chunmei Yu...
+
+[246/776] url_72a5487f.pdf
+  [PII] S0378775324014022
+  [+] FOUND: State-of-health estimation for lithium-ion batteries based on electroc...
+      DOI: 10.1016/j.jpowsour.2024.235450
+      Authors: Wenlin Zhang, Ryan Ahmed, Saeid Habibi
+
+[247/776] url_0a9edbc0.pdf
+  [SKIP] No PII found in URL: https://journals.sagepub.com/doi/abs/10.1177/095440702412872...
+
+[248/776] url_12883785.pdf
+  [PII] S2352340924010382
+  [+] FOUND: Synthetic dataset of LG M50 batteries with different degradation pathw...
+      DOI: 10.1016/j.dib.2024.111076
+      Authors: Huang Zhang, Faisal Altaf, Torsten Wik
+
+[249/776] url_82062419.pdf
+  [PII] S2352152X24037009
+  [+] FOUND: Improved State of Charge estimation of a Li-ion cell using a Fractiona...
+      DOI: 10.1016/j.est.2024.114114
+      Authors: Afsal Umar, Siddhartha Mukhopadhyay, Amit Patra
+
+[250/776] url_43cf1015.pdf
+  [PII] S2352152X24038465
+  [+] FOUND: An efficient state-of-health estimation method for lithium-ion batteri...
+      DOI: 10.1016/j.est.2024.114260
+      Authors: Songhao Yang, Hongwu Qin, Zhenqi Liu...
+
+  [+] Checkpoint save at 250/776
+
+[251/776] url_52cb5fd5.pdf
+  [PII] S2352152X24038957
+  [+] FOUND: A SOH estimation method of lithium-ion batteries based on partial char...
+      DOI: 10.1016/j.est.2024.114309
+      Authors: Renjing Gao, Yunfei Zhang, Zhiqiang Lyu
+
+[252/776] url_be1cc27a.pdf
+  [PII] S2352340922002062
+  [+] FOUND: Lithium-ion battery aging dataset based on electric vehicle real-drivi...
+      DOI: 10.1016/j.dib.2022.107995
+      Authors: Gabriele Pozzato, Anirudh Allam, Simona Onori
+
+[253/776] url_d4b43495.pdf
+  [PII] S2352152X24040738
+  [+] FOUND: Operational vehicle state of health estimation framework based on loca...
+      DOI: 10.1016/j.est.2024.114487
+      Authors: Huixin Tian, Qian Zhang, Chao Xi
+
+[254/776] url_89f3ed28.pdf
+  [SKIP] No PII found in URL: https://scijournals.onlinelibrary.wiley.com/doi/full/10.1002...
+
+[255/776] url_eeef9519.pdf
+  [SKIP] No PII found in URL: https://www.cell.com/cell-reports-physical-science/fulltext/...
+
+[256/776] url_14666bc0.pdf
+  [PII] S2352152X23005765
+  [+] FOUND: State-of-health estimation and remaining useful life prediction for li...
+      DOI: 10.1016/j.est.2023.107179
+      Authors: Shiding Hong, Chaokui Qin, Xin Lai...
+
+[257/776] url_392262e2.pdf
+  [PII] S2352152X23005583
+  [+] FOUND: State of health and remaining useful life prediction of lithium-ion ba...
+      DOI: 10.1016/j.est.2023.107161
+      Authors: Fei Xia, Kangan Wang, Jiajun Chen
+
+[258/776] url_c42cf3e2.pdf
+  [PII] S0026271421003711
+  [+] FOUND: A lithium-ion battery remaining useful life prediction method based on...
+      DOI: 10.1016/j.microrel.2021.114405
+      Authors: Xiaoqiong Pang, Xiaoyan Liu, Jianfang Jia...
+
+[259/776] url_fcd29e56.pdf
+  [PII] S2352152X23003006
+  [+] FOUND: A deep attention-assisted and memory-augmented temporal convolutional ...
+      DOI: 10.1016/j.est.2023.106903
+      Authors: Zicheng Fei, Zijun Zhang, Fangfang Yang...
+
+[260/776] url_aa67bb61.pdf
+  [PII] S2352152X23000427
+  [+] FOUND: A novel remaining useful life prediction method for lithium-ion batter...
+      DOI: 10.1016/j.est.2023.106645
+      Authors: Yiwei Liu, Jing Sun, Yunlong Shang...
+
+[261/776] url_29eb570c.pdf
+  [PII] S2352152X2202182X
+  [+] FOUND: Remaining life prediction of lithium-ion batteries based on health man...
+      DOI: 10.1016/j.est.2022.106193
+      Authors: Kai Song, Die Hu, Yao Tong...
+
+[262/776] url_e62e6d59.pdf
+  [PII] S0378775324003975
+  [+] FOUND: Identifiability study of lithium-ion battery capacity fade using degra...
+      DOI: 10.1016/j.jpowsour.2024.234446
+      Authors: Jing Lin, Edwin Khoo
+
+[263/776] url_8f8bbb36.pdf
+  [PII] S2352484722022351
+  [+] FOUND: RUL Prediction for Lithium Batteries Using a Novel Ensemble Learning M...
+      DOI: 10.1016/j.egyr.2022.10.298
+      Authors: Jiaju Wu, Linggang Kong, Zheng Cheng...
+
+[264/776] url_f42fca75.pdf
+  [PII] S2352152X23009544
+  [+] FOUND: Remaining useful life prediction of lithium-ion batteries using a spat...
+      DOI: 10.1016/j.est.2023.107557
+      Authors: Ang Li, Huixin Tian, Kun Li
+
+[265/776] url_26d584ed.pdf
+  [PII] S2352152X23001846
+  [+] FOUND: The co-estimation of states for lithium-ion batteries based on segment...
+      DOI: 10.1016/j.est.2023.106787
+      Authors: Donghui Li, Xu Liu, Ze Cheng
+
+[266/776] url_85bedbd5.pdf
+  [PII] S2352152X23007193
+  [+] FOUND: Battery SOH estimation and RUL prediction framework based on variable ...
+      DOI: 10.1016/j.est.2023.107322
+      Authors: Wenxian Duan, Shixin Song, Feng Xiao...
+
+[267/776] url_b7283d09.pdf
+  [PII] S0360544223015311
+  [+] FOUND: Health and lifespan prediction considering degradation patterns of lit...
+      DOI: 10.1016/j.energy.2023.128137
+      Authors: Aihua Tang, Yihan Jiang, Yuwei Nie...
+
+[268/776] url_df8923b9.pdf
+  [PII] S0965997823000534
+  [+] FOUND: Scalable and portable computational framework enabling online probabil...
+      DOI: 10.1016/j.advengsoft.2023.103461
+      Authors: Karthik Reddy Lyathakula, Fuh-Gwo Yuan
+
+[269/776] url_74bb1669.pdf
+  [PII] S0306261923012242
+  [+] FOUND: Multi-objective battery energy storage optimization for virtual power ...
+      DOI: 10.1016/j.apenergy.2023.121860
+      Authors: Hui Song, Mingchen Gu, Chen Liu...
+
+[270/776] url_67a1fd52.pdf
+  [PII] S0306261924016490
+  [+] FOUND: State-of-health estimation for lithium-ion batteries based on Kullback...
+      DOI: 10.1016/j.apenergy.2024.124266
+      Authors: Guanxu Chen, Fangfang Yang, Weiwen Peng...
+
+[271/776] url_b70a10f5.pdf
+  [PII] S0378775318300041
+  [+] FOUND: Improving optimal control of grid-connected lithium-ion batteries thro...
+      DOI: 10.1016/j.jpowsour.2018.01.004
+      Authors: Jorn M. Reniers, Grietus Mulder, Sina Ober-Blöbaum...
+
+[272/776] url_1e56fdce.pdf
+  [PII] S0306261923001381
+  [+] FOUND: Digital twin of a MWh-scale grid battery system for efficiency and deg...
+      DOI: 10.1016/j.apenergy.2023.120774
+      Authors: Jorn M. Reniers, David A. Howey
+
+[273/776] url_ad6a130b.pdf
+  [PII] S2352152X2300542X
+  [+] FOUND: Review of mechanical abuse related thermal runaway models of lithium-i...
+      DOI: 10.1016/j.est.2023.107145
+      Authors: Yang Xiao, Faqing Yang, Zhenhai Gao...
+
+[274/776] url_8cab53fb.pdf
+  [PII] S2405829722002446
+  [+] FOUND: Battery degradation prediction against uncertain future conditions wit...
+      DOI: 10.1016/j.ensm.2022.05.007
+      Authors: Jiahuan Lu, Rui Xiong, Jinpeng Tian...
+
+[275/776] url_a9bea372.pdf
+  [SKIP] No PII found in URL: https://www.cell.com/joule/fulltext/S2542-4351(21)00247-6...
+
+[276/776] url_6fc3cb77.pdf
+  [PII] S2352152X20319502
+  [+] FOUND: On the feature selection for battery state of health estimation based ...
+      DOI: 10.1016/j.est.2020.102122
+      Authors: Yuanyuan Li, Daniel-Ioan Stroe, Yuhua Cheng...
+
+[277/776] url_bb3ab35f.pdf
+  [PII] S0360544221014729
+  [+] FOUND: Application domain extension of incremental capacity-based battery SoH...
+      DOI: 10.1016/j.energy.2021.121224
+      Authors: Brian Ospina Agudelo, Walter Zamboni, Eric Monmasson
+
+[278/776] url_3f3fb349.pdf
+  [PII] S0167273804006678
+  [-] Not found in CrossRef
+
+[279/776] url_09fb9b25.pdf
+  [PII] S0306261923002696
+  [+] FOUND: BattX: An equivalent circuit model for lithium-ion batteries over broa...
+      DOI: 10.1016/j.apenergy.2023.120905
+      Authors: Nikhil Biju, Huazhen Fang
+
+[280/776] url_3e8d4438.pdf
+  [PII] S0378775312018605
+  [+] FOUND: Health diagnosis and remaining useful life prognostics of lithium-ion ...
+      DOI: 10.1016/j.jpowsour.2012.11.146
+      Authors: Adnan Nuhic, Tarik Terzimehic, Thomas Soczka-Guth...
+
+[281/776] url_f16be6be.pdf
+  [PII] S2666546821000355
+  [+] FOUND: Lithium-ion battery data and where to find it...
+      DOI: 10.1016/j.egyai.2021.100081
+      Authors: Gonçalo dos Reis, Calum Strange, Mohit Yadav...
+
+[282/776] url_54d0ff22.pdf
+  [PII] S0360544217300452
+  [+] FOUND: Modeling and state-of-charge prediction of lithium-ion battery and ult...
+      DOI: 10.1016/j.energy.2017.01.044
+      Authors: Yujie Wang, Chang Liu, Rui Pan...
+
+[283/776] url_1a895e95.pdf
+  [PII] S2352340917300197
+  [+] FOUND: Experimental data of lithium-ion battery and ultracapacitor under DST ...
+      DOI: 10.1016/j.dib.2017.01.019
+      Authors: Yujie Wang, Chang Liu, Rui Pan...
+
+[284/776] url_1329febc.pdf
+  [PII] S2542435122004093
+  [+] FOUND: Principles of the Battery Data Genome...
+      DOI: 10.1016/j.joule.2022.08.008
+      Authors: Logan Ward, Susan Babinec, Eric J. Dufek...
+
+[285/776] url_90243e41.pdf
+  [PII] S2405829721003950
+  [+] FOUND: Non-invasive identification of calendar and cyclic ageing mechanisms f...
+      DOI: 10.1016/j.ensm.2021.08.025
+      Authors: Ahmed Chahbaz, Fabian Meishner, Weihan Li...
+
+[286/776] url_eaa1241d.pdf
+  [PII] S0378775321005619
+  [+] FOUND: Physics-informed neural networks for electrode-level state estimation ...
+      DOI: 10.1016/j.jpowsour.2021.230034
+      Authors: Weihan Li, Jiawei Zhang, Florian Ringbeck...
+
+[287/776] url_1a79da92.pdf
+  [SKIP] No PII found in URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002...
+
+[288/776] url_6e84e10f.pdf
+  [PII] S0378775320311101
+  [+] FOUND: Big data training data for artificial intelligence-based Li-ion diagno...
+      DOI: 10.1016/j.jpowsour.2020.228806
+      Authors: Matthieu Dubarry, David Beck
+
+[289/776] url_2f42fa4c.pdf
+  [PII] S2542435119305859
+  [+] FOUND: Battery Lifetime Prognostics...
+      DOI: 10.1016/j.joule.2019.11.018
+      Authors: Xiaosong Hu, Le Xu, Xianke Lin...
+
+[290/776] url_2c1edbd3.pdf
+  [SKIP] No PII found in URL: https://osf.io/preprints/ecsarxiv/h7c24...
+
+[291/776] url_9c0f4883.pdf
+  [PII] S0378775322001495
+  [+] FOUND: Feature engineering for machine learning enabled early prediction of b...
+      DOI: 10.1016/j.jpowsour.2022.231127
+      Authors: Noah H. Paulson, Joseph Kubal, Logan Ward...
+
+[292/776] url_c9b7954b.pdf
+  [PII] S0378775322000519
+  [+] FOUND: Battery health estimation with degradation pattern recognition and tra...
+      DOI: 10.1016/j.jpowsour.2022.231027
+      Authors: Zhongwei Deng, Xianke Lin, Jianwei Cai...
+
+[293/776] url_6609338a.pdf
+  [PII] S0378775321009952
+  [+] FOUND: State-of-health estimation using a neural network trained on vehicle d...
+      DOI: 10.1016/j.jpowsour.2021.230493
+      Authors: Jacob C. Hamar, Simon V. Erhard, Angelo Canesso...
+
+[294/776] url_56a276c6.pdf
+  [PII] S0378775319312364
+  [+] FOUND: Post-mortem analysis of calendar aged large-format lithium-ion cells: ...
+      DOI: 10.1016/j.jpowsour.2019.227243
+      Authors: Mathias Storch, Severin Lukas Hahn, Jochen Stadler...
+
+[295/776] url_98ad12f5.pdf
+  [PII] S2352152X19312009
+  [+] FOUND: Holistic calendar aging model parametrization concept for lifetime pre...
+      DOI: 10.1016/j.est.2020.101510
+      Authors: Björn Rumberg, Bernd Epding, Ina Stradtmann...
+
+[296/776] url_3cb23024.pdf
+  [PII] S0026271419304731
+  [-] Not found in CrossRef
+
+[297/776] url_e587d978.pdf
+  [PII] S2352152X24041240
+  [+] FOUND: Multi-step state of health prediction of lithium-ion batteries based o...
+      DOI: 10.1016/j.est.2024.114538
+      Authors: Yinghao Zhang, Zhanying Li, Lingyan Kong...
+
+[298/776] url_d6c161fd.pdf
+  [PII] S2666546822000271
+  [+] FOUND: Automatic method for the estimation of li-ion degradation test sample ...
+      DOI: 10.1016/j.egyai.2022.100174
+      Authors: Calum Strange, Michael Allerhand, Philipp Dechent...
+
+[299/776] url_7ed684d4.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/10.1002/er.8216...
+
+[300/776] url_580647bc.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/full/10.1002/er.6265...
+
+  [+] Checkpoint save at 300/776
+
+[301/776] url_633209a6.pdf
+  [SKIP] No PII found in URL: https://pubs.acs.org/doi/full/10.1021/accountsmr.2c00082...
+
+[302/776] url_f96c0dc3.pdf
+  [PII] S0378775316306140
+  [+] FOUND: Calculation of the state of safety (SOS) for lithium ion batteries...
+      DOI: 10.1016/j.jpowsour.2016.05.068
+      Authors: Eliud Cabrera-Castillo, Florian Niedermeier, Andreas Jossen
+
+[303/776] url_1a698202.pdf
+  [PII] S2542435121002051
+  [+] FOUND: Challenges and key requirements of batteries for electric vertical tak...
+      DOI: 10.1016/j.joule.2021.05.001
+      Authors: Xiao-Guang Yang, Teng Liu, Shanhai Ge...
+
+[304/776] url_95e64a28.pdf
+  [PII] S0378775317303269
+  [+] FOUND: A Comparison between Electrochemical Impedance Spectroscopy and Increm...
+      DOI: 10.1016/j.jpowsour.2017.03.042
+      Authors: Carlos Pastor-Fernández, Kotub Uddin, Gael H. Chouchelamane...
+
+[305/776] url_6bf34c60.pdf
+  [SKIP] No PII found in URL: https://pubs.acs.org/doi/full/10.1021/acsenergylett.0c02584...
+
+[306/776] url_4f952c73.pdf
+  [PII] S2590116819300347
+  [+] FOUND: A comparative investigation of aging effects on thermal runaway behavi...
+      DOI: 10.1016/j.etran.2019.100034
+      Authors: Dongsheng Ren, Hungjen Hsu, Ruihe Li...
+
+[307/776] url_f0270e38.pdf
+  [PII] S2542435120305626
+  [+] FOUND: The Application of Data-Driven Methods and Physics-Based Learning for ...
+      DOI: 10.1016/j.joule.2020.11.018
+      Authors: Donal P. Finegan, Juner Zhu, Xuning Feng...
+
+[308/776] url_83a0b969.pdf
+  [PII] S0378775318305573
+  [+] FOUND: A look into the voltage plateau signal for detection and quantificatio...
+      DOI: 10.1016/j.jpowsour.2018.05.073
+      Authors: Xiao-Guang Yang, Shanhai Ge, Teng Liu...
+
+[309/776] url_356e9fb4.pdf
+  [PII] S0378775317305670
+  [+] FOUND: Operando lithium plating quantification and early detection of a comme...
+      DOI: 10.1016/j.jpowsour.2017.04.072
+      Authors: D. Anseán, M. Dubarry, A. Devie...
+
+[310/776] url_09853d65.pdf
+  [PII] S0378775322004335
+  [+] FOUND: Avoiding thermal runaway in lithium-ion batteries using ultrasound det...
+      DOI: 10.1016/j.jpowsour.2022.231423
+      Authors: Maura C. Appleberry, Jeffrey A. Kowalski, Steven A. Africk...
+
+[311/776] url_65b675b8.pdf
+  [PII] S2405829721003275
+  [+] FOUND: Rapid failure mode classification and quantification in batteries: A d...
+      DOI: 10.1016/j.ensm.2021.07.016
+      Authors: Sangwook Kim, Zonggen Yi, Bor-Rong Chen...
+
+[312/776] url_0d37207e.pdf
+  [PII] S2666546821000422
+  [+] FOUND: Implementation for a cloud battery management system based on the CHAI...
+      DOI: 10.1016/j.egyai.2021.100088
+      Authors: Shichun Yang, Zhengjie Zhang, Rui Cao...
+
+[313/776] url_fcfd4201.pdf
+  [SKIP] No PII found in URL: https://www.pnas.org/doi/10.1073/pnas.1900654116...
+
+[314/776] url_979c5cb0.pdf
+  [PII] S2352152X21015231
+  [+] FOUND: Robust State of Health estimation of lithium-ion batteries using convo...
+      DOI: 10.1016/j.est.2021.103857
+      Authors: Niankai Yang, Ziyou Song, Heath Hofmann...
+
+[315/776] url_082070e1.pdf
+  [SKIP] No PII found in URL: https://www.pnas.org/doi/10.1073/pnas.2111164118...
+
+[316/776] url_a4931c8c.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/abs/10.1002/ente.2017006...
+
+[317/776] url_70aac2ce.pdf
+  [PII] S2666546820300161
+  [+] FOUND: Battery digital twins: Perspectives on the fusion of models, data and ...
+      DOI: 10.1016/j.egyai.2020.100016
+      Authors: Billy Wu, W. Dhammika Widanage, Shichun Yang...
+
+[318/776] url_ffd3acc0.pdf
+  [PII] S2542435119303708
+  [+] FOUND: Data-Driven Safety Envelope of Lithium-Ion Batteries for Electric Vehi...
+      DOI: 10.1016/j.joule.2019.07.026
+      Authors: Wei Li, Juner Zhu, Yong Xia...
+
+[319/776] url_d41fc774.pdf
+  [PII] S136403211930454X
+  [+] FOUND: Data-driven health estimation and lifetime prediction of lithium-ion b...
+      DOI: 10.1016/j.rser.2019.109254
+      Authors: Yi Li, Kailong Liu, Aoife M. Foley...
+
+[320/776] url_8b4470f7.pdf
+  [PII] S0378775315001457
+  [+] FOUND: Critical review of on-board capacity estimation techniques for lithium...
+      DOI: 10.1016/j.jpowsour.2015.01.129
+      Authors: Alexander Farmann, Wladislaw Waag, Andrea Marongiu...
+
+[321/776] url_2eac8d39.pdf
+  [PII] S1364032115013076
+  [+] FOUND: Critical review of state of health estimation methods of Li-ion batter...
+      DOI: 10.1016/j.rser.2015.11.042
+      Authors: M. Berecibar, I. Gandiaga, I. Villarreal...
+
+[322/776] url_8a7a2ae4.pdf
+  [SKIP] No PII found in URL: https://chemrxiv.org/engage/chemrxiv/article-details/60c74d6...
+
+[323/776] url_e1c39049.pdf
+  [PII] S2352152X22005564
+  [+] FOUND: State of power estimation of power lithium-ion battery based on an equ...
+      DOI: 10.1016/j.est.2022.104538
+      Authors: Muyao Wu, Linlin Qin, Gang Wu
+
+[324/776] url_59efd137.pdf
+  [SKIP] No PII found in URL: https://www.cell.com/cell-reports-physical-science/fulltext/...
+
+[325/776] url_04407471.pdf
+  [PII] B9780323960229002322
+  [-] Not found in CrossRef
+
+[326/776] url_b2c414ba.pdf
+  [SKIP] No PII found in URL: https://pubs.acs.org/doi/full/10.1021/acsenergylett.4c01390...
+
+[327/776] url_32a77ab9.pdf
+  [SKIP] No PII found in URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/full/10...
+
+[328/776] url_e289b422.pdf
+  [SKIP] No PII found in URL: https://chemrxiv.org/engage/chemrxiv/article-details/60c74cb...
+
+[329/776] url_753e6b33.pdf
+  [PII] S2405829722006973
+  [+] FOUND: Machine learning-assisted multi-objective optimization of battery manu...
+      DOI: 10.1016/j.ensm.2022.12.040
+      Authors: Marc Duquesnoy, Chaoyue Liu, Diana Zapata Dominguez...
+
+[330/776] url_49f01958.pdf
+  [PII] S0378775318314137
+  [+] FOUND: Data mining in lithium-ion battery cell production...
+      DOI: 10.1016/j.jpowsour.2018.12.062
+      Authors: Joscha Schnell, Corbinian Nentwich, Florian Endres...
+
+[331/776] url_17ad27a7.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/abs/10.1002/ente.2023008...
+
+[332/776] url_ae7d2fdf.pdf
+  [PII] S1876610217361362
+  [+] FOUND: Open circuit voltage and state of charge online estimation for lithium...
+      DOI: 10.1016/j.egypro.2017.12.388
+      Authors: Rui Xiong, Quanqing Yu, Le Yi Wang
+
+[333/776] url_4904ac83.pdf
+  [PII] S2590116823000838
+  [+] FOUND: Week-level early warning strategy for thermal runaway risk based on re...
+      DOI: 10.1016/j.etran.2023.100308
+      Authors: Aihua Tang, Zikang Wu, Tingting Xu...
+
+[334/776] url_7f7af3e3.pdf
+  [PII] S145239812300069X
+  [+] FOUND: Remaining useful life prediction of – Lithium batteries based on princ...
+      DOI: 10.1016/j.ijoes.2023.100048
+      Authors: Jiang Xing, Huilin Zhang, Jianping Zhang
+
+[335/776] url_89ea0a5d.pdf
+  [PII] S2352152X2201502X
+  [+] FOUND: Characterization of aging mechanisms and state of health for second-li...
+      DOI: 10.1016/j.est.2022.105511
+      Authors: Cuicui Liu, Xiankui Wen, Jingliang Zhong...
+
+[336/776] url_49410dc3.pdf
+  [PII] S2352152X21004758
+  [+] FOUND: Aging performance characterization and state-of-health assessment of r...
+      DOI: 10.1016/j.est.2021.102743
+      Authors: Qichao Zhang, Xinzhou Li, Zhichao Du...
+
+[337/776] url_39e9d23b.pdf
+  [PII] S2352152X23004607
+  [+] FOUND: State of health estimation method for lithium-ion batteries using incr...
+      DOI: 10.1016/j.est.2023.107063
+      Authors: Zhaopu Zhang, Haitao Min, Hangang Guo...
+
+[338/776] url_2bc5d51f.pdf
+  [PII] S0360544219321620
+  [+] FOUND: State of health estimation for Li-Ion battery using incremental capaci...
+      DOI: 10.1016/j.energy.2019.116467
+      Authors: Xiaoyu Li, Changgui Yuan, Xiaohui Li...
+
+[339/776] url_68a9d7d1.pdf
+  [PII] S2352152X23003663
+  [+] FOUND: Effective estimation of battery state-of-health by virtual experiments...
+      DOI: 10.1016/j.est.2023.106969
+      Authors: Jakob Schmitt, Ivo Horstkötter, Bernard Bäker
+
+[340/776] url_b9c7688c.pdf
+  [PII] S2352152X21015218
+  [+] FOUND: Virtual experiments for battery state of health estimation based on ne...
+      DOI: 10.1016/j.est.2021.103856
+      Authors: Felix Heinrich, Marco Pruckner
+
+[341/776] url_d8c61f88.pdf
+  [PII] S0263224121013853
+  [+] FOUND: A rapid detection method for the battery state of health...
+      DOI: 10.1016/j.measurement.2021.110502
+      Authors: Jing Ning, Bing Xiao, Wenhui Zhong...
+
+[342/776] url_876827a9.pdf
+  [PII] S2352152X21009075
+  [+] FOUND: Fault detection of lithium-ion battery packs with a graph-based method...
+      DOI: 10.1016/j.est.2021.103209
+      Authors: Guijun Ma, Songpei Xu, Cheng Cheng
+
+[343/776] url_13924ac5.pdf
+  [PII] S0306261916306316
+  [+] FOUND: Integration of sampling based battery state of health estimation metho...
+      DOI: 10.1016/j.apenergy.2016.05.037
+      Authors: Celil Ozkurt, Fatih Camci, Vepa Atamuradov...
+
+[344/776] url_65c36555.pdf
+  [PII] S2352152X22013275
+  [+] FOUND: A comparative study of battery state-of-health estimation based on emp...
+      DOI: 10.1016/j.est.2022.105333
+      Authors: Kaiquan Li, Yujie Wang, Zonghai Chen
+
+[345/776] url_470a12bd.pdf
+  [PII] S0951832023002661
+  [+] FOUND: A light-weight feature extractor for lithium-ion battery health progno...
+      DOI: 10.1016/j.ress.2023.109352
+      Authors: Danhua Zhou, Bin Wang, Chao Zhu...
+
+[346/776] url_a22f112c.pdf
+  [PII] S0378775322014069
+  [+] FOUND: A novel semi-supervised learning approach for State of Health monitori...
+      DOI: 10.1016/j.jpowsour.2022.232429
+      Authors: Clara Bertinelli Salucci, Azzeddine Bakdi, Ingrid Kristine Glad...
+
+[347/776] url_a899ab4c.pdf
+  [PII] S0360544223024611
+  [+] FOUND: An interpretable state of health estimation method for lithium-ion bat...
+      DOI: 10.1016/j.energy.2023.129067
+      Authors: Guangzheng Lyu, Heng Zhang, Qiang Miao
+
+[348/776] url_50680680.pdf
+  [PII] S2352152X23027688
+  [+] FOUND: Improved LSTM based state of health estimation using random segments o...
+      DOI: 10.1016/j.est.2023.109370
+      Authors: Liang Zhang, Junyu Zhang, Tian Gao...
+
+[349/776] url_dd1dd0b6.pdf
+  [PII] S0360544222031930
+  [+] FOUND: Health prognosis for lithium-ion battery with multi-feature optimizati...
+      DOI: 10.1016/j.energy.2022.126307
+      Authors: Mingqiang Lin, Denggao Wu, Jinhao Meng...
+
+[350/776] url_47ee1e60.pdf
+  [PII] S0360544223024556
+  [+] FOUND: State of health estimation of the lithium-ion power battery based on t...
+      DOI: 10.1016/j.energy.2023.129061
+      Authors: Muyao Wu, Yiming Zhong, Ji Wu...
+
+  [+] Checkpoint save at 350/776
+
+[351/776] url_6f7d08ba.pdf
+  [PII] S0306261923003562
+  [+] FOUND: Semi-online parameter identification methodology for maritime power li...
+      DOI: 10.1016/j.apenergy.2023.120992
+      Authors: Ruoli Tang, Shihan Zhang, Shangyu Zhang...
+
+[352/776] url_d8040f72.pdf
+  [PII] S2352152X2300823X
+  [+] FOUND: Machine learning-based state of health prediction for battery systems ...
+      DOI: 10.1016/j.est.2023.107426
+      Authors: Haixu Yang, Jichao Hong, Fengwei Liang...
+
+[353/776] url_767bfdad.pdf
+  [PII] S2352152X2202312X
+  [+] FOUND: A deep learning approach to estimate the state of health of lithium-io...
+      DOI: 10.1016/j.est.2022.106323
+      Authors: Yubo Zhang, Youyuan Wang, Yu Xia...
+
+[354/776] url_51230802.pdf
+  [PII] S2405896323017093
+  [+] FOUND: Practical battery State of Health estimation using data-driven multi-m...
+      DOI: 10.1016/j.ifacol.2023.10.1305
+      Authors: Yizhou Zhang, Torsten Wik, John Bergström...
+
+[355/776] url_d781a230.pdf
+  [SKIP] No PII found in URL: http://kth.diva-portal.org/smash/get/diva2:1765910/FULLTEXT0...
+
+[356/776] url_48de5be8.pdf
+  [PII] S0378775314007162
+  [+] FOUND: State-of-health monitoring of 18650 4S packs with a single-point imped...
+      DOI: 10.1016/j.jpowsour.2014.05.033
+      Authors: Corey T. Love, Maheboob B.V. Virji, Richard E. Rocheleau...
+
+[357/776] url_33ea46da.pdf
+  [PII] S0378775304008146
+  [+] FOUND: Differential voltage analyses of high-power, lithium-ion cells...
+      DOI: 10.1016/j.jpowsour.2004.07.021
+      Authors: Ira Bloom, Andrew N. Jansen, Daniel P. Abraham...
+
+[358/776] url_b86e92e4.pdf
+  [PII] S0378775317307723
+  [+] FOUND: State of health battery estimator enabling degradation diagnosis: Mode...
+      DOI: 10.1016/j.jpowsour.2017.05.121
+      Authors: Matthieu Dubarry, M. Berecibar, A. Devie...
+
+[359/776] url_a4681f52.pdf
+  [PII] S0378775317300265
+  [+] FOUND: A novel mechanistic modeling framework for analysis of electrode balan...
+      DOI: 10.1016/j.jpowsour.2017.01.026
+      Authors: Stefan Schindler, Michael A. Danzer
+
+[360/776] url_5a1ee42d.pdf
+  [PII] S2211339816300508
+  [+] FOUND: An overview of degradation phenomena modeling in lithium-ion battery e...
+      DOI: 10.1016/j.coche.2016.08.008
+      Authors: Chien-Fan Chen, Pallab Barai, Partha P Mukherjee
+
+[361/776] url_a67a027e.pdf
+  [PII] S2352152X18307291
+  [+] FOUND: Understanding the different aging trends of usable capacity and mobile...
+      DOI: 10.1016/j.est.2019.02.029
+      Authors: Björn Rumberg, Kai Schwarzkopf, Bernd Epding...
+
+[362/776] url_2016ee5d.pdf
+  [PII] S0378775317312788
+  [+] FOUND: Differential voltage analysis as a tool for analyzing inhomogeneous ag...
+      DOI: 10.1016/j.jpowsour.2017.09.059
+      Authors: Meinert Lewerenz, Andrea Marongiu, Alexander Warnecke...
+
+[363/776] url_cdffb6c6.pdf
+  [PII] S0378775317304500
+  [+] FOUND: New method evaluating currents keeping the voltage constant for fast a...
+      DOI: 10.1016/j.jpowsour.2017.03.136
+      Authors: Meinert Lewerenz, Stefan Käbitz, Marcus Knips...
+
+[364/776] url_e7b156cb.pdf
+  [PII] S0167273817308779
+  [+] FOUND: Simplified modeling and parameter estimation to predict calendar life ...
+      DOI: 10.1016/j.ssi.2018.02.038
+      Authors: Yong Liu, Kai Xie, Yi Pan...
+
+[365/776] url_3f114260.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/10.1155/2020/8840240...
+
+[366/776] url_49259be8.pdf
+  [PII] S0360544220311075
+  [+] FOUND: Data-driven state of charge estimation for lithium-ion battery packs b...
+      DOI: 10.1016/j.energy.2020.118000
+      Authors: Zhongwei Deng, Xiaosong Hu, Xianke Lin...
+
+[367/776] url_e1a0c61f.pdf
+  [PII] S1876610218313419
+  [+] FOUND: Lithium-ion battery modeling based on Big Data...
+      DOI: 10.1016/j.egypro.2018.12.046
+      Authors: Shuangqi Li, Jianwei Li, Hongwen He...
+
+[368/776] url_59317a89.pdf
+  [PII] S2352152X21011270
+  [+] FOUND: Intelligent state of charge estimation of lithium-ion batteries based ...
+      DOI: 10.1016/j.est.2021.103442
+      Authors: Guanyong Zhang, Bizhong Xia, Jiamin Wang
+
+[369/776] url_7f65d8ce.pdf
+  [PII] S0959652619322383
+  [+] FOUND: State-of-charge estimation of lithium-ion battery using an improved ne...
+      DOI: 10.1016/j.jclepro.2019.06.273
+      Authors: Cheng Chen, Rui Xiong, Ruixin Yang...
+
+[370/776] url_ae9beb12.pdf
+  [PII] S2352152X23016651
+  [+] FOUND: SoC estimation of lithium-ion batteries based on machine learning tech...
+      DOI: 10.1016/j.est.2023.108268
+      Authors: Mehmet Korkmaz
+
+[371/776] url_7c3fcb7f.pdf
+  [PII] S2352152X2300556X
+  [+] FOUND: Review on technological advancement of lithium-ion battery states esti...
+      DOI: 10.1016/j.est.2023.107159
+      Authors: Prashant Shrivastava, P. Amritansh Naidu, Sakshi Sharma...
+
+[372/776] url_639b9fc2.pdf
+  [PII] S2352152X16302031
+  [+] FOUND: A comparative study and review of different Kalman filters by applying...
+      DOI: 10.1016/j.est.2016.10.004
+      Authors: Christian Campestrini, Thomas Heil, Stephan Kosch...
+
+[373/776] url_a2b4ff86.pdf
+  [PII] S0360544217317127
+  [+] FOUND: Online estimation of battery equivalent circuit model parameters and s...
+      DOI: 10.1016/j.energy.2017.10.043
+      Authors: Cheng Zhang, Walid Allafi, Quang Dinh...
+
+[374/776] url_6da38b0f.pdf
+  [PII] S0306261922016944
+  [+] FOUND: Breaking it down: A techno-economic assessment of the impact of batter...
+      DOI: 10.1016/j.apenergy.2022.120437
+      Authors: Laura Lander, Chris Tagnon, Viet Nguyen-Tien...
+
+[375/776] url_c2437760.pdf
+  [PII] S0378775318306323
+  [+] FOUND: A fast estimation algorithm for lithium-ion battery state of health...
+      DOI: 10.1016/j.jpowsour.2018.06.036
+      Authors: Xiaopeng Tang, Changfu Zou, Ke Yao...
+
+[376/776] url_f2b33dbb.pdf
+  [PII] S2352152X22020370
+  [+] FOUND: Comprehensive co-estimation of lithium-ion battery state of charge, st...
+      DOI: 10.1016/j.est.2022.106049
+      Authors: Prashant Shrivastava, Tey Kok Soon, Mohd Yamani Idna Bin Idris...
+
+[377/776] url_8baae261.pdf
+  [PII] S0013468622009197
+  [+] FOUND: Adaptive robust unscented Kalman filter-based state-of-charge estimati...
+      DOI: 10.1016/j.electacta.2022.140760
+      Authors: Lu Wang, Jian Ma, Xuan Zhao...
+
+[378/776] url_b1a8f2ad.pdf
+  [PII] S2405829722004500
+  [+] FOUND: Battery degradation diagnosis with field data, impedance-based modelin...
+      DOI: 10.1016/j.ensm.2022.08.021
+      Authors: Weihan Li, Jue Chen, Katharina Quade...
+
+[379/776] url_072435ff.pdf
+  [PII] S0306261916310741
+  [+] FOUND: State-of-health monitoring of lithium-ion battery modules and packs vi...
+      DOI: 10.1016/j.apenergy.2016.07.126
+      Authors: Caihao Weng, Xuning Feng, Jing Sun...
+
+[380/776] url_9a1a730f.pdf
+  [PII] S2095495622007057
+  [+] FOUND: Data-driven short circuit resistance estimation in battery safety issu...
+      DOI: 10.1016/j.jechem.2022.12.035
+      Authors: Yikai Jia, Jun Xu
+
+[381/776] url_398dada2.pdf
+  [PII] S1364032117306275
+  [+] FOUND: A review of lithium-ion battery state of charge estimation and managem...
+      DOI: 10.1016/j.rser.2017.05.001
+      Authors: M.A. Hannan, M.S.H. Lipu, A. Hussain...
+
+[382/776] url_758896b9.pdf
+  [PII] S2352152X22009859
+  [+] FOUND: Precise equivalent circuit model for Li-ion battery by experimental im...
+      DOI: 10.1016/j.est.2022.104980
+      Authors: Jianfeng Wang, Yongkai Jia, Na Yang...
+
+[383/776] url_91cabd30.pdf
+  [PII] S2212827114001140
+  [+] FOUND: Overview of Remaining Useful Life Prediction Techniques in Through-lif...
+      DOI: 10.1016/j.procir.2014.02.006
+      Authors: C. Okoh, R. Roy, J. Mehnen...
+
+[384/776] url_f4b84f15.pdf
+  [SKIP] No PII found in URL: https://dl.acm.org/doi/10.1145/3369810...
+
+[385/776] url_61ae8894.pdf
+  [PII] S2352152X23002360
+  [+] FOUND: Degradation analysis of 18650 cylindrical cell battery pack with immer...
+      DOI: 10.1016/j.est.2023.106839
+      Authors: D. Koster, A. Marongiu, D. Chahardahcherik...
+
+[386/776] url_f66abb05.pdf
+  [PII] S0306261918302484
+  [+] FOUND: A novel method for lithium-ion battery state of energy and state of po...
+      DOI: 10.1016/j.apenergy.2018.02.117
+      Authors: Xu Zhang, Yujie Wang, Ji Wu...
+
+[387/776] url_e6015f24.pdf
+  [PII] S2352152X21006691
+  [+] FOUND: State of power estimation of lithium-ion battery based on fractional-o...
+      DOI: 10.1016/j.est.2021.102954
+      Authors: Changhe Liu, Minghui Hu, Guoqing Jin...
+
+[388/776] url_3850768a.pdf
+  [PII] S2352152X23006229
+  [+] FOUND: Co-estimation of lithium-ion battery state-of-charge and state-of-heal...
+      DOI: 10.1016/j.est.2023.107225
+      Authors: Lihua Ye, Dinghan Peng, Dingbang Xue...
+
+[389/776] url_086fe1c7.pdf
+  [PII] S1452398123001384
+  [+] FOUND: A novel state of health estimation approach based on polynomial model ...
+      DOI: 10.1016/j.ijoes.2023.100111
+      Authors: Gökhan Yüksek, Alkan Alkaya
+
+[390/776] url_aae30dd4.pdf
+  [PII] S037877532300112X
+  [+] FOUND: High-efficient prediction of state of health for lithium-ion battery b...
+      DOI: 10.1016/j.jpowsour.2023.232737
+      Authors: Jia Wang, Rui Zhao, Qiu-An Huang...
+
+[391/776] url_31cee0b6.pdf
+  [PII] S2405829722004998
+  [+] FOUND: Forecasting battery capacity and power degradation with multi-task lea...
+      DOI: 10.1016/j.ensm.2022.09.013
+      Authors: Weihan Li, Haotian Zhang, Bruis van Vlijmen...
+
+[392/776] url_af782fac.pdf
+  [PII] S0360544222015559
+  [+] FOUND: A fast state-of-health estimation method using single linear feature f...
+      DOI: 10.1016/j.energy.2022.124652
+      Authors: Mingjie Shi, Jun Xu, Chuanping Lin...
+
+[393/776] url_b07b2475.pdf
+  [PII] S0378775322008175
+  [+] FOUND: State of charge and state of health diagnosis of batteries with voltag...
+      DOI: 10.1016/j.jpowsour.2022.231828
+      Authors: Jonas A. Braun, René Behmann, David Schmider...
+
+[394/776] url_f026b1be.pdf
+  [PII] S2590116822000133
+  [+] FOUND: Quantifying the state of the art of electric powertrains in battery el...
+      DOI: 10.1016/j.etran.2022.100167
+      Authors: Nikolaos Wassiliadis, Matthias Steinsträter, Markus Schreiber...
+
+[395/776] url_296c0a24.pdf
+  [PII] S1000936119301268
+  [+] FOUND: State of art on energy management strategy for hybrid-powered unmanned...
+      DOI: 10.1016/j.cja.2019.03.013
+      Authors: Tao LEI, Zhou YANG, Zicun LIN...
+
+[396/776] url_23485c96.pdf
+  [PII] S0144164722004354
+  [-] Not found in CrossRef
+
+[397/776] url_0563f508.pdf
+  [PII] S0378775319308237
+  [+] FOUND: Accelerated cycle life testing and capacity degradation modeling of Li...
+      DOI: 10.1016/j.jpowsour.2019.226830
+      Authors: Weiping Diao, Saurabh Saxena, Michael Pecht
+
+[398/776] url_38db644d.pdf
+  [PII] S0360544222026044
+  [+] FOUND: Deep convolutional neural network based closed-loop SOC estimation for...
+      DOI: 10.1016/j.energy.2022.125718
+      Authors: Qiao Wang, Min Ye, Meng Wei...
+
+[399/776] url_39cf565a.pdf
+  [PII] S0378775322015324
+  [+] FOUND: Nondestructive diagnostics and quantification of battery aging under d...
+      DOI: 10.1016/j.jpowsour.2022.232555
+      Authors: Guodong Fan, Dongliang Lu, M. Scott Trimboli...
+
+[400/776] url_39de0f32.pdf
+  [PII] S2213138820300527
+  [+] FOUND: A data-driven coulomb counting method for state of charge calibration ...
+      DOI: 10.1016/j.seta.2020.100752
+      Authors: Shuzhi Zhang, Xu Guo, Xiaoxin Dou...
+
+  [+] Checkpoint save at 400/776
+
+[401/776] url_dea3dac4.pdf
+  [PII] S2666386421004082
+  [+] FOUND: Formulation and manufacturing optimization of lithium-ion graphite-bas...
+      DOI: 10.1016/j.xcrp.2021.100683
+      Authors: Stavros X. Drakopoulos, Azarmidokht Gholamipour-Shirazi, Paul MacDonald...
+
+[402/776] url_e7ea5767.pdf
+  [PII] S2352152X23034230
+  [+] FOUND: Towards fast embedded moving horizon state-of-charge estimation for li...
+      DOI: 10.1016/j.est.2023.110024
+      Authors: Yiming Wan, Songtao Du, Jiayu Yan...
+
+[403/776] url_01e344d7.pdf
+  [PII] S2352152X22012828
+  [+] FOUND: Lithium-ion battery modeling under high-frequency ripple current for c...
+      DOI: 10.1016/j.est.2022.105284
+      Authors: Hao Li, Weige Zhang, Bingxiang Sun...
+
+[404/776] url_8da95818.pdf
+  [PII] S0306261924002083
+  [+] FOUND: A transferable long-term lithium-ion battery aging trajectory predicti...
+      DOI: 10.1016/j.apenergy.2024.122825
+      Authors: Yaodi Huang, Pengcheng Zhang, Jiahuan Lu...
+
+[405/776] url_e8366f1c.pdf
+  [SKIP] No PII found in URL: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3946848...
+
+[406/776] url_f19d1b7d.pdf
+  [PII] S235234092200796X
+  [+] FOUND: Dataset on broadband electrochemical impedance spectroscopy of Lithium...
+      DOI: 10.1016/j.dib.2022.108589
+      Authors: Emanuele Buchicchio, Alessio De Angelis, Francesco Santoni...
+
+[407/776] url_cb02e6ac.pdf
+  [SKIP] No PII found in URL: https://pubs.acs.org/doi/full/10.1021/acsenergylett.3c01216...
+
+[408/776] url_5e3f4978.pdf
+  [PII] S0378775314009069
+  [+] FOUND: Model based condition monitoring in lithium-ion batteries...
+      DOI: 10.1016/j.jpowsour.2014.06.052
+      Authors: Amardeep Singh, Afshin Izadian, Sohel Anwar
+
+[409/776] url_31c5be04.pdf
+  [PII] S0306261916319262
+  [+] FOUND: Voltage fault diagnosis and prognosis of battery systems based on entr...
+      DOI: 10.1016/j.apenergy.2016.12.143
+      Authors: Zhenpo Wang, Jichao Hong, Peng Liu...
+
+[410/776] url_197882cb.pdf
+  [PII] S0959652618309405
+  [+] FOUND: A fractional-order model-based battery external short circuit fault di...
+      DOI: 10.1016/j.jclepro.2018.03.259
+      Authors: Ruixin Yang, Rui Xiong, Hongwen He...
+
+[411/776] url_c636c313.pdf
+  [PII] S0306261919310554
+  [+] FOUND: Fault prognosis of battery system based on accurate voltage abnormity ...
+      DOI: 10.1016/j.apenergy.2019.113381
+      Authors: Jichao Hong, Zhenpo Wang, Yongtao Yao
+
+[412/776] url_0ea959d8.pdf
+  [PII] S2352152X23008903
+  [+] FOUND: Battery cycle life assessment for a lift+cruise electric vertical take...
+      DOI: 10.1016/j.est.2023.107493
+      Authors: Yew Chai Paw, Elisa Yun Mei Ang
+
+[413/776] url_aacae72f.pdf
+  [PII] S2352152X19308175
+  [+] FOUND: Rate dependency of incremental capacity analysis (dQ/dV) as a diagnost...
+      DOI: 10.1016/j.est.2020.101329
+      Authors: A. Fly, R. Chen
+
+[414/776] url_70df77ef.pdf
+  [PII] S1364032119304332
+  [+] FOUND: Overview of model-based online state-of-charge estimation using Kalman...
+      DOI: 10.1016/j.rser.2019.06.040
+      Authors: Prashant Shrivastava, Tey Kok Soon, Mohd Yamani Idna Bin Idris...
+
+[415/776] url_dcd514d9.pdf
+  [SKIP] No PII found in URL: https://arc.aiaa.org/doi/full/10.2514/1.C033416...
+
+[416/776] url_a4db3d8a.pdf
+  [PII] S0306261922004135
+  [+] FOUND: Health and performance diagnostics in Li-ion batteries with pulse-inje...
+      DOI: 10.1016/j.apenergy.2022.119005
+      Authors: Alan G. Li, Weizhong Wang, Alan C. West...
+
+[417/776] url_12f66cce.pdf
+  [PII] S2352340920309276
+  [+] FOUND: Data for an Advanced Microstructural and Electrochemical Datasheet on ...
+      DOI: 10.1016/j.dib.2020.106033
+      Authors: T.M.M. Heenan, A. Jnawali, M. Kok...
+
+[418/776] url_14b896fa.pdf
+  [PII] S0378775324001101
+  [+] FOUND: Aging mechanisms of NMC811/Si-Graphite Li-ion batteries...
+      DOI: 10.1016/j.jpowsour.2024.234159
+      Authors: Ekaterina Laakso, Sofya Efimova, Mattia Colalongo...
+
+[419/776] url_73428672.pdf
+  [PII] S0959652617323077
+  [+] FOUND: Providing a common base for life cycle assessments of Li-Ion batteries...
+      DOI: 10.1016/j.jclepro.2017.10.016
+      Authors: Jens F. Peters, Marcel Weil
+
+[420/776] url_e8f142cf.pdf
+  [PII] S0306261920310163
+  [+] FOUND: State-of-health estimation of lithium-ion batteries based on semi-supe...
+      DOI: 10.1016/j.apenergy.2020.115504
+      Authors: Yuanyuan Li, Hanmin Sheng, Yuhua Cheng...
+
+[421/776] url_9aba3c4f.pdf
+  [SKIP] No PII found in URL: https://www.techrxiv.org/doi/full/10.36227/techrxiv.21778685...
+
+[422/776] url_f4110540.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/10.1111/jiec.13414...
+
+[423/776] url_9d200365.pdf
+  [PII] S1364032123010298
+  [+] FOUND: Review of battery thermal management systems in electric vehicles...
+      DOI: 10.1016/j.rser.2023.114171
+      Authors: Foo Shen Hwang, Thomas Confrey, Colin Reidy...
+
+[424/776] url_19caf1cf.pdf
+  [PII] S2352340923002767
+  [+] FOUND: Dataset for rapid state of health estimation of lithium batteries usin...
+      DOI: 10.1016/j.dib.2023.109157
+      Authors: Muhammad Rashid, Mona Faraji-Niri, Jonathan Sansom...
+
+[425/776] url_a5f34146.pdf
+  [PII] S2352152X22022848
+  [+] FOUND: Accelerated state of health estimation of second life lithium-ion batt...
+      DOI: 10.1016/j.est.2022.106295
+      Authors: Mona Faraji-Niri, Muhammad Rashid, Jonathan Sansom...
+
+[426/776] url_14e89864.pdf
+  [PII] S2352152X19313799
+  [+] FOUND: Evaluating the capacity ratio and prelithiation strategies for extendi...
+      DOI: 10.1016/j.est.2020.101268
+      Authors: Botao Farren Song, Abirami Dhanabalan, Sibani Lisa Biswal
+
+[427/776] url_1479453b.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/10.1002/aenm.202102448...
+
+[428/776] url_b88d8269.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/full/10.1002/ente.202001...
+
+[429/776] url_39599b48.pdf
+  [PII] S2405896317305931
+  [+] FOUND: A Computationally Efficient Implementation of an Electrochemistry-Base...
+      DOI: 10.1016/j.ifacol.2017.08.276
+      Authors: L. Xia, E. Najafi, H.J. Bergveld...
+
+[430/776] url_add37c6a.pdf
+  [SKIP] No PII found in URL: https://www.cell.com/joule/fulltext/S2542-4351(21)00443-8...
+
+[431/776] url_9aa14d6a.pdf
+  [PII] S2666546821000434
+  [+] FOUND: A novel combined multi-battery dataset based approach for enhanced pre...
+      DOI: 10.1016/j.egyai.2021.100089
+      Authors: Vijay Mohan Nagulapati, Hyunjun Lee, DaWoon Jung...
+
+[432/776] url_e0a1ab5c.pdf
+  [SKIP] No PII found in URL: https://arc.aiaa.org/doi/full/10.2514/1.C035734...
+
+[433/776] url_69169b64.pdf
+  [SKIP] No PII found in URL: https://arc.aiaa.org/doi/abs/10.2514/8.2956...
+
+[434/776] url_058a84e5.pdf
+  [SKIP] No PII found in URL: https://arc.aiaa.org/doi/abs/10.2514/1.17696...
+
+[435/776] url_a4736b73.pdf
+  [SKIP] No PII found in URL: https://arc.aiaa.org/doi/full/10.2514/1.C031748...
+
+[436/776] url_7508c2e1.pdf
+  [PII] S0378775323007048
+  [+] FOUND: Characterizing degradation in lithium-ion batteries with pulsing...
+      DOI: 10.1016/j.jpowsour.2023.233328
+      Authors: Alan G. Li, Alan C. West, Matthias Preindl
+
+[437/776] url_85420fb1.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/10.1002/er.7339...
+
+[438/776] url_2e0c9f5c.pdf
+  [PII] S001346861101142X
+  [+] FOUND: New approach for the calculation of impedance spectra out of time doma...
+      DOI: 10.1016/j.electacta.2011.07.096
+      Authors: D. Klotz, M. Schönleber, J.P. Schmidt...
+
+[439/776] url_21d3f6ad.pdf
+  [SKIP] No PII found in URL: https://www.cell.com/patterns/fulltext/S2666-3899(21)00145-8...
+
+[440/776] url_9357786e.pdf
+  [SKIP] No PII found in URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/abs/10....
+
+[441/776] url_40d81d75.pdf
+  [SKIP] No PII found in URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/full/10...
+
+[442/776] url_f3c72c6a.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/abs/10.1002/adma.2021014...
+
+[443/776] url_86953617.pdf
+  [PII] S2405829724007037
+  [+] FOUND: Machine learning-based lifelong estimation of lithium plating potentia...
+      DOI: 10.1016/j.ensm.2024.103877
+      Authors: Yizhou Zhang, Torsten Wik, John Bergström...
+
+[444/776] url_d17ae704.pdf
+  [PII] S2352152X24042828
+  [+] FOUND: Aging trajectory prediction of lithium-ion batteries based on mechanic...
+      DOI: 10.1016/j.est.2024.114696
+      Authors: Lili Gong, Junjie Ding, Kai Sun...
+
+[445/776] url_05a2bcc4.pdf
+  [PII] S036054422403771X
+  [+] FOUND: Multi-cycle charging information guided state of health estimation for...
+      DOI: 10.1016/j.energy.2024.133993
+      Authors: Zhen Zhang, Yuhao Zhu, Qi Zhang...
+
+[446/776] url_27e8a322.pdf
+  [PII] S0360544222034478
+  [+] FOUND: Optimal scheduling and techno-economic analysis of electric vehicles b...
+      DOI: 10.1016/j.energy.2022.126560
+      Authors: Zia Ullah, Shaorong Wang, Guan Wu...
+
+[447/776] url_1580eb54.pdf
+  [PII] S0360544224037563
+  [+] FOUND: Evolutionary hybrid deep learning based on feature engineering and dee...
+      DOI: 10.1016/j.energy.2024.133978
+      Authors: Zhongyi Tang, Zhirong Zhang, Xianxian Shen...
+
+[448/776] url_381168ad.pdf
+  [PII] S2666546821000501
+  [+] FOUND: Prediction of future capacity and internal resistance of Li-ion cells ...
+      DOI: 10.1016/j.egyai.2021.100097
+      Authors: Calum Strange, Gonçalo dos Reis
+
+[449/776] url_3b1c322d.pdf
+  [PII] S2352152X21003352
+  [+] FOUND: Data-driven model development to predict the aging of a Li-ion battery...
+      DOI: 10.1016/j.est.2021.102592
+      Authors: Rémy Mingant, Martin Petit, Sofiane Belaïd...
+
+[450/776] url_a23f00a3.pdf
+  [SKIP] No PII found in URL: https://ietresearch.onlinelibrary.wiley.com/doi/full/10.1049...
+
+  [+] Checkpoint save at 450/776
+
+[451/776] url_297a5007.pdf
+  [PII] S0378775321005528
+  [+] FOUND: One-shot battery degradation trajectory prediction with deep learning...
+      DOI: 10.1016/j.jpowsour.2021.230024
+      Authors: Weihan Li, Neil Sengupta, Philipp Dechent...
+
+[452/776] url_d15208e5.pdf
+  [PII] S0378775321007667
+  [+] FOUND: Impact of cell variability on pack statistics for different vehicle se...
+      DOI: 10.1016/j.jpowsour.2021.230246
+      Authors: Aziz Abdellahi, Selcuk Atalay, Ashwin Rajan
+
+[453/776] url_c672fc24.pdf
+  [PII] S2352152X22005618
+  [+] FOUND: Calendar ageing model of Li-ion battery combining physics-based and em...
+      DOI: 10.1016/j.est.2022.104544
+      Authors: Maxime Montaru, Sébastien Fiette, Joël-Louis Koné...
+
+[454/776] url_dba6affe.pdf
+  [PII] S2352152X22007307
+  [+] FOUND: Modeling capacity fade of lithium-ion batteries during dynamic cycling...
+      DOI: 10.1016/j.est.2022.104718
+      Authors: Alexander Karger, Leo Wildfeuer, Deniz Aygül...
+
+[455/776] url_f2a83e58.pdf
+  [PII] S2352152X19317219
+  [+] FOUND: Comparative study of curve determination methods for incremental capac...
+      DOI: 10.1016/j.est.2020.101400
+      Authors: Jiangtao He, Xiaolei Bian, Longcheng Liu...
+
+[456/776] url_a89b670f.pdf
+  [PII] S0378775320309599
+  [+] FOUND: Online state of health and aging parameter estimation using a physics-...
+      DOI: 10.1016/j.jpowsour.2020.228655
+      Authors: Yalan Bi, Yilin Yin, Song-Yul Choe
+
+[457/776] url_df6ad513.pdf
+  [PII] S0378775314001876
+  [+] FOUND: A holistic aging model for Li(NiMnCo)O2 based 18650 lithium-ion batter...
+      DOI: 10.1016/j.jpowsour.2014.02.012
+      Authors: Johannes Schmalstieg, Stefan Käbitz, Madeleine Ecker...
+
+[458/776] url_c2396ff8.pdf
+  [PII] S0378775313014584
+  [+] FOUND: Production caused variation in capacity aging trend and correlation to...
+      DOI: 10.1016/j.jpowsour.2013.08.108
+      Authors: Thorsten Baumhöfer, Manuel Brühl, Susanne Rothgang...
+
+[459/776] url_cb1418cf.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/full/10.1002/ente.202201...
+
+[460/776] url_ce975210.pdf
+  [SKIP] No PII found in URL: https://asmedigitalcollection.asme.org/electrochemical/artic...
+
+[461/776] url_26e60cb3.pdf
+  [PII] S2352152X18305255
+  [+] FOUND: Battery energy storage system modeling: A combined comprehensive appro...
+      DOI: 10.1016/j.est.2018.11.012
+      Authors: Matthieu Dubarry, George Baure, Carlos Pastor-Fernández...
+
+[462/776] url_7db63dd3.pdf
+  [PII] S0306261921000088
+  [+] FOUND: Battery state-of-health sensitive energy management of hybrid electric...
+      DOI: 10.1016/j.apenergy.2021.116440
+      Authors: Pier Giuseppe Anselma, Phillip Kollmeyer, Jeremy Lempert...
+
+[463/776] url_2d5d1677.pdf
+  [PII] S2352152X20308495
+  [+] FOUND: Digital twin for battery systems: Cloud battery management system with...
+      DOI: 10.1016/j.est.2020.101557
+      Authors: Weihan Li, Monika Rentemeister, Julia Badeda...
+
+[464/776] url_7f9afb16.pdf
+  [PII] S2352152X2100311X
+  [+] FOUND: Development of a battery real-time state of health diagnosis based on ...
+      DOI: 10.1016/j.est.2021.102566
+      Authors: Edoardo Locorotondo, Vincenzo Cultrera, Luca Pugi...
+
+[465/776] url_f34e3d2a.pdf
+  [PII] S0378775321010259
+  [+] FOUND: Hybrid physics-informed neural networks for lithium-ion battery modeli...
+      DOI: 10.1016/j.jpowsour.2021.230526
+      Authors: Renato G. Nascimento, Matteo Corbetta, Chetan S. Kulkarni...
+
+[466/776] url_a80f8152.pdf
+  [SKIP] No PII found in URL: https://scijournals.onlinelibrary.wiley.com/doi/10.1002/ese3...
+
+[467/776] url_49860a73.pdf
+  [PII] S0306261921013933
+  [+] FOUND: Unlocking electrochemical model-based online power prediction for lith...
+      DOI: 10.1016/j.apenergy.2021.118114
+      Authors: Weihan Li, Yue Fan, Florian Ringbeck...
+
+[468/776] url_bcc1829b.pdf
+  [PII] S0306261921015956
+  [+] FOUND: Developing an online data-driven approach for prognostics and health m...
+      DOI: 10.1016/j.apenergy.2021.118348
+      Authors: Sahar Khaleghi, Md Sazzad Hosen, Danial Karimi...
+
+[469/776] url_17083461.pdf
+  [SKIP] No PII found in URL: https://www.cell.com/joule/fulltext/S2542-4351(21)00454-2...
+
+[470/776] url_57925bc7.pdf
+  [PII] S2590116821000047
+  [+] FOUND: INCEPTS: Software for high-fidelity electric vehicle en route state of...
+      DOI: 10.1016/j.etran.2021.100106
+      Authors: Matthew Guttenberg, Shashank Sripad, Alexander Bills...
+
+[471/776] url_7549593f.pdf
+  [SKIP] No PII found in URL: https://pubs.acs.org/doi/10.1021/acsenergylett.8b02195...
+
+[472/776] url_b9cc1718.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/10.1002/ente.202200801...
+
+[473/776] url_85dffc7e.pdf
+  [SKIP] No PII found in URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/full/10...
+
+[474/776] url_5a557445.pdf
+  [SKIP] No PII found in URL: https://docs.google.com/document/d/1OBPGVdzpx4vEQRD62RrSVU6e...
+
+[475/776] url_6017fa38.pdf
+  [SKIP] No PII found in URL: https://pubs.acs.org/doi/10.1021/acs.jpcc.3c00033...
+
+[476/776] url_34adef54.pdf
+  [PII] S2352152X23005832
+  [+] FOUND: Aging estimation of lithium ion cells under real-world conditions thro...
+      DOI: 10.1016/j.est.2023.107186
+      Authors: Manuel Antonio Perez Estevez, Fiorentino Valerio Conte, Claudia Tremonti...
+
+[477/776] url_b3336865.pdf
+  [PII] S0360544223002499
+  [+] FOUND: Lithium-ion battery health estimation with real-world data for electri...
+      DOI: 10.1016/j.energy.2023.126855
+      Authors: Jiaqiang Tian, Xinghua Liu, Siqi Li...
+
+[478/776] url_ed32bf03.pdf
+  [PII] S1877705811020418
+  [+] FOUND: Modeling for Lithium-Ion Battery used in Electric Vehicles...
+      DOI: 10.1016/j.proeng.2011.08.540
+      Authors: Rui Xiong, Hongwen He, Hongqiang Guo...
+
+[479/776] url_a1e266dc.pdf
+  [SKIP] No PII found in URL: https://pubs.acs.org/doi/full/10.1021/acsenergylett.3c00695...
+
+[480/776] url_b28c0019.pdf
+  [SKIP] No PII found in URL: https://www.researchgate.net/publication/235602059_A_Cell_Le...
+
+[481/776] url_422b11e3.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/full/10.1002/er.7202...
+
+[482/776] url_a4a05f12.pdf
+  [PII] S2352152X22017406
+  [+] FOUND: Deep learning enabled state of charge, state of health and remaining u...
+      DOI: 10.1016/j.est.2022.105752
+      Authors: M.S. Hossain Lipu, Shaheer Ansari, Md. Sazal Miah...
+
+[483/776] url_dd6393cc.pdf
+  [PII] S095965262034155X
+  [+] FOUND: Data-driven state of charge estimation of lithium-ion batteries: Algor...
+      DOI: 10.1016/j.jclepro.2020.124110
+      Authors: M.S. Hossain Lipu, M.A. Hannan, Aini Hussain...
+
+[484/776] url_fe658318.pdf
+  [PII] S0959652618327793
+  [+] FOUND: A review of state of health and remaining useful life estimation metho...
+      DOI: 10.1016/j.jclepro.2018.09.065
+      Authors: M.S. Hossain Lipu, M.A. Hannan, Aini Hussain...
+
+[485/776] url_1cc527c5.pdf
+  [PII] S0378775318307080
+  [+] FOUND: State-of-charge estimation of Li-ion batteries using deep neural netwo...
+      DOI: 10.1016/j.jpowsour.2018.06.104
+      Authors: Ephrem Chemali, Phillip J. Kollmeyer, Matthias Preindl...
+
+[486/776] url_fa660592.pdf
+  [PII] S0378775315001615
+  [+] FOUND: Electric vehicle state of charge estimation: Nonlinear correlation and...
+      DOI: 10.1016/j.jpowsour.2015.01.145
+      Authors: Hanmin Sheng, Jian Xiao
+
+[487/776] url_21ab29cc.pdf
+  [PII] S0306261914000956
+  [+] FOUND: A new neural network model for the state-of-charge estimation in the b...
+      DOI: 10.1016/j.apenergy.2014.01.066
+      Authors: LiuWang Kang, Xuan Zhao, Jian Ma
+
+[488/776] url_6b5600cd.pdf
+  [PII] S2590116820300084
+  [+] FOUND: A reliable approach of differentiating discrete sampled-data for batte...
+      DOI: 10.1016/j.etran.2020.100051
+      Authors: Xuning Feng, Yu Merla, Caihao Weng...
+
+[489/776] url_93e6097a.pdf
+  [PII] S2352711020300492
+  [+] FOUND: BEEP: A Python library for Battery Evaluation and Early Prediction...
+      DOI: 10.1016/j.softx.2020.100506
+      Authors: Patrick Herring, Chirranjeevi Balaji Gopal, Muratahan Aykol...
+
+[490/776] url_4ad874f3.pdf
+  [PII] S037877532031538X
+  [+] FOUND: A sequential capacity estimation for the lithium-ion batteries combini...
+      DOI: 10.1016/j.jpowsour.2020.229248
+      Authors: Tao Sun, Bowen Xu, Yifan Cui...
+
+[491/776] url_07d235b9.pdf
+  [PII] S0378775317306250
+  [+] FOUND: Gaussian process regression for forecasting battery state of health...
+      DOI: 10.1016/j.jpowsour.2017.05.004
+      Authors: Robert R. Richardson, Michael A. Osborne, David A. Howey
+
+[492/776] url_369fa91f.pdf
+  [PII] S2352152X18307734
+  [+] FOUND: Battery health prediction under generalized conditions using a Gaussia...
+      DOI: 10.1016/j.est.2019.03.022
+      Authors: Robert R. Richardson, Michael A. Osborne, David A. Howey
+
+[493/776] url_e45d6ee9.pdf
+  [PII] S2405896320323788
+  [+] FOUND: Bayesian Parameter Estimation Applied to the Li-ion Battery Single Par...
+      DOI: 10.1016/j.ifacol.2020.12.1770
+      Authors: Antti Aitio, Scott G. Marquis, Pedro Ascencio...
+
+[494/776] url_c21377f0.pdf
+  [SKIP] No PII found in URL: https://pubs.acs.org/doi/10.1021/acsenergylett.1c00870...
+
+[495/776] url_46c37eb5.pdf
+  [SKIP] No PII found in URL: https://chemrxiv.org/engage/chemrxiv/article-details/60cc4e4...
+
+[496/776] url_a29a6b9a.pdf
+  [PII] S0378775320311678
+  [+] FOUND: Online capacity estimation of lithium-ion batteries with deep long sho...
+      DOI: 10.1016/j.jpowsour.2020.228863
+      Authors: Weihan Li, Neil Sengupta, Philipp Dechent...
+
+[497/776] url_348eb8b2.pdf
+  [PII] S2590116821000278
+  [+] FOUND: Quantifiability of inherent cell-to-cell variations of commercial lith...
+      DOI: 10.1016/j.etran.2021.100129
+      Authors: Leo Wildfeuer, Markus Lienkamp
+
+[498/776] url_063d2dcc.pdf
+  [PII] S2405829721003123
+  [+] FOUND: Extended cycle life implications of fast charging for lithium-ion batt...
+      DOI: 10.1016/j.ensm.2021.07.001
+      Authors: Tanvir R. Tanim, Zhenzhen Yang, Andrew M. Colclasure...
+
+[499/776] url_239dc23c.pdf
+  [PII] S2405896317313307
+  [+] FOUND: Estimation of Best Linear Approximation from Varying Operating Conditi...
+      DOI: 10.1016/j.ifacol.2017.08.867
+      Authors: Rishi Relan, Koen Tiels, Jean-Marc Timmermans...
+
+[500/776] url_c9f6a7eb.pdf
+  [SKIP] No PII found in URL: https://www.nasa.gov/intelligent-systems-division/discovery-...
+
+  [+] Checkpoint save at 500/776
+
+[501/776] url_f39a99b7.pdf
+  [PII] S0378775320312829
+  [+] FOUND: Data-driven analysis on thermal effects and temperature changes of lit...
+      DOI: 10.1016/j.jpowsour.2020.228983
+      Authors: Shan Zhu, Chunnian He, Naiqin Zhao...
+
+[502/776] url_37c653ea.pdf
+  [SKIP] No PII found in URL: https://data.nasa.gov/dataset/Optimizing-Battery-Life-for-El...
+
+[503/776] url_a0085f34.pdf
+  [SKIP] No PII found in URL: https://data.nasa.gov/dataset/Battery-Health-Management-Syst...
+
+[504/776] url_5a873697.pdf
+  [SKIP] No PII found in URL: https://dl.acm.org/doi/10.1145/3462203.3475878...
+
+[505/776] url_014da28e.pdf
+  [SKIP] No PII found in URL: https://pubs.acs.org/doi/10.1021/acsaem.2c02047...
+
+[506/776] url_65509c5a.pdf
+  [SKIP] No PII found in URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/full/10...
+
+[507/776] url_d96c210b.pdf
+  [SKIP] No PII found in URL: https://catalog.data.gov/dataset/predicting-battery-life-for...
+
+[508/776] url_02919f60.pdf
+  [SKIP] No PII found in URL: https://catalog.data.gov/dataset/battery-charge-depletion-pr...
+
+[509/776] url_05e65401.pdf
+  [SKIP] No PII found in URL: https://catalog.data.gov/dataset/exploring-the-model-design-...
+
+[510/776] url_62b07108.pdf
+  [SKIP] No PII found in URL: https://data.nasa.gov/dataset/Designing-Data-Driven-Battery-...
+
+[511/776] url_49a061cf.pdf
+  [PII] S0378775322001331
+  [+] FOUND: A machine learning-based framework for online prediction of battery ag...
+      DOI: 10.1016/j.jpowsour.2022.231110
+      Authors: Yizhou Zhang, Torsten Wik, John Bergström...
+
+[512/776] url_20616803.pdf
+  [PII] S0378775318303768
+  [+] FOUND: A review of fractional-order techniques applied to lithium-ion batteri...
+      DOI: 10.1016/j.jpowsour.2018.04.033
+      Authors: Changfu Zou, Lei Zhang, Xiaosong Hu...
+
+[513/776] url_6533c80d.pdf
+  [PII] S037877531830630X
+  [+] FOUND: Power capability prediction for lithium-ion batteries using economic n...
+      DOI: 10.1016/j.jpowsour.2018.06.034
+      Authors: Changfu Zou, Anton Klintberg, Zhongbao Wei...
+
+[514/776] url_79a41434.pdf
+  [PII] S2352340924009107
+  [+] FOUND: SoC estimation on Li-ion batteries: A new EIS-based dataset for data-d...
+      DOI: 10.1016/j.dib.2024.110947
+      Authors: Hamza Mustafa, Carmine Bourelly, Michele Vitelli...
+
+[515/776] url_7ddbd5ba.pdf
+  [PII] S0360544221015140
+  [+] FOUND: Data-driven fault diagnosis and thermal runaway warning for battery pa...
+      DOI: 10.1016/j.energy.2021.121266
+      Authors: Lulu Jiang, Zhongwei Deng, Xiaolin Tang...
+
+[516/776] url_33250d3f.pdf
+  [PII] S0378775318305950
+  [+] FOUND: Fault diagnosis and quantitative analysis of micro-short circuits for ...
+      DOI: 10.1016/j.jpowsour.2018.05.097
+      Authors: Xiangdong Kong, Yuejiu Zheng, Minggao Ouyang...
+
+[517/776] url_0ef767c5.pdf
+  [PII] S0378775315011210
+  [+] FOUND: Internal short circuit detection for battery pack using equivalent par...
+      DOI: 10.1016/j.jpowsour.2015.06.087
+      Authors: Minggao Ouyang, Mingxuan Zhang, Xuning Feng...
+
+[518/776] url_15ce224a.pdf
+  [PII] S2352152X17303699
+  [+] FOUND: Capacity detection of internal short circuit...
+      DOI: 10.1016/j.est.2017.12.006
+      Authors: T. Reichl, P. Hrzina
+
+[519/776] url_544ebd52.pdf
+  [PII] S2352152X22010763
+  [+] FOUND: Voltage abnormality-based fault diagnosis for batteries in electric bu...
+      DOI: 10.1016/j.est.2022.105074
+      Authors: Hongwen He, Xuyang Zhao, Jianwei Li...
+
+[520/776] url_93b6c52e.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/full/10.1155/2022/727744...
+
+[521/776] url_843be38f.pdf
+  [PII] S2352152X22009690
+  [+] FOUND: Fault diagnosis method for lithium-ion batteries in electric vehicles ...
+      DOI: 10.1016/j.est.2022.104963
+      Authors: Zhang Fan, Xing Zi-xuan, Wu Ming-hu
+
+[522/776] url_375f3e37.pdf
+  [PII] S2352152X19311429
+  [+] FOUND: Lithium-ion batteries fault diagnostic for electric vehicles using sam...
+      DOI: 10.1016/j.est.2019.101121
+      Authors: Xiaoyu Li, Kangwei Dai, Zhenpo Wang...
+
+[523/776] url_c45ca90a.pdf
+  [PII] S1364032124006488
+  [+] FOUND: Recent advances in model-based fault diagnosis for lithium-ion batteri...
+      DOI: 10.1016/j.rser.2024.114922
+      Authors: Yiming Xu, Xiaohua Ge, Ruohan Guo...
+
+[524/776] url_f4bd59f3.pdf
+  [PII] S0306261917306931
+  [+] FOUND: Fault and defect diagnosis of battery for electric vehicles based on b...
+      DOI: 10.1016/j.apenergy.2017.05.139
+      Authors: Yang Zhao, Peng Liu, Zhenpo Wang...
+
+[525/776] url_499df5c0.pdf
+  [PII] S0306261920308503
+  [+] FOUND: Battery state of health modeling and remaining useful life prediction ...
+      DOI: 10.1016/j.apenergy.2020.115338
+      Authors: Chun-Pang Lin, Javier Cabrera, Fangfang Yang...
+
+[526/776] url_985c7f8f.pdf
+  [PII] S0378775324005718
+  [+] FOUND: Battery capacity knee-onset identification and early prediction using ...
+      DOI: 10.1016/j.jpowsour.2024.234619
+      Authors: Huang Zhang, Faisal Altaf, Torsten Wik
+
+[527/776] url_5606e6f8.pdf
+  [PII] S2405896323019535
+  [-] Not found in CrossRef
+
+[528/776] url_4b2db1c0.pdf
+  [SKIP] No PII found in URL: https://paperswithcode.com/paper/non-destructive-degradation...
+
+[529/776] url_d00f1683.pdf
+  [PII] S2352152X19312113
+  [+] FOUND: Online aging determination in lithium-ion battery module with forced t...
+      DOI: 10.1016/j.est.2019.101170
+      Authors: I. Zilberman, S. Ludwig, M. Schiller...
+
+[530/776] url_dcf53b3d.pdf
+  [PII] S0378775321009630
+  [+] FOUND: Assessment of lithium ion battery ageing by combined impedance spectro...
+      DOI: 10.1016/j.jpowsour.2021.230459
+      Authors: Nawfal Al-Zubaidi R-Smith, Michael Leitner, Ivan Alic...
+
+[531/776] url_872caf13.pdf
+  [PII] S0013468622008593
+  [+] FOUND: Thermal-electrochemical parameters of a high energy lithium-ion cylind...
+      DOI: 10.1016/j.electacta.2022.140700
+      Authors: Kieran O'Regan, Ferran Brosa Planella, W. Dhammika Widanage...
+
+[532/776] url_ea0b6df9.pdf
+  [SKIP] No PII found in URL: https://zenodo.org/records/13772461...
+
+[533/776] url_420e610f.pdf
+  [SKIP] No PII found in URL: https://zenodo.org/records/6414008...
+
+[534/776] url_5db8fd02.pdf
+  [PII] S2405896320317365
+  [+] FOUND: A Split-Future MPC Algorithm for Lithium-Ion Battery Cell-Level Fast-C...
+      DOI: 10.1016/j.ifacol.2020.12.1330
+      Authors: Marcelo A. Xavier, Aloisio Kawakita de Souza, M. Scott Trimboli
+
+[535/776] url_d195c5ac.pdf
+  [SKIP] No PII found in URL: https://zenodo.org/records/7896429...
+
+[536/776] url_eed20760.pdf
+  [PII] S2666248524000027
+  [+] FOUND: Real-time Lithium-ion battery state of health evaluation based on disc...
+      DOI: 10.1016/j.powera.2024.100136
+      Authors: D. Pelosi, F. Gallorini, P.A. Ottaviano...
+
+[537/776] url_1e16fd53.pdf
+  [SKIP] No PII found in URL: https://journals.sagepub.com/doi/10.1177/0959651818774481...
+
+[538/776] url_622038c9.pdf
+  [SKIP] No PII found in URL: https://www.emerald.com/insight/content/doi/10.1108/compel-1...
+
+[539/776] url_0064bd52.pdf
+  [PII] S2352152X19315105
+  [+] FOUND: Prediction of constant power delivery of lithium-ion cells at high loa...
+      DOI: 10.1016/j.est.2020.101552
+      Authors: Christoph Nebl, Frank-Oliver Kotzur, Daniel Koch...
+
+[540/776] url_1c852fd1.pdf
+  [PII] S2352152X24021571
+  [+] FOUND: Accurate state-of-charge estimation for sodium-ion batteries based on ...
+      DOI: 10.1016/j.est.2024.112571
+      Authors: Shuquan Wang, Feng Gao, Hao Tian...
+
+[541/776] url_fc4963de.pdf
+  [SKIP] No PII found in URL: https://zenodo.org/records/14214784...
+
+[542/776] url_de361f72.pdf
+  [PII] S2352152X24022734
+  [+] FOUND: An improved system design method for cell-based energy storage systems...
+      DOI: 10.1016/j.est.2024.112687
+      Authors: Sven Wiegelmann, Inga Beyers, Astrid Bensmann...
+
+[543/776] url_94ace062.pdf
+  [PII] S2352152X19318390
+  [+] FOUND: Data driven battery anomaly detection based on shape based clustering ...
+      DOI: 10.1016/j.est.2020.101479
+      Authors: Syed Naeem Haider, Qianchuan Zhao, Xueliang Li
+
+[544/776] url_667803d4.pdf
+  [PII] S240589632031185X
+  [+] FOUND: Predictive Maintenance of VRLA Batteries in UPS towards Reliable Data ...
+      DOI: 10.1016/j.ifacol.2020.12.854
+      Authors: Jing-Xian Tang, Jin-Hong Du, Yiting Lin...
+
+[545/776] url_8092d443.pdf
+  [SKIP] No PII found in URL: https://zenodo.org/records/13682870...
+
+[546/776] url_60c930e2.pdf
+  [SKIP] No PII found in URL: https://zenodo.org/records/8318660...
+
+[547/776] url_b2fd89f2.pdf
+  [SKIP] No PII found in URL: https://zenodo.org/records/6391971...
+
+[548/776] url_1144149f.pdf
+  [SKIP] No PII found in URL: https://open-research-europe.ec.europa.eu/articles/2-15...
+
+[549/776] url_7e56640e.pdf
+  [PII] S0378775321001166
+  [+] FOUND: Thermal fault detection by changes in electrical behaviour in lithium-...
+      DOI: 10.1016/j.jpowsour.2021.229572
+      Authors: Jacob Klink, Jens Grabow, Nury Orazov...
+
+[550/776] url_788d3037.pdf
+  [PII] S2352340924008461
+  [+] FOUND: Electric vehicle charging dataset with 35,000 charging sessions from 1...
+      DOI: 10.1016/j.dib.2024.110883
+      Authors: Åse Lekang Sørensen, Igor Sartori, Karen Byskov Lindberg...
+
+  [+] Checkpoint save at 550/776
+
+[551/776] url_9a0d5d4c.pdf
+  [PII] S0360544224025568
+  [+] FOUND: A capacity fade reliability model for lithium-ion battery packs based ...
+      DOI: 10.1016/j.energy.2024.132782
+      Authors: Zheng Yifan, Zhou Sida, Zhang Zhengjie...
+
+[552/776] url_62d3ae88.pdf
+  [PII] S0888327024004837
+  [+] FOUND: Big field data-driven battery pack health estimation for electric vehi...
+      DOI: 10.1016/j.ymssp.2024.111585
+      Authors: Hongao Liu, Zhongwei Deng, Yunhong Che...
+
+[553/776] url_c0640bd7.pdf
+  [PII] S1452398124004358
+  [+] FOUND: Robust lithium-ion battery state of health estimation based on recursi...
+      DOI: 10.1016/j.ijoes.2024.100891
+      Authors: Fengxun Tian, Shuwen Chen, Xiaofan Ji...
+
+[554/776] url_a22c629b.pdf
+  [PII] S2405829724003581
+  [+] FOUND: Vehicle-cloud-collaborated prognosis and health management for lithium...
+      DOI: 10.1016/j.ensm.2024.103531
+      Authors: Zhou Sida, Gao Zichao, Dong Honglei...
+
+[555/776] url_296d8727.pdf
+  [PII] S2352152X23034643
+  [+] FOUND: A data and physical model joint driven method for lithium-ion battery ...
+      DOI: 10.1016/j.est.2023.110065
+      Authors: Yi Ren, Ting Tang, Quan Xia...
+
+[556/776] url_df6697be.pdf
+  [PII] S0306261923012527
+  [+] FOUND: Effect of cell-to-cell variation and module configuration on the perfo...
+      DOI: 10.1016/j.apenergy.2023.121888
+      Authors: Kyunghyun Kim, Jung-Il Choi
+
+[557/776] url_446e3e1a.pdf
+  [PII] S0360544223033121
+  [+] FOUND: A novel state of health prediction method for battery system in real-w...
+      DOI: 10.1016/j.energy.2023.129918
+      Authors: Jichao Hong, Kerui Li, Fengwei Liang...
+
+[558/776] url_76978c7e.pdf
+  [PII] S036054422302710X
+  [+] FOUND: A generalized equivalent circuit model for lithium-iron phosphate batt...
+      DOI: 10.1016/j.energy.2023.129316
+      Authors: Antonio José Torregrosa, Alberto Broatch, Pablo Olmeda...
+
+[559/776] url_be39db2b.pdf
+  [PII] S095758202301008X
+  [+] FOUND: Risk analysis for marine transport and power applications of lithium i...
+      DOI: 10.1016/j.psep.2023.11.015
+      Authors: Rui Yin, Min Du, Fulin Shi...
+
+[560/776] url_3c00993b.pdf
+  [PII] S0013468623005406
+  [+] FOUND: Influence of lithium plating on lithium-ion battery aging at high temp...
+      DOI: 10.1016/j.electacta.2023.142362
+      Authors: Jialong Liu, Yun Zhang, Jinlong Bai...
+
+[561/776] url_ddff1e65.pdf
+  [PII] S2352152X23005042
+  [+] FOUND: Aging of lithium-ion battery separators during battery cycling...
+      DOI: 10.1016/j.est.2023.107107
+      Authors: Runjie Yang, Guoqing Yu, Zegang Wu...
+
+[562/776] url_38038132.pdf
+  [PII] S2214157X20300629
+  [+] FOUND: Performance of beeswax phase change material (PCM) and heat pipe as pa...
+      DOI: 10.1016/j.csite.2020.100655
+      Authors: Nandy Putra, Adjie Fahrizal Sandi, Bambang Ariantara...
+
+[563/776] url_bdbb86da.pdf
+  [SKIP] No PII found in URL: https://zenodo.org/records/10884918...
+
+[564/776] url_6ae1f17a.pdf
+  [SKIP] No PII found in URL: https://zenodo.org/records/7091419...
+
+[565/776] url_8407b462.pdf
+  [SKIP] No PII found in URL: https://zenodo.org/records/1264258...
+
+[566/776] url_0d8307f9.pdf
+  [SKIP] No PII found in URL: https://zenodo.org/records/11562591...
+
+[567/776] url_0d666775.pdf
+  [SKIP] No PII found in URL: https://ietresearch.onlinelibrary.wiley.com/doi/10.1049/rpg2...
+
+[568/776] url_1712cb1e.pdf
+  [SKIP] No PII found in URL: https://www.cell.com/iscience/fulltext/S2589-0042(22)00530-2...
+
+[569/776] url_34fee8f3.pdf
+  [PII] S0377221722008116
+  [+] FOUND: The parallel AGV scheduling problem with battery constraints: A new fo...
+      DOI: 10.1016/j.ejor.2022.10.023
+      Authors: Maurizio Boccia, Adriano Masone, Claudio Sterle...
+
+[570/776] url_ecb2a4a8.pdf
+  [PII] S2666386424003606
+  [+] FOUND: Electrochemical system analysis from impedance data to system identifi...
+      DOI: 10.1016/j.xcrp.2024.102091
+      Authors: Michael A. Danzer, Christian Plank, Tom Rüther
+
+[571/776] url_ca059b57.pdf
+  [SKIP] No PII found in URL: https://zenodo.org/records/7823546...
+
+[572/776] url_f9d64531.pdf
+  [SKIP] No PII found in URL: https://zenodo.org/records/8325241...
+
+[573/776] url_5e67a9e1.pdf
+  [PII] S2542435122005256
+  [+] FOUND: Battery aging mode identification across NMC compositions and designs ...
+      DOI: 10.1016/j.joule.2022.10.016
+      Authors: Bor-Rong Chen, Cody M. Walker, Sangwook Kim...
+
+[574/776] url_c58dfc34.pdf
+  [PII] S0378775312011330
+  [+] FOUND: Synthesize battery degradation modes via a diagnostic and prognostic m...
+      DOI: 10.1016/j.jpowsour.2012.07.016
+      Authors: Matthieu Dubarry, Cyril Truchot, Bor Yann Liaw
+
+[575/776] url_b86341c0.pdf
+  [PII] S0306261923003185
+  [+] FOUND: Prognostics of battery capacity based on charging data and data-driven...
+      DOI: 10.1016/j.apenergy.2023.120954
+      Authors: Zhongwei Deng, Le Xu, Hongao Liu...
+
+[576/776] url_f17b0902.pdf
+  [SKIP] No PII found in URL: https://batterydata.energy.gov/project...
+
+[577/776] url_9bc35070.pdf
+  [SKIP] No PII found in URL: https://pubs.acs.org/doi/10.1021/acs.jcim.2c00035...
+
+[578/776] url_5d3ba298.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/full/10.1002/advs.202305...
+
+[579/776] url_7eb12ada.pdf
+  [PII] S0360544217306825
+  [+] FOUND: On the possibility of extending the lifetime of lithium-ion batteries ...
+      DOI: 10.1016/j.energy.2017.04.116
+      Authors: Kotub Uddin, Tim Jackson, Widanalage D. Widanage...
+
+[580/776] url_498866c3.pdf
+  [PII] S2352152X18301191
+  [+] FOUND: Irreversible calendar aging and quantification of the reversible capac...
+      DOI: 10.1016/j.est.2018.04.029
+      Authors: Meinert Lewerenz, Georg Fuchs, Lisa Becker...
+
+[581/776] url_8a6c9e93.pdf
+  [PII] S0360544215003138
+  [+] FOUND: Performance comparison of four lithium–ion battery technologies under ...
+      DOI: 10.1016/j.energy.2015.03.019
+      Authors: Akram Eddahech, Olivier Briat, Jean-Michel Vinassa
+
+[582/776] url_97edbef9.pdf
+  [SKIP] No PII found in URL: https://dl.acm.org/doi/10.1145/3307772.3331020...
+
+[583/776] url_b1b01b8c.pdf
+  [PII] S0950705121001635
+  [+] FOUND: A novel method for the modeling of the state of health of lithium-ion ...
+      DOI: 10.1016/j.knosys.2021.106900
+      Authors: Damian Burzyński, Leszek Kasprzyk
+
+[584/776] url_52223460.pdf
+  [SKIP] No PII found in URL: https://www.cell.com/joule/fulltext/S2542-4351(23)00316-1...
+
+[585/776] url_bfb3633a.pdf
+  [PII] S2352152X24044037
+  [+] FOUND: State of charge estimation method for lithium-ion batteries based on a...
+      DOI: 10.1016/j.est.2024.114817
+      Authors: Xiang Yun, Xin Zhang, Chao Wang...
+
+[586/776] url_b4007b41.pdf
+  [PII] S0360544224038088
+  [+] FOUND: BMSFormer: An efficient deep learning model for online state-of-health...
+      DOI: 10.1016/j.energy.2024.134030
+      Authors: Xiaopeng Li, Minghang Zhao, Shisheng Zhong...
+
+[587/776] url_28db435f.pdf
+  [PII] S2352152X24041288
+  [+] FOUND: Exploration of Imbalanced Regression in state-of-health estimation of ...
+      DOI: 10.1016/j.est.2024.114542
+      Authors: Zhibin Zhao, Bingchen Liu, Fujin Wang...
+
+[588/776] url_970b995c.pdf
+  [PII] S2352484723015330
+  [+] FOUND: A new method to perform Lithium-ion battery pack fault diagnostics – P...
+      DOI: 10.1016/j.egyr.2023.11.008
+      Authors: Anubhav Singh, Andrew Lodge, Yi Li...
+
+[589/776] url_4891d013.pdf
+  [PII] S0378775323005839
+  [+] FOUND: Mechanistic calendar aging model for lithium-ion batteries...
+      DOI: 10.1016/j.jpowsour.2023.233208
+      Authors: Alexander Karger, Julius Schmitt, Cedric Kirst...
+
+[590/776] url_7b125b55.pdf
+  [PII] S0378775323010625
+  [+] FOUND: Diagnosis and prognosis of battery degradation through re-evaluation a...
+      DOI: 10.1016/j.jpowsour.2023.233686
+      Authors: Moritz Streb, Mathilda Ohrelius, Aamer Siddiqui...
+
+[591/776] url_afc658cd.pdf
+  [PII] S0378775323011205
+  [+] FOUND: A voltage reconstruction model for lithium-ion batteries considering t...
+      DOI: 10.1016/j.jpowsour.2023.233744
+      Authors: Fengfei Wang, Shengjin Tang, Xuebing Han...
+
+[592/776] url_b535640c.pdf
+  [PII] S0378775323011369
+  [+] FOUND: A data reconstruction-based Monte Carlo method for remaining useful li...
+      DOI: 10.1016/j.jpowsour.2023.233760
+      Authors: Xiaowu Chen, Zhen Liu, Hanmin Sheng...
+
+[593/776] url_0f428316.pdf
+  [PII] S0378775323012181
+  [+] FOUND: State of health estimation for lithium-ion batteries based on current ...
+      DOI: 10.1016/j.jpowsour.2023.233842
+      Authors: Jinghua Sun, Josef Kainz
+
+[594/776] url_c15580f4.pdf
+  [PII] S0378775323012843
+  [+] FOUND: Partial cycling aging of Li-ion batteries in frequency regulation appl...
+      DOI: 10.1016/j.jpowsour.2023.233908
+      Authors: Javier Urquizo, Pritpal Singh
+
+[595/776] url_9be2b718.pdf
+  [PII] S0378775323012867
+  [+] FOUND: ICFormer: A Deep Learning model for informed lithium-ion battery diagn...
+      DOI: 10.1016/j.jpowsour.2023.233910
+      Authors: N. Costa, D. Anseán, M. Dubarry...
+
+[596/776] url_51e354e4.pdf
+  [PII] S0378775323013022
+  [+] FOUND: Direct venting during fast charging of lithium-ion batteries...
+      DOI: 10.1016/j.jpowsour.2023.233926
+      Authors: Yalun Li, Xinlei Gao, Huizhi Wang...
+
+[597/776] url_483c7975.pdf
+  [PII] S0378775324001113
+  [+] FOUND: Research on the influence of thermal radiation of cell phone system on...
+      DOI: 10.1016/j.jpowsour.2024.234160
+      Authors: Chengcheng Chen, Yuntao Tang, Yu Ma...
+
+[598/776] url_44725fb2.pdf
+  [PII] S0378775324002143
+  [+] FOUND: Battery capacity estimation based on a co-learning framework with few-...
+      DOI: 10.1016/j.jpowsour.2024.234263
+      Authors: Guodong Fan, Jiaqi Li, Ziqiang Sun...
+
+[599/776] url_8bca8ac3.pdf
+  [PII] S0378775324006220
+  [+] FOUND: Battery degradation diagnosis under normal usage without requiring reg...
+      DOI: 10.1016/j.jpowsour.2024.234670
+      Authors: Ze Wu, Yongzhi Zhang, Huizhi Wang
+
+[600/776] url_141a6777.pdf
+  [PII] S0378775324005421
+  [+] FOUND: Comparative study of thermodynamic &amp; kinetic parameters measuring ...
+      DOI: 10.1016/j.jpowsour.2024.234590
+      Authors: Yonggang Hu, Jinding Liang, Xiaoxuan Chen...
+
+  [+] Checkpoint save at 600/776
+
+[601/776] url_5473bc29.pdf
+  [PII] S0378775323013836
+  [+] FOUND: Online data-driven battery life prediction and quick classification ba...
+      DOI: 10.1016/j.jpowsour.2023.234007
+      Authors: Yongzhi Zhang, Mingyuan Zhao, Rui Xiong
+
+[602/776] url_b4db34a8.pdf
+  [PII] S2352152X2031673X
+  [+] FOUND: Intelligent state of health estimation for lithium-ion battery pack ba...
+      DOI: 10.1016/j.est.2020.101836
+      Authors: Lingjun Song, Keyao Zhang, Tongyi Liang...
+
+[603/776] url_430b80d5.pdf
+  [PII] S0306261919320951
+  [+] FOUND: A hybrid statistical data-driven method for on-line joint state estima...
+      DOI: 10.1016/j.apenergy.2019.114408
+      Authors: Yuchen Song, Datong Liu, Haitao Liao...
+
+[604/776] url_fd9ff2fd.pdf
+  [PII] S2352152X20318855
+  [+] FOUND: DREMUS: A Data-Restricted Multi-Physics Simulation Model for Lithium-I...
+      DOI: 10.1016/j.est.2020.102051
+      Authors: Martin Rogall, Anup Barai, Maria Brucoli...
+
+[605/776] url_738c3236.pdf
+  [PII] S1364032120303087
+  [+] FOUND: An evaluation study of different modelling techniques for calendar age...
+      DOI: 10.1016/j.rser.2020.110017
+      Authors: Kailong Liu, T.R. Ashwin, Xiaosong Hu...
+
+[606/776] url_48da7bfd.pdf
+  [PII] S2352152X20315474
+  [+] FOUND: Early detection of anomalous degradation behavior in lithium-ion batte...
+      DOI: 10.1016/j.est.2020.101710
+      Authors: Weiping Diao, Ijaz Haider Naqvi, Michael Pecht
+
+[607/776] url_4dc6ef56.pdf
+  [PII] S0360544220308859
+  [+] FOUND: Capacity estimation for lithium-ion battery using experimental feature...
+      DOI: 10.1016/j.energy.2020.117778
+      Authors: Pucheng Pei, Qibin Zhou, Lei Wu...
+
+[608/776] url_fe0ffa2c.pdf
+  [PII] S2352152X2201756X
+  [+] FOUND: Optimal sizing of hybrid high-energy/high-power battery energy storage...
+      DOI: 10.1016/j.est.2022.105768
+      Authors: F. Naseri, C. Barbu, T. Sarikurt
+
+[609/776] url_2c391763.pdf
+  [PII] S2352152X2101344X
+  [+] FOUND: Peak-tracking method to quantify degradation modes in lithium-ion batt...
+      DOI: 10.1016/j.est.2021.103669
+      Authors: Jingyi Chen, Max Naylor Marlow, Qianfan Jiang...
+
+[610/776] url_03e05de1.pdf
+  [PII] S2352340924005766
+  [+] FOUND: Dataset of mechanically induced thermal runaway measurement and severi...
+      DOI: 10.1016/j.dib.2024.110609
+      Authors: Lianshan Lin, Jianlin Li, Isabella M. Fishman...
+
+[611/776] url_6282848e.pdf
+  [PII] S2352152X23001950
+  [+] FOUND: Mechanically induced thermal runaway severity analysis for Li-ion batt...
+      DOI: 10.1016/j.est.2023.106798
+      Authors: L.S. Lin, J.L. Li, I.M. Fishman...
+
+[612/776] url_2d909fc1.pdf
+  [PII] S2352340923006613
+  [+] FOUND: LiPo batteries dataset: Capacity, electrochemical impedance spectra, a...
+      DOI: 10.1016/j.dib.2023.109561
+      Authors: Matteo Galeotti, Lucio Cinà, Corrado Giammanco...
+
+[613/776] url_a34d6f76.pdf
+  [PII] S0360544215007756
+  [+] FOUND: Performance analysis and SOH (state of health) evaluation of lithium p...
+      DOI: 10.1016/j.energy.2015.05.148
+      Authors: Matteo Galeotti, Lucio Cinà, Corrado Giammanco...
+
+[614/776] url_cefe852a.pdf
+  [PII] S2352340922010423
+  [+] FOUND: Dataset of fire tests with lithium-ion battery electric vehicles in ro...
+      DOI: 10.1016/j.dib.2022.108839
+      Authors: Peter Sturm, Patrik Fößleitner, Daniel Fruhwirt...
+
+[615/776] url_713e7bda.pdf
+  [PII] S0379711222001722
+  [+] FOUND: Fire tests with lithium-ion battery electric vehicles in road tunnels...
+      DOI: 10.1016/j.firesaf.2022.103695
+      Authors: Peter Sturm, Patrik Fößleitner, Daniel Fruhwirt...
+
+[616/776] url_6a72287a.pdf
+  [PII] S2352467723002035
+  [+] FOUND: A method for generating complete EV charging datasets and analysis of ...
+      DOI: 10.1016/j.segan.2023.101195
+      Authors: Å.L. Sørensen, I. Sartori, K.B. Lindberg...
+
+[617/776] url_eb429517.pdf
+  [PII] S2352340924005833
+  [+] FOUND: Experimental data simulating lithium battery charging and discharging ...
+      DOI: 10.1016/j.dib.2024.110616
+      Authors: Chong Yan, Xiaoying Wu, Ye Yuan...
+
+[618/776] url_12d7c6bb.pdf
+  [PII] S2352340924002737
+  [+] FOUND: Data and videos for the comparison of thermal propagation and cycle pe...
+      DOI: 10.1016/j.dib.2024.110304
+      Authors: Kyoungjun Kwon, SungKuk Kim, JunWoo Park...
+
+[619/776] url_9af333d0.pdf
+  [PII] S235234092300728X
+  [+] FOUND: Data in experimental stand-alone microgrid: Solar production, domestic...
+      DOI: 10.1016/j.dib.2023.109643
+      Authors: Didier Calogine, Johann Francou, Cedric Abbezzot...
+
+[620/776] url_fe28b4ac.pdf
+  [PII] S2352340923001981
+  [+] FOUND: HELECAR-D: A dataset for urban electro mobility in Moroccan context...
+      DOI: 10.1016/j.dib.2023.109080
+      Authors: Youssef Nait Malek, Mehdi Najib, Mohamed Bakhouya...
+
+[621/776] url_f3825cd3.pdf
+  [PII] S2352340921003553
+  [+] FOUND: Experimental data on open circuit voltage characterization for Li-ion ...
+      DOI: 10.1016/j.dib.2021.107071
+      Authors: Mostafa Shaban Ahmed, Balakumar Balasingam, K.R. Pattipati
+
+[622/776] url_f872d0f6.pdf
+  [PII] S0306261920303925
+  [+] FOUND: A scaling approach for improved state of charge representation in rech...
+      DOI: 10.1016/j.apenergy.2020.114880
+      Authors: Mostafa Shaban Ahmed, Sheikh Arif Raihan, Balakumar Balasingam
+
+[623/776] url_0c0efbd4.pdf
+  [PII] S037877531401026X
+  [+] FOUND: Open circuit voltage characterization of lithium-ion batteries...
+      DOI: 10.1016/j.jpowsour.2014.06.152
+      Authors: B. Pattipati, B. Balasingam, G.V. Avvari...
+
+[624/776] url_1579c9d9.pdf
+  [PII] S2352340921009951
+  [+] FOUND: Experimental data of cathodes manufactured in a convective dryer at th...
+      DOI: 10.1016/j.dib.2021.107720
+      Authors: Luis A. Román-Ramírez, Geanina Apachitei, Mona Faraji-Niri...
+
+[625/776] url_1211b6c7.pdf
+  [PII] S0378775321011848
+  [+] FOUND: Understanding the effect of coating-drying operating variables on elec...
+      DOI: 10.1016/j.jpowsour.2021.230689
+      Authors: L.A. Román-Ramírez, G. Apachitei, M. Faraji-Niri...
+
+[626/776] url_9f8e85d4.pdf
+  [PII] S2352340919307334
+  [+] FOUND: Data and video for the thermal and fire propagation of multiple lithiu...
+      DOI: 10.1016/j.dib.2019.104379
+      Authors: Mingyi Chen, Dongxu Ouyang, Jiahao Liu...
+
+[627/776] url_31559f0f.pdf
+  [PII] S1359431119301991
+  [+] FOUND: Investigation on thermal and fire propagation behaviors of multiple li...
+      DOI: 10.1016/j.applthermaleng.2019.113750
+      Authors: Mingyi Chen, Ouyang Dongxu, Jiahao Liu...
+
+[628/776] url_fd9cba7c.pdf
+  [PII] S2352340921007587
+  [+] FOUND: Autonomous underwater vehicle fault diagnosis dataset...
+      DOI: 10.1016/j.dib.2021.107477
+      Authors: Daxiong Ji, Xin Yao, Shuo Li...
+
+[629/776] url_55ca55e0.pdf
+  [PII] S2352340920300317
+  [+] FOUND: Data from long time testing of 18650 lithium polymer batteries...
+      DOI: 10.1016/j.dib.2020.105137
+      Authors: Martin Novak, Jan Chysky, Lukas Novak
+
+[630/776] url_0823b3e3.pdf
+  [PII] S2352340916306394
+  [-] Not found in CrossRef
+
+[631/776] url_98ef7033.pdf
+  [PII] S0360544216312312
+  [+] FOUND: An on-line estimation of battery pack parameters and state-of-charge u...
+      DOI: 10.1016/j.energy.2016.08.109
+      Authors: Xu Zhang, Yujie Wang, Duo Yang...
+
+[632/776] url_49c47ff8.pdf
+  [PII] S2352340921001785
+  [+] FOUND: Experimental data of lithium-ion batteries under galvanostatic dischar...
+      DOI: 10.1016/j.dib.2021.106894
+      Authors: Edoardo Catenaro, Simona Onori
+
+[633/776] url_8a8d6232.pdf
+  [PII] S2352340923005644
+  [+] FOUND: Dataset for the electric capacitated traveling salesman problem...
+      DOI: 10.1016/j.dib.2023.109464
+      Authors: Anastasios Gialos, Vasileios Zeimpekis
+
+[634/776] url_ac8c037e.pdf
+  [PII] S2352340921010027
+  [+] FOUND: Ageing characterization data of lithium-ion battery with highly deteri...
+      DOI: 10.1016/j.dib.2021.107727
+      Authors: Zhiyong Xia, Jaber A. Abu Qahouq
+
+[635/776] url_239475bc.pdf
+  [PII] S2352340922009039
+  [+] FOUND: Data on Machine Learning regenerated Lithium-ion battery impedance...
+      DOI: 10.1016/j.dib.2022.108698
+      Authors: Selcuk Temiz, Hasan Kurban, Salim Erol...
+
+[636/776] url_bdf550a8.pdf
+  [PII] S2352152X22010246
+  [+] FOUND: Regeneration of Lithium-ion battery impedance using a novel machine le...
+      DOI: 10.1016/j.est.2022.105022
+      Authors: Selcuk Temiz, Hasan Kurban, Salim Erol...
+
+[637/776] url_a3da15d5.pdf
+  [PII] S2352340922009027
+  [+] FOUND: On-orbit electrical power system dataset of 1U CubeSat constellation...
+      DOI: 10.1016/j.dib.2022.108697
+      Authors: Adolfo Jara, Pooja Lepcha, Sankyun Kim...
+
+[638/776] url_751ad571.pdf
+  [SKIP] No PII found in URL: https://www.cell.com/cell-reports-physical-science/fulltext/...
+
+[639/776] url_4355b93f.pdf
+  [PII] S2352152X21015735
+  [+] FOUND: Teardown analysis and characterization of a commercial lithium-ion bat...
+      DOI: 10.1016/j.est.2021.103909
+      Authors: Leo Wildfeuer, Nikolaos Wassiliadis, Alexander Karger...
+
+[640/776] url_9102ebf5.pdf
+  [PII] S2352152X24005528
+  [+] FOUND: Revealing the effect of initial conditions and the potential of self-h...
+      DOI: 10.1016/j.est.2024.110968
+      Authors: Kareem Abo Gamra, Nikolaos Wassiliadis, Christian Allgäuer...
+
+[641/776] url_af0218fb.pdf
+  [PII] S2352152X20317278
+  [+] FOUND: Comparison of Current Interrupt Device and Vent Design for 18650 Forma...
+      DOI: 10.1016/j.est.2020.101890
+      Authors: Weisi Li, K.R. Crompton, Christopher Hacker...
+
+[642/776] url_6ecdc41c.pdf
+  [PII] S037877531630965X
+  [+] FOUND: Multi-temperature state-dependent equivalent circuit discharge model f...
+      DOI: 10.1016/j.jpowsour.2016.07.090
+      Authors: Karsten Propp, Monica Marinescu, Daniel J. Auger...
+
+[643/776] url_ac0948b3.pdf
+  [SKIP] No PII found in URL: https://chemrxiv.org/engage/chemrxiv/article-details/66e8717...
+
+[644/776] url_aae3bb26.pdf
+  [PII] S2352152X22012166
+  [+] FOUND: Thermal evaluation of lithium-ion batteries: Defining the cylindrical ...
+      DOI: 10.1016/j.est.2022.105217
+      Authors: M. Waseem Marzook, Alastair Hales, Yatish Patel...
+
+[645/776] url_b8eb9773.pdf
+  [PII] S2352152X2201622X
+  [+] FOUND: Aging aware operation of lithium-ion battery energy storage systems: A...
+      DOI: 10.1016/j.est.2022.105634
+      Authors: Nils Collath, Benedikt Tepe, Stefan Englberger...
+
+[646/776] url_de098d63.pdf
+  [PII] S2666248522000154
+  [+] FOUND: A calorimetric approach to fast entropy-variations extraction for lith...
+      DOI: 10.1016/j.powera.2022.100097
+      Authors: Abdul Muiz Ahmad, Guillaume Thenaisie, Sang-Gug Lee
+
+[647/776] url_8c445a0f.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/10.1002/aenm.202300942...
+
+[648/776] url_f452e45b.pdf
+  [PII] S2212827123001580
+  [+] FOUND: Battery Tray Fixture Stiffness and Damping Modeling for Surface Qualit...
+      DOI: 10.1016/j.procir.2023.03.026
+      Authors: Marc Raffestin, Cyrille Urville, Philippe Lorong...
+
+[649/776] url_1e9d7113.pdf
+  [PII] S2352340924001987
+  [+] FOUND: “Full factorial design of experiments dataset for parallel-connected l...
+      DOI: 10.1016/j.dib.2024.110227
+      Authors: Gabriele Piombo, Simone Fasolato, Robert Heymer...
+
+[650/776] url_922bbb88.pdf
+  [PII] S0013468619321899
+  [+] FOUND: Performance analysis and modeling of three energy storage devices for ...
+      DOI: 10.1016/j.electacta.2019.135317
+      Authors: Yong Tian, Zhijia Huang, Teng Long...
+
+  [+] Checkpoint save at 650/776
+
+[651/776] url_b43749b3.pdf
+  [SKIP] No PII found in URL: https://dl.acm.org/doi/10.1145/3529399.3529402...
+
+[652/776] url_02772ad4.pdf
+  [PII] S2352152X22024616
+  [+] FOUND: A statistical assessment of the state-of-health of LiFePO4 cells harve...
+      DOI: 10.1016/j.est.2022.106472
+      Authors: Katrina Ramirez-Meyers, Barry Rawn, Jay F. Whitacre
+
+[653/776] url_765c8a62.pdf
+  [PII] S0013468616304625
+  [+] FOUND: Analysis of Thermal Aging Paths for Large-Format LiFePO4/Graphite Batt...
+      DOI: 10.1016/j.electacta.2016.02.161
+      Authors: Wei Shi, Xiaosong Hu, Jiulin Wang...
+
+[654/776] url_8e1fda73.pdf
+  [PII] S0196890422013085
+  [+] FOUND: Energy assessment of the ageing phenomenon in Li-Ion batteries and its...
+      DOI: 10.1016/j.enconman.2022.116530
+      Authors: Antonio García, Javier Monsalve-Serrano, Santiago Martinez-Boggio...
+
+[655/776] url_cb8c0e1a.pdf
+  [PII] S2542435123004403
+  [+] FOUND: Correlative non-destructive techniques to investigate aging and orient...
+      DOI: 10.1016/j.joule.2023.10.011
+      Authors: Arthur Fordham, Zoran Milojevic, Emily Giles...
+
+[656/776] url_45f22856.pdf
+  [PII] S2352152X21010768
+  [+] FOUND: Modeling degradation of lithium-ion batteries considering cell-to-cell...
+      DOI: 10.1016/j.est.2021.103478
+      Authors: Daniela Galatro, David A. Romero, Juan A. Freitez...
+
+[657/776] url_34019cc4.pdf
+  [PII] S0360544217319886
+  [+] FOUND: D-optimal design of experiments applied to lithium battery for ageing ...
+      DOI: 10.1016/j.energy.2017.11.130
+      Authors: Romain Mathieu, Issam Baghdadi, Olivier Briat...
+
+[658/776] url_d20ca62a.pdf
+  [PII] S0959652623044724
+  [+] FOUND: Prospective life cycle inventory datasets for conventional and hybrid-...
+      DOI: 10.1016/j.jclepro.2023.140314
+      Authors: Nils Thonemann, Karen Saavedra-Rubio, Eleonore Pierrat...
+
+[659/776] url_9203efa5.pdf
+  [PII] S2666546822000192
+  [+] FOUND: Generalised diagnostic framework for rapid battery degradation quantif...
+      DOI: 10.1016/j.egyai.2022.100158
+      Authors: Haijun Ruan, Jingyi Chen, Weilong Ai...
+
+[660/776] url_3abfb791.pdf
+  [PII] S2352152X24016281
+  [+] FOUND: Towards robust state estimation for LFP batteries: Model-in-the-loop a...
+      DOI: 10.1016/j.est.2024.112042
+      Authors: Dominik Jöst, Lakshimi Narayanan Palaniswamy, Katharina Lilith Quade...
+
+[661/776] url_3e4e3067.pdf
+  [PII] S2352152X23018194
+  [+] FOUND: Investigation of constant stack pressure on lithium-ion battery perfor...
+      DOI: 10.1016/j.est.2023.108422
+      Authors: Aiden Leonard, Brady Planden, Katie Lukow...
+
+[662/776] url_e566b054.pdf
+  [SKIP] No PII found in URL: https://papers.ssrn.com/sol3/papers.cfm?abstract_id=4620843...
+
+[663/776] url_2d9045b1.pdf
+  [PII] S0142061519315765
+  [+] FOUND: Detailed Li-ion battery characterization model for economic operation...
+      DOI: 10.1016/j.ijepes.2019.105561
+      Authors: Alvaro Gonzalez-Castellanos, David Pozo, Aldo Bischi
+
+[664/776] url_7b0262a6.pdf
+  [PII] S0360544220314432
+  [+] FOUND: Sizing a battery-supercapacitor energy storage system with battery deg...
+      DOI: 10.1016/j.energy.2020.118336
+      Authors: Tao Zhu, Roberto Lot, Richard G.A. Wills...
+
+[665/776] url_636afac1.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/full/10.1002/smtd.202100...
+
+[666/776] url_d71e8501.pdf
+  [PII] S2352152X19307340
+  [+] FOUND: Synchronous estimation of state of health and remaining useful lifetim...
+      DOI: 10.1016/j.est.2019.100951
+      Authors: Shuzhi Zhang, Baoyu Zhai, Xu Guo...
+
+[667/776] url_0a1c81be.pdf
+  [PII] S0378775323008054
+  [+] FOUND: A modified Doyle-Fuller-Newman model enables the macroscale physical s...
+      DOI: 10.1016/j.jpowsour.2023.233429
+      Authors: Alessandro Innocenti, Isaac Álvarez Moisés, Jean-François Gohy...
+
+[668/776] url_a075df53.pdf
+  [PII] S0378775324006530
+  [+] FOUND: Internal temperature estimation for lithium-ion batteries through dist...
+      DOI: 10.1016/j.jpowsour.2024.234701
+      Authors: Shen Li, Anisha N. Patel, Cheng Zhang...
+
+[669/776] url_014554fa.pdf
+  [PII] S266638642300588X
+  [+] FOUND: Increasing generalization capability of battery health estimation usin...
+      DOI: 10.1016/j.xcrp.2023.101743
+      Authors: Yunhong Che, Yusheng Zheng, Simona Onori...
+
+[670/776] url_488cf50f.pdf
+  [PII] S2352152X21005594
+  [+] FOUND: Development and Demonstration of Microgrid System Utilizing Second-Lif...
+      DOI: 10.1016/j.est.2021.102837
+      Authors: Joseph Lacap, Jae Wan Park, Lucas Beslow
+
+[671/776] url_4235b925.pdf
+  [PII] S0306261921003822
+  [+] FOUND: A machine-learning prediction method of lithium-ion battery life based...
+      DOI: 10.1016/j.apenergy.2021.116897
+      Authors: Yixin Yang
+
+[672/776] url_2bc9d689.pdf
+  [PII] S036054422100150X
+  [+] FOUND: Prognostics of battery cycle life in the early-cycle stage based on hy...
+      DOI: 10.1016/j.energy.2021.119901
+      Authors: Yu Zhang, Zhen Peng, Yong Guan...
+
+[673/776] url_4e0bff4e.pdf
+  [PII] S1568494618305714
+  [+] FOUND: Enhancing the Lithium-ion battery life predictability using a hybrid m...
+      DOI: 10.1016/j.asoc.2018.10.014
+      Authors: Ling-Ling Li, Zhi-Feng Liu, Ming-Lang Tseng...
+
+[674/776] url_81f936ee.pdf
+  [PII] S0142061517333422
+  [+] FOUND: A novel lifetime prediction method for lithium-ion batteries in the ca...
+      DOI: 10.1016/j.ijepes.2018.05.034
+      Authors: Majid Astaneh, Rodolfo Dufo-López, Ramin Roshandel...
+
+[675/776] url_9d84cf0d.pdf
+  [PII] S0378775322011028
+  [+] FOUND: Machine learning for battery research...
+      DOI: 10.1016/j.jpowsour.2022.232125
+      Authors: Zheng Wei, Qiu He, Yan Zhao
+
+[676/776] url_419eda0c.pdf
+  [PII] S0378775323008509
+  [+] FOUND: Battery prognostics and health management from a machine learning pers...
+      DOI: 10.1016/j.jpowsour.2023.233474
+      Authors: Jingyuan Zhao, Xuning Feng, Quanquan Pang...
+
+[677/776] url_0765c2a7.pdf
+  [PII] S2352152X22014943
+  [+] FOUND: Edge computing for vehicle battery management: Cloud-based online stat...
+      DOI: 10.1016/j.est.2022.105502
+      Authors: Shuangqi Li, Hongwen He, Zhongbao Wei...
+
+[678/776] url_77cb5fab.pdf
+  [PII] S2405829722003683
+  [+] FOUND: Flexible battery state of health and state of charge estimation using ...
+      DOI: 10.1016/j.ensm.2022.06.053
+      Authors: Jinpeng Tian, Rui Xiong, Weixiang Shen...
+
+[679/776] url_c06b4213.pdf
+  [PII] S2352152X22010751
+  [+] FOUND: An integration and selection scheme for capacity estimation of Li-ion ...
+      DOI: 10.1016/j.est.2022.105073
+      Authors: Wenjie Pan, Tong Xu, Qi Chen...
+
+[680/776] url_dbd4620d.pdf
+  [PII] S2405829722003154
+  [+] FOUND: Battery state-of-charge estimation amid dynamic usage with physics-inf...
+      DOI: 10.1016/j.ensm.2022.06.007
+      Authors: Jinpeng Tian, Rui Xiong, Jiahuan Lu...
+
+[681/776] url_0e700e84.pdf
+  [PII] S0306261920306164
+  [+] FOUND: Parameter sensitivity analysis of electrochemical model-based battery ...
+      DOI: 10.1016/j.apenergy.2020.115104
+      Authors: Weihan Li, Decheng Cao, Dominik Jöst...
+
+[682/776] url_b5c9cd7c.pdf
+  [SKIP] No PII found in URL: https://community.nxp.com/t5/NXP-Model-Based-Design-Tools/De...
+
+[683/776] url_8522a9f5.pdf
+  [PII] S2352152X22001608
+  [+] FOUND: A novel method of parameter identification and state of charge estimat...
+      DOI: 10.1016/j.est.2022.104124
+      Authors: Zuolu Wang, Guojin Feng, Xiongwei Liu...
+
+[684/776] url_0814f6ea.pdf
+  [PII] S0306261922001842
+  [+] FOUND: A controllable deep transfer learning network with multiple domain ada...
+      DOI: 10.1016/j.apenergy.2022.118726
+      Authors: Isaiah Oyewole, Abdallah Chehade, Youngki Kim
+
+[685/776] url_de623f5a.pdf
+  [PII] S2352152X22003334
+  [+] FOUND: An execution time optimized state of charge estimation method for lith...
+      DOI: 10.1016/j.est.2022.104307
+      Authors: Baran Çelikten, Ozan Eren, Yusuf Selim Karataş
+
+[686/776] url_51ec6331.pdf
+  [PII] S2352152X21004394
+  [+] FOUND: Lithium-Ion Battery State of Charge (SoC) Estimation with Non-Electric...
+      DOI: 10.1016/j.est.2021.102704
+      Authors: Yen-Jie Ee, Kok-Soon Tey, Kok-Sing Lim...
+
+[687/776] url_a79ea25e.pdf
+  [PII] S2352152X22017571
+  [+] FOUND: A migration-based method for non-invasive revelation of microscopic de...
+      DOI: 10.1016/j.est.2022.105769
+      Authors: Ruilong Xu, Yujie Wang, Zonghai Chen
+
+[688/776] url_506b0a88.pdf
+  [PII] S0360544219306991
+  [+] FOUND: A model for state-of-health estimation of lithium ion batteries based ...
+      DOI: 10.1016/j.energy.2019.04.070
+      Authors: Xiaolei Bian, Longcheng Liu, Jinying Yan
+
+[689/776] url_9f09ac01.pdf
+  [PII] S2352152X21009646
+  [+] FOUND: A novel method for state of energy estimation of lithium-ion batteries...
+      DOI: 10.1016/j.est.2021.103269
+      Authors: Xin Lai, Yunfeng Huang, Xuebing Han...
+
+[690/776] url_72f84133.pdf
+  [PII] S2352152X22015493
+  [+] FOUND: Li-ion battery degradation modes diagnosis via Convolutional Neural Ne...
+      DOI: 10.1016/j.est.2022.105558
+      Authors: N. Costa, L. Sánchez, D. Anseán...
+
+[691/776] url_32f034cf.pdf
+  [PII] S0306261917306645
+  [+] FOUND: A systematic model-based degradation behavior recognition and health m...
+      DOI: 10.1016/j.apenergy.2017.05.124
+      Authors: Rui Xiong, Jinpeng Tian, Hao Mu...
+
+[692/776] url_11ff845b.pdf
+  [PII] S0306261917310504
+  [+] FOUND: Influence of operational condition on lithium plating for commercial l...
+      DOI: 10.1016/j.apenergy.2017.08.034
+      Authors: Madeleine Ecker, Pouyan Shafiei Sabet, Dirk Uwe Sauer
+
+[693/776] url_206bd329.pdf
+  [PII] S2352152X20305235
+  [+] FOUND: Local degradation and differential voltage analysis of aged lithium-io...
+      DOI: 10.1016/j.est.2020.101582
+      Authors: Johannes Sieg, Mathias Storch, Johannes Fath...
+
+[694/776] url_4f5b7453.pdf
+  [PII] S0378775319311103
+  [+] FOUND: Kinetics accommodation in Li-ion mechanistic modeling...
+      DOI: 10.1016/j.jpowsour.2019.227117
+      Authors: Stefan Schindler, George Baure, Michael A. Danzer...
+
+[695/776] url_6b6378ab.pdf
+  [PII] S0378775322005651
+  [+] FOUND: A four parameter model for the solid-electrolyte interphase to predict...
+      DOI: 10.1016/j.jpowsour.2022.231560
+      Authors: Lars von Kolzenberg, Jochen Stadler, Johannes Fath...
+
+[696/776] url_f9dd793c.pdf
+  [PII] S2352152X18308053
+  [+] FOUND: Investigation of significant capacity recovery effects due to long res...
+      DOI: 10.1016/j.est.2019.02.015
+      Authors: Bernd Epding, Björn Rumberg, Hannes Jahnke...
+
+[697/776] url_13d0627a.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/10.1002/aenm.202103712...
+
+[698/776] url_74f61e88.pdf
+  [PII] S2352152X21006162
+  [+] FOUND: Influence of the connection topology on the performance of lithium-ion...
+      DOI: 10.1016/j.est.2021.102896
+      Authors: Chunxiao Luan, Chen Ma, Chunyu Wang...
+
+[699/776] url_5425dff6.pdf
+  [PII] S0960148119312510
+  [+] FOUND: Diagnosis of a battery energy storage system based on principal compon...
+      DOI: 10.1016/j.renene.2019.08.064
+      Authors: Edison Banguero, Antonio Correcher, Ángel Pérez-Navarro...
+
+[700/776] url_77ac3a91.pdf
+  [PII] S0378775319308626
+  [+] FOUND: Correlations of cell-to-cell parameter variations on current and state...
+      DOI: 10.1016/j.jpowsour.2019.226869
+      Authors: Long Chang, Chenghui Zhang, Tongxiao Wang...
+
+  [+] Checkpoint save at 700/776
+
+[701/776] url_474631bc.pdf
+  [SKIP] No PII found in URL: https://www.cell.com/joule/fulltext/S2542-4351(21)00532-8...
+
+[702/776] url_defc8ce9.pdf
+  [PII] S0378775322014549
+  [+] FOUND: Capacity and Internal Resistance of lithium-ion batteries: Full degrad...
+      DOI: 10.1016/j.jpowsour.2022.232477
+      Authors: Rasheed Ibraheem, Calum Strange, Gonçalo dos Reis
+
+[703/776] url_f4fb2624.pdf
+  [PII] S0306261922009618
+  [+] FOUND: Data efficient health prognostic for batteries based on sequential inf...
+      DOI: 10.1016/j.apenergy.2022.119663
+      Authors: Yunhong Che, Yusheng Zheng, Yue Wu...
+
+[704/776] url_eb7cb189.pdf
+  [PII] S0378775322008072
+  [+] FOUND: Multiple health indicators assisting data-driven prediction of the lat...
+      DOI: 10.1016/j.jpowsour.2022.231818
+      Authors: Hongmin Jiang, Hejing Wang, Yitian Su...
+
+[705/776] url_ce98eacb.pdf
+  [PII] S2773153722000019
+  [+] FOUND: A novel data-driven method for mining battery open-circuit voltage cha...
+      DOI: 10.1016/j.geits.2022.100001
+      Authors: Cheng Chen, Rui Xiong, Ruixin Yang...
+
+[706/776] url_014a6872.pdf
+  [PII] S0378775321013458
+  [+] FOUND: Parametrization of physics-based battery models from input–output data...
+      DOI: 10.1016/j.jpowsour.2021.230859
+      Authors: Malin Andersson, Moritz Streb, Jing Ying Ko...
+
+[707/776] url_5f186e83.pdf
+  [PII] S2405829721004864
+  [+] FOUND: Data-driven systematic parameter identification of an electrochemical ...
+      DOI: 10.1016/j.ensm.2021.10.023
+      Authors: Weihan Li, Iskender Demir, Decheng Cao...
+
+[708/776] url_8b8c0ecf.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/abs/10.1002/aenm.2023014...
+
+[709/776] url_709973d6.pdf
+  [PII] S0378775322000957
+  [+] FOUND: Comparative investigation of the impact of fast charging at low temper...
+      DOI: 10.1016/j.jpowsour.2022.231071
+      Authors: Alexis Laforgue, Xiao-Zi Yuan, Alison Platt...
+
+[710/776] url_507d8cc5.pdf
+  [PII] S2352152X20315449
+  [+] FOUND: Thermal modeling of a high-energy prismatic lithium-ion battery cell a...
+      DOI: 10.1016/j.est.2020.101707
+      Authors: Mohsen Akbarzadeh, Theodoros Kalogiannis, Joris Jaguemont...
+
+[711/776] url_c686c3b1.pdf
+  [PII] S1359431121002052
+  [+] FOUND: Low temperature performance evaluation of electrochemical energy stora...
+      DOI: 10.1016/j.applthermaleng.2021.116750
+      Authors: A. Fly, I. Kirkpatrick, R. Chen
+
+[712/776] url_e8ed6427.pdf
+  [PII] S2405829716303464
+  [+] FOUND: Thermal runaway mechanism of lithium ion battery for electric vehicles...
+      DOI: 10.1016/j.ensm.2017.05.013
+      Authors: Xuning Feng, Minggao Ouyang, Xiang Liu...
+
+[713/776] url_8a3aa793.pdf
+  [SKIP] No PII found in URL: https://www.mdpi.com/2313-0105/7/2/25/htm...
+
+[714/776] url_2e5d501d.pdf
+  [PII] S2352152X2100339X
+  [+] FOUND: Unsupervised data-preprocessing for Long Short-Term Memory based batte...
+      DOI: 10.1016/j.est.2021.102598
+      Authors: F. Heinrich, F.K.-D. Noering, M. Pruckner...
+
+[715/776] url_c885504f.pdf
+  [PII] S2352152X21005405
+  [+] FOUND: Optimal control for fast acquisition of equilibrium voltage for Li-ion...
+      DOI: 10.1016/j.est.2021.102814
+      Authors: Suhak Lee, Youngki Kim, Jason B. Siegel...
+
+[716/776] url_e589aa2f.pdf
+  [PII] S2352152X22003280
+  [-] Not found in CrossRef
+
+[717/776] url_848416e6.pdf
+  [PII] S2352152X20316704
+  [+] FOUND: A combined experimental and simulation approach for short circuit pred...
+      DOI: 10.1016/j.est.2020.101833
+      Authors: Muhammad Sheikh, Ahmed Elmarakbi, Sheikh Rehman
+
+[718/776] url_8598d5b6.pdf
+  [PII] S1364032120305165
+  [+] FOUND: Advancement of lithium-ion battery cells voltage equalization techniqu...
+      DOI: 10.1016/j.rser.2020.110227
+      Authors: Utpal Kumar Das, Prashant Shrivastava, Kok Soon Tey...
+
+[719/776] url_dea9e1db.pdf
+  [SKIP] No PII found in URL: https://chemrxiv.org/engage/chemrxiv/article-details/60ed40e...
+
+[720/776] url_68e22992.pdf
+  [PII] S0378775321007722
+  [+] FOUND: Revealing causes of macroscale heterogeneity in lithium ion pouch cell...
+      DOI: 10.1016/j.jpowsour.2021.230253
+      Authors: Harry Charalambous, Daniel P. Abraham, Alison R. Dunlop...
+
+[721/776] url_aacaa48e.pdf
+  [SKIP] No PII found in URL: https://pubs.acs.org/doi/10.1021/accountsmr.1c00244#...
+
+[722/776] url_1be007ab.pdf
+  [SKIP] No PII found in URL: https://www.cell.com/patterns/fulltext/S2666-3899(22)00128-3...
+
+[723/776] url_2c01bee2.pdf
+  [PII] S0013468621020119
+  [+] FOUND: Validity of solid-state Li<mml:math xmlns:mml="http://www.w3.org/1998/...
+      DOI: 10.1016/j.electacta.2021.139727
+      Authors: Zeyang Geng, Yu-Chuan Chien, Matthew J. Lacey...
+
+[724/776] url_72bd3bfe.pdf
+  [SKIP] No PII found in URL: https://pubs.acs.org/doi/10.1021/acsomega.3c06796...
+
+[725/776] url_e79dbfe5.pdf
+  [SKIP] No PII found in URL: https://www.cell.com/cell-reports-physical-science/fulltext/...
+
+[726/776] url_fa96ba53.pdf
+  [PII] S2590116823000565
+  [+] FOUND: Interpretable deep learning for accelerated fading recognition of lith...
+      DOI: 10.1016/j.etran.2023.100281
+      Authors: Chang Wang, Ying Chen, Weiling Luan...
+
+[727/776] url_7fe52b44.pdf
+  [PII] S2352152X23022818
+  [+] FOUND: State of charge estimation combining physics-based and artificial inte...
+      DOI: 10.1016/j.est.2023.108883
+      Authors: J. Yeregui, L. Oca, I. Lopetegi...
+
+[728/776] url_63480848.pdf
+  [SKIP] No PII found in URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/full/10...
+
+[729/776] url_01ca40f0.pdf
+  [SKIP] No PII found in URL: https://chemrxiv.org/engage/chemrxiv/article-details/6463bdf...
+
+[730/776] url_5fb77d27.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/10.1002/aenm.202102702...
+
+[731/776] url_7adf73fb.pdf
+  [PII] S030626192301111X
+  [+] FOUND: Transferable data-driven capacity estimation for lithium-ion batteries...
+      DOI: 10.1016/j.apenergy.2023.121747
+      Authors: Qiao Wang, Min Ye, Xue Cai...
+
+[732/776] url_9acd02ca.pdf
+  [PII] S0379711223001534
+  [+] FOUND: An investigation into the effects of state of charge and heating rate ...
+      DOI: 10.1016/j.firesaf.2023.103885
+      Authors: Andrew Kurzawski, Lucas Gray, Loraine Torres-Castro...
+
+[733/776] url_e82dfb11.pdf
+  [PII] S0306261923008954
+  [+] FOUND: Increasing the lifetime profitability of battery energy storage system...
+      DOI: 10.1016/j.apenergy.2023.121531
+      Authors: Nils Collath, Martin Cornejo, Veronika Engwerth...
+
+[734/776] url_f75ba256.pdf
+  [PII] S235248472301079X
+  [+] FOUND: Evaluation of detection criteria for thermal runaway experiments on co...
+      DOI: 10.1016/j.egyr.2023.07.001
+      Authors: M. Bruchhausen, S. Hildebrand, A. Kriston...
+
+[735/776] url_92dcea8f.pdf
+  [SKIP] No PII found in URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002...
+
+[736/776] url_bc98fd4d.pdf
+  [PII] S2352152X23013075
+  [+] FOUND: Experimentally-verified thermal-electrochemical simulations of a cylin...
+      DOI: 10.1016/j.est.2023.107910
+      Authors: Alireza Sarmadian, W. Dhammika Widanage, Barbara Shollock...
+
+[737/776] url_4d0db78b.pdf
+  [PII] S2352152X23012811
+  [+] FOUND: Influence of voltage profile and fitting technique on the accuracy of ...
+      DOI: 10.1016/j.est.2023.107884
+      Authors: I. Bin-Mat-Arishad, B. Wimarshana, A. Fly
+
+[738/776] url_bac8c562.pdf
+  [PII] S2352152X23014317
+  [+] FOUND: Optimization of hybrid pulse power characterization profile for equiva...
+      DOI: 10.1016/j.est.2023.108034
+      Authors: Jinghua Sun, Josef Kainz
+
+[739/776] url_c8b322b9.pdf
+  [PII] S2352152X23014974
+  [+] FOUND: Direct current internal resistance decomposition model for accurate pa...
+      DOI: 10.1016/j.est.2023.108100
+      Authors: Ruhui Xu, Ding Wang, Guochun Yan...
+
+[740/776] url_93109a6e.pdf
+  [PII] S2352152X23014354
+  [+] FOUND: An improved sliding window - long short-term memory modeling method fo...
+      DOI: 10.1016/j.est.2023.108038
+      Authors: Shunli Wang, Paul Takyi-Aninakwa, Siyu Jin...
+
+[741/776] url_b06ead8f.pdf
+  [PII] S2352152X23014421
+  [+] FOUND: Data-driven prognosis of failure detection and prediction of lithium-i...
+      DOI: 10.1016/j.est.2023.108045
+      Authors: Hamed Sadegh Kouhestani, Lin Liu, Ruimin Wang...
+
+[742/776] url_cfdc3ab8.pdf
+  [PII] S0378775323006584
+  [+] FOUND: State of charge estimation for Li-ion batteries based on iterative Kal...
+      DOI: 10.1016/j.jpowsour.2023.233282
+      Authors: Zheng Liu, Zhenhua Zhao, Yuan Qiu...
+
+[743/776] url_473f2aa1.pdf
+  [PII] S0306261923005937
+  [+] FOUND: Ageing-aware battery discharge prediction with deep learning...
+      DOI: 10.1016/j.apenergy.2023.121229
+      Authors: Luca Biggio, Tommaso Bendinelli, Chetan Kulkarni...
+
+[744/776] url_a8877ef4.pdf
+  [SKIP] No PII found in URL: https://www.cell.com/joule/fulltext/S2542-4351(23)00120-4...
+
+[745/776] url_56d3803e.pdf
+  [SKIP] No PII found in URL: https://onlinelibrary.wiley.com/doi/full/10.1002/aenm.202300...
+
+[746/776] url_1508bbe5.pdf
+  [SKIP] No PII found in URL: https://pubs.acs.org/doi/10.1021/acsenergylett.3c00724...
+
+[747/776] url_05b9cb95.pdf
+  [PII] S2590116823000309
+  [+] FOUND: Fast screening of lithium-ion batteries for second use with pack-level...
+      DOI: 10.1016/j.etran.2023.100255
+      Authors: Sijia Yang, Caiping Zhang, Jiuchun Jiang...
+
+[748/776] url_039b09fe.pdf
+  [PII] S2352152X2300974X
+  [+] FOUND: A novel smart feature selection strategy of lithium-ion battery degrad...
+      DOI: 10.1016/j.est.2023.107577
+      Authors: Huzaifa Rauf, Muhammad Khalid, Naveed Arshad
+
+[749/776] url_e25ac960.pdf
+  [PII] S2352152X23010733
+  [+] FOUND: Health-conscious energy management strategy for battery/fuel cell elec...
+      DOI: 10.1016/j.est.2023.107676
+      Authors: Adel Oubelaid, Nima Khosravi, Youcef Belkhier...
+
+[750/776] url_240f45be.pdf
+  [PII] S2542435123001952
+  [+] FOUND: Enabling battery digital twins at the industrial scale...
+      DOI: 10.1016/j.joule.2023.05.005
+      Authors: Matthieu Dubarry, David Howey, Billy Wu
+
+  [+] Checkpoint save at 750/776
+
+[751/776] url_9657e627.pdf
+  [PII] S030626192300555X
+  [+] FOUND: Feature-conserving gradual anonymization of load profiles and the impa...
+      DOI: 10.1016/j.apenergy.2023.121191
+      Authors: Benedikt Tepe, David Haberschusz, Jan Figgener...
+
+[752/776] url_79bdb429.pdf
+  [PII] S2352152X23009829
+  [+] FOUND: Active balancing control for distributed battery systems based on coop...
+      DOI: 10.1016/j.est.2023.107585
+      Authors: Maurice Caspar, Tobias Schürmann, Mathias Anneken...
+
+[753/776] url_caeeacb3.pdf
+  [PII] S2352152X2300840X
+  [+] FOUND: Chained Gaussian processes to estimate battery health degradation with...
+      DOI: 10.1016/j.est.2023.107443
+      Authors: Benjamin Larvaron, Marianne Clausel, Antoine Bertoncello...
+
+[754/776] url_5a34713b.pdf
+  [PII] S2352152X23009726
+  [+] FOUND: A multi-fault diagnosis method for lithium-ion battery pack using curv...
+      DOI: 10.1016/j.est.2023.107575
+      Authors: Chaolong Zhang, Shaishai Zhao, Zhong Yang...
+
+[755/776] url_2468581b.pdf
+  [PII] S2352152X23010022
+  [+] FOUND: A novel combined online method for SOC estimation of a Li-Ion battery ...
+      DOI: 10.1016/j.est.2023.107605
+      Authors: Mohammad Reza Ramezani-al, Mohammad Moodi
+
+[756/776] url_9ef80eb9.pdf
+  [PII] S0378775323004937
+  [+] FOUND: Localized lithium plating under mild cycling conditions in high-energy...
+      DOI: 10.1016/j.jpowsour.2023.233118
+      Authors: Alexander J. Smith, Yuan Fang, Anastasiia Mikheenkova...
+
+[757/776] url_ca3b2c9a.pdf
+  [PII] S2352152X23009064
+  [+] FOUND: A novel approach to estimate the state of charge for lithium-ion batte...
+      DOI: 10.1016/j.est.2023.107509
+      Authors: Xiao Renxin, Hu Yanwen, Zhang Wei...
+
+[758/776] url_95595750.pdf
+  [PII] S2352152X23008575
+  [+] FOUND: Design optimization methodologies applied to battery thermal managemen...
+      DOI: 10.1016/j.est.2023.107460
+      Authors: Takiah Ebbs-Picken, Carlos M. Da Silva, Cristina H. Amon
+
+[759/776] url_6054bcf1.pdf
+  [SKIP] No PII found in URL: https://chemistry-europe.onlinelibrary.wiley.com/doi/10.1002...
+
+[760/776] url_c828bca3.pdf
+  [PII] S2352152X23008277
+  [+] FOUND: Experimental analysis of lithium-ion cell procurement: Quality differe...
+      DOI: 10.1016/j.est.2023.107430
+      Authors: Manuel Ank, Thomas Kröger, Markus Schreiber...
+
+[761/776] url_651fbd15.pdf
+  [PII] S2352152X23008927
+  [+] FOUND: Enhanced multi-state estimation methods for lithium-ion batteries cons...
+      DOI: 10.1016/j.est.2023.107495
+      Authors: Paul Takyi-Aninakwa, Shunli Wang, Hongying Zhang...
+
+[762/776] url_6784d8af.pdf
+  [PII] S0360544224038970
+  [+] FOUND: An estimated value compensation method for state of charge estimation ...
+      DOI: 10.1016/j.energy.2024.134119
+      Authors: Luxiao Wang, Jiandong Duan, Shaogui Fan...
+
+[763/776] url_a56ad129.pdf
+  [PII] S0378775324019359
+  [+] FOUND: Multi-model deep learning-based state of charge estimation for shipboa...
+      DOI: 10.1016/j.jpowsour.2024.235983
+      Authors: Yanxi Qiu, Shuli Wen, Qiang Zhao...
+
+[764/776] url_16b06a10.pdf
+  [PII] S2772671124004479
+  [+] FOUND: Generalized real-time state of health estimation for lithium-ion batte...
+      DOI: 10.1016/j.prime.2024.100870
+      Authors: Jarin Tasnim, Md. Azizur Rahman, Md. Shoaib Akhter Rafi...
+
+[765/776] url_68d008bc.pdf
+  [PII] S2352152X24044748
+  [+] FOUND: A multi-scale data-driven framework for online state of charge estimat...
+      DOI: 10.1016/j.est.2024.114888
+      Authors: Jiaqi Yao, Julia Kowal
+
+[766/776] url_688ae460.pdf
+  [PII] S2352152X24045419
+  [+] FOUND: Accurate state of charge estimation for UAV-centric lithium-ion batter...
+      DOI: 10.1016/j.est.2024.114955
+      Authors: Islam Md Monirul, Li Qiu, Rukhsana Ruby
+
+[767/776] url_5a6b689a.pdf
+  [PII] S0306261924025005
+  [+] FOUND: AM-MFF: A multi-feature fusion framework based on attention mechanism ...
+      DOI: 10.1016/j.apenergy.2024.125116
+      Authors: Si-Zhe Chen, Jing Liu, Haoliang Yuan...
+
+[768/776] url_7af58a04.pdf
+  [PII] S1364032124009304
+  [+] FOUND: State co-estimation for lithium-ion batteries based on multi-innovatio...
+      DOI: 10.1016/j.rser.2024.115204
+      Authors: Tiancheng Ouyang, Yubin Gong, Jinlu Ye...
+
+[769/776] url_9286af8a.pdf
+  [SKIP] No PII found in URL: https://ebiltegia.mondragon.edu/xmlui/handle/20.500.11984/68...
+
+[770/776] url_7d582327.pdf
+  [PII] S0378775304003593
+  [+] FOUND: Extended Kalman filtering for battery management systems of LiPB-based...
+      DOI: 10.1016/j.jpowsour.2004.02.031
+      Authors: Gregory L. Plett
+
+[771/776] url_eeb22f10.pdf
+  [PII] S0306261924025455
+  [+] FOUND: Real-time state-of-charge estimation for rechargeable batteries based ...
+      DOI: 10.1016/j.apenergy.2024.125161
+      Authors: Fan Yang, Qian Mao, Jiaming Zhang...
+
+[772/776] url_c35806aa.pdf
+  [PII] S2352152X2404622X
+  [+] FOUND: Estimating battery state of health using DConvBLSTM and modified parti...
+      DOI: 10.1016/j.est.2024.115036
+      Authors: Pallabi Kakati, Devendra Dandotiya, Rajiv Ranjan Singh
+
+[773/776] url_02d791a9.pdf
+  [PII] S0360544224040714
+  [+] FOUND: State of health estimation joint improved grey wolf optimization algor...
+      DOI: 10.1016/j.energy.2024.134293
+      Authors: Simin Peng, Yujian Wang, Aihua Tang...
+
+[774/776] url_6478a34a.pdf
+  [PII] S0360544224040362
+  [+] FOUND: Integrated framework for battery cell state-of-health estimation in co...
+      DOI: 10.1016/j.energy.2024.134258
+      Authors: Yuqian Fan, Jifei Zhao, Yi Li...
+
+[775/776] url_d56b1318.pdf
+  [PII] S0360544224040507
+  [+] FOUND: An innovative multitask learning - Long short-term memory neural netwo...
+      DOI: 10.1016/j.energy.2024.134272
+      Authors: Junjie Tao, Shunli Wang, Wen Cao...
+
+[776/776] url_e7062bf4.pdf
+  [SKIP] No PII found in URL: https://www.cell.com/joule/fulltext/S2542-4351(24)00510-5...
+
+================================================================================
+Saving changes...
+
+[+] Saved metadata.json
+[+] Updating ChromaDB...
+2026-02-07 14:25:16.648 WARNING streamlit.runtime.caching.cache_data_api: No runtime found, using MemoryCacheStorageManager
+2026-02-07 14:25:16.649 WARNING streamlit.runtime.caching.cache_data_api: No runtime found, using MemoryCacheStorageManager
+2026-02-07 14:25:16.649 WARNING streamlit.runtime.caching.cache_data_api: No runtime found, using MemoryCacheStorageManager
+Updated 1 chunks for url_59e2d91a.pdf
+Updated 1 chunks for url_408146b6.pdf
+Updated 1 chunks for url_871ea7ec.pdf
+Updated 1 chunks for url_f06e813e.pdf
+Updated 1 chunks for url_261df91a.pdf
+Updated 1 chunks for url_c3bb1e74.pdf
+Updated 1 chunks for url_f15bc2fd.pdf
+Updated 1 chunks for url_9279a17b.pdf
+Updated 1 chunks for url_b3c522ea.pdf
+Updated 1 chunks for url_e97f93db.pdf
+Updated 1 chunks for url_b3d7faa0.pdf
+Updated 1 chunks for url_3305fdb7.pdf
+Updated 1 chunks for url_9a2856fa.pdf
+Updated 1 chunks for url_f8f88cba.pdf
+Updated 1 chunks for url_342098a1.pdf
+Updated 1 chunks for url_8e5b57cb.pdf
+Updated 1 chunks for url_5f17c68d.pdf
+Updated 1 chunks for url_5208bbf4.pdf
+Updated 1 chunks for url_43a9ba99.pdf
+Updated 1 chunks for url_2cb18e36.pdf
+Updated 1 chunks for url_c37dab1a.pdf
+Updated 1 chunks for url_ea2d2d97.pdf
+Updated 1 chunks for url_4649cadb.pdf
+Updated 1 chunks for url_fc2d9480.pdf
+Updated 1 chunks for url_1000f904.pdf
+Updated 1 chunks for url_ae8b9a8a.pdf
+Updated 1 chunks for url_17d1338f.pdf
+Updated 1 chunks for url_3f012edb.pdf
+Updated 1 chunks for url_fa82f792.pdf
+Updated 1 chunks for url_d5c604ec.pdf
+Updated 1 chunks for url_fdfa3dee.pdf
+Updated 1 chunks for url_0f075174.pdf
+Updated 1 chunks for url_c473bd7d.pdf
+Updated 1 chunks for url_ee5e3c0b.pdf
+Updated 1 chunks for url_e109bf7f.pdf
+Updated 1 chunks for url_36042e8a.pdf
+Updated 1 chunks for url_dbc0468d.pdf
+Updated 1 chunks for url_74289b93.pdf
+Updated 1 chunks for url_b074e16f.pdf
+Updated 1 chunks for url_568c4784.pdf
+Updated 1 chunks for url_9d4a2d48.pdf
+Updated 1 chunks for url_8a257a10.pdf
+Updated 1 chunks for url_ba336ffa.pdf
+Updated 1 chunks for url_ea964c24.pdf
+Updated 1 chunks for url_fa689d89.pdf
+Updated 1 chunks for url_ebe5b6b8.pdf
+Updated 1 chunks for url_96786d00.pdf
+Updated 1 chunks for url_1ae325d0.pdf
+Updated 1 chunks for url_bd5ad697.pdf
+Updated 1 chunks for url_09429ab2.pdf
+Updated 1 chunks for url_29b42ab9.pdf
+Updated 1 chunks for url_7c9564ca.pdf
+Updated 1 chunks for url_a9fe9ec3.pdf
+Updated 1 chunks for url_c91c1dc6.pdf
+Updated 1 chunks for url_e5f637ac.pdf
+Updated 1 chunks for url_7c19f594.pdf
+Updated 1 chunks for url_1d75a46f.pdf
+Updated 1 chunks for url_e9c24963.pdf
+Updated 1 chunks for url_0d02e2d2.pdf
+Updated 1 chunks for url_6c8fea95.pdf
+Updated 1 chunks for url_0ccc41fe.pdf
+Updated 1 chunks for url_636b4e80.pdf
+Updated 1 chunks for url_87957998.pdf
+Updated 1 chunks for url_e9fa027b.pdf
+Updated 1 chunks for url_f035ed05.pdf
+Updated 1 chunks for url_eb5f49e4.pdf
+Updated 1 chunks for url_7093f77c.pdf
+Updated 1 chunks for url_a8b9d520.pdf
+Updated 1 chunks for url_bb716fe4.pdf
+Updated 1 chunks for url_f66fb604.pdf
+Updated 1 chunks for url_3664f60f.pdf
+Updated 1 chunks for url_6c933ced.pdf
+Updated 1 chunks for url_2fdfd9d3.pdf
+Updated 1 chunks for url_16c3656b.pdf
+Updated 1 chunks for url_aba507af.pdf
+Updated 1 chunks for url_d9787993.pdf
+Updated 1 chunks for url_d7ea78b2.pdf
+Updated 1 chunks for url_daa34f64.pdf
+Updated 1 chunks for url_4e06086c.pdf
+Updated 1 chunks for url_c8a9efce.pdf
+Updated 1 chunks for url_4ad6000c.pdf
+Updated 1 chunks for url_8dde927b.pdf
+Updated 1 chunks for url_95cf8cc3.pdf
+Updated 1 chunks for url_b9ff511e.pdf
+Updated 1 chunks for url_e7f02882.pdf
+Updated 1 chunks for url_92219fba.pdf
+Updated 1 chunks for url_54495d1b.pdf
+Updated 1 chunks for url_a9f7ac82.pdf
+Updated 1 chunks for url_733f2fd0.pdf
+Updated 1 chunks for url_5a5cb834.pdf
+Updated 1 chunks for url_1fb1d87e.pdf
+Updated 1 chunks for url_a8ac8687.pdf
+Updated 1 chunks for url_23b30d0b.pdf
+Updated 1 chunks for url_bb30fd78.pdf
+Updated 1 chunks for url_2fde3f67.pdf
+Updated 1 chunks for url_622ac9cc.pdf
+Updated 1 chunks for url_792b272c.pdf
+Updated 1 chunks for url_ad51de5c.pdf
+Updated 1 chunks for url_0ac2290a.pdf
+Updated 1 chunks for url_f8cdf2e7.pdf
+Updated 1 chunks for url_1a8ff9a9.pdf
+Updated 1 chunks for url_04f57753.pdf
+Updated 1 chunks for url_251d08bf.pdf
+Updated 1 chunks for url_4d488193.pdf
+Updated 1 chunks for url_3095788c.pdf
+Updated 1 chunks for url_7a4f9bfb.pdf
+Updated 1 chunks for url_e2fbac05.pdf
+Updated 1 chunks for url_8bab146b.pdf
+Updated 1 chunks for url_6aeddab4.pdf
+Updated 1 chunks for url_2179d981.pdf
+Updated 1 chunks for url_9f4a8505.pdf
+Updated 1 chunks for url_c06e03b9.pdf
+Updated 1 chunks for url_821c02d6.pdf
+Updated 1 chunks for url_b31488c7.pdf
+Updated 1 chunks for url_3cde5233.pdf
+Updated 1 chunks for url_fd32df13.pdf
+Updated 1 chunks for url_f746bf5b.pdf
+Updated 1 chunks for url_be9211fb.pdf
+Updated 1 chunks for url_f24e3f4a.pdf
+Updated 1 chunks for url_aac418eb.pdf
+Updated 1 chunks for url_1c06e9d2.pdf
+Updated 1 chunks for url_e61e3ff5.pdf
+Updated 1 chunks for url_7de119c4.pdf
+Updated 1 chunks for url_9c515e20.pdf
+Updated 1 chunks for url_d5bfe04c.pdf
+Updated 1 chunks for url_bf9bce08.pdf
+Updated 1 chunks for url_60e9f7cc.pdf
+Updated 1 chunks for url_1717cae0.pdf
+Updated 1 chunks for url_7b40be52.pdf
+Updated 1 chunks for url_168588e7.pdf
+Updated 1 chunks for url_e3ee528e.pdf
+Updated 1 chunks for url_c0dba764.pdf
+Updated 1 chunks for url_7ab8eaeb.pdf
+Updated 1 chunks for url_f1e6026c.pdf
+Updated 1 chunks for url_602f841a.pdf
+Updated 1 chunks for url_269487f3.pdf
+Updated 1 chunks for url_c8af13d3.pdf
+Updated 1 chunks for url_de93d00d.pdf
+Updated 1 chunks for url_232016ab.pdf
+Updated 1 chunks for url_a93070d7.pdf
+Updated 1 chunks for url_82c6e150.pdf
+Updated 1 chunks for url_d24d999f.pdf
+Updated 1 chunks for url_0c5b9bc1.pdf
+Updated 1 chunks for url_141b10c1.pdf
+Updated 1 chunks for url_39fa9941.pdf
+Updated 1 chunks for url_755ee80e.pdf
+Updated 1 chunks for url_8f4d737f.pdf
+Updated 1 chunks for url_675973e9.pdf
+Updated 1 chunks for url_cf35c81f.pdf
+Updated 1 chunks for url_c459e0c8.pdf
+Updated 1 chunks for url_e238e407.pdf
+Updated 1 chunks for url_85593b47.pdf
+Updated 1 chunks for url_84294194.pdf
+Updated 1 chunks for url_50bbdb9a.pdf
+Updated 1 chunks for url_7163a545.pdf
+Updated 1 chunks for url_1d532960.pdf
+Updated 1 chunks for url_b37b98bb.pdf
+Updated 1 chunks for url_10ba2476.pdf
+Updated 1 chunks for url_71644064.pdf
+Updated 1 chunks for url_1d5ee6a7.pdf
+Updated 1 chunks for url_25d623b9.pdf
+Updated 1 chunks for url_bff7e802.pdf
+Updated 1 chunks for url_11c0165d.pdf
+Updated 1 chunks for url_1f08de2b.pdf
+Updated 1 chunks for url_5e990d1e.pdf
+Updated 1 chunks for url_00431e87.pdf
+Updated 1 chunks for url_2b238587.pdf
+Updated 1 chunks for url_c07e8b9d.pdf
+Updated 1 chunks for url_8a74ce68.pdf
+Updated 1 chunks for url_8257015c.pdf
+Updated 1 chunks for url_b5b7bcd3.pdf
+Updated 1 chunks for url_61d1c2e1.pdf
+Updated 1 chunks for url_fe19f52c.pdf
+Updated 1 chunks for url_233abb79.pdf
+Updated 1 chunks for url_dd59bfa2.pdf
+Updated 1 chunks for url_7f01d73c.pdf
+Updated 1 chunks for url_e969ddbd.pdf
+Updated 1 chunks for url_e60d2a34.pdf
+Updated 1 chunks for url_dadefd2d.pdf
+Updated 1 chunks for url_6ec1c83f.pdf
+Updated 1 chunks for url_4e2c4121.pdf
+Updated 1 chunks for url_d0764e97.pdf
+Updated 1 chunks for url_608e7d5a.pdf
+Updated 1 chunks for url_72a5487f.pdf
+Updated 1 chunks for url_12883785.pdf
+Updated 1 chunks for url_82062419.pdf
+Updated 1 chunks for url_43cf1015.pdf
+Updated 1 chunks for url_52cb5fd5.pdf
+Updated 1 chunks for url_be1cc27a.pdf
+Updated 1 chunks for url_d4b43495.pdf
+Updated 1 chunks for url_14666bc0.pdf
+Updated 1 chunks for url_392262e2.pdf
+Updated 1 chunks for url_c42cf3e2.pdf
+Updated 1 chunks for url_fcd29e56.pdf
+Updated 1 chunks for url_aa67bb61.pdf
+Updated 1 chunks for url_29eb570c.pdf
+Updated 1 chunks for url_e62e6d59.pdf
+Updated 1 chunks for url_8f8bbb36.pdf
+Updated 1 chunks for url_f42fca75.pdf
+Updated 1 chunks for url_26d584ed.pdf
+Updated 1 chunks for url_85bedbd5.pdf
+Updated 1 chunks for url_b7283d09.pdf
+Updated 1 chunks for url_df8923b9.pdf
+Updated 1 chunks for url_74bb1669.pdf
+Updated 1 chunks for url_67a1fd52.pdf
+Updated 1 chunks for url_b70a10f5.pdf
+Updated 1 chunks for url_1e56fdce.pdf
+Updated 1 chunks for url_ad6a130b.pdf
+Updated 1 chunks for url_8cab53fb.pdf
+Updated 1 chunks for url_6fc3cb77.pdf
+Updated 1 chunks for url_bb3ab35f.pdf
+Updated 1 chunks for url_09fb9b25.pdf
+Updated 1 chunks for url_3e8d4438.pdf
+Updated 1 chunks for url_f16be6be.pdf
+Updated 1 chunks for url_54d0ff22.pdf
+Updated 1 chunks for url_1a895e95.pdf
+Updated 1 chunks for url_1329febc.pdf
+Updated 1 chunks for url_90243e41.pdf
+Updated 1 chunks for url_eaa1241d.pdf
+Updated 1 chunks for url_6e84e10f.pdf
+Updated 1 chunks for url_2f42fa4c.pdf
+Updated 1 chunks for url_9c0f4883.pdf
+Updated 1 chunks for url_c9b7954b.pdf
+Updated 1 chunks for url_6609338a.pdf
+Updated 1 chunks for url_56a276c6.pdf
+Updated 1 chunks for url_98ad12f5.pdf
+Updated 1 chunks for url_e587d978.pdf
+Updated 1 chunks for url_d6c161fd.pdf
+Updated 1 chunks for url_f96c0dc3.pdf
+Updated 1 chunks for url_1a698202.pdf
+Updated 1 chunks for url_95e64a28.pdf
+Updated 1 chunks for url_4f952c73.pdf
+Updated 1 chunks for url_f0270e38.pdf
+Updated 1 chunks for url_83a0b969.pdf
+Updated 1 chunks for url_356e9fb4.pdf
+Updated 1 chunks for url_09853d65.pdf
+Updated 1 chunks for url_65b675b8.pdf
+Updated 1 chunks for url_0d37207e.pdf
+Updated 1 chunks for url_979c5cb0.pdf
+Updated 1 chunks for url_70aac2ce.pdf
+Updated 1 chunks for url_ffd3acc0.pdf
+Updated 1 chunks for url_d41fc774.pdf
+Updated 1 chunks for url_8b4470f7.pdf
+Updated 1 chunks for url_2eac8d39.pdf
+Updated 1 chunks for url_e1c39049.pdf
+Updated 1 chunks for url_753e6b33.pdf
+Updated 1 chunks for url_49f01958.pdf
+Updated 1 chunks for url_ae7d2fdf.pdf
+Updated 1 chunks for url_4904ac83.pdf
+Updated 1 chunks for url_7f7af3e3.pdf
+Updated 1 chunks for url_89ea0a5d.pdf
+Updated 1 chunks for url_49410dc3.pdf
+Updated 1 chunks for url_39e9d23b.pdf
+Updated 1 chunks for url_2bc5d51f.pdf
+Updated 1 chunks for url_68a9d7d1.pdf
+Updated 1 chunks for url_b9c7688c.pdf
+Updated 1 chunks for url_d8c61f88.pdf
+Updated 1 chunks for url_876827a9.pdf
+Updated 1 chunks for url_13924ac5.pdf
+Updated 1 chunks for url_65c36555.pdf
+Updated 1 chunks for url_470a12bd.pdf
+Updated 1 chunks for url_a22f112c.pdf
+Updated 1 chunks for url_a899ab4c.pdf
+Updated 1 chunks for url_50680680.pdf
+Updated 1 chunks for url_dd1dd0b6.pdf
+Updated 1 chunks for url_47ee1e60.pdf
+Updated 1 chunks for url_6f7d08ba.pdf
+Updated 1 chunks for url_d8040f72.pdf
+Updated 1 chunks for url_767bfdad.pdf
+Updated 1 chunks for url_51230802.pdf
+Updated 1 chunks for url_48de5be8.pdf
+Updated 1 chunks for url_33ea46da.pdf
+Updated 1 chunks for url_b86e92e4.pdf
+Updated 1 chunks for url_a4681f52.pdf
+Updated 1 chunks for url_5a1ee42d.pdf
+Updated 1 chunks for url_a67a027e.pdf
+Updated 1 chunks for url_2016ee5d.pdf
+Updated 1 chunks for url_cdffb6c6.pdf
+Updated 1 chunks for url_e7b156cb.pdf
+Updated 1 chunks for url_49259be8.pdf
+Updated 1 chunks for url_e1a0c61f.pdf
+Updated 1 chunks for url_59317a89.pdf
+Updated 1 chunks for url_7f65d8ce.pdf
+Updated 1 chunks for url_ae9beb12.pdf
+Updated 1 chunks for url_7c3fcb7f.pdf
+Updated 1 chunks for url_639b9fc2.pdf
+Updated 1 chunks for url_a2b4ff86.pdf
+Updated 1 chunks for url_6da38b0f.pdf
+Updated 1 chunks for url_c2437760.pdf
+Updated 1 chunks for url_f2b33dbb.pdf
+Updated 1 chunks for url_8baae261.pdf
+Updated 1 chunks for url_b1a8f2ad.pdf
+Updated 1 chunks for url_072435ff.pdf
+Updated 1 chunks for url_9a1a730f.pdf
+Updated 1 chunks for url_398dada2.pdf
+Updated 1 chunks for url_758896b9.pdf
+Updated 1 chunks for url_91cabd30.pdf
+Updated 1 chunks for url_61ae8894.pdf
+Updated 1 chunks for url_f66abb05.pdf
+Updated 1 chunks for url_e6015f24.pdf
+Updated 1 chunks for url_3850768a.pdf
+Updated 1 chunks for url_086fe1c7.pdf
+Updated 1 chunks for url_aae30dd4.pdf
+Updated 1 chunks for url_31cee0b6.pdf
+Updated 1 chunks for url_af782fac.pdf
+Updated 1 chunks for url_b07b2475.pdf
+Updated 1 chunks for url_f026b1be.pdf
+Updated 1 chunks for url_296c0a24.pdf
+Updated 1 chunks for url_0563f508.pdf
+Updated 1 chunks for url_38db644d.pdf
+Updated 1 chunks for url_39cf565a.pdf
+Updated 1 chunks for url_39de0f32.pdf
+Updated 1 chunks for url_dea3dac4.pdf
+Updated 1 chunks for url_e7ea5767.pdf
+Updated 1 chunks for url_01e344d7.pdf
+Updated 1 chunks for url_8da95818.pdf
+Updated 1 chunks for url_f19d1b7d.pdf
+Updated 1 chunks for url_5e3f4978.pdf
+Updated 1 chunks for url_31c5be04.pdf
+Updated 1 chunks for url_197882cb.pdf
+Updated 1 chunks for url_c636c313.pdf
+Updated 1 chunks for url_0ea959d8.pdf
+Updated 1 chunks for url_aacae72f.pdf
+Updated 1 chunks for url_70df77ef.pdf
+Updated 1 chunks for url_a4db3d8a.pdf
+Updated 1 chunks for url_12f66cce.pdf
+Updated 1 chunks for url_14b896fa.pdf
+Updated 1 chunks for url_73428672.pdf
+Updated 1 chunks for url_e8f142cf.pdf
+Updated 1 chunks for url_9d200365.pdf
+Updated 1 chunks for url_19caf1cf.pdf
+Updated 1 chunks for url_a5f34146.pdf
+Updated 1 chunks for url_14e89864.pdf
+Updated 1 chunks for url_39599b48.pdf
+Updated 1 chunks for url_9aa14d6a.pdf
+Updated 1 chunks for url_7508c2e1.pdf
+Updated 1 chunks for url_2e0c9f5c.pdf
+Updated 1 chunks for url_86953617.pdf
+Updated 1 chunks for url_d17ae704.pdf
+Updated 1 chunks for url_05a2bcc4.pdf
+Updated 1 chunks for url_27e8a322.pdf
+Updated 1 chunks for url_1580eb54.pdf
+Updated 1 chunks for url_381168ad.pdf
+Updated 1 chunks for url_3b1c322d.pdf
+Updated 1 chunks for url_297a5007.pdf
+Updated 1 chunks for url_d15208e5.pdf
+Updated 1 chunks for url_c672fc24.pdf
+Updated 1 chunks for url_dba6affe.pdf
+Updated 1 chunks for url_f2a83e58.pdf
+Updated 1 chunks for url_a89b670f.pdf
+Updated 1 chunks for url_df6ad513.pdf
+Updated 1 chunks for url_c2396ff8.pdf
+Updated 1 chunks for url_26e60cb3.pdf
+Updated 1 chunks for url_7db63dd3.pdf
+Updated 1 chunks for url_2d5d1677.pdf
+Updated 1 chunks for url_7f9afb16.pdf
+Updated 1 chunks for url_f34e3d2a.pdf
+Updated 1 chunks for url_49860a73.pdf
+Updated 1 chunks for url_bcc1829b.pdf
+Updated 1 chunks for url_57925bc7.pdf
+Updated 1 chunks for url_34adef54.pdf
+Updated 1 chunks for url_b3336865.pdf
+Updated 1 chunks for url_ed32bf03.pdf
+Updated 1 chunks for url_a4a05f12.pdf
+Updated 1 chunks for url_dd6393cc.pdf
+Updated 1 chunks for url_fe658318.pdf
+Updated 1 chunks for url_1cc527c5.pdf
+Updated 1 chunks for url_fa660592.pdf
+Updated 1 chunks for url_21ab29cc.pdf
+Updated 1 chunks for url_6b5600cd.pdf
+Updated 1 chunks for url_93e6097a.pdf
+Updated 1 chunks for url_4ad874f3.pdf
+Updated 1 chunks for url_07d235b9.pdf
+Updated 1 chunks for url_369fa91f.pdf
+Updated 1 chunks for url_e45d6ee9.pdf
+Updated 1 chunks for url_a29a6b9a.pdf
+Updated 1 chunks for url_348eb8b2.pdf
+Updated 1 chunks for url_063d2dcc.pdf
+Updated 1 chunks for url_239dc23c.pdf
+Updated 1 chunks for url_f39a99b7.pdf
+Updated 1 chunks for url_49a061cf.pdf
+Updated 1 chunks for url_20616803.pdf
+Updated 1 chunks for url_6533c80d.pdf
+Updated 1 chunks for url_79a41434.pdf
+Updated 1 chunks for url_7ddbd5ba.pdf
+Updated 1 chunks for url_33250d3f.pdf
+Updated 1 chunks for url_0ef767c5.pdf
+Updated 1 chunks for url_15ce224a.pdf
+Updated 1 chunks for url_544ebd52.pdf
+Updated 1 chunks for url_843be38f.pdf
+Updated 1 chunks for url_375f3e37.pdf
+Updated 1 chunks for url_c45ca90a.pdf
+Updated 1 chunks for url_f4bd59f3.pdf
+Updated 1 chunks for url_499df5c0.pdf
+Updated 1 chunks for url_985c7f8f.pdf
+Updated 1 chunks for url_d00f1683.pdf
+Updated 1 chunks for url_dcf53b3d.pdf
+Updated 1 chunks for url_872caf13.pdf
+Updated 1 chunks for url_5db8fd02.pdf
+Updated 1 chunks for url_eed20760.pdf
+Updated 1 chunks for url_0064bd52.pdf
+Updated 1 chunks for url_1c852fd1.pdf
+Updated 1 chunks for url_de361f72.pdf
+Updated 1 chunks for url_94ace062.pdf
+Updated 1 chunks for url_667803d4.pdf
+Updated 1 chunks for url_7e56640e.pdf
+Updated 1 chunks for url_788d3037.pdf
+Updated 1 chunks for url_9a0d5d4c.pdf
+Updated 1 chunks for url_62d3ae88.pdf
+Updated 1 chunks for url_c0640bd7.pdf
+Updated 1 chunks for url_a22c629b.pdf
+Updated 1 chunks for url_296d8727.pdf
+Updated 1 chunks for url_df6697be.pdf
+Updated 1 chunks for url_446e3e1a.pdf
+Updated 1 chunks for url_76978c7e.pdf
+Updated 1 chunks for url_be39db2b.pdf
+Updated 1 chunks for url_3c00993b.pdf
+Updated 1 chunks for url_ddff1e65.pdf
+Updated 1 chunks for url_38038132.pdf
+Updated 1 chunks for url_34fee8f3.pdf
+Updated 1 chunks for url_ecb2a4a8.pdf
+Updated 1 chunks for url_5e67a9e1.pdf
+Updated 1 chunks for url_c58dfc34.pdf
+Updated 1 chunks for url_b86341c0.pdf
+Updated 1 chunks for url_7eb12ada.pdf
+Updated 1 chunks for url_498866c3.pdf
+Updated 1 chunks for url_8a6c9e93.pdf
+Updated 1 chunks for url_b1b01b8c.pdf
+Updated 1 chunks for url_bfb3633a.pdf
+Updated 1 chunks for url_b4007b41.pdf
+Updated 1 chunks for url_28db435f.pdf
+Updated 1 chunks for url_970b995c.pdf
+Updated 1 chunks for url_4891d013.pdf
+Updated 1 chunks for url_7b125b55.pdf
+Updated 1 chunks for url_afc658cd.pdf
+Updated 1 chunks for url_b535640c.pdf
+Updated 1 chunks for url_0f428316.pdf
+Updated 1 chunks for url_c15580f4.pdf
+Updated 1 chunks for url_9be2b718.pdf
+Updated 1 chunks for url_51e354e4.pdf
+Updated 1 chunks for url_483c7975.pdf
+Updated 1 chunks for url_44725fb2.pdf
+Updated 1 chunks for url_8bca8ac3.pdf
+Updated 1 chunks for url_141a6777.pdf
+Updated 1 chunks for url_5473bc29.pdf
+Updated 1 chunks for url_b4db34a8.pdf
+Updated 1 chunks for url_430b80d5.pdf
+Updated 1 chunks for url_fd9ff2fd.pdf
+Updated 1 chunks for url_738c3236.pdf
+Updated 1 chunks for url_48da7bfd.pdf
+Updated 1 chunks for url_4dc6ef56.pdf
+Updated 1 chunks for url_fe0ffa2c.pdf
+Updated 1 chunks for url_2c391763.pdf
+Updated 1 chunks for url_03e05de1.pdf
+Updated 1 chunks for url_6282848e.pdf
+Updated 1 chunks for url_2d909fc1.pdf
+Updated 1 chunks for url_a34d6f76.pdf
+Updated 1 chunks for url_cefe852a.pdf
+Updated 1 chunks for url_713e7bda.pdf
+Updated 1 chunks for url_6a72287a.pdf
+Updated 1 chunks for url_eb429517.pdf
+Updated 1 chunks for url_12d7c6bb.pdf
+Updated 1 chunks for url_9af333d0.pdf
+Updated 1 chunks for url_fe28b4ac.pdf
+Updated 1 chunks for url_f3825cd3.pdf
+Updated 1 chunks for url_f872d0f6.pdf
+Updated 1 chunks for url_0c0efbd4.pdf
+Updated 1 chunks for url_1579c9d9.pdf
+Updated 1 chunks for url_1211b6c7.pdf
+Updated 1 chunks for url_9f8e85d4.pdf
+Updated 1 chunks for url_31559f0f.pdf
+Updated 1 chunks for url_fd9cba7c.pdf
+Updated 1 chunks for url_55ca55e0.pdf
+Updated 1 chunks for url_98ef7033.pdf
+Updated 1 chunks for url_49c47ff8.pdf
+Updated 1 chunks for url_8a8d6232.pdf
+Updated 1 chunks for url_ac8c037e.pdf
+Updated 1 chunks for url_239475bc.pdf
+Updated 1 chunks for url_bdf550a8.pdf
+Updated 1 chunks for url_a3da15d5.pdf
+Updated 1 chunks for url_4355b93f.pdf
+Updated 1 chunks for url_9102ebf5.pdf
+Updated 1 chunks for url_af0218fb.pdf
+Updated 1 chunks for url_6ecdc41c.pdf
+Updated 1 chunks for url_aae3bb26.pdf
+Updated 1 chunks for url_b8eb9773.pdf
+Updated 1 chunks for url_de098d63.pdf
+Updated 1 chunks for url_f452e45b.pdf
+Updated 1 chunks for url_1e9d7113.pdf
+Updated 1 chunks for url_922bbb88.pdf
+Updated 1 chunks for url_02772ad4.pdf
+Updated 1 chunks for url_765c8a62.pdf
+Updated 1 chunks for url_8e1fda73.pdf
+Updated 1 chunks for url_cb8c0e1a.pdf
+Updated 1 chunks for url_45f22856.pdf
+Updated 1 chunks for url_34019cc4.pdf
+Updated 1 chunks for url_d20ca62a.pdf
+Updated 1 chunks for url_9203efa5.pdf
+Updated 1 chunks for url_3abfb791.pdf
+Updated 1 chunks for url_3e4e3067.pdf
+Updated 1 chunks for url_2d9045b1.pdf
+Updated 1 chunks for url_7b0262a6.pdf
+Updated 1 chunks for url_d71e8501.pdf
+Updated 1 chunks for url_0a1c81be.pdf
+Updated 1 chunks for url_a075df53.pdf
+Updated 1 chunks for url_014554fa.pdf
+Updated 1 chunks for url_488cf50f.pdf
+Updated 1 chunks for url_4235b925.pdf
+Updated 1 chunks for url_2bc9d689.pdf
+Updated 1 chunks for url_4e0bff4e.pdf
+Updated 1 chunks for url_81f936ee.pdf
+Updated 1 chunks for url_9d84cf0d.pdf
+Updated 1 chunks for url_419eda0c.pdf
+Updated 1 chunks for url_0765c2a7.pdf
+Updated 1 chunks for url_77cb5fab.pdf
+Updated 1 chunks for url_c06b4213.pdf
+Updated 1 chunks for url_dbd4620d.pdf
+Updated 1 chunks for url_0e700e84.pdf
+Updated 1 chunks for url_8522a9f5.pdf
+Updated 1 chunks for url_0814f6ea.pdf
+Updated 1 chunks for url_de623f5a.pdf
+Updated 1 chunks for url_51ec6331.pdf
+Updated 1 chunks for url_a79ea25e.pdf
+Updated 1 chunks for url_506b0a88.pdf
+Updated 1 chunks for url_9f09ac01.pdf
+Updated 1 chunks for url_72f84133.pdf
+Updated 1 chunks for url_32f034cf.pdf
+Updated 1 chunks for url_11ff845b.pdf
+Updated 1 chunks for url_206bd329.pdf
+Updated 1 chunks for url_4f5b7453.pdf
+Updated 1 chunks for url_6b6378ab.pdf
+Updated 1 chunks for url_f9dd793c.pdf
+Updated 1 chunks for url_74f61e88.pdf
+Updated 1 chunks for url_5425dff6.pdf
+Updated 1 chunks for url_77ac3a91.pdf
+Updated 1 chunks for url_defc8ce9.pdf
+Updated 1 chunks for url_f4fb2624.pdf
+Updated 1 chunks for url_eb7cb189.pdf
+Updated 1 chunks for url_ce98eacb.pdf
+Updated 1 chunks for url_014a6872.pdf
+Updated 1 chunks for url_5f186e83.pdf
+Updated 1 chunks for url_709973d6.pdf
+Updated 1 chunks for url_507d8cc5.pdf
+Updated 1 chunks for url_c686c3b1.pdf
+Updated 1 chunks for url_e8ed6427.pdf
+Updated 1 chunks for url_2e5d501d.pdf
+Updated 1 chunks for url_c885504f.pdf
+Updated 1 chunks for url_848416e6.pdf
+Updated 1 chunks for url_8598d5b6.pdf
+Updated 1 chunks for url_68e22992.pdf
+Updated 1 chunks for url_2c01bee2.pdf
+Updated 1 chunks for url_fa96ba53.pdf
+Updated 1 chunks for url_7fe52b44.pdf
+Updated 1 chunks for url_7adf73fb.pdf
+Updated 1 chunks for url_9acd02ca.pdf
+Updated 1 chunks for url_e82dfb11.pdf
+Updated 1 chunks for url_f75ba256.pdf
+Updated 1 chunks for url_bc98fd4d.pdf
+Updated 1 chunks for url_4d0db78b.pdf
+Updated 1 chunks for url_bac8c562.pdf
+Updated 1 chunks for url_c8b322b9.pdf
+Updated 1 chunks for url_93109a6e.pdf
+Updated 1 chunks for url_b06ead8f.pdf
+Updated 1 chunks for url_cfdc3ab8.pdf
+Updated 1 chunks for url_473f2aa1.pdf
+Updated 1 chunks for url_05b9cb95.pdf
+Updated 1 chunks for url_039b09fe.pdf
+Updated 1 chunks for url_e25ac960.pdf
+Updated 1 chunks for url_240f45be.pdf
+Updated 1 chunks for url_9657e627.pdf
+Updated 1 chunks for url_79bdb429.pdf
+Updated 1 chunks for url_caeeacb3.pdf
+Updated 1 chunks for url_5a34713b.pdf
+Updated 1 chunks for url_2468581b.pdf
+Updated 1 chunks for url_9ef80eb9.pdf
+Updated 1 chunks for url_ca3b2c9a.pdf
+Updated 1 chunks for url_95595750.pdf
+Updated 1 chunks for url_c828bca3.pdf
+Updated 1 chunks for url_651fbd15.pdf
+Updated 1 chunks for url_6784d8af.pdf
+Updated 1 chunks for url_a56ad129.pdf
+Updated 1 chunks for url_16b06a10.pdf
+Updated 1 chunks for url_68d008bc.pdf
+Updated 1 chunks for url_688ae460.pdf
+Updated 1 chunks for url_5a6b689a.pdf
+Updated 1 chunks for url_7af58a04.pdf
+Updated 1 chunks for url_7d582327.pdf
+Updated 1 chunks for url_eeb22f10.pdf
+Updated 1 chunks for url_c35806aa.pdf
+Updated 1 chunks for url_02d791a9.pdf
+Updated 1 chunks for url_6478a34a.pdf
+Updated 1 chunks for url_d56b1318.pdf
+[+] Updated 592 papers in ChromaDB
+[+] Cleared caches
+
+================================================================================
+SUMMARY
+================================================================================
+Papers to process:            776
+Successfully fixed:           592 (76.3%)
+No PII in URL:                176 (22.7%)
+Not found in CrossRef:        8 (1.0%)
+Still unknown:                184
+
+[NOTE] 184 papers still marked 'Unknown - needs manual review'
+These papers either:
+  - Don't have a PII in the URL (non-ScienceDirect)
+  - Aren't indexed in CrossRef yet
+  - Require manual review
+
+[OK] Done! Restart the Streamlit app to see changes.

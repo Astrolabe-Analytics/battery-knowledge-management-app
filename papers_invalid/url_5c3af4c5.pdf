@@ -1,0 +1,1217 @@
+
+
+	<!DOCTYPE html>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<html lang="en-US" xml:lang="en-US">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>
+		Anomaly Detection in Time Series Data
+							| International Journal of Prognostics and Health Management
+			</title>
+
+	
+<meta name="generator" content="Open Journal Systems 3.2.1.4">
+<link rel="schema.DC" href="http://purl.org/dc/elements/1.1/" />
+<meta name="DC.Creator.PersonalName" content="Qin Liang"/>
+<meta name="DC.Creator.PersonalName" content="Erik Vanem"/>
+<meta name="DC.Creator.PersonalName" content="Knut Erik  Knutsen"/>
+<meta name="DC.Date.created" scheme="ISO8601" content="2024-10-08"/>
+<meta name="DC.Date.dateSubmitted" scheme="ISO8601" content="2024-02-14"/>
+<meta name="DC.Date.issued" scheme="ISO8601" content="2024-10-08"/>
+<meta name="DC.Date.modified" scheme="ISO8601" content="2024-10-08"/>
+<meta name="DC.Description" xml:lang="en" content="This paper presents a novel unsupervised approach for anomaly detection in marine diesel engines using a Transformer Neural Network based autoencoder (TAE) and residual analysis with Sequential Probability Ratio Test (SPRT) and Sum of Squares of Normalized Residuals (SSNR). This approach adeptly captures temporal dependencies within normal time-series data without the necessity for labeled failure data. To assess the performance of the proposed methodology, a dataset containing faulty data is generated under the same operational profile as the normal training data. The model undergoes training using normal data, after which the faulty data is reconstructed utilizing the trained model. Subsequently, SPRT and SSNR are used to analyze the residuals from the observed and reconstructed faulty data. Significant deviations surpassing a predefined threshold are identified as anomalous behavior. Additionally, this study explores various architectures of Transformer neural networks and other types of neural networks to conduct a comprehensive comparative analysis of the performance of the proposed approach. Insights and recommendations derived from the performance analysis are also presented, offering valuable information for potential users to leverage. The experimental results demonstrate that the proposed approach can accurately and efficiently detect anomalies in marine diesel engines. Therefore, this approach can be considered as a promising solution for early anomaly detection, leading to timely maintenance and repair, and preventing costly downtime. Also, avoid accidents with probability severe consequences."/>
+<meta name="DC.Format" scheme="IMT" content="application/pdf"/>
+<meta name="DC.Identifier" content="3853"/>
+<meta name="DC.Identifier.DOI" content="10.36001/ijphm.2024.v15i3.3853"/>
+<meta name="DC.Identifier.URI" content="https://papers.phmsociety.org/index.php/ijphm/article/view/3853"/>
+<meta name="DC.Language" scheme="ISO639-1" content="en"/>
+<meta name="DC.Rights" content="Copyright (c) 2024 International Journal of Prognostics and Health Management"/>
+<meta name="DC.Rights" content=""/>
+<meta name="DC.Source" content="International Journal of Prognostics and Health Management"/>
+<meta name="DC.Source.ISSN" content="2153-2648"/>
+<meta name="DC.Source.Issue" content="3"/>
+<meta name="DC.Source.Volume" content="15"/>
+<meta name="DC.Source.URI" content="https://papers.phmsociety.org/index.php/ijphm"/>
+<meta name="DC.Subject" xml:lang="en" content="Machine Learning"/>
+<meta name="DC.Title" content="Anomaly Detection in Time Series Data"/>
+<meta name="DC.Type" content="Text.Serial.Journal"/>
+<meta name="DC.Type.articleType" content="Technical Papers"/>
+<meta name="gs_meta_revision" content="1.1"/>
+<meta name="citation_journal_title" content="International Journal of Prognostics and Health Management"/>
+<meta name="citation_journal_abbrev" content="IJPHM"/>
+<meta name="citation_issn" content="2153-2648"/> 
+<meta name="citation_author" content="Qin Liang"/>
+<meta name="citation_author_institution" content="DNV and Norwegian University of Science and Technology"/>
+<meta name="citation_author" content="Erik Vanem"/>
+<meta name="citation_author_institution" content="DNV"/>
+<meta name="citation_author" content="Knut Erik  Knutsen"/>
+<meta name="citation_author_institution" content="DNV"/>
+<meta name="citation_author" content="Vilmar Æsøy"/>
+<meta name="citation_author_institution" content="Norwegian University of Science and Technology"/>
+<meta name="citation_author" content="Houxiang Zhang"/>
+<meta name="citation_author_institution" content="Norwegian University of Science and Technology"/>
+<meta name="citation_title" content="Anomaly Detection in Time Series Data: A Novel Approach using Transformer Neural Networks for Reconstruction and Residual Analysis"/>
+<meta name="citation_language" content="en"/>
+<meta name="citation_date" content="2024/10/08"/>
+<meta name="citation_volume" content="15"/>
+<meta name="citation_issue" content="3"/>
+<meta name="citation_doi" content="10.36001/ijphm.2024.v15i3.3853"/>
+<meta name="citation_abstract_html_url" content="https://papers.phmsociety.org/index.php/ijphm/article/view/3853"/>
+<meta name="citation_keywords" xml:lang="en" content="Marine Diesel Engine"/>
+<meta name="citation_keywords" xml:lang="en" content="PHM"/>
+<meta name="citation_keywords" xml:lang="en" content="Deep Learning"/>
+<meta name="citation_keywords" xml:lang="en" content="Machine Learning"/>
+<meta name="citation_pdf_url" content="https://papers.phmsociety.org/index.php/ijphm/article/download/3853/2507"/>
+<meta name="citation_reference" content="Bernardo, J. T., &amp; Reichard, K. M. (2017). Trends in research techniques of prognostics for gas turbines and diesel engines. In Annual conference of the phm society (Vol. 9)."/>
+<meta name="citation_reference" content="Brandsæter, A., Manno, G., Vanem, E., &amp; Glad, I. K. (2016). An application of sensor-based anomaly detection in the maritime industry. In 2016 ieee international conference on prognostics and health management (icphm) (pp. 1–8)."/>
+<meta name="citation_reference" content="Brandsæter, A., Vanem, E., &amp; Glad, I. K. (2019). Efficient online anomaly detection for ship systems in operation. Expert Systems with Applications, 121, 418–437."/>
+<meta name="citation_reference" content="Ellefsen, A. L., Bjørlykhaug, E., Æsøy, V., Ushakov, S., &amp; Zhang, H. (2019). Remaining useful life predictions for turbofan engine degradation using semi-supervised deep architecture. Reliability Engineering &amp; System Safety, 183, 240–251."/>
+<meta name="citation_reference" content="Han, P., Ellefsen, A. L., Li, G., Holmeset, F. T., &amp; Zhang, H. (2021). Fault detection with lstm-based variational autoencoder for maritime components. IEEE Sensors Journal, 21(19), 21903-21912. doi: 10.1109/JSEN.2021.3105226"/>
+<meta name="citation_reference" content="Han, P., Li, G., Skulstad, R., Skjong, S., &amp; Zhang, H. (2020). A deep learning approach to detect and isolate thruster failures for dynamically positioned vessels using motion data. IEEE Transactions on Instrumentation and Measurement, 70, 1–11."/>
+<meta name="citation_reference" content="Hemmer, M., Klausen, A., Khang, H. V., Robbersmyr, K. G., &amp; Waag, T. I. (2020). Health indicator for low-speed axial bearings using variational autoencoders. IEEE Access, 8, 35842-35852. doi: 10.1109/ACCESS.2020.2974942"/>
+<meta name="citation_reference" content="Hongchun, Y., Fanlun, X., &amp; Xiaoyong, H. (2001). A method for deciding the number of hidden neurons of the feedforward neural networks. IFAC Proceedings Volumes, 34(26), 31-35. (4h IFAC/CIGR Workshop on Artificial Intelligence in Agriculture 2001, Budapest, Hungary, 6-8 June 2001) doi: https://doi.org/10.1016/S1474-6670(17)33628-5"/>
+<meta name="citation_reference" content="Hu, K., Cheng, Y., Wu, J., Zhu, H., &amp; Shao, X. (2021). Deep bidirectional recurrent neural networks ensemble for remaining useful life prediction of aircraft engine. IEEE Transactions on Cybernetics."/>
+<meta name="citation_reference" content="Knutsen, K. E., Liang, Q., Karandikar, N., Ibrahim, I. H. B., Tong, X. G. T., &amp; Tam, J. J. H. (2022). Containerized immutable maritime data sharing utilizing distributed ledger technologies. In Journal of physics: Conference series (Vol. 2311, p. 012006)."/>
+<meta name="citation_reference" content="Kriegeskorte, N., &amp; Golan, T. (2019). Neural network models and deep learning. Current Biology, 29(7), R231–R236."/>
+<meta name="citation_reference" content="Liang, Q., Knutsen, K. E., Vanem, E., Zhang, H., &amp; Æsøy, V. (2023). Unsupervised anomaly detection in marine diesel engines using transformer neural networks and residual analysis. In Phm society asia-pacific conference (Vol. 4)."/>
+<meta name="citation_reference" content="Liang, Q., Knutsen, K. E., Vanem, E., Æsøy, V., &amp; Zhang, H. (2024). A review of maritime equipment prognostics health management from a classification society perspective. Ocean Engineering, 301, 117619. doi: https://doi.org/10.1016/j.oceaneng.2024.117619"/>
+<meta name="citation_reference" content="Liang, Q., Tvete, H., &amp; Brinks, H. (2020). Prediction of vessel propulsion power from machine learning models based on synchronized ais-, ship performance measurements and ecmwf weather data. In Iop conference series: Materials science and engineering (Vol. 929, p. 012012)."/>
+<meta name="citation_reference" content="Liang, Q., Tvete, H. A., &amp; Brinks, H. W. (2019). Prediction of vessel propulsion power using machine learning on ais data, ship performance measurements and weather data. In Journal of physics: Conference series (Vol. 1357, p. 012038)."/>
+<meta name="citation_reference" content="Listou Ellefsen, A., Han, P., Cheng, X., Holmeset, F. T., Æsøy, V., &amp; Zhang, H. (2020). Online fault detection in autonomous ferries: Using fault-type independent spectral anomaly detection. IEEE Transactions on Instrumentation and Measurement, 69(10), 8216-8225. doi: 10.1109/TIM.2020.2994012"/>
+<meta name="citation_reference" content="Massoudi, M., Verma, S., &amp; Jain, R. (2021). Urban sound classification using cnn. In 2021 6th international conference on inventive computation technologies (icict) (pp. 583–589)."/>
+<meta name="citation_reference" content="Pukelsheim, F. (1994). The three sigma rule. The American Statistician, 48(2), 88–91."/>
+<meta name="citation_reference" content="Stalk, P. (2021). Review of maritime transport. UNITED NATIONS CONFERENCE ON TRADE AND DEVELOPMENT, 1-177."/>
+<meta name="citation_reference" content="Tuli, S., Casale, G., &amp; Jennings, N. R. (2022). Tranad: Deep transformer networks for anomaly detection in multivariate time series data. arXiv preprint arXiv:2201.07284."/>
+<meta name="citation_reference" content="Vanem, E., &amp; Brandsæter, A. (2021). Unsupervised anomaly detection based on clustering methods and sensor data on a marine diesel engine. Journal of Marine Engineering &amp; Technology, 20(4), 217–234."/>
+<meta name="citation_reference" content="Vanem, E., &amp; Storvik, G. O. (2017). Anomaly detection using dynamical linear models and sequential testing on a marine engine system. In Annual conference of the phm society (Vol. 9)."/>
+<meta name="citation_reference" content="Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., . . . Polosukhin, I. (2017). Attention is all you need. Advances in neural information processing systems, 30."/>
+<meta name="citation_reference" content="Wald, A. (1992). Sequential tests of statistical hypotheses. Springer."/>
+<meta name="citation_reference" content="Zhang, Z., Song, W., &amp; Li, Q. (2022). Dual-aspect self-attention based on transformer for remaining useful life prediction. IEEE Transactions on Instrumentation and Measurement, 71, 1-11. doi: 10.1109/TIM.2022.3160561"/>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css?v=3.2.1.4" type="text/css" /><link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i" type="text/css" /><link rel="stylesheet" href="https://papers.phmsociety.org/plugins/themes/responsive/css/jquery.bxslider/jquery.bxslider.min.css?v=3.2.1.4" type="text/css" /><link rel="stylesheet" href="https://papers.phmsociety.org/plugins/themes/responsive/css/newtheme.css?v=3.2.1.4" type="text/css" /><link rel="stylesheet" href="https://papers.phmsociety.org/plugins/themes/responsive/css/responsive.css?v=3.2.1.4" type="text/css" /><link rel="stylesheet" href="https://papers.phmsociety.org/index.php/ijphm/$$$call$$$/page/page/css?name=stylesheet" type="text/css" /><link rel="stylesheet" href="https://papers.phmsociety.org/public/journals/2/styleSheet.css?v=3.2.1.4" type="text/css" /><link rel="stylesheet" href="https://papers.phmsociety.org/public/site/styleSheet.css?v=3.2.1.4" type="text/css" />
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js?v=3.2.1.4" type="text/javascript"></script><script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js?v=3.2.1.4" type="text/javascript"></script><script src="https://papers.phmsociety.org/lib/pkp/js/lib/jquery/plugins/jquery.tag-it.js?v=3.2.1.4" type="text/javascript"></script><script src="https://papers.phmsociety.org/plugins/themes/responsive//css/jquery.bxslider/jquery.bxslider.min.js?v=3.2.1.4" type="text/javascript"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js?v=3.2.1.4" type="text/javascript"></script><script src="https://papers.phmsociety.org/plugins/themes/responsive/js/article.js?v=3.2.1.4" type="text/javascript"></script><script src="https://www.google.com/recaptcha/api.js?v=3.2.1.4" type="text/javascript"></script>
+
+
+	<script type="text/javascript">
+		function makeSlider (id){
+             var images = '';
+             var Icount = 0;
+             $(id+' img').each(function (i){
+              Icount++;
+                var activeClass="";
+                if(i==0){
+                    activeClass="active";
+                }
+
+                 images += '<div class="item '+activeClass+'">\
+                              <img src="'+ $(this).attr('src')+'"/>\
+                            </div>';
+            });
+             if(Icount==0) return;
+             
+               var slidertemplate = '<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">\
+                              <!-- Indicators -->\
+                              <ol class="carousel-indicators">\
+                                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>\
+                                <li data-target="#carousel-example-generic" data-slide-to="1"></li>\
+                                <li data-target="#carousel-example-generic" data-slide-to="2"></li>\
+                              </ol>\
+                              <!-- Wrapper for slides -->\
+                              <div class="carousel-inner" role="listbox">\
+                                '+images+'\
+                              </div>\
+                              <!-- Controls -->\
+                              <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">\
+                                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>\
+                                <span class="sr-only">Previous</span>\
+                              </a>\
+                              <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">\
+                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>\
+                                <span class="sr-only">Next</span>\
+                              </a>\
+                            </div>';
+                    $(id).html(slidertemplate);
+            $(id+' .carousel').carousel();
+
+        }
+
+
+	</script>
+	  
+</head>
+
+<body  class="pkp_page_article pkp_op_view">
+	<div class="pkp_structure_page">
+
+				 		<input type="checkbox" name="menuOnTop" id="menuOnTop">  
+          
+           		<header class="navbar navbar-default" id="headerNavigationContainer" role="banner">
+
+					
+			
+			<div class="mainNavigation">
+			    <div class="topHeader">
+                        <ul class="topLinksList">
+    <li>
+    	<a href="https://phmsociety.org/">PHMSociety.org</a>
+    	
+    </li>
+    <li class="dropdown">
+    	<a href="#">Conferences</a>
+    	<ul>
+    		<li><a href="https://phm2021.phmsociety.org/">North America</a></li>
+    		<li><a href="http://phmap.org/">Asia-Pacific</a></li>
+    		<li><a href="https://phm-europe.org/">Europe</a></li>
+    	</ul>
+    </li>
+    <li class="dropdown">
+    	<a href="https://papers.phmsociety.org">Publications</a>
+    	<ul>
+    		<li><a href="https://papers.phmsociety.org/index.php/ijphm">Journal</a></li>
+    		<li><a href="https://papers.phmsociety.org/index.php/phmconf">North America Conference</a></li>
+    		<li><a href="https://papers.phmsociety.org/index.php/phme">Europe Conference</a></li>
+    		<li><a href="https://papers.phmsociety.org/index.php/phmap">Asia-Pacific Conference</a></li>
+    	</ul>
+    </li>
+    <li><a href="https://data.phmsociety.org/">Data</a></li>
+</ul>                        <div id="showTopLinks">
+	<div id="publishingHome" style="display:none"><a href="/"><i class="fa fa-university" aria-hidden="true"></i> Publication Home </a></div>
+	<div class="topSocial">
+	  <ul>
+	    <li><a href="https://www.facebook.com/group.php?gid=251906475261" class="fa fa-facebook" target="_blank"></a></li>
+	    <li><a href="https://x.com/phmsociety/" class="fa fa-twitter"  target="_blank"></a></li>
+<!--	    <li><a href="https://feeds.feedburner.com/PhmSociety" class="fa fa-rss"  target="_blank"></a></li> -->
+
+ 
+
+    <li><a href="https://papers.phmsociety.org/index.php/ijphm/gateway/plugin/WebFeedGatewayPlugin/rss2" class="fa fa-rss" target="_blank"></a></li>
+
+
+
+	    <li><a href="https://www.linkedin.com/groups?gid=1053007" class="fa fa-linkedin"  target="_blank"></a></li>
+	  </ul>
+	</div>
+	
+</div>
+                    </div>
+				<div class="container-fluid headerMiddle" >
+					<div class="navbar-header">
+                        <div class="middleHd">
+												
+
+																			<div class="site-name">
+																																											<a href="https://papers.phmsociety.org/index.php/index" class="navbar-brand pageHeaderTitle">International Journal of Prognostics and Health Management</a>
+																				</h1>
+													
+						
+					</div>
+					<div>
+					<div id="searchWrpNav">
+						        						          <div class="searchCntNav">
+						            <form class="navbar-form navbar-left" role="search" method="post" action="https://papers.phmsociety.org/index.php/ijphm/search/search">
+  <div class="form-group">
+    <input class="form-control" name="query" value="" type="text" aria-label="Search Query" placeholder="Search">
+  </div>
+  <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+  <!-- <div class="adVSearch" > <a href="https://papers.phmsociety.org/index.php/ijphm/search/search">Advance search</a></div> -->
+</form>
+
+						          </div>
+						        							</div>
+				    	
+
+
+              <ul id="main-navigation" class="nav navbar-nav loginRegWrp ">
+                                  <li class="profile ">
+              								<a href="https://papers.phmsociety.org/index.php/ijphm/user/register" class="">
+														
+                
+                
+                Register
+
+                              </a>
+                          </li>
+                                  <li class="profile ">
+              								<a href="https://papers.phmsociety.org/index.php/ijphm/login" class="">
+														
+                
+                
+                Login
+
+                              </a>
+                          </li>
+                                            </ul>
+       
+	  
+
+
+				    </div>
+				</div>
+				</div>
+			</div>
+
+			<div id="navMenuWrp">
+				
+																									  <div id="publishingHome"><a href="/"><i class="fa fa-university" aria-hidden="true"></i> Publication Home </a>
+							  </div>
+							  <label for="menuOnTop"  data-toggle="collapse" data-target="#nav-menu">
+							      <span class="icon-bar"></span>
+							      <span class="icon-bar"></span>
+							      <span class="icon-bar"></span>
+							  </label>
+							  	<nav id="nav-menu" class="navbar-collapse collapse " aria-label="Site Navigation">
+								    <div class="container-fluid">	
+											
+																				
+
+
+              <ul id="main-navigation" class="nav navbar-nav ">
+                                  <li class=" ">
+              								<a href="https://phmpapers.org/index.php/ijphm" class="">
+														
+                
+                
+                Home
+
+                              </a>
+                          </li>
+                                  <li class="  dropdown ">
+              								<a href="javascript:void(0)" class="">
+														
+                
+                
+                About
+
+                 
+                	<i class="fa fa-angle-down" aria-hidden="true"></i> 
+                              </a>
+                              <ul class="dropdown-menu">
+                                                            <li class="">
+                        <a href="https://papers.phmsociety.org/index.php/ijphm/about">
+                          About the Journal
+                        </a>
+                      </li>
+                                                                                <li class="">
+                        <a href="https://papers.phmsociety.org/index.php/ijphm/about/submissions">
+                          Submissions
+                        </a>
+                      </li>
+                                                                                <li class="">
+                        <a href="https://papers.phmsociety.org/index.php/ijphm/about/editorialTeam">
+                          Editorial Team
+                        </a>
+                      </li>
+                                                                                <li class="">
+                        <a href="https://papers.phmsociety.org/index.php/ijphm/about/contact">
+                          Contact
+                        </a>
+                      </li>
+                                                      </ul>
+                          </li>
+                                  <li class=" ">
+              								<a href="https://papers.phmsociety.org/index.php/ijphm/issue/current" class="">
+														
+                
+                
+                Current
+
+                              </a>
+                          </li>
+                                  <li class=" ">
+              								<a href="https://papers.phmsociety.org/index.php/ijphm/issue/archive" class="">
+														
+                
+                
+                Archives
+
+                              </a>
+                          </li>
+                                            </ul>
+       
+	  
+
+
+									 	
+
+
+              <ul id="main-navigation" class="nav navbar-nav loginRegWrpRes  ">
+                                  <li class="profile ">
+              								<a href="https://papers.phmsociety.org/index.php/ijphm/user/register" class="">
+														
+                
+                
+                Register
+
+                              </a>
+                          </li>
+                                  <li class="profile ">
+              								<a href="https://papers.phmsociety.org/index.php/ijphm/login" class="">
+														
+                
+                
+                Login
+
+                              </a>
+                          </li>
+                                            </ul>
+       
+	  
+
+
+									</div>
+								</nav>
+
+													  
+
+
+
+											
+				
+
+			</div>
+			<!-- .pkp_head_wrapper -->
+		</header><!-- .pkp_structure_head -->
+		
+		
+
+			
+		<div class="pkp_structure_content container" id="mainContainer">
+			
+			<main class="pkp_structure_main col-md-9" role="main">
+			  <!--   <script type="text/javascript" src="//openjournalsystems.com/livechat/php/app.php?widget-init.js"></script>
+ -->
+
+
+<div class="deepanbrea">
+			<nav class="cmp_breadcrumbs" role="navigation" aria-label="You are here:">
+	<ol class="breadcrumb">
+		<li>
+			<a href="https://papers.phmsociety.org/index.php/ijphm/index">
+				Home
+			</a>
+		</li>
+		<li>
+			<a href="https://papers.phmsociety.org/index.php/ijphm/issue/archive">
+				Archives
+			</a>
+		</li>
+		<li>
+			<a href="https://papers.phmsociety.org/index.php/ijphm/issue/view/69">
+				Vol. 15 No. 3 (2024): Special Issue on the 4th Asia Pacific Conference of the Prognostics and Health Management Society (PHMAP 2023)
+			</a>
+		</li>
+		<li class="active">
+							Technical Papers
+					</li>
+	</ol>
+</nav>
+	</div>
+<div class="page page_article">
+	
+
+		<article class="article-details">
+	<header><meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	   
+		
+		<div class="headings">
+	    <section class="section">
+		<h2 class="headings">
+						Anomaly Detection in Time Series Data
+							<small>
+					A Novel Approach using Transformer Neural Networks for Reconstruction and Residual Analysis
+				</small>
+									</h2></section>
+	</div>
+		
+	
+	</header>
+
+	<div class="row">
+		<div class="col-md-12">
+			<section class="article-main">
+
+								<h2 class="sr-only">##plugins.themes.bootstrap3.article.main##</h2>
+
+						<h2 class="sr-only">##plugins.themes.bootstrap3.article.sidebar##</h2>
+
+																<div class="download">
+					<div class="galleryLinksWrp">
+					    
+											
+
+
+
+
+
+
+
+	
+
+
+
+
+
+	
+	
+
+
+
+
+
+
+
+
+
+			<i class="fa fa-file-pdf-o" aria-hidden="true"></i>
+		
+
+			
+
+<a class="galley-link "  role="button" data-type="pdf" href="https://papers.phmsociety.org/index.php/ijphm/article/download/3853/2507">
+
+
+	
+	
+
+
+	PDF
+	
+</a>
+
+
+
+										</div>
+				</div>
+															<div class="list-group-item date-published">
+						<strong>Published</strong>
+						Oct  8, 2024
+					</div>
+				
+																																														<div class="list-group-item doi">
+							<strong>DOI</strong>
+							<a href="https://doi.org/10.36001/ijphm.2024.v15i3.3853">
+								https://doi.org/10.36001/ijphm.2024.v15i3.3853
+							</a>
+						</div>
+														
+									<div class="list-group-item date-published">
+													<strong>Qin Liang</strong>
+															<div class="article-author-affilitation">
+									DNV and Norwegian University of Science and Technology
+								</div>
+																					<div class="orcid">	<span class="orcid">
+									<a href="https://orcid.org/0000-0002-1612-9840" target="_blank">
+										<img src="//orcid.org/sites/default/files/images/orcid_16x16.png">
+										https://orcid.org/0000-0002-1612-9840
+									</a>
+								</span></div><br>
+																				<strong>Erik Vanem</strong>
+															<div class="article-author-affilitation">
+									DNV
+								</div>
+																					<div class="orcid">	<span class="orcid">
+									<a href="https://orcid.org/0000-0002-0875-0389" target="_blank">
+										<img src="//orcid.org/sites/default/files/images/orcid_16x16.png">
+										https://orcid.org/0000-0002-0875-0389
+									</a>
+								</span></div><br>
+																				<strong>Knut Erik  Knutsen</strong>
+															<div class="article-author-affilitation">
+									DNV
+								</div>
+																											<strong>Vilmar Æsøy</strong>
+															<div class="article-author-affilitation">
+									Norwegian University of Science and Technology
+								</div>
+																											<strong>Houxiang Zhang</strong>
+															<div class="article-author-affilitation">
+									Norwegian University of Science and Technology
+								</div>
+																					<div class="orcid">	<span class="orcid">
+									<a href="https://orcid.org/0000-0003-0122-0964" target="_blank">
+										<img src="//orcid.org/sites/default/files/images/orcid_16x16.png">
+										https://orcid.org/0000-0003-0122-0964
+									</a>
+								</span></div><br>
+																		</div>
+				
+													<div class="article-summary" id="summary">
+						<h2>Abstract</h2>
+						<div class="article-abstract">
+							<p>This paper presents a novel unsupervised approach for anomaly detection in marine diesel engines using a Transformer Neural Network based autoencoder (TAE) and residual analysis with Sequential Probability Ratio Test (SPRT) and Sum of Squares of Normalized Residuals (SSNR). This approach adeptly captures temporal dependencies within normal time-series data without the necessity for labeled failure data. To assess the performance of the proposed methodology, a dataset containing faulty data is generated under the same operational profile as the normal training data. The model undergoes training using normal data, after which the faulty data is reconstructed utilizing the trained model. Subsequently, SPRT and SSNR are used to analyze the residuals from the observed and reconstructed faulty data. Significant deviations surpassing a predefined threshold are identified as anomalous behavior. Additionally, this study explores various architectures of Transformer neural networks and other types of neural networks to conduct a comprehensive comparative analysis of the performance of the proposed approach. Insights and recommendations derived from the performance analysis are also presented, offering valuable information for potential users to leverage. The experimental results demonstrate that the proposed approach can accurately and efficiently detect anomalies in marine diesel engines. Therefore, this approach can be considered as a promising solution for early anomaly detection, leading to timely maintenance and repair, and preventing costly downtime. Also, avoid accidents with probability severe consequences.</p>
+						</div>
+					</div>
+				
+												
+				
+					
+
+	Abstract <span class="glyphicon glyphicon-eye-open"></span> 1633 |
+                                                PDF Downloads <span class="glyphicon glyphicon-download-alt"></span> 464
+                        <br>
+<br>
+			</section><!-- .article-main -->
+
+			<section class="article-more-details">
+
+								<h2 class="sr-only">##plugins.themes.bootstrap3.article.details##</h2>
+								<div class="panel panel-default issue">
+					<div class="panel-heading">
+						Keywords
+					</div>
+					<div class="panel-body">
+						 
+
+
+
+
+					<p>
+ Marine Diesel Engine, PHM, Deep Learning, Machine Learning</p>
+
+
+					
+				</div>	</div>
+				
+								<div class="panel panel-default issue">
+					<div class="panel-heading">
+						References
+					</div>
+					<div class="panel-body">
+				
+								  Bernardo, J. T., & Reichard, K. M. (2017). Trends in research techniques of prognostics for gas turbines and diesel engines. In Annual conference of the phm society (Vol. 9).<br />
+Brandsæter, A., Manno, G., Vanem, E., & Glad, I. K. (2016). An application of sensor-based anomaly detection in the maritime industry. In 2016 ieee international conference on prognostics and health management (icphm) (pp. 1–8).<br />
+Brandsæter, A., Vanem, E., & Glad, I. K. (2019). Efficient online anomaly detection for ship systems in operation. Expert Systems with Applications, 121, 418–437.<br />
+Ellefsen, A. L., Bjørlykhaug, E., Æsøy, V., Ushakov, S., & Zhang, H. (2019). Remaining useful life predictions for turbofan engine degradation using semi-supervised deep architecture. Reliability Engineering & System Safety, 183, 240–251.<br />
+Han, P., Ellefsen, A. L., Li, G., Holmeset, F. T., & Zhang, H. (2021). Fault detection with lstm-based variational autoencoder for maritime components. IEEE Sensors Journal, 21(19), 21903-21912. doi: 10.1109/JSEN.2021.3105226<br />
+Han, P., Li, G., Skulstad, R., Skjong, S., & Zhang, H. (2020). A deep learning approach to detect and isolate thruster failures for dynamically positioned vessels using motion data. IEEE Transactions on Instrumentation and Measurement, 70, 1–11.<br />
+Hemmer, M., Klausen, A., Khang, H. V., Robbersmyr, K. G., & Waag, T. I. (2020). Health indicator for low-speed axial bearings using variational autoencoders. IEEE Access, 8, 35842-35852. doi: 10.1109/ACCESS.2020.2974942<br />
+Hongchun, Y., Fanlun, X., & Xiaoyong, H. (2001). A method for deciding the number of hidden neurons of the feedforward neural networks. IFAC Proceedings Volumes, 34(26), 31-35. (4h IFAC/CIGR Workshop on Artificial Intelligence in Agriculture 2001, Budapest, Hungary, 6-8 June 2001) doi: https://doi.org/10.1016/S1474-6670(17)33628-5<br />
+Hu, K., Cheng, Y., Wu, J., Zhu, H., & Shao, X. (2021). Deep bidirectional recurrent neural networks ensemble for remaining useful life prediction of aircraft engine. IEEE Transactions on Cybernetics.<br />
+Knutsen, K. E., Liang, Q., Karandikar, N., Ibrahim, I. H. B., Tong, X. G. T., & Tam, J. J. H. (2022). Containerized immutable maritime data sharing utilizing distributed ledger technologies. In Journal of physics: Conference series (Vol. 2311, p. 012006).<br />
+Kriegeskorte, N., & Golan, T. (2019). Neural network models and deep learning. Current Biology, 29(7), R231–R236.<br />
+Liang, Q., Knutsen, K. E., Vanem, E., Zhang, H., & Æsøy, V. (2023). Unsupervised anomaly detection in marine diesel engines using transformer neural networks and residual analysis. In Phm society asia-pacific conference (Vol. 4).<br />
+Liang, Q., Knutsen, K. E., Vanem, E., Æsøy, V., & Zhang, H. (2024). A review of maritime equipment prognostics health management from a classification society perspective. Ocean Engineering, 301, 117619. doi: https://doi.org/10.1016/j.oceaneng.2024.117619<br />
+Liang, Q., Tvete, H., & Brinks, H. (2020). Prediction of vessel propulsion power from machine learning models based on synchronized ais-, ship performance measurements and ecmwf weather data. In Iop conference series: Materials science and engineering (Vol. 929, p. 012012).<br />
+Liang, Q., Tvete, H. A., & Brinks, H. W. (2019). Prediction of vessel propulsion power using machine learning on ais data, ship performance measurements and weather data. In Journal of physics: Conference series (Vol. 1357, p. 012038).<br />
+Listou Ellefsen, A., Han, P., Cheng, X., Holmeset, F. T., Æsøy, V., & Zhang, H. (2020). Online fault detection in autonomous ferries: Using fault-type independent spectral anomaly detection. IEEE Transactions on Instrumentation and Measurement, 69(10), 8216-8225. doi: 10.1109/TIM.2020.2994012<br />
+Massoudi, M., Verma, S., & Jain, R. (2021). Urban sound classification using cnn. In 2021 6th international conference on inventive computation technologies (icict) (pp. 583–589).<br />
+Pukelsheim, F. (1994). The three sigma rule. The American Statistician, 48(2), 88–91.<br />
+Stalk, P. (2021). Review of maritime transport. UNITED NATIONS CONFERENCE ON TRADE AND DEVELOPMENT, 1-177.<br />
+Tuli, S., Casale, G., & Jennings, N. R. (2022). Tranad: Deep transformer networks for anomaly detection in multivariate time series data. arXiv preprint arXiv:2201.07284.<br />
+Vanem, E., & Brandsæter, A. (2021). Unsupervised anomaly detection based on clustering methods and sensor data on a marine diesel engine. Journal of Marine Engineering & Technology, 20(4), 217–234.<br />
+Vanem, E., & Storvik, G. O. (2017). Anomaly detection using dynamical linear models and sequential testing on a marine engine system. In Annual conference of the phm society (Vol. 9).<br />
+Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., . . . Polosukhin, I. (2017). Attention is all you need. Advances in neural information processing systems, 30. <br />
+Wald, A. (1992). Sequential tests of statistical hypotheses. Springer.<br />
+Zhang, Z., Song, W., & Li, Q. (2022). Dual-aspect self-attention based on transformer for remaining useful life prediction. IEEE Transactions on Instrumentation and Measurement, 71, 1-11. doi: 10.1109/TIM.2022.3160561
+								
+								</div></div>
+								
+
+																			
+								
+				
+								<div class="panel panel-default issue">
+					<div class="panel-heading">
+						Issue
+					</div>
+					<div class="panel-body">
+						<a class="title" href="https://papers.phmsociety.org/index.php/ijphm/issue/view/69">
+							Vol. 15 No. 3 (2024): Special Issue on the 4th Asia Pacific Conference of the Prognostics and Health Management Society (PHMAP 2023)
+						</a>
+
+					</div>
+				</div>
+
+									<div class="panel panel-default section">
+						<div class="panel-heading">
+							Section
+						</div>
+						<div class="panel-body">
+							Technical Papers
+						</div>
+					</div>
+				
+								
+				
+
+			</section><!-- .article-details -->
+		</div><!-- .col-md-8 -->
+	</div><!-- .row -->
+
+</article>
+
+<script type="text/javascript">
+$('document').ready(function(){
+	$('.getJsonData').click(function(){
+		url = $(this).attr('hrefs');
+	
+		$('.citationJson').html('Loading...')
+		//alert(url)
+		$.ajax({
+			url: url,
+			type:"GET",
+			success:function(result){
+				setTimeout(function(){ $('.citationJson').html(result) },2000)
+				
+				//alert(result)
+			}
+
+		})
+	})
+})
+</script>
+
+<style>
+
+.section {
+    border-top: none !important;
+}
+
+h2.headings {
+  font-weight: 300 !important;
+}
+.btn-group {
+    text-align: center;
+    margin-top: 11px;
+    border: none !important;
+    border-radius: 3px;
+    font-size: 12px;
+    line-height: 28px;
+    color: #2077db;
+    padding: 0px 0px;
+}
+.galleryLinksWrp{display: inline-block;
+    padding: 0 1em;
+    background: #fff;
+    border: 1px solid #007ab2;
+    border-radius: 3px;
+    font-size: 13px;
+    line-height: 28px;
+    color: #007ab2;
+    text-decoration: none;}
+</style>
+	
+	
+
+	
+
+</div><!-- .page -->
+	</main>
+
+									<aside id="sidebar" class="pkp_structure_sidebar col-md-3" role="complementary" aria-label="Sidebar">
+        <h2 class="titleSide">Journal Content </h2>
+				<div class="pkp_block block_make_submission">
+	<h2 class="pkp_screen_reader">
+		Make a Submission
+	</h2>
+
+	<div class="content">
+		<a class="block_make_submission_link" href="https://papers.phmsociety.org/index.php/ijphm/about/submissions">
+			Make a Submission
+		</a>
+	</div>
+</div>
+<div class="pkp_block block_information">
+	<h2 class="title">Information</h2>
+	<div class="content">
+		<ul>
+							<li>
+					<a href="https://papers.phmsociety.org/index.php/ijphm/information/readers">
+						For Readers
+					</a>
+				</li>
+										<li>
+					<a href="https://papers.phmsociety.org/index.php/ijphm/information/authors">
+						For Authors
+					</a>
+				</li>
+										<li>
+					<a href="https://papers.phmsociety.org/index.php/ijphm/information/librarians">
+						For Librarians
+					</a>
+				</li>
+					</ul>
+	</div>
+</div>
+
+			</aside><!-- pkp_sidebar.left -->
+			  </div><!-- pkp_structure_content -->
+  
+   
+ <style type="text/css">
+   footer{ background: #444; color: #fff;}
+.footer .bottom-bar {background: #2b2b2b; padding: 5px 0; } 
+
+footer img {
+    margin: 5px;
+}
+#nsf-logo {
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+.cu-engineering-logo {
+    width: 160px;
+}
+</style>
+
+
+
+<footer class="footer hidden-print">
+
+            <div class="bottom-bar">
+                <div class="container  text-center small">
+                    <div class="row footerRow">
+                        <a href="#" class="logoFooter">
+                            <img src="https://phmsociety.org/wp-content/themes/g5_helium/custom/images/logos/pmh_logo_green.gif" class="reponsive-img" alt="">
+                        </a>
+                       
+                        <ul class="g-horizontalmenu">
+                            <li><a target="_blank" href="/" title=" Terms of Use "> Terms of Use </a> </li>
+                            <li><a target="_blank" href="https://phmsociety.org/privacy-policy-2/" title="Privacy and Security Statement">Privacy and Security Statement</a></li>
+                            <li><a target="_blank" href="/" title=" PHM Community Rules "> PHM Community Rules </a></li>
+                         </ul>
+                         <div id="gtotopDiv">
+                            <a href="#"  id="g-totop" rel="nofollow" class="">
+                            Back to top <i class="fa fa-chevron-up fa-fw"></i>                    
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        
+                    <div class="footerCopyright">
+                      © The Prognostics and Health Management Society 2009 - 2026 <br>
+PHM Society is a non-profit organization dedicated to the advancement of PHM as an engineering discipline.
+                    </div>
+
+                    </div>
+                </div>
+            </div>
+
+</footer>
+        
+</div><!-- pkp_structure_page -->
+<div class="modal fade" id="editorialModel" role="dialog">
+  <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+        </div>
+
+        <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+  </div>
+</div>
+
+
+
+
+  <script type="text/javascript">
+    $(function (){
+
+
+      setTimeout(function(){
+      //currLang = $('.languages .currentLanguage').text();
+        
+      
+        currLang = $('.block_language .current a').text().replace(/\s/g, "");
+        
+        if(currLang=="العربية" || currLang=="العربية")
+        {
+          //$('body').addClass('langRTL');
+          $('body').css('direction', 'rtl');
+          
+          $('.pkp_structure_main').css('float','left');
+          $('.homepage-image + .journal-description').css({'margin-right': '220px','margin-left':'0px'});
+          $('.homepage-image, .issue-toc .thumbnail').css({'margin-left': '20px','float':'right'});
+          
+          $('#homeTabWrp .nav-tabs').css({'float':'right'});
+          $('#homeTabWrp .tab-content').css({'padding': '49px 0px','position': 'inherit'});
+          
+          $('.issueTocPublishArticles .media-body .galleryLinksWrp').css({'top': 'initial','margin': '10px'});
+
+          $('.issueTocPublishArticles .article-summary .media-heading, .issueTocPublishArticles .article-summary .meta').css({'margin-right': '20px'});
+
+
+
+          $('#searchWrpNav').css({
+              'float': 'left',
+              'position': 'sticky',
+              'right': '0px',
+              'top': '50%',
+              'margin-top': '0px'
+          });
+
+          $('.navbar-nav').css('float','right ');
+          $('.navbar-nav>li').css('float','right');
+          
+          $('#showTopLinks').css('float','left');
+          
+
+          $('#social-icons').removeClass('pull-right');
+          $('#social-icons .menu > li').css('float','right');
+          
+
+
+          $('.mainNavigation h1').css('float','right');
+          $('.site-name').css('float','right');
+          $('#nav-menu').css('float','right');
+          $('#nav-menu > ul > li').css('float','right');
+
+          $('.bread_left').css('float','right');
+          $('.social_links').css('float','left');
+            
+        }
+      },1000)
+
+
+
+      var baseUrl  = window.location ;
+      //alert(baseUrl)
+     $('#main-navigation a[href="'+baseUrl+'"]').addClass('active');
+
+        $('body').on('click', '.show-search',function(e){
+            var flag = $('#seachCheckFlag').prop('checked');
+          
+            if(flag==true){
+                $('#seachCheckFlag').prop('checked', false);
+               // if( $('#searchWrpNav form input').val()!=''){
+                    setTimeout(function (){
+                        $('#searchWrpNav button[type="submit"]').click();
+                    }, 1000);
+               // }
+            }else{
+                 $('#seachCheckFlag').prop('checked', true);
+            }
+           
+        });
+
+        //slider
+       if( $('.slider_box_area').length==0){
+               $('#customblock-headerslider, #customblock-HomePageInfo').remove();
+        }         
+        //makeSlider('#customblock-Slider');
+       
+     /* $('.issueTocPublishArticles h2').click(function (){
+        $(this).closest('.section').toggleClass('activeNow');
+      });*/
+
+
+      $('#sidebar > div').each(function (){
+          var title  = $('.blockTitle, .title', this).detach();
+            var mtitle  = $('.content .titleSide', this).detach();
+           $('.content', this).before(mtitle);
+           $('.content .titleSide', this).remove();
+           $('.content .title', this).remove();
+          var  thisEl = $(this);
+          $('.content', this).before(title);
+           $('.blockTitle, .title', this).click(function (){
+              $(this).next('.content').toggle();
+             thisEl.toggleClass('ShowDetailsSidebar');
+           });
+      });
+
+      /*$('.journals li').each(function(){
+        tag = $(this).find('a').attr('href')
+        alert(tag)
+      })*/
+
+    });
+  </script>
+  
+  
+  <style type="text/css">
+
+#customblock-newssection { display: none}
+
+</style>
+
+  <script type="text/javascript">
+
+    $(function (){
+    
+      $('.issue-toc .galleys .btn-group').before("<span>Download full issue PDF</span>");
+      var authCustomBlock = $('#customblock-currentIssueInfo').html();
+      var infoCustomBlock = $('#customblock-currentIssueInfoAuthor').html();
+
+
+      //Editoral popup
+
+      $('.detailsOpening').click(function(){
+
+        var html = '';  
+        var header = '';  
+        html += '<p>'+ $(this).find('.editoruserDetails').html() + '</p>';
+       
+        header = '<h2  class="modal-title">'+$(this).find('.editoruserHead').html()+'</small></h3>';
+
+          $("#editorialModel .modal-body").html($(html));
+          $("#editorialModel .modal-title").html(header);
+          $("#editorialModel").modal();
+      })
+      //End Editorial popup
+
+    
+
+      if(authCustomBlock)
+      {
+          $('.currentIssueInfo').html(authCustomBlock)
+      }
+      else
+      {
+          $('.currentIssueInfoAuthor').html('<div class="noInfo">- Current issue info not available -</div>')
+      }
+
+      if(infoCustomBlock)
+      {
+          $('.currentIssueInfoAuthor').html(infoCustomBlock)
+      }
+      else
+      {
+          $('.currentIssueInfoAuthor').html('<div class="noInfo">- Author info not available -</div>')
+      }
+
+     // makeSlider('.journalInfoCol');
+
+
+
+
+
+      var Ncount = 0;
+
+
+
+      var news = $('#customblock-newssection p > a').length;  
+
+     
+
+      if(news>0)
+
+      {  
+
+          var __OBJECTS = [];
+
+
+
+          $('#newsslide').show();
+
+
+
+          $('#customblock-newssection p > a').each(function() {
+
+              __OBJECTS.push($(this));
+
+          });
+
+          
+
+          addPositioningClasses();
+
+          
+
+          
+
+          var timer = 4000;
+
+          var finaltimer = news*timer;
+
+         
+
+          function addPositioningClasses() {
+
+              var card = __OBJECTS.pop();
+
+              innHTml = $(card).wrap('<div>').parent().html();
+
+              $('#latestnews-content').html(innHTml)
+
+              $(card).unwrap();
+
+              if (__OBJECTS.length) {
+
+                  setTimeout(addPositioningClasses, timer)
+
+              }
+
+          }
+
+          
+
+          setInterval(function(){ 
+
+              $('#customblock-newssection p > a').each(function() {
+
+                  __OBJECTS.push($(this));
+
+              }); 
+
+            
+
+            addPositioningClasses() 
+
+          }, finaltimer);
+
+
+
+
+
+      }// recent new section
+
+
+
+
+
+
+
+     
+
+  $('.searchBarWrp input').focusin(function (){
+
+    $(this).closest('.searchBarWrp').addClass('activeState');
+
+  }).focusout(function (){
+
+    $(this).closest('.searchBarWrp').removeClass('activeState');
+
+  });
+
+  
+
+  $('#sidebar > div .title').click(function (){
+
+    $(this).closest('.pkp_block').toggleClass('showHide');
+
+  });
+
+
+
+      var baseUrl  = window.location ;
+
+     /* var  copyBread =  $('#mainContainer .cmp_breadcrumbs').detach();
+
+       $('.breadcrumsWrpHD').prepend(copyBread);*/
+
+
+
+      //alert(baseUrl)
+
+     $('#main-navigation a[href="'+baseUrl+'"]').addClass('active');
+
+
+
+        $('body').on('click', '.show-search',function(e){
+
+            var flag = $('#seachCheckFlag').prop('checked');
+
+          
+
+            if(flag==true){
+
+                $('#seachCheckFlag').prop('checked', false);
+
+               // if( $('#searchWrpNav form input').val()!=''){
+
+                    setTimeout(function (){
+
+                        $('#searchWrpNav button[type="submit"]').click();
+
+                    }, 1000);
+
+               // }
+
+            }else{
+
+                 $('#seachCheckFlag').prop('checked', true);
+
+            }
+
+           
+
+        });
+
+
+
+          //slider
+        function makeSlider (id){
+             var images = '';
+             var Icount = 0;
+             $(id+' img').each(function (i){
+              Icount++;
+                var activeClass="";
+                if(i==0){
+                    activeClass="active";
+                }
+
+                 images += '<div class="item '+activeClass+'">\
+                              <img src="'+ $(this).attr('src')+'"/>\
+                            </div>';
+            });
+             if(Icount==0) return;
+             
+               var slidertemplate = '<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">\
+                              <!-- Indicators -->\
+                              <ol class="carousel-indicators">\
+                                <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>\
+                                <li data-target="#carousel-example-generic" data-slide-to="1"></li>\
+                                <li data-target="#carousel-example-generic" data-slide-to="2"></li>\
+                              </ol>\
+                              <!-- Wrapper for slides -->\
+                              <div class="carousel-inner" role="listbox">\
+                                '+images+'\
+                              </div>\
+                              <!-- Controls -->\
+                              <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">\
+                                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>\
+                                <span class="sr-only">Previous</span>\
+                              </a>\
+                              <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">\
+                                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>\
+                                <span class="sr-only">Next</span>\
+                              </a>\
+                            </div>';
+                    $(id).html(slidertemplate);
+            $('.carousel').carousel();
+
+        }
+        
+        $('.bxslider').bxSlider({
+				auto: true,
+				autoControls: true,
+				stopAutoOnClick: true,
+				pager: true,
+				slideWidth: 600
+			});
+
+        //makeSlider('#customblock-Slider .content .content');
+
+       
+
+      
+
+
+
+
+
+    });
+
+  </script>
+
+  
+  
+  
+  
+  
+  
+
+  
+  
+</body>
+</html>

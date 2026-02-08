@@ -1,0 +1,1198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="en" >
+<head>
+	<meta name=renderer  content=webkit>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+    <title>Corrigendum and Addendum to : "SINGULAR weighted sharp trudinger-moser inequalities defined on $  \mathbb{R}^N  $ and applications to elliptic nonlinear equations" DOI: 10.3934/dcds.2021137</title>
+	   		    
+    
+		<meta name="keywords" content="Trudinger-Moser inequality, singularity, radial functions, sharpness, logarithmic weights, concentration-compactness, elliptic equation, criticality, doubly exponential" />
+		<meta name="hw.ad-path" content="https://www.aimsciences.org/en/article/doi/10.3934/dcds.2023053" />
+	<meta name="hw.identifier" content="https://www.aimsciences.org/en/article/doi/10.3934/dcds.2023053" />
+		
+	<meta name="dc.format" content="text/html" />
+	<meta name="dc.title" content="Corrigendum and Addendum to : &apos;SINGULAR weighted sharp trudinger-moser inequalities defined on $  \mathbb{R}^N  $ and applications to elliptic nonlinear equations&apos; DOI: 10.3934/dcds.2021137" />
+	<meta name="dc.identifier" content="10.3934/dcds.2023053" />
+		<meta name="dc.contributor" content="Sami Aouaoui" />
+		<meta name="dc.contributor" content="Rahma Jlel" />
+			<meta name="dc.creator" content="Sami Aouaoui" />
+		<meta name="dc.creator" content="Rahma Jlel" />
+		<meta name="dc.date" content="Tue Aug 01 04:00:00 UTC 2023" />
+	<meta name="dc.keywords" content="Trudinger-Moser inequality, singularity, radial functions, sharpness, logarithmic weights, concentration-compactness, elliptic equation, criticality, doubly exponential" />
+	
+	<meta name="citation_journal_title" content="Discrete and Continuous Dynamical Systems" />
+	<meta name="citation_publisher" content="Discrete and Continuous Dynamical Systems" />
+	<meta name="citation_journal_abbrev" content="DCDS" />
+	<meta name="citation_issn" content="1078-0947" />
+		<meta name="citation_authors" content="Sami Aouaoui, Rahma Jlel" />
+	<meta name="citation_date" content="Tue Aug 01 04:00:00 UTC 2023" />
+	<meta name="citation_online_date" content="Tue May 16 09:03:51 UTC 2023 "/>
+	
+		<meta name="citation_abstract_html_url" content="https://www.aimsciences.org/en/article/doi/10.3934/dcds.2023053?viewType=HTML" />
+	<meta name="citation_pdf_url" content="https://www.aimsciences.org/data/article/export-pdf?id=646346f7fe966069e0340a60"/>
+	<meta name="citation_public_url" content="https://www.aimsciences.org/en/article/doi/10.3934/dcds.2023053" />
+	<meta property="og:url" content="https://www.aimsciences.org/article/doi/10.3934/dcds.2023053" >
+
+	
+			<meta property="og:type" content="article">
+	<meta property="og:site_name" content="Discrete and Continuous Dynamical Systems">
+	<meta property="og:title" content="Corrigendum and Addendum to : &quot;SINGULAR weighted sharp trudinger-moser inequalities defined on $  \mathbb{R}^N  $ and applications to elliptic nonlinear equations&quot; DOI: 10.3934/dcds.2021137">
+	
+	<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:description" content="We correct the proof of Theorem 1.11 and Theorem 1.12 and we add a new result of sharpness of the Trudinger-Moser inequality for the doubly exponential case."  >		
+	<meta name="twitter:site" content="Discrete and Continuous Dynamical Systems">
+	<meta name="twitter:title" content="Corrigendum and Addendum to : &quot;SINGULAR weighted sharp trudinger-moser inequalities defined on $  \mathbb{R}^N  $ and applications to elliptic nonlinear equations&quot; DOI: 10.3934/dcds.2021137">
+	<meta name="twitter:image" content="">
+		<meta name="twitter:url" content="https://www.aimsciences.org/article/doi/10.3934/dcds.2023053" >
+		<meta property="og:image" content="">
+	
+
+
+
+	<meta name="robots" content="noarchive" />
+	
+		<meta name="dc.publisher" content="Discrete and Continuous Dynamical Systems"/>
+	<meta name="dc.rights" content="http://creativecommons.org/licenses/by/3.0/"/>
+	<meta name="dc.format" content="application/pdf" />
+	<meta name="dc.language" content="en" />
+	<meta name="dc.description" content="We correct the proof of Theorem 1.11 and Theorem 1.12 and we add a new result of sharpness of the Trudinger-Moser inequality for the doubly exponential case." />
+	
+	<meta property="og:description" content="We correct the proof of Theorem 1.11 and Theorem 1.12 and we add a new result of sharpness of the Trudinger-Moser inequality for the doubly exponential case." />
+	
+		<meta name="dc.subject" content="Trudinger-Moser inequality" />
+		<meta name="dc.subject" content="singularity" />
+		<meta name="dc.subject" content="radial functions" />
+		<meta name="dc.subject" content="sharpness" />
+		<meta name="dc.subject" content="logarithmic weights" />
+		<meta name="dc.subject" content="concentration-compactness" />
+		<meta name="dc.subject" content="elliptic equation" />
+		<meta name="dc.subject" content="criticality" />
+		<meta name="dc.subject" content="doubly exponential" />
+		
+	<!-- SoWise SEO 2019-9-6 -->
+	<meta name="citation_title" content="Corrigendum and Addendum to : &apos;SINGULAR weighted sharp trudinger-moser inequalities defined on $  \mathbb{R}^N  $ and applications to elliptic nonlinear equations&apos; DOI: 10.3934/dcds.2021137" />
+		<meta name="citation_author" content="Sami Aouaoui" />
+		<meta name="citation_author" content="Rahma Jlel" />
+		
+	<meta name="citation_keywords" content="Trudinger-Moser inequality, singularity, radial functions, sharpness, logarithmic weights, concentration-compactness, elliptic equation, criticality, doubly exponential" />
+	<meta name="citation_year" content="2023"/>
+	<meta name="citation_volume" content="43"/> 
+	<meta name="citation_issue" content="8"/>
+	<meta name="citation_firstpage" content="3170"/>
+	<meta name="citation_lastpage" content="3173"/>
+	<meta name="citation_doi" content="10.3934/dcds.2023053"/>
+	<meta name="citation_id" content="646346f7fe966069e0340a60"/>
+	<meta name="citation_state" content="" />
+	
+    <link type="text/css" href="/style/web/images/custom/favicon.ico" rel="shortcut icon" />
+    
+    <link rel="stylesheet" href="/style/web/css/common/bootstrap.min.css">
+	<link rel="stylesheet" href="/style/web/css/common/swiper.min.css">
+	<link rel="stylesheet" href="/style/web/css/common/font-awesome.min.css">
+	
+								    	<link rel="stylesheet" href="/style/web/css/defercss/article_public.min.css?t=31" type="text/css"/>
+    
+    <link href="/style/web/css/en/tpl5/style.css?t=31" rel="stylesheet" type="text/css"/>
+    <link href="/style/web/css/en/main.css?t=31" rel="stylesheet" type="text/css"/>
+	
+		
+	</head>
+<body id="body-DCDS" data-spy="scroll" data-target="#myScrollspy" class="articleBody articleBodyEn body-DCDS article-body-646346f7fe966069e0340a60" >
+<input type="hidden" value="Discrete and Continuous Dynamical Systems" id="journalName"/>
+<input type="hidden" value="journals" id="pageViewId" />
+<input type="hidden" value="646346f7fe966069e0340a60" id="articleId" />
+<input type="hidden" value="10.3934/dcds.2023053" id="articleDoi" />
+<input type="hidden" value="" id="articleStatus" />
+<input type="hidden" value="/aimsmath-data/DCDS/2023/8/PIC/" id="allSrc" />
+<input type="hidden" value="login" id="articleIsLogin"/>
+    <input hidden type="checkbox" checked id="reference" />
+<table style="display:none"><tr><td>\`x^2+y_1+z_12^34\`</td></tr></table>
+<div id="common-top" ng-app="index">
+    <style>.ng-cloak{display:none;}</style>
+<div class="index-header bgwhite ng-cloak" ng-cloak   ng-controller="j-content-journals">
+    <div class="container clear " >
+    	          <a href="https://www.aimsciences.org/" class="fl logo" ng-repeat="journal in journalTypes9"  ng-if="$index == 0"><img ng-src="https://data.aimsciences.org/{{journal.logoimgSrc}}" class="img-responsive" ng-if="journal.logoimgSrc" alt="AIMS"></a>
+			
+    	</a>
+		<div class="shareBox fr" >
+		   <ul class="share-right clear ">
+		       <li class="share-facebook" onclick="shareTools('facebook2');" title="share this content in Facebook">
+		           <img src="/style/web/images/custom/share_facebook.png" alt="share this content in Facebook">
+		       </li>
+		       <li class="share-twitter" onclick="shareTools('twitter2');" title="share this content in Twitter">
+		           <img src="/style/web/images/custom/share_twitter.png" alt="share this content in Twitter">
+		       </li>
+		       <li class="share-linkedin" onclick="shareTools('linkedin2');" title="share this content in Linkedin">
+		           <img src="/style/web/images/custom/share_linkin.png" alt="share this content in Linkedin">
+		       </li>
+		       <!--  
+		       <li class="share-mendeley" onclick="shareTools('mendeley');" title="share  this content in Mendeley">
+		           <img src="/style/web/images/custom/share_mendeley.png" alt="share  this content in Mendeley">
+		       </li>
+		       -->
+		       <li class="share-researchGate" onclick="shareTools('researchGate');" title="share this content in ResearchGate">
+		           <img src="/style/web/images/custom/share_researchGate.png" alt="share this content in ResearchGate">
+		       </li>
+	       
+		     <!--   <li onclick="shareTools('sina');" title="分享到微博"><img src="/style/web/images/custom/share_weibo.png"></li>
+		       <li class="weixin" title="分享到微信"><img src="/style/web/images/custom/share_weixin.png"></li>
+		          			<li class="kongjian" title="分享到qq空间"><img src="/style/web/images/custom/share_qq.png"></li> -->
+		   </ul>
+		</div>    	
+    </div>
+	<div ng-controller="j-top-menu-i" class="headerPosi">
+			<div class="header " >
+				<div class="header-nav container">
+				    <div class="clear">
+				        <ul class="clear  i-top-menu top-menu" >
+				        	<li type="{{newsColumn.abbreviation}}" ng-repeat="newsColumn in topMenus" ng-if="newsColumn.columnNewsShowLocation == '1'" repeat-finish-light>
+					    		<a href="{{newsColumn.links}}" target="{{newsColumn.columnNewsOpenTarget}}">
+					    			<i ng-bind-html="newsColumn.name"></i>
+    								<span  ng-if="newsColumn.subColumns.length > 0"></span>
+    								<span  ng-if="newsColumn.abbreviation == 'journals'"></span>
+					    		</a>
+					    		<!-- <ol class=" i-menu-journals data-show" ng-if="newsColumn.abbreviation == 'journals'"></ol> -->
+					    		<ol class="data-show i-menu-journals" ng-if="newsColumn.abbreviation == 'journals'">
+							    	<li class="tit" ng-if="journalTypes.length > 0">AIMS Journals</li>
+							    	<li  style="width:100%;">
+							    		<div class="clear">
+							    			<div style="width:50%;float:left">
+									    		<div ng-repeat="journal in journalTypes"  ng-if="journal.journalType == 1 && journal.showIndex != 0 && $index < 13" >
+								                
+<a ng-if="journal.linkedWebsite" href="{{journal.linkedWebsite}}" target="_blank">
+   {{journal.titleEn}}<span class="type open" ng-if="journal.hyBrid == 'Open Access'">&nbsp;<img src="/style/web/images/custom/icon_op.png"></span>
+</a>
+
+<a ng-if="!journal.linkedWebsite" href="/{{journal.publisherId}}">
+     {{journal.titleEn}}<span class="type open " ng-if="journal.hyBrid == 'Open Access'">&nbsp;<img src="/style/web/images/custom/icon_op.png"></span>
+</a>	
+								                </div>	
+							                </div>
+							                <div style="width:50%;float:right">	
+								                <div ng-repeat="journal in journalTypes"  ng-if="journal.journalType == 1 && journal.showIndex != 0 && $index >= 13">
+								                
+<a ng-if="journal.linkedWebsite" href="{{journal.linkedWebsite}}" target="_blank">
+   {{journal.titleEn}}<span class="type open" ng-if="journal.hyBrid == 'Open Access'">&nbsp;<img src="/style/web/images/custom/icon_op.png"></span>
+</a>
+
+<a ng-if="!journal.linkedWebsite" href="/{{journal.publisherId}}">
+     {{journal.titleEn}}<span class="type open " ng-if="journal.hyBrid == 'Open Access'">&nbsp;<img src="/style/web/images/custom/icon_op.png"></span>
+</a>	
+								                </div>	
+							                </div>
+						                </div>    	
+							    	</li>
+							    	<li class="line linedot"  ng-if="journalTypes.length > 0"></li>	
+							    	<li class="tit"  ng-if="journalTypes.length > 0">AIMS Press Math Journals</li>
+							    	<li ng-repeat="journal in journalTypes"  ng-if="journal.journalType != 1  && journal.showIndex != 0">
+						                
+<a ng-if="journal.linkedWebsite" href="{{journal.linkedWebsite}}" target="_blank">
+   {{journal.titleEn}}<span class="type open" ng-if="journal.hyBrid == 'Open Access'">&nbsp;<img src="/style/web/images/custom/icon_op.png"></span>
+</a>
+
+<a ng-if="!journal.linkedWebsite" href="/{{journal.publisherId}}">
+     {{journal.titleEn}}<span class="type open " ng-if="journal.hyBrid == 'Open Access'">&nbsp;<img src="/style/web/images/custom/icon_op.png"></span>
+</a>	
+							    	</li>							    	
+							    	<li class="line"  ng-if="bookList.length > 0"></li>
+							    	<li class="tit" ng-if="bookList.length > 0">Book Series</li>
+							    	<li  ng-repeat="book in bookList">
+							    	    <a href="/book/{{book.nameInitial}}"  ><span class="mainColor"></span>{{book.nameEn}}</a>
+							    	</li>
+					    		</ol>					    		
+					    		<ol class="data-show" ng-if="newsColumn.subColumns.length > 0">
+					    			<li ng-repeat="subColumn in newsColumn.subColumns" type="{{subColumn.abbreviation}}">
+					    				<a href="{{subColumn.links}}" target="_top">{{subColumn.name}}</a>
+					    			</li>
+					    		</ol>
+					    	</li>
+				        </ul>
+				    </div>
+				</div>
+				<!--手机-->
+				<div class="phone-nav">
+				    <div class="container clear">
+				        <div class="navList fl">
+				            <span class="span1"></span>
+				            <span class="span2"></span>
+				            <span class="span3"></span>
+				        </div>
+				    	<a href="https://www.aimsciences.org/" class="fl logo">
+			            							        <img  class="img-responsive" ng-src="https://data.aimsciences.org/journal/img/cover/dcds-a-01_banner.jpg" onerror="this.onerror=null;this.src='/aimsmath-upload/journal/index/logo_2021531173626580.png'">
+						    				    	</a>
+				        <div class="search-app fr"></div>
+				    </div>
+				    <div class="search-app-wrap">
+				        <div class="container clear">
+					        <form action="/search" method="POST" onsubmit="return checkSearch(this);" class="topSearchForm">
+					            <div class="left fl search-entrance-app">
+					            	<input type="hidden" name="searchField" value="">
+					            	<input type="hidden" name="language" value="en">
+					               	<input type="hidden" name="publisherId" value="DCDS">
+					                <input type="text" name="q" placeholder="Search" class="fl text">
+					                <input type="submit" class="sub fl" value="" >
+					            </div>
+					            <a href="javascript:void(0);" onclick="advanceSearchEntrance();" class="gao fr">Advanced Search</a>
+				            </form>
+				        </div>
+				    </div>
+				    <ul class="smallUl i-top-menu top-menu">
+				    	<li type="{{newsColumn.abbreviation}}" ng-repeat="newsColumn in topMenus" ng-if="newsColumn.columnNewsShowLocation == '1'" repeat-finish-mobile>
+				    		<a href="{{newsColumn.links}}" >
+					    		<i ng-bind-html="newsColumn.name"></i>
+   								<span  ng-if="newsColumn.subColumns.length > 0"></span>
+   								<span  ng-if="newsColumn.abbreviation == 'journals'"></span>			    		
+				    		</a>
+				    		<!-- <ol class="data-show i-menu-journals" ng-if="newsColumn.abbreviation == 'journals'"></ol>-->
+					    	<ol class="data-show"  ng-if="newsColumn.abbreviation == 'journals'">
+							    	<li class="tit" ng-if="journalTypes.length > 0">AIMS Journals</li>
+							    	<li ng-repeat="journal in journalTypes"  ng-if="journal.journalType == 1 && journal.showIndex != 0"  >
+						                
+<a ng-if="journal.linkedWebsite" href="{{journal.linkedWebsite}}" target="_blank">
+   {{journal.titleEn}}<span class="type open" ng-if="journal.hyBrid == 'Open Access'">&nbsp;<img src="/style/web/images/custom/icon_op.png"></span>
+</a>
+
+<a ng-if="!journal.linkedWebsite" href="/{{journal.publisherId}}">
+     {{journal.titleEn}}<span class="type open " ng-if="journal.hyBrid == 'Open Access'">&nbsp;<img src="/style/web/images/custom/icon_op.png"></span>
+</a>	
+							    	</li>
+							    	<li class="line linedot"></li>	
+							    	<li class="tit">AIMS Press Math Journals</li>
+							    	<li ng-repeat="journal in journalTypes"  ng-if="journal.journalType != 1 && journal.showIndex != 0" >
+						                
+<a ng-if="journal.linkedWebsite" href="{{journal.linkedWebsite}}" target="_blank">
+   {{journal.titleEn}}<span class="type open" ng-if="journal.hyBrid == 'Open Access'">&nbsp;<img src="/style/web/images/custom/icon_op.png"></span>
+</a>
+
+<a ng-if="!journal.linkedWebsite" href="/{{journal.publisherId}}">
+     {{journal.titleEn}}<span class="type open " ng-if="journal.hyBrid == 'Open Access'">&nbsp;<img src="/style/web/images/custom/icon_op.png"></span>
+</a>	
+							    	</li>							    	
+							    	<li class="line"></li>
+							    	<li class="tit">Book Series</li>
+							    	<li  ng-repeat="book in bookList">
+							    	    <a href="/book/{{book.nameInitial}}"  ><span class="mainColor"></span>{{book.nameEn}}</a>
+							    	</li>
+					    	</ol>					    		
+				    		<ol class="data-show" ng-if="newsColumn.subColumns.length > 0">
+				    			<li ng-repeat="subColumn in newsColumn.subColumns" type="{{subColumn.abbreviation}}">
+				    				<a href="{{subColumn.links}}" target="_top">{{subColumn.name}}</a>
+				    			</li>
+				    		</ol>
+				    	</li>
+				    
+				    </ul>
+				</div>
+		   </div>
+	</div>
+</div>
+        	<input type="hidden" id="journalId" value="188" >
+<div ng-controller="j-top-menu " class="j-secondBg ng-cloak" ng-cloak>
+	<div class="header-nav j-secondBg" >
+	    <div class="container clearfix">
+	    	<a href="/DCDS" class="fl logo">
+            				        <img  class="j-logo" ng-src="https://data.aimsciences.org//aimsmath-upload/journal/DCDS/logo_202561861057471.png" onerror="this.onerror=null;this.src='/style/web/images/custom/logo02.png'">&nbsp;
+			    	    	</a>	
+	    	<!--  <div class="fr">    -->
+		    	<div class="j-searchBox-con fr">
+		    	        <a href="javascript:void(0);" onclick="advanceSearchEntrance();" class="adSearch ">Advanced Search</a>
+		            	<form action="/search" method="POST" onsubmit="return checkSearch(this);">
+			            	<div class="clear search-entrance">
+			                    <select class="fl hidden" name="searchField">
+				                     <option value="" selected>All</option>
+				                     <option value="titleEn" >Title</option>
+				                     <option value="authors.authorNameEn" >Author</option>
+				                     <option value="keywords.keywordEn" >Keyword</option>
+				                     <option value="abstractinfoEn" >Abstract</option>
+				                     <option value="doi" >DOI</option>
+				                     <option value="classifyinfoEn" >Classify</option>
+				                     <option value="affiliations.affliEn">Address</option>
+				                     <option value="funds.fundsInfoEn" >Funds</option>
+			                    </select>
+			                    <div class="keyCon  clear">
+			                        <input type="text" name="q" class="fl text" placeholder="Author/Keyword/Doi">
+			                        <input type="hidden" name="language" value="en">
+			               			<input type="hidden" name="publisherId" value="DCDS">
+			                        <input type="submit" class="fl sub" value="" >
+			                    </div>
+			                </div>
+		                </form>    	
+		    	</div>
+		        <ul class="nav-ul clear  top-menu fl">
+		            <li type="{{newsColumn.abbreviation}}" ng-repeat="newsColumn in topMenus" ng-if="newsColumn.columnNewsShowLocation == '1'"  repeat-finish-light-child >
+			    		<a href="{{newsColumn.links}}" target="{{newsColumn.columnNewsOpenTarget}}">
+			    			<i ng-bind-html="newsColumn.name"></i>
+			    			<span  ng-if="newsColumn.subColumns.length > 0"></span>
+			    		</a>
+			    		<ol class="data-show" ng-if="newsColumn.subColumns.length > 0">
+			    			<li ng-repeat="subColumn in newsColumn.subColumns" type="{{subColumn.abbreviation}}">
+			    				<a href="{{subColumn.links}}" target="_top" target="{{subColumn.columnNewsOpenTarget}}" >{{subColumn.name}}</a>
+			    			</li>
+			    		</ol>
+			    	</li>
+		        </ul>		    		        
+	        <!--  </div> -->
+	    </div>
+	</div>
+	<!--手机菜单-->
+	<div class="phone-nav ban-phone-nav">
+	    <div class="container clear">
+	        <div class="navList fl">
+	            <span class="span1"></span>
+	            <span class="span2"></span>
+	            <span class="span3"></span>
+	        </div>
+	        <a href="/DCDS" class="logo fl">
+	            <p class="romal">Discrete and Continuous Dynamical Systems</p>
+	        </a>
+	        <div class="search-app fr"></div>
+	    </div>
+	    <div class="search-app-wrap">
+	        <div class="container clear">
+		        <form action="/search" method="POST" onsubmit="return checkSearch(this);" class="topSearchForm">
+		            <div class="left fl search-entrance-app">
+		            	<input type="hidden" name="searchField" value="">
+		            	<input type="hidden" name="language" value="en">
+		               	<input type="hidden" name="publisherId" value="DCDS">
+		                <input type="text" name="q" placeholder="Search" class="fl text">
+		                <input type="submit" class="sub fl" value="" >
+		            </div>
+		            <a href="javascript:void(0);" onclick="advanceSearchEntrance();" class="gao fr">Advanced Search </a>
+	            </form>
+	        </div>
+	    </div>
+	    <ul class="smallUl top-menu">
+	        <li type="{{newsColumn.abbreviation}}" ng-repeat="newsColumn in topMenus" ng-if="newsColumn.columnNewsShowLocation == '1' " repeat-finish-mobile >
+	    		<a href="{{newsColumn.links}}" >{{newsColumn.name}}</a>
+	    		<ol class="data-show" ng-if="newsColumn.subColumns.length > 0">
+	    			<li ng-repeat="subColumn in newsColumn.subColumns" type="{{subColumn.abbreviation}}">
+	    				<a href="{{subColumn.links}}" target="_top">{{subColumn.name}}</a>
+	    			</li>
+	    		</ol>
+	    	</li>    	
+	    	<li><a  href="https://www.aimsciences.org/">Home</a></li>
+	    </ul>
+	</div>
+</div>
+    </div>
+<div class="article-pc article-box-content" >
+	
+	<div class="article-header-new">
+	    <div class="inner container  clear">	    
+	        <ul class="fl">
+	        		            <li>
+	                <a href="javascript:void(0);" class="download-pdf" data="646346f7fe966069e0340a60"><i class="fa fa-file-pdf-o"></i><span>PDF</span></a>
+	            </li>
+	            	            <li>
+	                <a href="javascript:void(0);" data-target="#exportCitationModal" data-toggle="modal"><i class="fa fa-quote-left"></i><span>Cite</span></a>
+	            </li>
+	            <li>
+	                <a><i class="fa fa-share-alt"></i><span>Share</span></a>
+	                <dl>
+				       <dd class="share-facebook" onclick="shareTools('facebook');" title="share this content in Facebook">
+				           <img src="/style/web/images/custom/share_facebook.png" alt="">
+				       </dd>
+				       <dd class="share-twitter" onclick="shareTools('twitter');" title="share this content in Twitter">
+				           <img src="/style/web/images/custom/share_twitter.png" alt="">
+				       </dd>
+				       <dd class="share-linkedin" onclick="shareTools('linkedin');" title="share this content in Linkedin">
+				           <img src="/style/web/images/custom/share_linkin.png" alt="">
+				       </dd>
+				       <dd class="share-mendeley" onclick="shareTools('mendeley');" title="share  this content in Mendeley">
+				           <img src="/style/web/images/custom/share_mendeley.png" alt="">
+				       </dd>
+				       <dd class="share-researchGate" onclick="shareTools('researchGate');" title="share this content in ResearchGate">
+				           <img src="/style/web/images/custom/share_researchGate.png" alt="">
+				       </dd> 
+	                </dl>
+	            </li>
+	        </ul>
+         	<div class="fl">
+      																		<a href="/DCDS/article/2023/43/8" class="this-issue">This issue</a>
+																														<a href="/article/doi/10.3934/dcds.2023045" class="page-btn prev-page "><span class="fa fa-angle-left"></span>Previous Article</a>
+												
+																<a href="javascript:void(0);" class="page-btn next-page  dis-btn">Next Article<span class="fa fa-angle-right"></span></a>
+								</div>	        
+	        <div class="article-search fr clear">
+	            <form  class="topSearchForm" id ="searchFormTop" action="/search" method="post" onsubmit="return checkSearch(this);" role="form">
+	                <select class="fl" name="searchField">
+	                    	                        <option value="">All</option>
+	                        <option value="titleEn">Title</option>
+	                        <option value="authors.authorNameEn">Author</option>
+	                        <option value="keywords.keywordEn">Keyword</option>
+	                        <option value="abstractinfoEn">Abstract</option>
+	                        <option value="doi">DOI</option>
+	                        <option value="classifyinfoEn">Category</option>
+	                        <option value="affiliations.affliEn">Address</option>
+	                        <option value="funds.fundsInfoEn">Fund</option>
+	                    	                </select>
+	                <input type="text" name="q" placeholder="Search" class="fl text input">
+	                <input name="language" type="hidden" value="en">
+	                <input name="publisherId" type="hidden" value="DCDS">
+	                <input type="submit" class="sub fl" value="">
+	            </form>
+        	</div>
+    	</div>
+	</div>
+	<div class="article-main">
+			    <div class="inner clear content" style="position:relative;">
+	        <div class="article-main-left fl ac">
+	            <div class="wrapper">
+	                <div class="content-nav">
+	                    <div class="contents-title clearfix">Article Contents<img class="fr" src="/style/web/images/custom/icon_toright.png" ></div>
+	                    <!-- <a class="switchFormula" href="javascript:void(0);" onclick="switchFormula();">Turn off MathJax</a> -->
+	                    <div class="Abstract-left-list">
+	                        <a href="javascript:void(0)" ></a>
+	                    </div>
+	                    <div class="jumplink-list">
+	                    	
+	                    		
+	                    	
+	                    </div>
+	                    <!-- 
+	                    <div class="References-left-list">
+	                        <a href=""></a>
+	                    </div>
+	                    
+	                    <div class="Related-left-list">
+	                        <a href=""></a>
+	                    </div>	                    
+	                    <div class="Cited-left-list">
+	                        <a href=""></a>
+	                    </div>	                    
+	                    <div class="Supplements-left-list">
+	                        <a href=""></a>
+	                    </div>
+						 -->
+	                </div>
+	                	                <img class="" src="/style/web/images/custom/icon_toleft.png"	 onClick="window.open('https://www.aimsciences.org/article/noLoginPage?id=646346f7fe966069e0340a60&journalPublisherId=DCDS&type=HTML')">
+	                	                <span class="text-full-nav ac">Article Contents</span>
+	            </div>
+	        </div>
+	        <div class="clearfix article-right-box bgwhite ac">
+			        <div class="article-main-mid fl">
+			            <div class="articleNavBox clearfix">
+							<div class="articleNav fl">
+														<a   href="/DCDS/archive" class="mainColor">2023,&nbsp;Volume 43</a>,&nbsp;<a  href="/DCDS/article/2023/43/8" class="mainColor">Issue 8</a>:&nbsp;3170-3173. Doi: <a class="mainColor"   href="https://doi.org/10.3934/dcds.2023053" target="_blank">10.3934/dcds.2023053    </a>														      
+							</div>	    
+				         	<div class="fr" id="title-show">
+				         																				<a href="/DCDS/article/2023/43/8" class="this-issue">This issue</a>
+																																															<a href="/article/doi/10.3934/dcds.2023045" class="page-btn prev-page "><span class="fa fa-angle-left"></span>Previous Article</a>
+																				
+																											<span class="title-show">Errata Corrige for <i>Integral representations for bracket-generating multi-flows</i></span>		
+																												<a href="javascript:void(0);" class="page-btn next-page  dis-btn">Next Article<span class="fa fa-angle-right"></span></a>
+																						
+							</div>				
+
+						</div>
+						<!-- code cited source -->
+			            <div class="article-left">
+			            
+			            	<div class="article-app" style="padding:0;">
+								<footer class="download-pdf " data="646346f7fe966069e0340a60" style="width:100%;margin:20px 0;padding:0;">
+									    											    											    		<!--  <a href="https://data.aimsciences.org//aimsmath-upload/DCDS/2023/8/PDF/1078-0947_2023_8_3170.pdf">-->
+										    		<a href="javascript:void(0);">
+										                <div class="pdfView">
+										                    <div class="in-bl">
+										                        <i class="fa fa-file-pdf-o"></i>
+										                        <span>PDF &nbsp;view</span>
+										                    </div>
+										                </div>
+										            </a>
+										    										    	
+								</footer>			            	
+			            	</div>			            
+			                <div class="articleEn prerender" id="articleEn">
+			                				                    <div class="article-title left-title clearfix">
+												                        <h1>Corrigendum and Addendum to : "SINGULAR weighted sharp trudinger-moser inequalities defined on $  \mathbb{R}^N  $ and applications to elliptic nonlinear equations" DOI: 10.3934/dcds.2021137
+										</h1>
+													                        
+			                    </div>
+			                    <ul class="article-author clear">
+			                    				                    		<li>
+			                    			<a href="javascript:void(0);" class="mainColor" data-relate="sami.aouaoui@ismai.u-kairouan.tn" data="{{author.authorNameEn}}" type="authors.authorNameEn">Sami Aouaoui</a><sup class="authorTag"><a href="javascript:void(0);" class="com-num" data-tagVal="1">1</a>,&nbsp;<a href="javascript:void(0);" class="com-user" title="Corresponding Author:&nbsp;Sami Aouaoui,&nbsp;sami.aouaoui@ismai.u-kairouan.tn"></a>,&nbsp;<a href="mailto:sami.aouaoui@ismai.u-kairouan.tn" class="com-mail" title="mailto:&nbsp;sami.aouaoui@ismai.u-kairouan.tn"></a></sup>&nbsp;<span class="mainColor">and</span>&nbsp;			                    		</li>
+			                    				                    		<li>
+			                    			<a href="javascript:void(0);" class="mainColor" data-relate="jlelrahma@gmail.com" data="{{author.authorNameEn}}" type="authors.authorNameEn">Rahma Jlel</a><sup class="authorTag"><a href="javascript:void(0);" class="com-num" data-tagVal="1,2">1,2</a>,&nbsp;<a href="mailto:jlelrahma@gmail.com" class="com-mail" title="mailto:&nbsp;jlelrahma@gmail.com"></a></sup>			                    		</li>
+			                    				                    	<li><span class="com-drop" onclick="showAuthor(this);"></span></li>
+			                    </ul>
+			                    <ul class=" marginT addresswrap about-author">
+			                        <!-- 英文作者地址 -->
+			                        			                        				                        		<li class="article-author-address">
+				       							
+				       												       									<span class="aff-nmuber">1.</span> 
+			            											  								
+			                                    <p  class="lostOf"  >
+			                                    University of Kairouan, High Institute of Applied Mathematics and Informatics of Kairouan, Avenue Assad Iben Fourat, 3100 Kairouan, Tunisia
+			                                    </p>
+			                                </li>
+			                        				                        			                        				                        		<li class="article-author-address">
+				       							
+				       												       									<span class="aff-nmuber">2.</span> 
+			            											  								
+			                                    <p  class="lostOf"  >
+			                                    University of Monastir, Faculty of Sciences of Monastir, Avenue de l'environnement 5019 Monastir, Tunisia
+			                                    </p>
+			                                </li>
+			                        				                        			                    </ul>
+								 									 										 																													                        					                        											 										 					                        											 									 			                     <!-- 
+			                      			                        				                    <a class="togglebtn mainColor marginT">
+										<i class="articleFont icon-jia"></i>More Information
+									</a>
+																	 								 -->
+								 <div class="com-author-wrap">
+			                    	<ul class="about-article about-author about-author1">
+				                        				                        				                        					                        					                        		<li rt="cor">
+				                                    			                                    					                                    					                                    						                                    							                                    																				<p style="display:none"><sup>*</sup>Corresponding author: Sami Aouaoui</p>
+				                                    				<sup>*</sup>Corresponding author: Sami Aouaoui&nbsp;				                                    							                                    						                                    					                                    				                                    					                                    				                                </li>
+				                        					                        			
+				                        				                        					    										    									    									    							    										    									    								                    </ul>
+				                    				                    
+				                     <div class="author-note-box">
+				                     									 				                     									 				                     				                     </div>			                    
+				                     <!-- 稿件日期和基金项目11 -->
+				                     <div class="com-author-info gjrq">
+								        <!-- 稿件日期 -->
+								        <div class="article-date clearfix">
+		    								<div><b>Received:&nbsp;</b>
+	   <span id="" class="mainColor">
+					March 2023
+				</span>
+	</div>
+			<div><b>Early access:&nbsp;</b>
+			<span  class="mainColor">
+							May 16, 2023
+						</span>
+		</div> 		
+			<div><b>Published online:&nbsp;</b>
+		<span  class="mainColor">
+					May 16, 2023
+				</span>
+	</div>
+									        </div>
+												                            			                            																						 				                     </div>
+				                     <!-- 老网站需求 -->
+				                     
+			                     </div>
+			                </div>
+			            </div>
+			            <!-- html btns -->
+			            <div class="article-detail-btns clearfix">
+			                			            	<a href="javascript:void(0);" rel="Abstract"  class="desc ac">Abstract <span class="isIntroduction">/ Introduction</span></a>
+    						    										            					            					            	<a href="https://www.aimsciences.org/article/noLoginPage?id=646346f7fe966069e0340a60&journalPublisherId=DCDS&type=HTML"  rel="FullText" class="html">Full Text(HTML)</a>
+				            					            					            				            				            	<a href="javascript:void(0);" rel="relative-article"   class="relative">Related Papers</a>
+			            	<a href="javascript:void(0);" rel="citedby-info"   class="citeby">Cited by</a>
+			            	
+			            </div>
+			            <div class="clearfix" >
+			            <ul class="article-tab-box tab-content" id="myTabContent">
+			            	
+			                <!-- 摘要 -->
+			                 		                    <div class="phone-title phone-mark" val="Abstract">
+								<a class="mainColor " href="javascript:void(0);">Abstract</a>
+							</div>
+										                <li id="Abstract" class="articleListBox current prerender" >
+			                   
+			                    			                     <h3 class="navTitle hidden" id="Abstract-list">Abstract</h3>
+			                        <div class="article-abstract ">
+										<p>We correct the proof of Theorem 1.11 and Theorem 1.12 and we add a new result of sharpness of the Trudinger-Moser inequality for the doubly exponential case.</p>
+			                        </div>
+			                    			                    
+			                    <div class="hasIntroduction">
+			                    </div>
+			                    
+			                    			                    			                    				                    				                    			                    				                    				                    			                    				                    				                    			                    				                    				                    			                    				                    				                    			                    				                    				                    			                    				                    				                    			                    				                    				                    			                    				                    				                    			                    			                    	<ul class="article-keyword article-info-en">
+			                    		<b>Keywords:</b>
+					                    					                    						                    		<li><a class="underHigh mainColor" href="javascript:void(0);" data="Trudinger-Moser inequality" type="keywords.keywordEn">Trudinger-Moser inequality</a>, </li>
+					                    						                    					                    						                    		<li><a class="underHigh mainColor" href="javascript:void(0);" data="singularity" type="keywords.keywordEn">singularity</a>, </li>
+					                    						                    					                    						                    		<li><a class="underHigh mainColor" href="javascript:void(0);" data="radial functions" type="keywords.keywordEn">radial functions</a>, </li>
+					                    						                    					                    						                    		<li><a class="underHigh mainColor" href="javascript:void(0);" data="sharpness" type="keywords.keywordEn">sharpness</a>, </li>
+					                    						                    					                    						                    		<li><a class="underHigh mainColor" href="javascript:void(0);" data="logarithmic weights" type="keywords.keywordEn">logarithmic weights</a>, </li>
+					                    						                    					                    						                    		<li><a class="underHigh mainColor" href="javascript:void(0);" data="concentration-compactness" type="keywords.keywordEn">concentration-compactness</a>, </li>
+					                    						                    					                    						                    		<li><a class="underHigh mainColor" href="javascript:void(0);" data="elliptic equation" type="keywords.keywordEn">elliptic equation</a>, </li>
+					                    						                    					                    						                    		<li><a class="underHigh mainColor" href="javascript:void(0);" data="criticality" type="keywords.keywordEn">criticality</a>, </li>
+					                    						                    					                    						                    		<li><a class="underHigh mainColor" href="javascript:void(0);" data="doubly exponential" type="keywords.keywordEn">doubly exponential</a>.</li>
+					                    						                    				                    </ul>
+			                    			                    			                    <div class="cssNo">
+			                   		 <b>Mathematics Subject Classification: </b>Primary: 26D15, 35A21, 35A23, 35B33, 35D30; Secondary: 35J20, 35J62, 35J75.			                    </div>
+			                    			                    <!-- citation -->
+					            <div class="article-header">
+					            					                <p class="quot">
+					               	 <div class="copyCitationInfo" style="width: 0px;height: 0px;opacity:0;overflow: hidden;"></div>
+						                <table class="article-tab">
+						                    <tr>
+						                       <!--   <td valign="top" width="75"><span class=""><b>Citation:</b></span></td>-->
+						                        <td>
+						                            <b>Citation:</b><span class="info" id="infoEn"></span>
+						                            <div class="modal-footer">
+														<span class="copy-citation" onclick="copyArticle2(this)" title="copy to clipboard">
+															<img class="shu" src="/style/web/images/article/shu.png" alt="shu" />
+														</span>
+						                            </div>
+						                        </td>
+						                    </tr>
+						                </table>
+					                </p>
+					               					            </div>			                    
+			                    
+			                    <div style="display:none;">\begin{equation}  \\ \end{equation}</div>
+			                </li>
+			                <!-- 全文 -->
+			                		                								<div val="FullText" class="html-text phone-title phone-mark " id="htmlContent">
+				            					            	<a href="https://www.aimsciences.org/article/noLoginPage?id=646346f7fe966069e0340a60&journalPublisherId=DCDS&type=HTML"  class="mainColor  full-text">Full Text(HTML)</a>
+				            								</div>	                	
+			                <li id="FullText" class="articleListBox FullText-all phone-htmlContent">
+			                    <img style="display:block;margin:10px auto;" src="/style/web/images/article/1.gif" alt="加载中" />
+			                </li>
+			                			                
+							<!-- 图表 -->
+																	                <!-- 相关文章 -->
+			                		        			 <div class="phone-title" val="Relative_Articles">
+								<a class="mainColor " data-navid="relative-article" href="javascript:void(0);">
+									Related Papers
+								</a>
+							</div>	                
+			                <li id="relative-article" class="articleListBox article-related-article" ></li>
+			                			                		        			 <div class="phone-title" val="Cited_by">
+								<a class="mainColor " data-navid="citedby-article" href="javascript:void(0);">
+									Cited by
+								</a>
+							</div>	                
+							<li id="citedby-info" class="articleListBox article-knowledge-map"></li>
+														
+			                <!-- 附件 -->
+			                			                						        
+			                <!-- 参考文献 -->
+			                					                																					<div class="phone-title" rel="ref" val="References">
+											<a class="mainColor " data-navid="References" href="javascript:void(0);">
+												References
+											</a>
+										</div>									
+						                <li id="References" class="articleListBox">
+						                    <h3 class="navTitle" id="References-list">References</h3>
+						                    						                        <div class="References-wrap">
+	<table class="reference-tab">
+							<tr class="document-box" id="b1">
+									<td valign="top" class="td1">
+	                    [1]
+	                </td>
+	            	            	            	            																						<td class="td2 105"> 
+														    <a href="https://scholar.google.com/scholar?btnG=&hl=en&as_sdt=0%2C23&q=author:S. Aouaoui" authorName="S. Aouaoui">S. Aouaoui</a>&nbsp;and&nbsp;<a href="https://scholar.google.com/scholar?btnG=&hl=en&as_sdt=0%2C23&q=author:R. Jlel" authorName="R. Jlel">R. Jlel</a>,&nbsp;Singular weighted sharp trudinger-moser inequalities defined on $\mathbb{R}^N$ and applications to elliptic nonlinear equations, 								<i>Discrete and Continuous Dynamical Systems</i>, <b>42</b> (2022), 781-813.&nbsp;
+																doi:&nbsp;<a class="mainColor" target="_blank" href="http://dx.doi.org/10.3934/dcds.2021137">10.3934/dcds.2021137.<img src="https://www.aimsciences.org/style/web/images/custom/crossref.jpg" title="CrossRef"/></a>
+																																<a target="_blank" href="https://mathscinet.ams.org/mathscinet-getitem?mr=MR4369030&return=pdf"><img src="https://www.aimsciences.org/style/web/images/custom/math-review.gif" title="math-review"/></a>
+																<a class="mainColor" href="http://scholar.google.com/scholar?q=Singular+weighted+sharp+trudinger-moser+inequalities+defined+on+$\mathbb{R}^N$+and+applications+to+elliptic+nonlinear+equations+S. Aouaoui+2022" target="_new" title="Go to article in Google Scholar"><img src="https://www.aimsciences.org/style/web/images/custom/scholar.png" title="scholar"/></a>
+						 							</td>
+									     			</tr>
+			</table>
+</div>						                    						                </li>
+						                					                				                					        <!-- 访问统计 -->
+							<div class="phone-title" val="Access_History" rel="metric" >
+								<a class="mainColor" data-navId="metric_count" href="javascript:void(0);">
+									Access History<num></num>
+								</a>
+							</div>
+							<li id="metric_count" class="articleListBox" >
+								<h3 class="navTitle" id="Access-list">Access History</h3>
+								<img id="downLoading" style="display:block;margin:10px auto;" src="/style/web/images/article/1.gif" alt="加载中" />
+								<div class="hichart_box" id="article_visit_count_column"></div>
+								<div class="hichart_box" id="article_visit_type_pie"></div>
+								<div class="hichart_box" id="article_visit_area_pie"></div>
+							</li>
+												        						        <li id="trendmdBox">
+						            <div id="trendmd-suggestions"></div>
+						            <script defer src='//js.trendmd.com/trendmd.min.js' data-trendmdconfig='{"journal_id":"54638","element":"#trendmd-suggestions"}'></script>
+						        </li>
+						    						    				    	</ul>
+				    	</div>
+					    <div class="bqInfo">
+													</div>  			        
+				        <div class=" contentArea-left-bg">
+				        	<div class="article-footer"></div>
+					        <!--鼠标点击悬浮框-->
+					        <div class="box box-top box-tan">
+					            <div class="box-tan-con">
+									<table class="box-content reference-tab"></table>
+								</div>
+					            <div class="triangle">
+					                <div class="triangle-bg"></div>
+					                <div class="triangle-content"></div>
+					            </div>
+					            <i class="close-box articleFont icon-cuo"></i>
+					        </div>
+					        <!--鼠标点击author悬浮框-->
+					        <div class="author-box">
+					            <div class="author-content">
+				            	</div>
+					            <div class="triangle">
+					                <div class="triangle-bg"></div>
+					                <div class="triangle-content"></div>
+					            </div>
+			            		<i class="close-box articleFont icon-cuo"></i>
+					        </div>
+					    </div>
+			    	</div>
+				    <div class="article-main-right fr">
+										        				        <div class="article-right">
+				        					        						        					            				            <div class="article-detail-right">
+				                <div class="download-btns clear-size">
+				                     					                     <div class="pdf-xml clearfix">
+						                       <div class="download-pdf fl" data="646346f7fe966069e0340a60"><a href="javascript:void(0);" >
+						                       PDF</a></div>
+						                       <div class="download-xml fr"><a href="javascript:void(0);" onclick="toExportXML('646346f7fe966069e0340a60');">
+						                       XML</a></div>
+					                     </div>
+				                     				                    <div class="download-btn"><a href="javascript:void(0);" data-target="#exportCitationModal" data-toggle="modal">
+				                        Export Citation</a></div>			                         
+				                     <!-- <div class="all-pdf">
+				                     					                    </div> -->
+				                </div>
+				                <div class="article-right-share">
+					                <h6>SHARE</h6>
+				      				<div class="send-email">
+				      					<span class="icon"></span><a href="mailto:?Subject=Corrigendum and Addendum to : "SINGULAR weighted sharp trudinger-moser inequalities defined on $  \mathbb{R}^N  $ and applications to elliptic nonlinear equations" DOI: 10.3934/dcds.2021137&Body=An AIMS publication is recommended to you.  For more information see URL: https://www.aimsciences.org/article/id/646346f7fe966069e0340a60">Email to a Friend</a>
+				      				</div>
+									<dl class="clear">
+								       <dd class="share-facebook" onclick="shareTools('facebook');" title="share this content in Facebook">
+								           <img src="/style/web/images/custom/share_facebook.png" alt="">
+								       </dd>
+								       <dd class="share-twitter" onclick="shareTools('twitter');" title="share this content in Twitter">
+								           <img src="/style/web/images/custom/share_twitter.png" alt="">
+								       </dd>
+								       <dd class="share-linkedin" onclick="shareTools('linkedin');" title="share this content in Linkedin">
+								           <img src="/style/web/images/custom/share_linkin.png" alt="">
+								       </dd>
+								       <dd class="share-mendeley" onclick="shareTools('mendeley');" title="share  this content in Mendeley">
+								           <img src="/style/web/images/custom/share_mendeley.png" alt="">
+								       </dd>
+								       <dd class="share-researchGate" onclick="shareTools('researchGate');" title="share this content in ResearchGate">
+								           <img src="/style/web/images/custom/share_researchGate.png" alt="">
+								       </dd> 
+					                </dl>				      				
+			      				</div>
+			                <div class="metrics">
+			                				                    <h2>Article Metrics</h2>
+			                   
+			
+			                    <p class="all-message">
+			                        <span style="display:block;" href="javascript:void(0);">HTML views(<span class="mainColor">1449</span>)</span>
+			                        			                        <span style="display:block;" href="javascript:void(0);">PDF downloads(<span class="mainColor">36</span>)</span>
+			                        			                        			                        <span  href="javascript:void(0);" class="right-cited">Cited by(<span class="mainColor" id="citedByCount">0</span>)</span>
+			                        			                    </p>
+			                    			                </div>
+			                			                <div class="article-metrics">
+			                					                    <div class="trend-right-icon">
+				                        <a href="#trendmd-suggestions">
+				                            <img src="/style/web/images/trend_03.jpg"/>
+				                        </a>
+				                        <!--   <script defer src='//js.trendmd.com/trendmd.min.js' data-trendmdconfig='{"journal_id":"59917","element":"#trendmd-suggestions"}'></script>
+				                    	-->
+				                    </div>
+											                </div>
+										                <div class="article-metrics Access-right-list">
+			                    <a href="#Access-list">
+			                        <h6 >Access History</h6>
+			                        <div class="img" >
+			                            <img src="/style/web/images/Access-list_03.jpg"/>
+			                        </div>
+			                    </a>
+			                </div>
+			                <div class="metrics metric-author" >
+				                <h2>Other Articles By Authors</h2>
+				                <ul class="authorOtherArticle">
+									<li class="">
+				                        <span class="author-title"><i></i>on this site</span>
+										<ul class="article-div clear">
+					                    						                    		<li>
+					                    			<a href="javascript:void(0);" class="search-like" data-relate="sami.aouaoui@ismai.u-kairouan.tn" data="Sami Aouaoui" type="authors.authorNameEn">Sami Aouaoui</a>
+					                    		</li>
+					                    						                    		<li>
+					                    			<a href="javascript:void(0);" class="search-like" data-relate="jlelrahma@gmail.com" data="Rahma Jlel" type="authors.authorNameEn">Rahma Jlel</a>
+					                    		</li>
+					                    						                    </ul>
+				                    </li>
+				                    <li class="">
+				                        <span class="author-title"><i></i>on Google Scholar</span>
+				                        <ul class="article-div clear">
+				                        					                    		<li>
+				                    			<a href="http://scholar.google.com/scholar?q=Sami Aouaoui" target="_blank">Sami Aouaoui</a>
+				                    		</li>
+				                    						                    		<li>
+				                    			<a href="http://scholar.google.com/scholar?q=Rahma Jlel" target="_blank">Rahma Jlel</a>
+				                    		</li>
+				                    												</ul>
+				                    </li>
+				                </ul>
+			                </div>
+			            </div>
+			        </div>
+			    </div>
+	    </div>
+	</div>
+</div>
+</div>
+
+<div class="article-app">
+	<footer >
+	      <div class="toTop">
+	          <p><b>Top</b></p>
+	          <span class="fa fa-angle-up"></span>
+	      </div>
+	</footer>
+	<div class="article-btn">
+	    <div class="_table">
+	        <div class="_cell">
+	            <span></span>
+	            <span></span>
+	            <span></span>
+	        </div>
+	    </div>
+	</div>
+	<div class="article-menu">
+	    <h3>Catalog</h3>
+	    <div class="article-menu-bot">
+	    	<ul class="iphone-wrapper"></ul>
+	    </div>
+	</div>
+</div>
+
+<div class="modal fade" id="exportCitationModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h2 class="modal-title mainColor" id="myModalLabel"><b>Export File</b></h2>
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Citation</h4>
+                    </div>
+                    <div class="panel-body">
+                        <p class="quot">
+                            <!--<span class="mainColor">Citation:</span>-->
+                            <div class="copyCitationInfo" style="width: 0px;height: 0px;opacity:0;overflow: hidden;"></div>
+                            <span class="info citationEn" id="showCitedJax"></span>
+                            <div class="modal-footer modal-footer-copy">
+								<span class="copy-citation" onclick="copyArticle(this)" title="copy to clipboard">
+									<img class="shu" src="/style/web/images/article/shu.png" alt="shu" />
+								</span>
+                            </div>
+                        </p>
+                    </div>
+                </div>
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Format</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" value="ris" name="format" checked="">
+                                RIS(for EndNote,Reference Manager,ProCite)
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" value="bib" name="format">
+                                BibTex
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" value="txt" name="format">
+                                Txt
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-success">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">Content</h4>
+                    </div>
+                    <div class="panel-body">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" value="0" name="content" checked="">
+                                Citation Only
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" value="1" name="content">
+                                Citation and Abstract
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="toExportCitation(this,'en')" article_id="" id="exportArticleId">Export</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="imgShow">
+        <div id="originalImgs-wrapper">
+        <div class="originalImgs-wrapper">
+            <img id="originalImgs" src="" alt="" />
+        </div>
+                <div id="imgTitle" title="">
+            <div>
+                <p class="titleEn"></p>
+            </div>
+        </div>
+                <p id="imgsPageNum">
+            <span id="nowImgIndex" class="underHigh"></span>/<span
+                id="allImgNum"></span>
+        </p>
+                <div id="downloadImgs">
+            <img src="/style/web/images/article/download.png" />DownLoad:&nbsp;
+            <a id="originalImgDownload" class="underHigh" href="javascript:void(0);">Full-Size Img</a>&nbsp;
+            <a id="originalPPTDownload" class="underHigh" href="javascript:void(0);" style="border-left: 1px solid #ccc;padding-left: 5px;">PowerPoint</a>
+        </div>
+    </div>
+        <div id="miniImgs-wrapper">
+        <div id="imgPrev">
+            <a href="javascript:void(0);"><span
+                    class="imgShowIcon imgShowIcon-prev"></span> </a>
+        </div>
+        <div id="miniImgs">
+            <ul>
+            	            	
+            </ul>
+        </div>
+        <div id="imgNext">
+            <a href="javascript:void(0);"><span
+                    class="imgShowIcon imgShowIcon-next"></span> </a>
+        </div>
+    </div>
+        <div id="imgBack">
+        <a href="javascript:void(0);"> Return<span class="triangle"></span>
+        </a>
+    </div>
+</div>
+<div class="show-table" id="show-table">
+	<div class="new-back">
+		<a href="javascript:;"> Return<span class="triangle"></span></a>
+	</div>
+    <div class="picbox">
+        <ul class="piclist">
+            
+        </ul>
+    </div>
+    <div class="picsmallbox">
+		<a href="javascript:;" id="play_prev" class="play_prev">
+			<span class="imgShowIcon imgShowIcon-prev"></span>
+		</a>
+        <div class="picboxpic">
+            <ul id="picsmall" class="picsmall clear">
+                
+            </ul>
+        </div>
+        <a href="javascript:;" id="play_next" class="play_next">
+			<span class="imgShowIcon imgShowIcon-next"></span>
+		</a>
+    </div>
+</div>
+<ul id="miniImgs_title" hidden>
+	</ul>
+	<div class="common-bottom "  ng-app="app2" id="app2">
+	     <div class="hidden-lg hidden-md">
+               <div class="article-right-share">
+					<dl class="clear">
+				       <dd class="share-facebook" onclick="shareTools('facebook');" title="share this content in Facebook">
+				           <img src="/style/web/images/custom/share_facebook.png" alt="">
+				       </dd>
+				       <dd class="share-twitter" onclick="shareTools('twitter');" title="share this content in Twitter">
+				           <img src="/style/web/images/custom/share_twitter.png" alt="">
+				       </dd>
+				       <dd class="share-linkedin" onclick="shareTools('linkedin');" title="share this content in Linkedin">
+				           <img src="/style/web/images/custom/share_linkin.png" alt="">
+				       </dd>
+				       <dd class="share-mendeley" onclick="shareTools('mendeley');" title="share  this content in Mendeley">
+				           <img src="/style/web/images/custom/share_mendeley.png" alt="">
+				       </dd>
+				       <dd class="share-researchGate" onclick="shareTools('researchGate');" title="share this content in ResearchGate">
+				           <img src="/style/web/images/custom/share_researchGate.png" alt="">
+				       </dd> 
+	                </dl>				      				
+    			</div>	     
+	     </div>
+		<div class="shareBox showBoxMobile hidden-lg hidden-md " >
+   <ul class="share-right clear ">
+       <li class="share-facebook" onclick="shareTools('facebook2');" title="share this content in Facebook">
+           <img src="/style/web/images/custom/share_facebook.png" alt="share this content in Facebook">
+       </li>
+       <li class="share-twitter" onclick="shareTools('twitter2');" title="share this content in Twitter">
+           <img src="/style/web/images/custom/share_twitter.png" alt="share this content in Twitter">
+       </li>
+       <li class="share-linkedin" onclick="shareTools('linkedin2');" title="share this content in Linkedin">
+           <img src="/style/web/images/custom/share_linkin.png" alt="share this content in Linkedin">
+       </li>
+       <!--  
+       <li class="share-mendeley" onclick="shareTools('mendeley');" title="share  this content in Mendeley">
+           <img src="/style/web/images/custom/share_mendeley.png" alt="share  this content in Mendeley">
+       </li>
+       -->
+       <li class="share-researchGate" onclick="shareTools('researchGate');" title="share this content in ResearchGate">
+           <img src="/style/web/images/custom/share_researchGate.png" alt="share this content in ResearchGate">
+       </li>
+      
+     <!--   <li onclick="shareTools('sina');" title="分享到微博"><img src="/style/web/images/custom/share_weibo.png"></li>
+       <li class="weixin" title="分享到微信"><img src="/style/web/images/custom/share_weixin.png"></li>
+          			<li class="kongjian" title="分享到qq空间"><img src="/style/web/images/custom/share_qq.png"></li> -->
+   </ul>
+</div> 
+<div class="footer ban-footer" ng-controller="j-bottom-menu" >
+	<input type="hidden" id="language" value="en">
+	<input type="hidden" id="websitecn" value="">
+	<input type="hidden" id="websiteen" value="https://www.aimsciences.org/">
+	<input type="hidden" class="newsShow" value="footer_info">
+
+			<input type="hidden" id="publisherId" value="DCDS">
+		<input type="hidden" id="tplPath" value="en/tpl5">
+	   <div class="bottom-fixed"></div>
+    <div class="i-footer">
+		<div class="container">
+
+  			<div class="i-bottom-links "  ng-controller="j-newscolumn-list-child-f" type="about">
+  				<ul class="clearfix"  >
+  					<li ng-repeat="lists in newscolumnList">
+  		    			<a href="{{lists.urlLink}}" class="tit " ng-if="lists.urlLink " ng-bind-html="lists.name | trustHtml:0:''" target="{{lists.columnNewsOpenTarget}}"  rel="noopener"></a>
+	    	   			<a href="{{lists.links}}" class="tit " ng-if="!lists.urlLink " ng-bind-html="lists.name | trustHtml:0:''" target="{{lists.columnNewsOpenTarget}}"></a>				
+
+  					 </li>
+  				</ul>
+  			</div>	
+  			
+		    <div class="i-footer-links ">
+				 <div ><a href="/index/sitemap" class="sitemap">Site map</a> Copyright © 2026 American Institute of Mathematical Sciences</div>
+			</div>
+	
+		</div>
+	</div>
+</div>
+
+<!--<script src="//plugin.sowise.cn/sowise-plugin.js" custom-options="{'citedby':false,'suggest':false,'ipRecord':true,'journalId':999,'wechatShare':false}"></script>-->
+<script src="/style/web/js/common/deferjs/base_js.min.js?t=31"></script>
+
+<script src="/style/web/js/common/dataloading_news.js?t=31" type="text/javascript" ></script>
+<script src="/style/web/js/common/dataloading_article.js?t=31" type="text/javascript" ></script>
+<script src="/style/web/js/common/dataloading_filter.js?t=31" type="text/javascript" ></script>
+<script src="/style/web/js/common/dataloading_other.js?t=31" type="text/javascript" ></script>
+<script src="/style/web/js/common/base.js?t=31" type="text/javascript" ></script>
+
+<script src="/style/web/js/common/deferjs/public.min.js?t=31" type="text/javascript"></script><script src="/style/web/js/custom.js?t=31" type="text/javascript" ></script>
+<script src="/style/web/js/en/custom_en.js?t=31" type="text/javascript" ></script>
+<script src="/style/web/js/en/tpl5/index.js?t=31" type="text/javascript" ></script>
+
+
+<script defer type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script>
+<script type='text/x-mathjax-config'>
+	MathJax.Hub.Config({
+		tex2jax: {
+			  inlineMath: [ ['$', '$'], ['\\(', '\\)'] ],
+			  displayMath: [['$$', '$$'],["\\[", "\\]"] ],
+			  processEscapes: true,
+           	  processRef: true,
+              processEnvironments: false,
+              preview: 'none'
+		},
+		TeX: {
+			  extensions: ["AMSmath.js", "AMSsymbols.js"],
+			  //equationNumbers: {autoNumber: ["AMS"],useLabelIds: false},
+			  Macros: {hfill: "{}"}
+		},
+		"HTML-CSS": {
+			linebreaks: { automatic: true },
+			availableFonts: ["STIX", "TeX"],
+			scale:100,
+			showMathMenu: true
+		}
+,
+        CommonHTML: {
+            linebreaks: {
+                automatic: true,
+                width: 'container'
+            }
+        },
+        SVG: {
+            linebreaks: {
+                automatic: false,
+				useGlobalCache: false,
+            }
+        }
+   });
+</script>
+<link rel="stylesheet" href="https://public.xml-journal.net/rh-public/css/rh-public.css">
+<script src="https://public.xml-journal.net/rh-public/js/rh-public.js"></script>
+
+ <script type="text/javascript">
+ $(document).ready(function () {
+ var exp1 = new RegExp("<ext-link","g");
+ var exp2 = new RegExp("</ext-link","g");
+ var exp3 = new RegExp("xlink:href","g");
+ var exp4 = new RegExp("ext-link-type=\"uri\"","g");	
+	  try{  
+		    var tempAbs =  $('#Abstract').html().replace(exp1, "<a").replace(exp2, "</a").replace(exp3, "href").replace(exp4, "target='_blank'");
+		     $('#Abstract').html(tempAbs);   	
+	   }catch(e){
+		   console.log(e) 
+		}	
+		
+	  try{   	
+		    var tempReferences =  $('#References').html().replace(exp1, "<a").replace(exp2, "</a").replace(exp3, "href").replace(exp4, "target='_blank'");
+		    $('#References').html(tempReferences);  
+	   }catch(e){
+		   console.log(e) 
+	   }	
+
+		if($('#articleId').length > 0){
+			setTimeout(getIntroduction,100)
+		}
+ })
+	function getIntroduction(){
+		   var articleId = $('#articleId').val();
+	       $.ajax({
+	        type: 'post',
+			dataType: 'json',
+	        url:local_host + "data/article/introduction-content",
+	        data: {
+	            'articleId': articleId,
+	        },
+	        success: function (data) {
+			    $('.hasIntroduction').html(data.htmlContent)
+				if(data.htmlContent && data.htmlContent != '' && data.htmlContent != "\r\n\r\n\r\n\r\n<!--  -->\r\n\r\n"){
+					$('.isIntroduction').addClass('active');
+				}
+	        },
+		    error: function (data) {
+		        console.log("An error occurred:", data);
+		    },
+	        complete:function(){
+		      
+				try{
+	            MathJax.Hub.Queue(["Typeset", MathJax.Hub],$('#Abstract')[0]);
+				}catch(e){}
+	
+				   
+				 
+	        }
+	    })
+	}	   
+ </script>
+
+	</div> 
+</body>
+<script defer src="/style/web/js/common/deferjs/article_public.js?t=31" type="text/javascript" ></script>
+<script defer src="/style/web/js/custom.js?t=31" type="text/javascript" ></script>
+<script defer src="/style/web/js/en/custom_en.js?t=31" type="text/javascript" ></script>
+<script defer src="/style/web/js/common/deferjs/article_public_2.min.js?t=31" type="text/javascript" ></script>
+<script defer src="/style/web/js/en/tpl5/index.js?t=31" type="text/javascript" ></script>
+
+<script defer src="/style/web/js/en/tpl5/main.js?t=31" type="text/javascript" ></script>
+<script defer type='text/javascript' src='/style/web/js/common/deferjs/dom.js'></script>
+</html>
