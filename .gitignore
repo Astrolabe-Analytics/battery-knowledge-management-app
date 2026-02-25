@@ -80,3 +80,19 @@ FINAL_ENRICHMENT_REPORT.md
 
 # Task output files
 *.output
+
+# Debug/fix output artifacts
+fix_*_output*.txt
+fix_*_final.txt
+
+# pytest
+.pytest_cache/
+
+# Invalid/quarantined PDFs
+papers_invalid/
+
+# Selected papers state (generated)
+data/selected_papers_for_summary.json
+
+# Import logs (generated)
+data/import_logs/

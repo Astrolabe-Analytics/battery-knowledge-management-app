@@ -103,7 +103,6 @@ def upgrade() -> None:
     )
     # Add pgvector column separately (384 dimensions for all-MiniLM-L6-v2)
     op.execute("ALTER TABLE chunks ADD COLUMN embedding vector(384)")
-    )
     op.create_index("ix_chunks_paper_filename", "chunks", ["paper_filename"])
     op.create_index("ix_chunks_page_num", "chunks", ["page_num"])
     # HNSW index for vector similarity search
