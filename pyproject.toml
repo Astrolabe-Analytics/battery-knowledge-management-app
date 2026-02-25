@@ -3,6 +3,39 @@ name = "astrolabe-paper-db"
 version = "0.1.0"
 description = "RAG-powered research paper management for battery research"
 requires-python = ">=3.10"
+dependencies = [
+    # Core framework
+    "streamlit",
+    "fastapi",
+    "uvicorn[standard]",
+    "python-multipart",
+    "python-dotenv",
+    # ML/AI
+    "anthropic",
+    "sentence-transformers",
+    "tiktoken",
+    "rank-bm25",
+    # Data processing
+    "pymupdf4llm",
+    "beautifulsoup4",
+    "requests",
+    "pandas>=2.0",
+    "numpy>=1.21",
+    # Vector & database
+    "chromadb",
+    "sqlalchemy>=2.0",
+    "pgvector>=0.2.0",
+    "psycopg[binary]>=3.1.0",
+    # UI components
+    "st-aggrid",
+    # Utilities
+    "tqdm>=4.65",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
