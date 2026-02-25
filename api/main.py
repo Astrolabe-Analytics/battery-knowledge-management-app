@@ -7,6 +7,8 @@ for the React frontend.
 Usage:
     uvicorn api.main:app --reload --port 8002
 """
+import os
+
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -24,14 +26,20 @@ app = FastAPI(
     description="Backend API for the Astrolabe paper management and RAG system",
 )
 
-# CORS — allow Vite dev server (React) to call API
+# CORS — configurable via CORS_ORIGINS env var (comma-separated)
+# In production behind nginx (same-origin proxy), CORS is not needed
+# but we keep it for dev and direct-access scenarios.
+_default_origins = [
+    "http://localhost:5173",  # Vite default
+    "http://localhost:5174",  # Vite fallback
+    "http://localhost:3000",  # CRA fallback
+]
+_cors_env = os.environ.get("CORS_ORIGINS", "")
+cors_origins = [o.strip() for o in _cors_env.split(",") if o.strip()] if _cors_env else _default_origins
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",  # Vite default
-        "http://localhost:5174",  # Vite fallback
-        "http://localhost:3000",  # CRA fallback
-    ],
+    allow_origins=cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

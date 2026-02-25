@@ -10,3 +10,8 @@ python-dotenv
 fastapi
 uvicorn[standard]
 python-multipart
+sqlalchemy
+psycopg2-binary
+pgvector
+requests
+pytest
