@@ -516,3 +516,100 @@
   border: 1px solid var(--astro-border);
   border-radius: var(--astro-radius);
 }
+
+/* ── Enrichment ────────────────────────────────────────── */
+
+.actionBtnSm {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: var(--astro-space-1) var(--astro-space-2);
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius);
+  font-size: var(--astro-text-xs);
+  background: var(--astro-surface);
+  color: var(--astro-text-muted);
+  cursor: pointer;
+}
+
+.actionBtnSm:hover {
+  background: var(--astro-bg-tertiary);
+  color: var(--astro-text);
+}
+
+.actionBtn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.doiInputBar {
+  display: flex;
+  align-items: center;
+  gap: var(--astro-space-2);
+  padding: var(--astro-space-3) var(--astro-space-4);
+  background: #fffbeb;
+  border: 1px solid #f59e0b;
+  border-radius: var(--astro-radius-lg);
+  margin-bottom: var(--astro-space-3);
+}
+
+.doiInputField {
+  flex: 1;
+  padding: var(--astro-space-2) var(--astro-space-3);
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius);
+  font-size: var(--astro-text-sm);
+  background: white;
+}
+
+.doiInputField:focus {
+  outline: none;
+  border-color: var(--astro-primary);
+}
+
+.doiSubmitBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: var(--astro-space-2) var(--astro-space-3);
+  border: 1px solid #f59e0b;
+  border-radius: var(--astro-radius);
+  background: #f59e0b;
+  color: white;
+  font-size: var(--astro-text-sm);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.doiSubmitBtn:hover:not(:disabled) {
+  background: #d97706;
+}
+
+.doiSubmitBtn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.doiCancelBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--astro-space-2);
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius);
+  background: transparent;
+  color: var(--astro-text-muted);
+  cursor: pointer;
+}
+
+.doiCancelBtn:hover {
+  background: var(--astro-bg-tertiary);
+}

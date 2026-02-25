@@ -123,6 +123,8 @@ class Paper(Base):
             "year": self.year or "",
             "journal": self.journal or "",
             "doi": self.doi or "",
+            "source_url": self.source_url or "",
+            "crossref_verified": self.crossref_verified or False,
             "author_keywords": self.author_keywords or [],
             "chemistries": self.chemistries or [],
             "topics": self.topics or [],

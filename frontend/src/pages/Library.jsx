@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowUpDown, BookCheck, BookX, ChevronLeft, ChevronRight, Plus, Trash2, FolderOpen } from 'lucide-react';
-import { fetchPapers, fetchFilters, deletePapers, fetchCollections, addPapersToCollectionBulk, fetchMatchingFilenames } from '../services/api';
+import { ArrowUpDown, BookCheck, BookX, ChevronLeft, ChevronRight, Plus, Trash2, FolderOpen, Zap, RefreshCw } from 'lucide-react';
+import { fetchPapers, fetchFilters, deletePapers, fetchCollections, addPapersToCollectionBulk, fetchMatchingFilenames, fetchEnrichmentStatus, enrichPapersStream, enrichPapers } from '../services/api';
 import { useToast } from '../components/Toast';
 import ImportModal from '../components/ImportModal';
 import styles from './Library.module.css';
@@ -39,6 +39,12 @@ export default function Library() {
   const [collections, setCollections] = useState([]);
   const [bulkCollectionId, setBulkCollectionId] = useState('');
   const toast = useToast();
+
+  // Enrichment state
+  const [enrichStatus, setEnrichStatus] = useState(null);
+  const [enriching, setEnriching] = useState(false);
+  const [enrichProgress, setEnrichProgress] = useState(null);
+  const enrichAbortRef = useRef(null);
 
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
@@ -89,6 +95,15 @@ export default function Library() {
       .then(data => setCollections(data.collections || []))
       .catch(console.error);
   }, []);
+
+  // Load enrichment status
+  const loadEnrichStatus = useCallback(() => {
+    fetchEnrichmentStatus()
+      .then(setEnrichStatus)
+      .catch(console.error);
+  }, []);
+
+  useEffect(() => { loadEnrichStatus(); }, [loadEnrichStatus]);
 
   // Clear selection on page change (only if not selecting all results)
   useEffect(() => {
@@ -174,6 +189,67 @@ export default function Library() {
     clearSelection();
   }
 
+  function handleEnrichAll(maxPapers) {
+    if (enriching) return;
+    setEnriching(true);
+    setEnrichProgress({ index: 0, total: 0, enriched: 0, failed: 0 });
+
+    const abort = enrichPapersStream({
+      maxPapers: maxPapers || undefined,
+      onProgress(data) {
+        setEnrichProgress({
+          index: data.index,
+          total: data.total,
+          enriched: data.enriched,
+          failed: data.failed,
+          title: data.title,
+          result: data.result,
+        });
+      },
+      onDone(data) {
+        setEnriching(false);
+        setEnrichProgress(null);
+        toast.success(`Enrichment complete: ${data.enriched} enriched, ${data.failed} failed out of ${data.total}`);
+        loadPapers();
+        loadEnrichStatus();
+      },
+      onError(err) {
+        setEnriching(false);
+        setEnrichProgress(null);
+        toast.error(`Enrichment error: ${err.message}`);
+      },
+    });
+    enrichAbortRef.current = abort;
+  }
+
+  function handleCancelEnrich() {
+    if (enrichAbortRef.current) {
+      enrichAbortRef.current();
+      enrichAbortRef.current = null;
+    }
+    setEnriching(false);
+    setEnrichProgress(null);
+    toast.info('Enrichment cancelled');
+    loadPapers();
+    loadEnrichStatus();
+  }
+
+  async function handleEnrichSelected() {
+    if (!selected.size) return;
+    try {
+      setEnriching(true);
+      const res = await enrichPapers([...selected]);
+      toast.success(`Enriched ${res.enriched} of ${res.total} paper(s)`);
+      clearSelection();
+      loadPapers();
+      loadEnrichStatus();
+    } catch (e) {
+      toast.error('Enrichment failed: ' + e.message);
+    } finally {
+      setEnriching(false);
+    }
+  }
+
   return (
     <div className={styles.page}>
       <div className={styles.header}>
@@ -189,8 +265,67 @@ export default function Library() {
       <ImportModal
         open={importOpen}
         onClose={() => setImportOpen(false)}
-        onImported={() => { setImportOpen(false); loadPapers(); }}
+        onImported={() => { setImportOpen(false); loadPapers(); loadEnrichStatus(); }}
       />
+
+      {/* Enrichment status banner */}
+      {enrichStatus && enrichStatus.needs_enrichment > 0 && !enriching && (
+        <div className={styles.enrichBanner}>
+          <div className={styles.enrichInfo}>
+            <Zap size={16} />
+            <span>
+              <strong>{enrichStatus.needs_enrichment}</strong> papers need metadata enrichment
+              {enrichStatus.breakdown && (
+                <span className={styles.enrichBreakdown}>
+                  ({enrichStatus.breakdown.has_doi} with DOI,{' '}
+                  {enrichStatus.breakdown.has_url} with URL,{' '}
+                  {enrichStatus.breakdown.has_title_only} title-only)
+                </span>
+              )}
+            </span>
+          </div>
+          <div className={styles.enrichActions}>
+            <button
+              className={styles.enrichBtn}
+              onClick={() => handleEnrichAll(50)}
+              title="Enrich up to 50 papers"
+            >
+              <Zap size={14} /> Enrich 50
+            </button>
+            <button
+              className={styles.enrichBtnAll}
+              onClick={() => handleEnrichAll()}
+              title="Enrich all incomplete papers"
+            >
+              <Zap size={14} /> Enrich All
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Enrichment progress */}
+      {enriching && enrichProgress && (
+        <div className={styles.enrichProgress}>
+          <div className={styles.enrichProgressHeader}>
+            <RefreshCw size={14} className={styles.spinning} />
+            <span>
+              Enriching {enrichProgress.index}/{enrichProgress.total}
+              {enrichProgress.title && <> — {enrichProgress.title}</>}
+            </span>
+            <button className={styles.cancelBtn} onClick={handleCancelEnrich}>Cancel</button>
+          </div>
+          <div className={styles.enrichProgressBar}>
+            <div
+              className={styles.enrichProgressFill}
+              style={{ width: enrichProgress.total > 0 ? `${(enrichProgress.index / enrichProgress.total) * 100}%` : '0%' }}
+            />
+          </div>
+          <div className={styles.enrichStats}>
+            <span className={styles.enrichStatGood}>{enrichProgress.enriched} enriched</span>
+            <span className={styles.enrichStatBad}>{enrichProgress.failed} failed</span>
+          </div>
+        </div>
+      )}
 
       {/* Bulk action bar */}
       {selected.size > 0 && (
@@ -219,6 +354,9 @@ export default function Library() {
           </select>
           <button className={styles.bulkBtn} onClick={handleBulkAddCollection} disabled={!bulkCollectionId}>
             <FolderOpen size={14} /> Assign
+          </button>
+          <button className={styles.bulkBtn} onClick={handleEnrichSelected} disabled={enriching}>
+            <Zap size={14} /> Enrich Selected
           </button>
           <button className={styles.bulkBtnDanger} onClick={handleBulkDelete}>
             <Trash2 size={14} /> Delete

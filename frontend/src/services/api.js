@@ -237,6 +237,79 @@ export function enrichPapers(filenames, maxPapers) {
   });
 }
 
+export function fetchEnrichmentStatus() {
+  return request('/import/enrich/status');
+}
+
+export function enrichSinglePaper(filename) {
+  return request(`/papers/${encodeURIComponent(filename)}/enrich`, {
+    method: 'POST',
+  });
+}
+
+export function enrichFromCrossref(filename, doi) {
+  return request(`/papers/${encodeURIComponent(filename)}/enrich/crossref`, {
+    method: 'POST',
+    body: JSON.stringify({ doi }),
+  });
+}
+
+/**
+ * Stream enrichment progress via SSE.
+ * @param {Object} opts - { filenames?, max_papers?, onProgress, onDone, onError }
+ * @returns {function} abort function to cancel 
+ */
+export function enrichPapersStream({ filenames, maxPapers, onProgress, onDone, onError }) {
+  const controller = new AbortController();
+
+  const body = {};
+  if (filenames) body.filenames = filenames;
+  if (maxPapers) body.max_papers = maxPapers;
+
+  fetch(`${BASE}/import/enrich/stream`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+    signal: controller.signal,
+  })
+    .then(async (response) => {
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop(); // keep incomplete line
+
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            try {
+              const data = JSON.parse(line.slice(6));
+              if (data.type === 'done') {
+                onDone?.(data);
+              } else {
+                onProgress?.(data);
+              }
+            } catch {
+              // skip malformed JSON
+            }
+          }
+        }
+      }
+    })
+    .catch((err) => {
+      if (err.name !== 'AbortError') {
+        onError?.(err);
+      }
+    });
+
+  return () => controller.abort();
+}
+
 export function importBulkDois(dois) {
   return request('/import/bulk-doi', {
     method: 'POST',
@@ -282,6 +355,13 @@ export function fetchGaps(limit = 20) {
 
 export function addDiscoverPaper(data) {
   return request('/discover/add', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
+}
+
+export function addGapPaper(data) {
+  return request('/discover/gaps/add', {
     method: 'POST',
     body: JSON.stringify(data),
   });

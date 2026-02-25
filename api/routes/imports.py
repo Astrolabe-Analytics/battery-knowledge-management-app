@@ -498,37 +498,49 @@ def enrich_papers(body: EnrichRequest):
     """
     Enrich papers with metadata from CrossRef/Semantic Scholar.
     Reads from and writes to PostgreSQL.
+
+    Pipeline per paper:
+      1. Already have DOI? → CrossRef
+      2. No DOI, have source_url? → extract DOI from URL → CrossRef
+      3. No DOI, have filename with DOI pattern? → extract DOI → CrossRef
+      4. Still no DOI, have title? → Semantic Scholar title search → DOI → CrossRef
+      5. No DOI found at all → skip (report as 'no_doi')
     """
-    from lib.db_operations import get_paper_library, upsert_paper
+    from lib.db_operations import get_paper_library, upsert_paper, save_paper_references
+    from lib.crossref import (
+        query_crossref, extract_doi_from_url, extract_doi_from_filename,
+        find_doi_via_semantic_scholar, scrape_doi_from_page,
+        apply_crossref_enrichment, _present,
+    )
     import time as _time
 
     steps = []
 
-    # Get papers needing enrichment from Postgres
+    # Get all papers from Postgres
     all_papers = get_paper_library()
 
+    # Filter to papers that need enrichment (missing authors OR year OR journal)
     papers_to_enrich = []
     for paper in all_papers:
-        url = paper.get('url', '') or paper.get('source_url', '')
-        doi = paper.get('doi', '')
-        if url or doi:
-            missing_authors = not paper.get('authors') or paper.get('authors') == []
-            missing_year = not paper.get('year')
-            missing_journal = not paper.get('journal')
-            if missing_authors or missing_year or missing_journal:
-                papers_to_enrich.append(paper)
+        missing_authors = not paper.get('authors') or paper.get('authors') == []
+        missing_year = not paper.get('year') or not _present(paper.get('year'))
+        missing_journal = not paper.get('journal') or not _present(paper.get('journal'))
+        if missing_authors or missing_year or missing_journal:
+            papers_to_enrich.append(paper)
 
     if not papers_to_enrich:
         return {'success': True, 'message': 'No papers need enrichment', 'enriched': 0, 'steps': steps}
 
-    if body.max_papers:
-        papers_to_enrich = papers_to_enrich[:body.max_papers]
-
+    # Apply filters
     if body.filenames:
         papers_to_enrich = [p for p in papers_to_enrich if p['filename'] in body.filenames]
 
+    if body.max_papers:
+        papers_to_enrich = papers_to_enrich[:body.max_papers]
+
     enriched_count = 0
     failed_count = 0
+    doi_found_count = 0
 
     for idx, paper in enumerate(papers_to_enrich):
         try:
@@ -536,69 +548,85 @@ def enrich_papers(body: EnrichRequest):
             title = paper.get('title', filename)
             steps.append(f"[{idx + 1}/{len(papers_to_enrich)}] {title[:60]}...")
 
-            url = paper.get('url', '') or paper.get('source_url', '')
             doi = paper.get('doi', '')
 
-            # Extract DOI from URL if missing
-            if not doi and url:
-                doi = _extract_doi_from_url(url)
-                if doi:
-                    steps.append(f"  Found DOI: {doi}")
-
-            # Query CrossRef
-            if doi:
-                crossref_metadata = _query_crossref(doi)
-                if crossref_metadata:
-                    updates = {}
+            # ── Step 1: Try to get a DOI if we don't have one ──
+            if not doi:
+                # Try source_url
+                url = paper.get('url', '') or paper.get('source_url', '')
+                if url:
+                    doi = extract_doi_from_url(url)
                     if doi:
+                        steps.append(f"  DOI from URL: {doi}")
+                        doi_found_count += 1
+
+            if not doi:
+                # Try scraping publisher page
+                url = paper.get('url', '') or paper.get('source_url', '')
+                if url:
+                    try:
+                        doi = scrape_doi_from_page(url)
+                        if doi:
+                            steps.append(f"  DOI from page scrape: {doi}")
+                            doi_found_count += 1
+                    except Exception:
+                        pass
+
+            if not doi:
+                # Try filename
+                doi = extract_doi_from_filename(filename)
+                if doi:
+                    steps.append(f"  DOI from filename: {doi}")
+                    doi_found_count += 1
+
+            if not doi and _present(title):
+                # Try Semantic Scholar title search
+                doi = find_doi_via_semantic_scholar(title)
+                if doi:
+                    steps.append(f"  DOI via Semantic Scholar: {doi}")
+                    doi_found_count += 1
+
+            # ── Step 2: Query CrossRef with DOI ──
+            if doi:
+                crossref_data = query_crossref(doi)
+                if crossref_data:
+                    updates = apply_crossref_enrichment(paper, crossref_data)
+
+                    # Always update DOI if we found one and paper didn't have it
+                    if not paper.get('doi'):
                         updates['doi'] = doi
 
-                    if not paper.get('authors') or paper.get('authors') == []:
-                        if crossref_metadata.get('authors'):
-                            updates['authors'] = crossref_metadata['authors']
+                    # Set crossref_verified
+                    updates['crossref_verified'] = True
 
-                    if not paper.get('year'):
-                        if crossref_metadata.get('year'):
-                            updates['year'] = str(crossref_metadata['year'])
-
-                    if not paper.get('journal'):
-                        if crossref_metadata.get('journal'):
-                            try:
-                                from lib.journal_normalizer import normalize_journal_name
-                                updates['journal'] = normalize_journal_name(crossref_metadata['journal'])
-                            except Exception:
-                                updates['journal'] = crossref_metadata['journal']
-
-                    if not paper.get('abstract'):
-                        if crossref_metadata.get('abstract'):
-                            from lib.jats import strip_jats
-                            updates['abstract'] = strip_jats(crossref_metadata['abstract'])
-
-                    for field in ('volume', 'issue', 'pages'):
-                        if not paper.get(field) and crossref_metadata.get(field):
-                            updates[field] = crossref_metadata[field]
-
-                    if len(updates) > 1 or (len(updates) == 1 and 'doi' not in updates):
+                    if updates:
                         upsert_paper(filename, updates)
-                        updated_fields = [k for k in updates if k != 'doi']
-                        steps.append(f"  Updated: {', '.join(updated_fields)}")
-                        enriched_count += 1
+                        updated_fields = [k for k in updates if k not in ('doi', 'crossref_verified')]
+                        if updated_fields:
+                            steps.append(f"  Enriched: {', '.join(updated_fields)}")
+                            enriched_count += 1
+                        else:
+                            # Still save DOI + verified flag even if no new metadata
+                            steps.append("  Verified (no new metadata fields)")
+                            enriched_count += 1
 
-                        # Save references if we got them
-                        refs = crossref_metadata.get('references', [])
+                        # Save references
+                        refs = crossref_data.get('references', [])
                         if refs:
-                            from lib.db_operations import save_paper_references
-                            save_paper_references(filename, refs)
+                            try:
+                                save_paper_references(filename, refs)
+                            except Exception:
+                                pass  # refs are optional
                     else:
-                        steps.append("  All fields already present")
-                        failed_count += 1
+                        steps.append("  CrossRef matched but no updates needed")
                 else:
-                    steps.append("  CrossRef returned no data")
+                    steps.append(f"  CrossRef returned no data for DOI: {doi}")
                     failed_count += 1
             else:
-                steps.append("  No DOI available")
+                steps.append("  No DOI found (URL/filename/S2 all failed)")
                 failed_count += 1
 
+            # Rate limit: 1 second between CrossRef calls
             _time.sleep(1.0)
 
         except Exception as e:
@@ -609,9 +637,184 @@ def enrich_papers(body: EnrichRequest):
         'success': True,
         'enriched': enriched_count,
         'failed': failed_count,
+        'doi_found': doi_found_count,
         'total': len(papers_to_enrich),
         'steps': steps,
     }
+
+
+@router.get("/enrich/status")
+def enrichment_status():
+    """
+    Return a summary of how many papers need enrichment.
+
+    Categories:
+      - has_doi: Have a DOI, can enrich via CrossRef immediately
+      - has_url: No DOI but have source_url (DOI extractable)
+      - has_title: No DOI, no URL-DOI, but have a title (S2 lookup)
+      - no_leads: Nothing to work with
+    """
+    from lib.db import get_session
+    from lib.models import Paper
+    from lib.crossref import _present
+
+    with get_session() as session:
+        papers = session.query(Paper).filter(Paper.deleted_at.is_(None)).all()
+
+        total = len(papers)
+        complete = 0
+        has_doi = 0
+        has_url = 0
+        has_title_only = 0
+        no_leads = 0
+        verified = 0
+
+        for p in papers:
+            if p.crossref_verified:
+                verified += 1
+
+            auth_ok = isinstance(p.authors, list) and len(p.authors) > 0
+            missing_authors = not auth_ok
+            missing_year = not _present(p.year)
+            missing_journal = not _present(p.journal)
+
+            if not (missing_authors or missing_year or missing_journal):
+                complete += 1
+                continue
+
+            doi = p.doi or ''
+            url = p.source_url or ''
+            title = p.title or ''
+
+            if doi:
+                has_doi += 1
+            elif url:
+                has_url += 1
+            elif _present(title):
+                has_title_only += 1
+            else:
+                no_leads += 1
+
+    needs_enrichment = has_doi + has_url + has_title_only + no_leads
+
+    return {
+        'total_papers': total,
+        'complete': complete,
+        'needs_enrichment': needs_enrichment,
+        'crossref_verified': verified,
+        'breakdown': {
+            'has_doi': has_doi,
+            'has_url': has_url,
+            'has_title_only': has_title_only,
+            'no_leads': no_leads,
+        },
+    }
+
+
+@router.post("/enrich/stream")
+def enrich_papers_stream(body: EnrichRequest):
+    """
+    Streaming enrichment endpoint using Server-Sent Events (SSE).
+    
+    Sends real-time progress updates as papers are enriched.
+    Each event is a JSON object with type: 'progress' | 'result' | 'done'.
+    """
+    from fastapi.responses import StreamingResponse
+    from lib.db_operations import get_paper_library, upsert_paper, save_paper_references
+    from lib.crossref import (
+        query_crossref, extract_doi_from_url, extract_doi_from_filename,
+        find_doi_via_semantic_scholar, scrape_doi_from_page,
+        apply_crossref_enrichment, _present,
+    )
+    import time as _time
+
+    def generate():
+        all_papers = get_paper_library()
+
+        papers_to_enrich = []
+        for paper in all_papers:
+            missing_authors = not paper.get('authors') or paper.get('authors') == []
+            missing_year = not paper.get('year') or not _present(paper.get('year'))
+            missing_journal = not paper.get('journal') or not _present(paper.get('journal'))
+            if missing_authors or missing_year or missing_journal:
+                papers_to_enrich.append(paper)
+
+        if body.filenames:
+            papers_to_enrich = [p for p in papers_to_enrich if p['filename'] in body.filenames]
+        if body.max_papers:
+            papers_to_enrich = papers_to_enrich[:body.max_papers]
+
+        total = len(papers_to_enrich)
+        enriched = 0
+        failed = 0
+        doi_found = 0
+
+        yield f"data: {json.dumps({'type': 'start', 'total': total})}\n\n"
+
+        for idx, paper in enumerate(papers_to_enrich):
+            filename = paper['filename']
+            title = paper.get('title', filename)
+            status_msg = f"[{idx+1}/{total}] {title[:60]}..."
+
+            try:
+                doi = paper.get('doi', '')
+
+                if not doi:
+                    url = paper.get('url', '') or paper.get('source_url', '')
+                    if url:
+                        doi = extract_doi_from_url(url)
+                    if not doi and url:
+                        try:
+                            doi = scrape_doi_from_page(url)
+                        except Exception:
+                            pass
+                if not doi:
+                    doi = extract_doi_from_filename(filename)
+                if not doi and _present(title):
+                    doi = find_doi_via_semantic_scholar(title)
+
+                if doi and not paper.get('doi'):
+                    doi_found += 1
+
+                result = 'no_doi'
+                if doi:
+                    crossref_data = query_crossref(doi)
+                    if crossref_data:
+                        updates = apply_crossref_enrichment(paper, crossref_data)
+                        if not paper.get('doi'):
+                            updates['doi'] = doi
+                        updates['crossref_verified'] = True
+
+                        if updates:
+                            upsert_paper(filename, updates)
+                            fields = [k for k in updates if k not in ('doi', 'crossref_verified')]
+                            enriched += 1
+                            result = 'enriched'
+                            status_msg += f" → {', '.join(fields) or 'verified'}"
+
+                            refs = crossref_data.get('references', [])
+                            if refs:
+                                try:
+                                    save_paper_references(filename, refs)
+                                except Exception:
+                                    pass
+                    else:
+                        failed += 1
+                        result = 'crossref_failed'
+                else:
+                    failed += 1
+
+                yield f"data: {json.dumps({'type': 'progress', 'index': idx+1, 'total': total, 'filename': filename, 'title': title[:60], 'result': result, 'enriched': enriched, 'failed': failed})}\n\n"
+
+                _time.sleep(1.0)
+
+            except Exception as e:
+                failed += 1
+                yield f"data: {json.dumps({'type': 'progress', 'index': idx+1, 'total': total, 'filename': filename, 'result': 'error', 'error': str(e), 'enriched': enriched, 'failed': failed})}\n\n"
+
+        yield f"data: {json.dumps({'type': 'done', 'enriched': enriched, 'failed': failed, 'doi_found': doi_found, 'total': total})}\n\n"
+
+    return StreamingResponse(generate(), media_type="text/event-stream")
 
 
 @router.post("/bulk-doi")

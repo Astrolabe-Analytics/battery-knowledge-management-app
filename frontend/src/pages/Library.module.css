@@ -353,3 +353,144 @@
 .selectedRow td {
   background: var(--astro-primary-light) !important;
 }
+
+/* ── Enrichment banner ─────────────────────────────────── */
+
+.enrichBanner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--astro-space-3);
+  padding: var(--astro-space-3) var(--astro-space-4);
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 1px solid #f59e0b;
+  border-radius: var(--astro-radius-lg);
+  margin-bottom: var(--astro-space-3);
+  flex-wrap: wrap;
+}
+
+.enrichInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--astro-space-2);
+  font-size: var(--astro-text-sm);
+  color: #92400e;
+}
+
+.enrichBreakdown {
+  font-weight: 400;
+  opacity: 0.8;
+  margin-left: var(--astro-space-1);
+}
+
+.enrichActions {
+  display: flex;
+  gap: var(--astro-space-2);
+  flex-shrink: 0;
+}
+
+.enrichBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--astro-space-1);
+  padding: var(--astro-space-1) var(--astro-space-3);
+  border: 1px solid #f59e0b;
+  border-radius: var(--astro-radius);
+  background: white;
+  color: #92400e;
+  font-size: var(--astro-text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.enrichBtn:hover {
+  background: #fffbeb;
+}
+
+.enrichBtnAll {
+  composes: enrichBtn;
+  background: #f59e0b;
+  color: white;
+  border-color: #d97706;
+}
+
+.enrichBtnAll:hover {
+  background: #d97706;
+}
+
+/* ── Enrichment progress ───────────────────────────────── */
+
+.enrichProgress {
+  padding: var(--astro-space-3) var(--astro-space-4);
+  background: var(--astro-surface);
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius-lg);
+  margin-bottom: var(--astro-space-3);
+}
+
+.enrichProgressHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--astro-space-2);
+  font-size: var(--astro-text-sm);
+  margin-bottom: var(--astro-space-2);
+}
+
+.enrichProgressHeader span {
+  flex: 1;
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.cancelBtn {
+  padding: var(--astro-space-1) var(--astro-space-2);
+  border: 1px solid var(--astro-danger);
+  border-radius: var(--astro-radius);
+  background: transparent;
+  color: var(--astro-danger);
+  font-size: var(--astro-text-xs);
+  cursor: pointer;
+}
+
+.cancelBtn:hover {
+  background: var(--astro-danger-light);
+}
+
+.enrichProgressBar {
+  height: 6px;
+  background: var(--astro-bg-tertiary);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: var(--astro-space-2);
+}
+
+.enrichProgressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #f59e0b, #10b981);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.enrichStats {
+  display: flex;
+  gap: var(--astro-space-4);
+  font-size: var(--astro-text-xs);
+}
+
+.enrichStatGood {
+  color: #10b981;
+  font-weight: 600;
+}
+
+.enrichStatBad {
+  color: var(--astro-danger);
+  font-weight: 600;
+}

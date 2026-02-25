@@ -552,7 +552,8 @@ def enrich_single_paper(filename: str):
     from lib.db_operations import get_paper_details, upsert_paper, save_paper_references
     from lib.crossref import (
         query_crossref, extract_doi_from_url, extract_doi_from_filename,
-        find_doi_via_semantic_scholar, apply_crossref_enrichment, _present,
+        find_doi_via_semantic_scholar, scrape_doi_from_page,
+        apply_crossref_enrichment, _present,
     )
 
     details = get_paper_details(filename)
@@ -569,6 +570,16 @@ def enrich_single_paper(filename: str):
             doi = extract_doi_from_url(url)
             if doi:
                 steps.append(f"DOI extracted from URL: {doi}")
+
+    if not doi:
+        url = details.get('source_url', '')
+        if url:
+            try:
+                doi = scrape_doi_from_page(url)
+                if doi:
+                    steps.append(f"DOI scraped from publisher page: {doi}")
+            except Exception:
+                pass
 
     if not doi:
         doi = extract_doi_from_filename(filename)
