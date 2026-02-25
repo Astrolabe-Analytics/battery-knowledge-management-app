@@ -16,7 +16,7 @@
 - Paper status classification: AI Summary / Complete / Metadata Only / Incomplete
 - Google Scholar fallback links for references without DOIs
 - [J] citation artifact cleanup from API responses
-- 50 pytest tests for status classification
+- 155 pytest tests (API routes, status classification, all 7 route modules)
 
 ---
 
@@ -33,14 +33,14 @@
 - ✅ Monolith extraction → complete rewrite as React + FastAPI
 - ✅ Collection-scoped RAG queries (Research page)
 - ❌ Multi-paper synthesis (not yet built)
-- ❌ Auto-summarize on ingest (only 5 papers have AI summaries)
+- 🔄 Auto-summarize on ingest (238 papers being batch-summarized, Feb 2026)
 - ❌ Connect to dataset catalog (not yet started)
 
 ### ~~Phase 3: Infrastructure Migration~~ ✅
 - ✅ FastAPI backend (all routes)
 - ✅ PostgreSQL + pgvector (full migration from JSON + ChromaDB + SQLite)
 - ✅ React frontend (all pages, CSS Modules, design tokens)
-- ❌ Docker deploy (still running locally)
+- ✅ Docker deploy (Dockerfile.backend, Dockerfile.frontend, docker-compose.yml, nginx.conf)
 
 ---
 
@@ -57,8 +57,10 @@
 ### 4.2 Research Page Filters
 Add chemistry, topic, and year-range dropdowns to the Research page alongside the collection picker. Filter data already exists (Dashboard charts use it). This is the single biggest RAG quality improvement.
 
-### 4.3 AI Summaries at Scale
-Only 5 papers have `ai_summary`. Generate summaries for the ~1,700 complete papers to make the Feed page useful. Requires batched Claude API calls.
+### 4.3 AI Summaries at Scale ✅ (In Progress)
+- ✅ `scripts/generate_summaries_pg.py` — PostgreSQL-native batch generation
+- 🔄 238 papers with real PDFs being summarized (Feb 2026)
+- Generates structured summary + 280-char feed blurb per paper
 
 ### 4.4 Multi-Paper Comparison
 Select 2–5 papers and ask a question. Only search chunks from those papers. Prompt Claude to compare and contrast what each paper says, noting agreements and disagreements.
@@ -80,8 +82,12 @@ Import the Battery Datasets catalog and cross-reference with the paper library. 
 ### 4.9 Domain-Specific Embeddings
 Fine-tune an embedding model on battery literature so "capacity fade" and "SOH degradation" are closely related. Improves retrieval at scale.
 
-### 4.10 Docker Deployment
-Docker Compose with frontend, backend, postgres containers. Deploy to VPS or managed hosting.
+### 4.10 Docker Deployment ✅
+- ✅ Dockerfile.backend (Python 3.11 + FastAPI + pre-baked sentence-transformers model)
+- ✅ Dockerfile.frontend (Node 20 build + nginx)
+- ✅ docker-compose.yml (postgres pgvector:pg16, backend, frontend)
+- ✅ nginx.conf (API proxy, SPA fallback, SSE support)
+- ✅ Configurable CORS via CORS_ORIGINS env var
 
 ---
 
@@ -95,13 +101,13 @@ Docker Compose with frontend, backend, postgres containers. Deploy to VPS or man
 | **P1** | ~~Batch metadata enrichment~~ | High | Low | ✅ Done (ongoing) |
 | **P1** | ~~Reference DOI backfill~~ | Medium | Medium | ✅ Done (87.5% coverage) |
 | **P1** | Research page filters (chemistry/topic/year) | High | Low | Not started |
-| **P1** | Batch AI summary generation | High | Medium | Not started |
+| **P1** | Batch AI summary generation | High | Medium | 🔄 Running (238 papers) |
 | **P1** | Finish remaining enrichment (~315 papers) | Medium | Low | In progress |
 | **P2** | Multi-paper comparison | High | Medium | Not started |
 | **P2** | Citation graph visualization | Medium | High | Not started |
 | **P2** | Connect to dataset catalog | High | Medium | Not started |
-| **P2** | More tests (API routes, search, import) | Medium | Medium | Not started |
-| **P3** | Docker deployment | Medium | Medium | Not started |
+| **P2** | ~~More tests (API routes, search, import)~~ | Medium | Medium | ✅ Done (155 tests) |
+| **P3** | ~~Docker deployment~~ | Medium | Medium | ✅ Done |
 | **P3** | Alembic migrations | Low | Medium | Not started |
 | **P3** | Codebase cleanup (stale files/docs) | Low | Low | Not started |
 | **P4** | Figure/image extraction | Medium | High | Not started |

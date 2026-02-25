@@ -20,6 +20,7 @@
   align-items: center;
   gap: var(--astro-space-3);
   margin-bottom: var(--astro-space-4);
+  flex-wrap: wrap;
 }
 
 .scopeLabel {

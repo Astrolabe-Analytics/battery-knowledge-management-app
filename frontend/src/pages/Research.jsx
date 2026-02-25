@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Sparkles, Search } from 'lucide-react';
-import { askQuestion, fetchHistory, fetchCollections } from '../services/api';
+import { askQuestion, fetchHistory, fetchCollections, fetchFilters } from '../services/api';
 import styles from './Research.module.css';
 
 export default function Research() {
@@ -13,12 +13,17 @@ export default function Research() {
   const [history, setHistory] = useState([]);
   const [collections, setCollections] = useState([]);
   const [collectionId, setCollectionId] = useState('');
+  const [filterOptions, setFilterOptions] = useState({});
+  const [chemistry, setChemistry] = useState('');
+  const [topic, setTopic] = useState('');
+  const [paperType, setPaperType] = useState('');
 
   useEffect(() => {
-    Promise.all([fetchHistory({ limit: 20 }), fetchCollections()])
-      .then(([hd, cd]) => {
+    Promise.all([fetchHistory({ limit: 20 }), fetchCollections(), fetchFilters()])
+      .then(([hd, cd, fd]) => {
         setHistory(hd.queries || []);
         setCollections(cd.collections || []);
+        setFilterOptions(fd || {});
       })
       .catch(console.error);
   }, []);
@@ -32,6 +37,9 @@ export default function Research() {
     try {
       const opts = {};
       if (collectionId) opts.collection_id = Number(collectionId);
+      if (chemistry) opts.chemistry = chemistry;
+      if (topic) opts.topic = topic;
+      if (paperType) opts.paper_type = paperType;
       const res = await askQuestion(question, opts);
       setAnswer(res.answer || '');
       setSources(res.sources || []);
@@ -56,23 +64,61 @@ export default function Research() {
         <p className={styles.subtitle}>Ask questions about your paper library using AI</p>
       </div>
 
-      {collections.length > 0 && (
-        <div className={styles.scopeBar}>
-          <label className={styles.scopeLabel}>Scope:</label>
+      <div className={styles.scopeBar}>
+        {collections.length > 0 && (
+          <>
+            <label className={styles.scopeLabel}>Collection:</label>
+            <select
+              className={styles.scopeSelect}
+              value={collectionId}
+              onChange={e => setCollectionId(e.target.value)}
+            >
+              <option value="">All Papers</option>
+              {collections.map(c => (
+                <option key={c.id} value={c.id}>
+                  {c.name} ({c.paper_count ?? 0})
+                </option>
+              ))}
+            </select>
+          </>
+        )}
+        {(filterOptions.chemistries || []).length > 0 && (
           <select
             className={styles.scopeSelect}
-            value={collectionId}
-            onChange={e => setCollectionId(e.target.value)}
+            value={chemistry}
+            onChange={e => setChemistry(e.target.value)}
           >
-            <option value="">All Papers</option>
-            {collections.map(c => (
-              <option key={c.id} value={c.id}>
-                {c.name} ({c.paper_count ?? 0})
-              </option>
+            <option value="">All Chemistries</option>
+            {filterOptions.chemistries.map(c => (
+              <option key={c} value={c}>{c}</option>
             ))}
           </select>
-        </div>
-      )}
+        )}
+        {(filterOptions.topics || []).length > 0 && (
+          <select
+            className={styles.scopeSelect}
+            value={topic}
+            onChange={e => setTopic(e.target.value)}
+          >
+            <option value="">All Topics</option>
+            {filterOptions.topics.map(t => (
+              <option key={t} value={t}>{t}</option>
+            ))}
+          </select>
+        )}
+        {(filterOptions.paper_types || []).length > 0 && (
+          <select
+            className={styles.scopeSelect}
+            value={paperType}
+            onChange={e => setPaperType(e.target.value)}
+          >
+            <option value="">All Types</option>
+            {filterOptions.paper_types.map(pt => (
+              <option key={pt} value={pt}>{pt}</option>
+            ))}
+          </select>
+        )}
+      </div>
 
       <form className={styles.form} onSubmit={handleAsk}>
         <input
