@@ -227,12 +227,13 @@ def format_paper_for_display(paper: Dict) -> Dict:
     # Citation count
     citation_count = paper.get('citationCount', 0)
 
+    from lib.jats import strip_jats
     return {
         'title': paper.get('title', 'Unknown'),
         'authors': authors_str,
         'authors_list': [a.get('name', '') for a in authors] if authors else [],
         'year': str(year) if year else '',
-        'abstract': paper.get('abstract', ''),
+        'abstract': strip_jats(paper.get('abstract', '')),
         'doi': doi,
         'citation_count': citation_count if citation_count else 0,
         'is_open_access': paper.get('isOpenAccess', False),

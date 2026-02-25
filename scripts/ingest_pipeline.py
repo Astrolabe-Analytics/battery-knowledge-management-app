@@ -538,6 +538,22 @@ def query_crossref_api(doi: str) -> Optional[dict]:
         return None
 
 
+_PAPER_TYPE_MAP = {
+    'experimental': 'Experimental',
+    'modeling': 'Modeling & Simulation',
+    'modeling & simulation': 'Modeling & Simulation',
+    'simulation': 'Modeling & Simulation',
+    'method': 'Modeling & Simulation',
+    'review': 'Review',
+    'reference': 'Review',
+    'dataset': 'Dataset',
+}
+
+def _normalize_paper_type(raw: str) -> str:
+    """Normalize paper_type to one of the canonical categories."""
+    return _PAPER_TYPE_MAP.get(raw.lower().strip(), 'Experimental') if raw else 'Experimental'
+
+
 @anthropic_api_call_with_retry
 def _call_claude_for_metadata(text: str, filename: str, api_key: str, model: str) -> str:
     """Internal function to call Claude API with retry logic."""
@@ -556,7 +572,7 @@ Extract the following information and respond ONLY with a valid JSON object:
   "chemistries": ["list of battery chemistries discussed, e.g., LFP, NMC, NCA, LCO, LMO, LTO, graphite, silicon, etc."],
   "topics": ["list of technical topics, e.g., degradation, SOH, RUL, capacity fade, impedance, EIS, cycling, calendar aging, thermal, SEI, lithium plating, etc."],
   "application": "primary application domain: EV, grid storage, consumer electronics, aerospace, or general",
-  "paper_type": "one of: experimental, simulation, review, dataset, modeling, or method"
+  "paper_type": "one of: Experimental, Modeling & Simulation, Review, or Dataset"
 }}
 
 STRICT FORMATTING RULES:
@@ -569,7 +585,7 @@ STRICT FORMATTING RULES:
 - Include only chemistries explicitly mentioned or clearly studied
 - Topics should be technical keywords (3-10 topics)
 - For application, choose the most specific one that applies
-- For paper_type: experimental=lab work, simulation=computational, review=literature survey, dataset=data publication, modeling=theoretical models, method=new methodology/technique
+- For paper_type: Experimental=lab/physical testing, Modeling & Simulation=computational models/algorithms/ML methods, Review=literature surveys/overviews, Dataset=published data collections
 - Return ONLY the JSON object, no other text
 
 JSON:"""
@@ -611,7 +627,7 @@ def extract_metadata_for_paper(md_path: Path, api_key: str) -> dict:
         'chemistries': [],
         'topics': [],
         'application': 'general',
-        'paper_type': 'experimental'
+        'paper_type': 'Experimental'
     }
 
     # Try DOI extraction
@@ -654,7 +670,7 @@ def extract_metadata_for_paper(md_path: Path, api_key: str) -> dict:
             metadata['chemistries'] = claude_metadata.get('chemistries', [])
             metadata['topics'] = claude_metadata.get('topics', [])
             metadata['application'] = claude_metadata.get('application', 'general')
-            metadata['paper_type'] = claude_metadata.get('paper_type', 'experimental')
+            metadata['paper_type'] = claude_metadata.get('paper_type', 'Experimental')
         else:
             # Use Claude for everything
             metadata.update(claude_metadata)
@@ -663,7 +679,7 @@ def extract_metadata_for_paper(md_path: Path, api_key: str) -> dict:
         metadata['chemistries'] = [c.upper() for c in metadata.get('chemistries', [])]
         metadata['topics'] = [t.lower() for t in metadata.get('topics', [])]
         metadata['application'] = metadata.get('application', 'general').lower()
-        metadata['paper_type'] = metadata.get('paper_type', 'experimental').lower()
+        metadata['paper_type'] = _normalize_paper_type(metadata.get('paper_type', 'Experimental'))
 
         # Handle authors format
         if isinstance(metadata.get('authors'), str):
@@ -874,7 +890,7 @@ def stage_embed(force: bool = False):
             meta['chemistries'] = ','.join(pm.get('chemistries', []))
             meta['topics'] = ','.join(pm.get('topics', []))
             meta['application'] = pm.get('application', 'general')
-            meta['paper_type'] = pm.get('paper_type', 'experimental')
+            meta['paper_type'] = pm.get('paper_type', 'Experimental')
         else:
             meta['title'] = ''
             meta['authors'] = ''
@@ -884,7 +900,7 @@ def stage_embed(force: bool = False):
             meta['chemistries'] = ''
             meta['topics'] = ''
             meta['application'] = 'general'
-            meta['paper_type'] = 'experimental'
+            meta['paper_type'] = 'Experimental'
 
         metadatas.append(meta)
 

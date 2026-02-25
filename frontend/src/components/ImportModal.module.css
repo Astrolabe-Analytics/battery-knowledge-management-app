@@ -1,0 +1,196 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.15s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal {
+  background: var(--astro-surface);
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius-xl);
+  box-shadow: var(--astro-shadow-md);
+  width: 520px;
+  max-width: 95vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: scaleIn 0.2s ease-out;
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--astro-space-5) var(--astro-space-6);
+  border-bottom: 1px solid var(--astro-border);
+}
+
+.modalTitle {
+  font-size: var(--astro-text-lg);
+  font-weight: 700;
+}
+
+.closeBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--astro-text-muted);
+  padding: var(--astro-space-1);
+  border-radius: var(--astro-radius);
+  display: flex;
+  align-items: center;
+}
+
+.closeBtn:hover {
+  color: var(--astro-text);
+  background: var(--astro-bg-tertiary);
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  border-bottom: 1px solid var(--astro-border);
+  padding: 0 var(--astro-space-6);
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: var(--astro-space-2);
+  padding: var(--astro-space-3) var(--astro-space-4);
+  border: none;
+  background: transparent;
+  font-size: var(--astro-text-sm);
+  color: var(--astro-text-muted);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  transition: color 0.15s;
+}
+
+.tab:hover {
+  color: var(--astro-text);
+}
+
+.tabActive {
+  color: var(--astro-primary);
+  border-bottom-color: var(--astro-primary);
+  font-weight: 600;
+}
+
+/* Tab content */
+.tabContent {
+  padding: var(--astro-space-6);
+}
+
+.label {
+  display: block;
+  font-size: var(--astro-text-sm);
+  font-weight: 600;
+  margin-bottom: var(--astro-space-2);
+  color: var(--astro-text);
+}
+
+.input {
+  width: 100%;
+  padding: var(--astro-space-3);
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius);
+  font-size: var(--astro-text-sm);
+  background: var(--astro-bg-secondary);
+  color: var(--astro-text);
+  box-sizing: border-box;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--astro-primary);
+  box-shadow: 0 0 0 3px var(--astro-primary-light);
+}
+
+.hint {
+  font-size: var(--astro-text-xs);
+  color: var(--astro-text-muted);
+  margin-top: var(--astro-space-2);
+  margin-bottom: var(--astro-space-4);
+}
+
+.submitBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--astro-space-2);
+  padding: var(--astro-space-2) var(--astro-space-5);
+  background: var(--astro-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--astro-radius);
+  font-size: var(--astro-text-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.submitBtn:hover:not(:disabled) {
+  background: var(--astro-primary-hover);
+}
+
+.submitBtn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Dropzone */
+.dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--astro-space-2);
+  padding: var(--astro-space-8) var(--astro-space-4);
+  border: 2px dashed var(--astro-border);
+  border-radius: var(--astro-radius-lg);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+  color: var(--astro-text-secondary);
+  font-size: var(--astro-text-sm);
+}
+
+.dropzone:hover {
+  border-color: var(--astro-primary);
+  background: var(--astro-primary-light);
+}
+
+.dropzoneIcon {
+  color: var(--astro-text-muted);
+}
+
+.uploadProgress {
+  display: flex;
+  align-items: center;
+  gap: var(--astro-space-2);
+  margin-top: var(--astro-space-3);
+  font-size: var(--astro-text-sm);
+  color: var(--astro-text-muted);
+}

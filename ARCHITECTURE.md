@@ -1,101 +1,130 @@
 # Architecture
 
-This project follows a clean separation of concerns between frontend (UI) and backend (business logic).
+Astrolabe is a battery-research paper management and RAG system built with a **React** frontend and **FastAPI** backend, backed by **PostgreSQL + pgvector** for metadata and vector search.
 
-## Structure
+## Stack
+
+| Layer | Technology | Port |
+|-------|-----------|------|
+| Frontend | React 19 + Vite | 5173 (dev) |
+| Backend API | FastAPI + Uvicorn | 8002 |
+| Database | PostgreSQL 16 + pgvector | 5432 |
+| Embeddings | sentence-transformers/all-MiniLM-L6-v2 | — |
+| LLM | Claude (Anthropic API) | — |
+| PDF Storage | Local filesystem (`papers/`) | — |
+
+## Directory Structure
 
 ```
 astrolabe-paper-db/
-├── lib/                    # Backend modules (reusable, UI-agnostic)
-│   ├── __init__.py
-│   └── rag.py             # RAG system business logic
-├── scripts/               # Standalone scripts
-│   ├── ingest.py          # PDF ingestion pipeline
-│   └── query.py           # CLI query tool
-├── app.py                 # Streamlit UI (thin layer over lib.rag)
-└── example_backend_usage.py  # Backend usage examples
+├── api/                        # FastAPI backend
+│   ├── main.py                 # App factory, CORS, router mounting
+│   └── routes/                 # Route modules
+│       ├── papers.py           # Paper CRUD, metadata, references, PDF serving
+│       ├── search.py           # Semantic search + RAG (ask Claude)
+│       ├── collections.py      # Paper collections management
+│       ├── history.py          # Query history + starring
+│       ├── settings.py         # App settings + backup/restore
+│       ├── discover.py         # Semantic Scholar search + gap analysis
+│       └── imports.py          # URL/DOI/upload/metadata-only import
+│
+├── frontend/                   # React SPA
+│   └── src/
+│       ├── App.jsx             # Routes + layout
+│       ├── pages/              # Page components
+│       │   ├── Library.jsx     # Main paper table (default route)
+│       │   ├── PaperDetail.jsx # Individual paper view + PDF viewer
+│       │   ├── Dashboard.jsx   # Stats & charts
+│       │   ├── Collections.jsx # Collection management
+│       │   ├── CollectionDetail.jsx
+│       │   ├── Research.jsx    # RAG query interface
+│       │   ├── Discover.jsx    # Semantic Scholar + gap analysis
+│       │   ├── Feed.jsx        # AI-generated blurbs
+│       │   ├── History.jsx     # Past queries
+│       │   └── Settings.jsx    # Config + backups
+│       └── components/         # Shared components
+│           ├── Layout.jsx      # Sidebar nav + content area
+│           ├── ImportModal.jsx  # Import dialog
+│           ├── CommandPalette.jsx
+│           └── Toast.jsx
+│
+├── lib/                        # Backend business logic (UI-agnostic)
+│   ├── db.py                   # SQLAlchemy engine + session factory
+│   ├── db_operations.py        # All PostgreSQL CRUD operations
+│   ├── models.py               # SQLAlchemy ORM models
+│   ├── rag.py                  # ChromaDB, embeddings, vector search
+│   ├── app_helpers.py          # CrossRef queries, metadata ops
+│   ├── library_operations.py   # Paper import pipeline, soft delete
+│   ├── enrichment.py           # CrossRef/Semantic Scholar enrichment
+│   ├── semantic_scholar.py     # Semantic Scholar API client
+│   ├── gap_analysis.py         # Citation gap detection
+│   ├── collections.py          # SQLite collections (legacy)
+│   ├── backup.py               # Backup/restore system
+│   ├── journal_normalizer.py   # Journal name normalization
+│   ├── jats.py                 # JATS XML abstract cleanup
+│   ├── retry.py                # API retry utilities
+│   └── ...                     # Other utilities
+│
+├── scripts/                    # Standalone CLI tools
+│   ├── ingest.py               # PDF → text → chunks → embeddings
+│   ├── ingest_pipeline.py      # Staged ingestion pipeline
+│   ├── enrich_crossref_bulk.py # Bulk CrossRef enrichment
+│   ├── migrate_to_postgres.py  # JSON → PostgreSQL migration
+│   └── ...                     # Maintenance & fix scripts
+│
+├── data/                       # Runtime data
+│   ├── metadata.json           # Paper metadata (2,022 papers)
+│   ├── settings.json           # App configuration
+│   ├── chroma_db/              # ChromaDB vector store
+│   └── ...
+│
+└── papers/                     # PDF files
 ```
 
-## Backend Module (`lib/rag.py`)
+## API Endpoints
 
-Contains all business logic with no UI dependencies:
+All endpoints are prefixed with `/api/`.
 
-### Database Operations
-- `DatabaseClient.get_collection()` - Load ChromaDB collection
-- `get_paper_library()` - Get all papers with metadata
-- `get_filter_options()` - Get unique filter values
-- `get_paper_details(filename)` - Get details for specific paper
-- `get_collection_count()` - Get total chunk count
-- `check_pdf_exists(filename)` - Check if PDF exists
-- `get_pdf_path(filename)` - Get PDF file path
+| Group | Endpoints | Module |
+|-------|-----------|--------|
+| Papers | `GET /papers`, `GET /papers/{filename}`, `PATCH /papers/{filename}/metadata`, `DELETE /papers`, `GET /papers/{filename}/pdf`, `GET /papers/{filename}/references` | `papers.py` |
+| Search | `POST /search/chunks`, `POST /search/ask` | `search.py` |
+| Collections | CRUD at `/collections`, `/collections/{id}/papers` | `collections.py` |
+| History | `GET /history`, `POST /history/{id}/star`, `DELETE /history/{id}` | `history.py` |
+| Settings | `GET /settings`, `PATCH /settings`, backup endpoints | `settings.py` |
+| Discover | `POST /discover/search`, `GET /discover/gaps` | `discover.py` |
+| Import | `POST /import/url`, `/upload`, `/doi`, `/metadata-only`, `/enrich` | `imports.py` |
+| Health | `GET /health` | `main.py` |
 
-### Search & Retrieval
-- `retrieve_relevant_chunks(question, top_k, filters)` - Semantic search for relevant passages
-- `EmbeddingModelLoader.get_model()` - Load and cache sentence transformer
+## Data Flow
 
-### LLM Integration
-- `query_claude(question, chunks, api_key)` - Get answer from Claude
-- `get_api_key_from_env()` - Get API key from environment
-
-### Design Patterns
-- **Singleton pattern** for model/collection loading (caching)
-- **Dependency injection** for API keys
-- **Exceptions for control flow** (FileNotFoundError, RuntimeError)
-- **Type hints** for clear interfaces
-
-## Frontend (`app.py`)
-
-Pure UI layer using Streamlit:
-- **No database calls** - delegates to `rag.DatabaseClient`
-- **No model loading** - delegates to `rag.EmbeddingModelLoader`
-- **No search logic** - calls `rag.retrieve_relevant_chunks()`
-- **No LLM calls** - calls `rag.query_claude()`
-- **UI-specific logic only** - session state, input widgets, display
-
-The frontend is a thin wrapper that:
-1. Collects user input
-2. Calls backend functions
-3. Displays results
-
-## Benefits
-
-1. **Frontend flexibility** - Swap Streamlit for Flask, FastAPI, CLI, etc. without changing backend
-2. **Testability** - Backend can be unit tested without UI
-3. **Reusability** - Backend functions can be imported anywhere
-4. **Maintainability** - Clear separation of concerns
-5. **API readiness** - Backend can be exposed as REST API without refactoring
-
-## Example: Using Backend Directly
-
-```python
-from lib import rag
-
-# Search for papers
-papers = rag.get_paper_library()
-
-# Find relevant chunks
-chunks = rag.retrieve_relevant_chunks(
-    question="What causes battery degradation?",
-    top_k=5,
-    filter_chemistry="LFP"
-)
-
-# Get answer from LLM
-api_key = rag.get_api_key_from_env()
-answer = rag.query_claude(question, chunks, api_key)
+```
+User (React) → Vite proxy (/api) → FastAPI (port 8002) → PostgreSQL + pgvector
+                                                        → ChromaDB (embeddings)
+                                                        → Claude API (RAG queries)
+                                                        → CrossRef/Semantic Scholar (enrichment)
 ```
 
-See `example_backend_usage.py` for more examples.
+## Key Design Decisions
 
-## Future Frontend Options
+- **lib/ is UI-agnostic** — no Streamlit, no FastAPI imports. Pure business logic with logging.
+- **PostgreSQL + pgvector** for metadata, full-text search, and vector similarity (replacing JSON files + ChromaDB).
+- **Vite proxy** forwards `/api` → `http://localhost:8002` in development.
+- **CSS Modules + design tokens** for consistent frontend styling.
+- **No async in route handlers** — all database operations are synchronous (SQLAlchemy with psycopg2).
 
-With this architecture, you can easily create:
+## Running
 
-- **REST API** (FastAPI/Flask) - Expose backend as HTTP endpoints
-- **CLI tool** - Import and call backend functions (already done in scripts/query.py)
-- **Discord bot** - Use backend for Discord commands
-- **Jupyter notebooks** - Interactive exploration
-- **Desktop GUI** - PyQt/Tkinter frontend
-- **Web frontend** - React/Vue.js calling backend API
+```bash
+# Backend
+cd astrolabe-paper-db
+uvicorn api.main:app --host 127.0.0.1 --port 8002 --reload
+
+# Frontend (separate terminal)
+cd frontend
+npx vite --port 5173
+```
+
+Open http://localhost:5173 in your browser.
 
 All without modifying `lib/rag.py`.

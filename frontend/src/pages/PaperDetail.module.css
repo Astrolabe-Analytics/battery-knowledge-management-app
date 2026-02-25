@@ -1,0 +1,518 @@
+.page { }
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--astro-space-2);
+  color: var(--astro-text-muted);
+  font-size: var(--astro-text-sm);
+  margin-bottom: var(--astro-space-4);
+  cursor: pointer;
+}
+
+.backLink:hover { color: var(--astro-text); }
+
+.header {
+  margin-bottom: var(--astro-space-6);
+}
+
+.title {
+  font-size: var(--astro-text-2xl);
+  font-weight: 700;
+  margin-bottom: var(--astro-space-2);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--astro-space-4);
+  font-size: var(--astro-text-sm);
+  color: var(--astro-text-secondary);
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: var(--astro-space-1);
+}
+
+/* Action bar — compact row between header and content */
+.actionBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--astro-space-4);
+  padding: var(--astro-space-3) var(--astro-space-4);
+  background: var(--astro-surface);
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius-lg);
+  margin-bottom: var(--astro-space-4);
+  flex-wrap: wrap;
+}
+
+.actionBarLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--astro-space-2);
+  flex-wrap: wrap;
+}
+
+.actionBarRight {
+  display: flex;
+  align-items: center;
+  gap: var(--astro-space-2);
+  flex-wrap: wrap;
+}
+
+.actionBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: var(--astro-space-2) var(--astro-space-4);
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius);
+  font-size: var(--astro-text-sm);
+  background: var(--astro-surface);
+  color: var(--astro-text);
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.actionBtn:hover { background: var(--astro-bg-tertiary); }
+
+/* Full-width content area (no sidebar) */
+.content {
+  /* single column, full width */
+}
+
+@media (max-width: 768px) {
+  .actionBar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.card {
+  background: var(--astro-surface);
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius-lg);
+  padding: var(--astro-space-6);
+  box-shadow: var(--astro-shadow-sm);
+  margin-bottom: var(--astro-space-4);
+}
+
+.cardTitle {
+  font-size: var(--astro-text-base);
+  font-weight: 600;
+  margin-bottom: var(--astro-space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--astro-space-2);
+}
+
+.abstract {
+  font-size: var(--astro-text-sm);
+  line-height: 1.7;
+  color: var(--astro-text-secondary);
+  white-space: pre-wrap;
+}
+
+.summary {
+  font-size: var(--astro-text-sm);
+  line-height: 1.7;
+  color: var(--astro-text-secondary);
+  white-space: pre-wrap;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--astro-space-2);
+  margin-top: var(--astro-space-3);
+}
+
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: var(--astro-text-xs);
+  background: var(--astro-primary-light);
+  color: var(--astro-primary);
+  font-weight: 500;
+}
+
+.notesArea {
+  width: 100%;
+  min-height: 120px;
+  padding: var(--astro-space-3);
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius);
+  font-family: var(--astro-font-sans);
+  font-size: var(--astro-text-sm);
+  resize: vertical;
+  background: var(--astro-bg-secondary);
+  color: var(--astro-text);
+}
+
+.notesArea:focus {
+  outline: none;
+  border-color: var(--astro-primary);
+}
+
+.saveBtn {
+  margin-top: var(--astro-space-2);
+  padding: var(--astro-space-2) var(--astro-space-4);
+  background: var(--astro-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--astro-radius);
+  font-size: var(--astro-text-sm);
+  font-weight: 500;
+}
+
+.saveBtn:hover { background: var(--astro-primary-hover); }
+
+.toggleBtn {
+  padding: var(--astro-space-2) var(--astro-space-4);
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius);
+  font-size: var(--astro-text-sm);
+  background: var(--astro-surface);
+  color: var(--astro-text);
+}
+
+.toggleBtn:hover { background: var(--astro-bg-tertiary); }
+
+.doiLink {
+  color: var(--astro-primary);
+  word-break: break-all;
+}
+
+.doiLink:hover { text-decoration: underline; }
+
+.refList {
+  list-style: none;
+  padding: 0;
+  counter-reset: none;
+}
+
+.refList li {
+  padding: var(--astro-space-2) 0;
+  border-bottom: 1px solid var(--astro-border);
+  font-size: var(--astro-text-sm);
+  color: var(--astro-text-secondary);
+}
+
+.refList li:last-child { border-bottom: none; }
+
+.refNumber {
+  flex-shrink: 0;
+  min-width: 36px;
+  font-size: var(--astro-text-xs);
+  font-weight: 600;
+  color: var(--astro-text-muted);
+  padding-top: 2px;
+  text-align: right;
+  margin-right: var(--astro-space-2);
+}
+
+.refHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--astro-space-3);
+  gap: var(--astro-space-3);
+}
+
+.addAllBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: var(--astro-space-2) var(--astro-space-4);
+  border: 1px solid var(--astro-primary);
+  border-radius: var(--astro-radius);
+  font-size: var(--astro-text-xs);
+  font-weight: 500;
+  background: transparent;
+  color: var(--astro-primary);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.addAllBtn:hover:not(:disabled) {
+  background: var(--astro-primary);
+  color: #fff;
+}
+
+.addAllBtn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.refList li {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--astro-space-3);
+}
+
+.refInLibrary {
+  background: color-mix(in srgb, var(--astro-primary) 6%, transparent);
+  margin: 0 calc(-1 * var(--astro-space-3));
+  padding-left: var(--astro-space-3) !important;
+  padding-right: var(--astro-space-3) !important;
+  border-radius: var(--astro-radius);
+}
+
+.refContent {
+  flex: 1;
+  min-width: 0;
+}
+
+.refText {
+  display: block;
+  font-size: var(--astro-text-sm);
+  line-height: 1.5;
+  color: var(--astro-text-secondary);
+}
+
+.refAuthor {
+  color: var(--astro-text);
+  font-weight: 500;
+}
+
+.refYear {
+  color: var(--astro-text-muted);
+}
+
+.refTitle {
+  color: var(--astro-text);
+}
+
+.refJournal {
+  color: var(--astro-text-secondary);
+}
+
+.refDoi {
+  display: inline-block;
+  margin-top: 2px;
+  font-size: var(--astro-text-xs);
+  color: var(--astro-primary);
+  word-break: break-all;
+}
+
+.refDoi:hover { text-decoration: underline; }
+
+.refActions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding-top: 2px;
+}
+
+.inLibraryBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--astro-text-xs);
+  color: var(--astro-success, #22c55e);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.addRefBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius);
+  font-size: var(--astro-text-xs);
+  background: var(--astro-surface);
+  color: var(--astro-text);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.addRefBtn:hover:not(:disabled) {
+  border-color: var(--astro-primary);
+  color: var(--astro-primary);
+}
+
+.addRefBtn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+.loading {
+  text-align: center;
+  padding: var(--astro-space-8);
+  color: var(--astro-text-muted);
+}
+
+/* Title row with edit button */
+.titleRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--astro-space-3);
+}
+
+.editBtn {
+  flex-shrink: 0;
+  margin-top: 6px;
+  background: transparent;
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius);
+  padding: 4px 8px;
+  color: var(--astro-text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.editBtn:hover {
+  color: var(--astro-primary);
+  border-color: var(--astro-primary);
+}
+
+/* Inline editing form */
+.editForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--astro-space-3);
+}
+
+.editInput {
+  width: 100%;
+  padding: var(--astro-space-3);
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius);
+  font-size: var(--astro-text-lg);
+  font-weight: 600;
+  background: var(--astro-bg-secondary);
+  color: var(--astro-text);
+  box-sizing: border-box;
+}
+
+.editInput:focus {
+  outline: none;
+  border-color: var(--astro-primary);
+}
+
+.editInputSm {
+  flex: 1;
+  padding: var(--astro-space-2) var(--astro-space-3);
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius);
+  font-size: var(--astro-text-sm);
+  background: var(--astro-bg-secondary);
+  color: var(--astro-text);
+  min-width: 0;
+}
+
+.editInputSm:focus {
+  outline: none;
+  border-color: var(--astro-primary);
+}
+
+.editRow {
+  display: flex;
+  gap: var(--astro-space-3);
+}
+
+.editActions {
+  display: flex;
+  gap: var(--astro-space-2);
+}
+
+/* Collections */
+.collectionList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--astro-space-2);
+  margin-bottom: var(--astro-space-3);
+}
+
+.collectionChip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--astro-space-1);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: var(--astro-text-xs);
+  font-weight: 500;
+  background: var(--astro-primary-light);
+  color: var(--astro-primary);
+}
+
+.chipRemove {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.6;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.chipRemove:hover {
+  opacity: 1;
+}
+
+.addCollection {
+  display: flex;
+  gap: var(--astro-space-2);
+}
+
+.collectionSelect {
+  flex: 1;
+  padding: var(--astro-space-2) var(--astro-space-3);
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius);
+  font-size: var(--astro-text-xs);
+  background: var(--astro-bg-secondary);
+  color: var(--astro-text);
+}
+
+.addColBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--astro-space-2);
+  background: var(--astro-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--astro-radius);
+  cursor: pointer;
+}
+
+.addColBtn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.addColBtn:hover:not(:disabled) {
+  background: var(--astro-primary-hover);
+}
+
+/* Embedded PDF viewer */
+.pdfContainer {
+  margin-top: var(--astro-space-3);
+}
+
+.pdfFrame {
+  width: 100%;
+  height: 700px;
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius);
+}

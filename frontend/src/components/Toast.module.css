@@ -1,0 +1,78 @@
+.container {
+  position: fixed;
+  bottom: var(--astro-space-6);
+  right: var(--astro-space-6);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--astro-space-2);
+  max-width: 400px;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: var(--astro-space-3);
+  padding: var(--astro-space-3) var(--astro-space-4);
+  border-radius: var(--astro-radius-lg);
+  box-shadow: var(--astro-shadow-md);
+  font-size: var(--astro-text-sm);
+  animation: slideIn 0.25s ease-out;
+  min-width: 280px;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.success {
+  background: var(--astro-success-light);
+  color: var(--astro-success);
+  border: 1px solid var(--astro-success);
+}
+
+.error {
+  background: var(--astro-danger-light);
+  color: var(--astro-danger);
+  border: 1px solid var(--astro-danger);
+}
+
+.info {
+  background: var(--astro-primary-light);
+  color: var(--astro-primary);
+  border: 1px solid var(--astro-primary);
+}
+
+.icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.message {
+  flex: 1;
+  line-height: 1.4;
+}
+
+.close {
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.6;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+}
+
+.close:hover {
+  opacity: 1;
+}

@@ -78,5 +78,11 @@ data/pdf_search_log.txt
 ENRICHMENT_*.md
 FINAL_ENRICHMENT_REPORT.md
 
+# Enrichment log (generated)
+data/enrichment_log.json
+
+# Legacy data stores (now in PostgreSQL)
+data/collections.db
+
 # Task output files
 *.output

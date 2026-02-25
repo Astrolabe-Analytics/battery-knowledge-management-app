@@ -1,0 +1,80 @@
+.page {}
+
+.title {
+  font-size: var(--astro-text-2xl);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: var(--astro-space-3);
+  margin-bottom: var(--astro-space-6);
+}
+
+.loading {
+  text-align: center;
+  padding: var(--astro-space-8);
+  color: var(--astro-text-muted);
+}
+
+/* Stat cards */
+.statGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--astro-space-4);
+  margin-bottom: var(--astro-space-6);
+}
+
+.statCard {
+  background: var(--astro-surface);
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius-lg);
+  padding: var(--astro-space-5);
+  box-shadow: var(--astro-shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--astro-space-4);
+}
+
+.statIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--astro-radius-lg);
+  background: var(--astro-bg-tertiary);
+  flex-shrink: 0;
+}
+
+.statValue {
+  font-size: var(--astro-text-xl);
+  font-weight: 700;
+  color: var(--astro-text);
+}
+
+.statLabel {
+  font-size: var(--astro-text-xs);
+  color: var(--astro-text-muted);
+  margin-top: 2px;
+}
+
+/* Charts */
+.chartGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: var(--astro-space-4);
+}
+
+.chartCard {
+  background: var(--astro-surface);
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius-lg);
+  padding: var(--astro-space-5);
+  box-shadow: var(--astro-shadow-sm);
+}
+
+.chartTitle {
+  font-size: var(--astro-text-base);
+  font-weight: 600;
+  margin-bottom: var(--astro-space-4);
+  color: var(--astro-text);
+}

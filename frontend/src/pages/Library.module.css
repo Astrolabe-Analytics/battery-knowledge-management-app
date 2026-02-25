@@ -1,0 +1,349 @@
+.page {
+  /* page wrapper */
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--astro-space-6);
+  gap: var(--astro-space-4);
+}
+
+.title {
+  font-size: var(--astro-text-2xl);
+  font-weight: 700;
+}
+
+.count {
+  font-size: var(--astro-text-sm);
+  color: var(--astro-text-muted);
+  font-weight: 400;
+  margin-left: var(--astro-space-2);
+}
+
+.importBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--astro-space-2);
+  padding: var(--astro-space-2) var(--astro-space-5);
+  background: var(--astro-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--astro-radius);
+  font-size: var(--astro-text-sm);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.importBtn:hover {
+  background: var(--astro-primary-hover);
+}
+
+/* Filters bar */
+.filters {
+  display: flex;
+  gap: var(--astro-space-3);
+  margin-bottom: var(--astro-space-4);
+  flex-wrap: wrap;
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 200px;
+  padding: var(--astro-space-2) var(--astro-space-3);
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius);
+  background: var(--astro-surface);
+  color: var(--astro-text);
+  font-size: var(--astro-text-sm);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--astro-primary);
+  box-shadow: 0 0 0 3px var(--astro-primary-light);
+}
+
+.filterSelect {
+  padding: var(--astro-space-2) var(--astro-space-3);
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius);
+  background: var(--astro-surface);
+  color: var(--astro-text);
+  font-size: var(--astro-text-sm);
+  min-width: 140px;
+}
+
+/* Table */
+.tableWrap {
+  background: var(--astro-surface);
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius-lg);
+  overflow: auto;
+  box-shadow: var(--astro-shadow-sm);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--astro-text-sm);
+  table-layout: fixed;
+}
+
+.table th {
+  text-align: left;
+  padding: var(--astro-space-3) var(--astro-space-4);
+  font-weight: 600;
+  color: var(--astro-text-secondary);
+  border-bottom: 2px solid var(--astro-border);
+  white-space: nowrap;
+  background: var(--astro-bg-tertiary);
+  position: sticky;
+  top: 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.table th:hover {
+  color: var(--astro-text);
+}
+
+.table td {
+  padding: var(--astro-space-2) var(--astro-space-4);
+  border-bottom: 1px solid var(--astro-border);
+  vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.table tr:hover td {
+  background: var(--astro-bg-secondary);
+}
+
+/* Fixed column widths — prevent jumping on sort */
+.colCheckbox { width: 40px; }
+.colTitle    { width: 27%; }
+.colAuthors  { width: 17%; }
+.colYear     { width: 5%; }
+.colJournal  { width: 14%; }
+.colType     { width: 10%; }
+.colStatus   { width: 9%; }
+.colRead     { width: 5%; }
+.colAdded    { width: 9%; }
+
+.titleCell {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.titleLink {
+  color: var(--astro-primary);
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.titleLink:hover {
+  text-decoration: underline;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: var(--astro-text-xs);
+  font-weight: 500;
+  background: var(--astro-bg-tertiary);
+  color: var(--astro-text-secondary);
+}
+
+.badgeRead {
+  composes: badge;
+  background: var(--astro-success-light);
+  color: var(--astro-success);
+}
+
+.badgeUnread {
+  composes: badge;
+  background: var(--astro-bg-tertiary);
+  color: var(--astro-text-muted);
+}
+
+.statusComplete {
+  composes: badge;
+  background: var(--astro-success-light, #dcfce7);
+  color: var(--astro-success, #16a34a);
+}
+
+.statusAiSummary {
+  composes: badge;
+  background: #ede9fe;
+  color: #7c3aed;
+}
+
+.statusMetadata {
+  composes: badge;
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+.statusIncomplete {
+  composes: badge;
+  background: #fef3c7;
+  color: #d97706;
+}
+
+.sortIcon {
+  margin-left: 4px;
+  opacity: 0.5;
+}
+
+.empty {
+  text-align: center;
+  padding: var(--astro-space-8);
+  color: var(--astro-text-muted);
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--astro-space-3);
+  padding: var(--astro-space-8);
+  color: var(--astro-text-muted);
+}
+
+.progressBar {
+  width: 260px;
+  height: 4px;
+  background: var(--astro-border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progressFill {
+  width: 40%;
+  height: 100%;
+  background: var(--astro-primary);
+  border-radius: 2px;
+  animation: indeterminate 1.2s ease-in-out infinite;
+}
+
+@keyframes indeterminate {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(350%); }
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--astro-space-4);
+  margin-top: var(--astro-space-4);
+  padding: var(--astro-space-3) 0;
+}
+
+.pageBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--astro-space-1);
+  padding: var(--astro-space-2) var(--astro-space-4);
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius);
+  background: var(--astro-surface);
+  color: var(--astro-text);
+  font-size: var(--astro-text-sm);
+  transition: background 0.15s;
+}
+
+.pageBtn:hover:not(:disabled) {
+  background: var(--astro-bg-tertiary);
+}
+
+.pageBtn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.pageInfo {
+  font-size: var(--astro-text-sm);
+  color: var(--astro-text-secondary);
+}
+
+/* Bulk action bar */
+.bulkBar {
+  display: flex;
+  align-items: center;
+  gap: var(--astro-space-3);
+  padding: var(--astro-space-3) var(--astro-space-4);
+  background: var(--astro-primary-light);
+  border: 1px solid var(--astro-primary);
+  border-radius: var(--astro-radius-lg);
+  margin-bottom: var(--astro-space-3);
+  flex-wrap: wrap;
+}
+
+.bulkCount {
+  font-size: var(--astro-text-sm);
+  font-weight: 600;
+  color: var(--astro-primary);
+}
+
+.selectAllBtn {
+  font-size: var(--astro-text-sm);
+  color: var(--astro-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  font-weight: 500;
+}
+
+.selectAllBtn:hover {
+  color: var(--astro-primary-dark, var(--astro-primary));
+  text-decoration-thickness: 2px;
+}
+
+.bulkBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--astro-space-1);
+  padding: var(--astro-space-1) var(--astro-space-3);
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius);
+  background: var(--astro-surface);
+  color: var(--astro-text);
+  font-size: var(--astro-text-sm);
+  cursor: pointer;
+}
+
+.bulkBtn:hover:not(:disabled) {
+  background: var(--astro-bg-tertiary);
+}
+
+.bulkBtn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.bulkBtnDanger {
+  composes: bulkBtn;
+  color: var(--astro-danger);
+  border-color: var(--astro-danger);
+}
+
+.bulkBtnDanger:hover {
+  background: var(--astro-danger-light);
+}
+
+.selectedRow td {
+  background: var(--astro-primary-light) !important;
+}

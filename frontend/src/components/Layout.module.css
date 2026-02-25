@@ -1,0 +1,105 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--astro-sidebar-width);
+  height: 100vh;
+  background: var(--astro-surface);
+  border-right: 1px solid var(--astro-border);
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+}
+
+.logo {
+  padding: var(--astro-space-6);
+  font-size: var(--astro-text-xl);
+  font-weight: 700;
+  color: var(--astro-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--astro-space-2);
+  border-bottom: 1px solid var(--astro-border);
+}
+
+.nav {
+  flex: 1;
+  padding: var(--astro-space-4) var(--astro-space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--astro-space-1);
+  overflow-y: auto;
+}
+
+.navLabel {
+  font-size: var(--astro-text-xs);
+  font-weight: 600;
+  color: var(--astro-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: var(--astro-space-3) var(--astro-space-3) var(--astro-space-1);
+}
+
+.link {
+  display: flex;
+  align-items: center;
+  gap: var(--astro-space-3);
+  padding: var(--astro-space-2) var(--astro-space-3);
+  border-radius: var(--astro-radius);
+  color: var(--astro-text-secondary);
+  font-size: var(--astro-text-sm);
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+
+.link:hover {
+  background: var(--astro-bg-tertiary);
+  color: var(--astro-text);
+}
+
+.linkActive {
+  composes: link;
+  background: var(--astro-primary-light);
+  color: var(--astro-primary);
+  font-weight: 600;
+}
+
+.footer {
+  padding: var(--astro-space-4);
+  border-top: 1px solid var(--astro-border);
+  font-size: var(--astro-text-xs);
+  color: var(--astro-text-muted);
+  text-align: center;
+}
+
+.shortcutHint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--astro-space-1);
+  margin-bottom: var(--astro-space-2);
+  font-size: 10px;
+  color: var(--astro-text-muted);
+}
+
+.shortcutHint kbd {
+  display: inline-block;
+  padding: 1px 5px;
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius-sm);
+  background: var(--astro-bg-tertiary);
+  font-family: var(--astro-font-mono);
+  font-size: 10px;
+}
+
+/* Main content */
+.main {
+  margin-left: var(--astro-sidebar-width);
+  min-height: 100vh;
+  background: var(--astro-bg-secondary);
+}
+
+.content {
+  padding: var(--astro-space-6) var(--astro-space-8);
+  max-width: 1400px;
+}

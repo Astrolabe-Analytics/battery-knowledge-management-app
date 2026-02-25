@@ -1,0 +1,109 @@
+.page { }
+
+.header {
+  margin-bottom: var(--astro-space-6);
+}
+
+.title {
+  font-size: var(--astro-text-2xl);
+  font-weight: 700;
+}
+
+.subtitle {
+  color: var(--astro-text-muted);
+  font-size: var(--astro-text-sm);
+  margin-top: var(--astro-space-1);
+}
+
+.filters {
+  display: flex;
+  gap: var(--astro-space-3);
+  margin-bottom: var(--astro-space-6);
+  flex-wrap: wrap;
+}
+
+.filterSelect {
+  padding: var(--astro-space-2) var(--astro-space-3);
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius);
+  background: var(--astro-surface);
+  color: var(--astro-text);
+  font-size: var(--astro-text-sm);
+  min-width: 140px;
+}
+
+.cardList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--astro-space-4);
+}
+
+.card {
+  background: var(--astro-surface);
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius-lg);
+  padding: var(--astro-space-5);
+  box-shadow: var(--astro-shadow-sm);
+  transition: box-shadow 0.15s;
+}
+
+.card:hover {
+  box-shadow: var(--astro-shadow-md);
+}
+
+.cardTitle {
+  font-weight: 600;
+  font-size: var(--astro-text-base);
+  margin-bottom: var(--astro-space-2);
+}
+
+.cardTitleLink {
+  color: var(--astro-primary);
+  cursor: pointer;
+}
+
+.cardTitleLink:hover {
+  text-decoration: underline;
+}
+
+.cardMeta {
+  display: flex;
+  gap: var(--astro-space-4);
+  font-size: var(--astro-text-xs);
+  color: var(--astro-text-muted);
+  margin-bottom: var(--astro-space-2);
+}
+
+.blurb {
+  font-size: var(--astro-text-sm);
+  color: var(--astro-text-secondary);
+  line-height: 1.6;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--astro-space-1);
+  margin-top: var(--astro-space-3);
+}
+
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: var(--astro-text-xs);
+  background: var(--astro-bg-tertiary);
+  color: var(--astro-text-secondary);
+}
+
+.empty {
+  text-align: center;
+  padding: var(--astro-space-8);
+  color: var(--astro-text-muted);
+}
+
+.loading {
+  text-align: center;
+  padding: var(--astro-space-8);
+  color: var(--astro-text-muted);
+}

@@ -245,6 +245,22 @@ def query_crossref_api(doi: str) -> Optional[dict]:
         return None
 
 
+_PAPER_TYPE_MAP = {
+    'experimental': 'Experimental',
+    'modeling': 'Modeling & Simulation',
+    'modeling & simulation': 'Modeling & Simulation',
+    'simulation': 'Modeling & Simulation',
+    'method': 'Modeling & Simulation',
+    'review': 'Review',
+    'reference': 'Review',
+    'dataset': 'Dataset',
+}
+
+def _normalize_paper_type(raw: str) -> str:
+    """Normalize paper_type to one of the canonical categories."""
+    return _PAPER_TYPE_MAP.get(raw.lower().strip(), 'Experimental') if raw else 'Experimental'
+
+
 @anthropic_api_call_with_retry
 def _call_claude_for_metadata(text: str, filename: str, api_key: str, model: str) -> str:
     """Internal function to call Claude API with retry logic."""
@@ -263,7 +279,7 @@ Extract the following information and respond ONLY with a valid JSON object:
   "chemistries": ["list of battery chemistries discussed, e.g., LFP, NMC, NCA, LCO, LMO, LTO, graphite, silicon, etc."],
   "topics": ["list of technical topics, e.g., degradation, SOH, RUL, capacity fade, impedance, EIS, cycling, calendar aging, thermal, SEI, lithium plating, etc."],
   "application": "primary application domain: EV, grid storage, consumer electronics, aerospace, or general",
-  "paper_type": "one of: experimental, simulation, review, dataset, modeling, or method"
+  "paper_type": "one of: Experimental, Modeling & Simulation, Review, or Dataset"
 }}
 
 STRICT FORMATTING RULES:
@@ -278,7 +294,7 @@ STRICT FORMATTING RULES:
 - Include only chemistries explicitly mentioned or clearly studied
 - Topics should be technical keywords (3-10 topics)
 - For application, choose the most specific one that applies
-- For paper_type: experimental=lab work, simulation=computational, review=literature survey, dataset=data publication, modeling=theoretical models, method=new methodology/technique
+- For paper_type: Experimental=lab/physical testing, Modeling & Simulation=computational models/algorithms/ML methods, Review=literature surveys/overviews, Dataset=published data collections
 - Return ONLY the JSON object, no other text
 
 JSON:"""
@@ -322,7 +338,7 @@ def extract_paper_metadata(pages: list[dict], filename: str, api_key: str) -> di
         'chemistries': [],
         'topics': [],
         'application': 'general',
-        'paper_type': 'experimental',
+        'paper_type': 'Experimental',
         'date_added': datetime.now().isoformat(),
         'abstract': '',
         'author_keywords': [],
@@ -383,7 +399,7 @@ def extract_paper_metadata(pages: list[dict], filename: str, api_key: str) -> di
             metadata['chemistries'] = claude_metadata.get('chemistries', [])
             metadata['topics'] = claude_metadata.get('topics', [])
             metadata['application'] = claude_metadata.get('application', 'general')
-            metadata['paper_type'] = claude_metadata.get('paper_type', 'experimental')
+            metadata['paper_type'] = claude_metadata.get('paper_type', 'Experimental')
         else:
             # No CrossRef data, use Claude for everything
             metadata.update(claude_metadata)
@@ -392,7 +408,7 @@ def extract_paper_metadata(pages: list[dict], filename: str, api_key: str) -> di
         metadata['chemistries'] = normalize_chemistries(metadata.get('chemistries', []))
         metadata['topics'] = [t.lower() for t in metadata.get('topics', [])]
         metadata['application'] = metadata.get('application', 'general').lower()
-        metadata['paper_type'] = metadata.get('paper_type', 'experimental').lower()
+        metadata['paper_type'] = _normalize_paper_type(metadata.get('paper_type', 'Experimental'))
 
         # Ensure authors is a list (Claude returns semicolon-separated string)
         if isinstance(metadata.get('authors'), str):
@@ -411,7 +427,7 @@ def extract_paper_metadata(pages: list[dict], filename: str, api_key: str) -> di
             'chemistries': [],
             'topics': [],
             'application': 'general',
-            'paper_type': 'experimental',
+            'paper_type': 'Experimental',
             'date_added': datetime.now().isoformat(),
             'abstract': '',
             'author_keywords': [],
@@ -890,7 +906,7 @@ def ingest_papers(force: bool = False):
             meta['chemistries'] = ','.join(pm.get('chemistries', []))
             meta['topics'] = ','.join(pm.get('topics', []))
             meta['application'] = pm.get('application', 'general')
-            meta['paper_type'] = pm.get('paper_type', 'experimental')
+            meta['paper_type'] = pm.get('paper_type', 'Experimental')
             meta['abstract'] = pm.get('abstract', '')
             meta['author_keywords'] = ';'.join(pm.get('author_keywords', []))
             meta['volume'] = pm.get('volume', '')
@@ -907,7 +923,7 @@ def ingest_papers(force: bool = False):
             meta['chemistries'] = ''
             meta['topics'] = ''
             meta['application'] = 'general'
-            meta['paper_type'] = 'experimental'
+            meta['paper_type'] = 'Experimental'
             meta['abstract'] = ''
             meta['author_keywords'] = ''
             meta['volume'] = ''

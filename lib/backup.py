@@ -1,4 +1,5 @@
 import shutil
+import subprocess
 import zipfile
 import logging
 from pathlib import Path
@@ -8,82 +9,106 @@ from datetime import datetime
 BACKUP_DIR = Path(__file__).parent.parent / "data_backups"
 DATA_DIR = Path(__file__).parent.parent / "data"
 MAX_BACKUPS = 5
+PG_DUMP = r"C:\Program Files\PostgreSQL\16\bin\pg_dump.exe"
+PSQL = r"C:\Program Files\PostgreSQL\16\bin\psql.exe"
+DB_NAME = "astrolabe"
+DB_USER = "postgres"
+DB_PASSWORD = "postgres"
+DB_HOST = "localhost"
+DB_PORT = "5432"
 
 logger = logging.getLogger(__name__)
 
 
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
+
+def _pg_env() -> dict:
+    """Return env dict with PGPASSWORD set so pg_dump/psql don't prompt."""
+    import os
+    env = os.environ.copy()
+    env["PGPASSWORD"] = DB_PASSWORD
+    return env
+
+
+# ---------------------------------------------------------------------------
+# Create / Restore
+# ---------------------------------------------------------------------------
+
 def create_backup(include_logs: bool = False) -> Dict[str, any]:
     """
-    Create timestamped backup of entire data/ directory.
-
-    Args:
-        include_logs: Include log files in backup (default False)
-
-    Returns:
-        Dict with backup_path, timestamp, size, file_count, success status
+    Create timestamped backup of PostgreSQL database + config files.
+    Stores everything in a single zip under data_backups/.
     """
     timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     backup_name = f"backup_{timestamp}"
-    backup_path = BACKUP_DIR / backup_name
     zip_path = BACKUP_DIR / f"{backup_name}.zip"
 
     try:
-        # Create backup directory
         BACKUP_DIR.mkdir(parents=True, exist_ok=True)
 
-        # Files to backup
-        files_to_backup = [
-            "chroma_db",
-            "metadata.json",
-            "query_history.db",
-            "read_status.db",
-            "collections.db",
+        # --- 1. pg_dump --------------------------------------------------
+        dump_path = BACKUP_DIR / f"{backup_name}.sql"
+        result = subprocess.run(
+            [
+                PG_DUMP,
+                "-h", DB_HOST,
+                "-p", DB_PORT,
+                "-U", DB_USER,
+                "-d", DB_NAME,
+                "--no-owner",
+                "--no-acl",
+                "-f", str(dump_path),
+            ],
+            env=_pg_env(),
+            capture_output=True,
+            text=True,
+            timeout=120,
+        )
+        if result.returncode != 0:
+            raise RuntimeError(f"pg_dump failed: {result.stderr}")
+
+        # --- 2. Collect config files that still live on disk -------------
+        extra_files = [
+            "settings.json",
             "ingest_state.json",
             "pipeline_state.json",
-            "settings.json"
         ]
-
         if include_logs:
-            files_to_backup.extend(["ingest.log", "pipeline.log"])
+            extra_files.extend(["ingest.log", "pipeline.log"])
 
-        # Create zip file
+        # --- 3. Build zip ------------------------------------------------
         file_count = 0
-        with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
-            for item_name in files_to_backup:
-                item_path = DATA_DIR / item_name
-                if item_path.exists():
-                    if item_path.is_dir():
-                        # Add directory recursively
-                        for file in item_path.rglob('*'):
-                            if file.is_file():
-                                arcname = str(file.relative_to(DATA_DIR))
-                                zipf.write(file, arcname)
-                                file_count += 1
-                    else:
-                        # Add single file
-                        zipf.write(item_path, item_name)
-                        file_count += 1
+        with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zipf:
+            # SQL dump
+            zipf.write(dump_path, "database.sql")
+            file_count += 1
 
-        # Get backup size
+            for fname in extra_files:
+                fpath = DATA_DIR / fname
+                if fpath.exists():
+                    zipf.write(fpath, fname)
+                    file_count += 1
+
+        # Clean up loose SQL dump
+        dump_path.unlink(missing_ok=True)
+
         backup_size_mb = zip_path.stat().st_size / (1024 * 1024)
 
-        # Rotate old backups (keep last 5)
         rotate_old_backups()
 
         return {
-            'success': True,
-            'backup_path': str(zip_path),
-            'timestamp': timestamp,
-            'size_mb': round(backup_size_mb, 2),
-            'file_count': file_count
+            "success": True,
+            "backup_path": str(zip_path),
+            "timestamp": timestamp,
+            "size_mb": round(backup_size_mb, 2),
+            "file_count": file_count,
         }
 
     except Exception as e:
         logger.error(f"Backup failed: {e}")
-        return {
-            'success': False,
-            'error': str(e)
-        }
+        return {"success": False, "error": str(e)}
 
 
 def rotate_old_backups():
@@ -91,10 +116,8 @@ def rotate_old_backups():
     if not BACKUP_DIR.exists():
         return
 
-    # Get all backup zip files
     backups = sorted(BACKUP_DIR.glob("backup_*.zip"), key=lambda p: p.stat().st_mtime)
 
-    # Delete oldest backups if we have more than MAX_BACKUPS
     if len(backups) > MAX_BACKUPS:
         for old_backup in backups[:-MAX_BACKUPS]:
             try:
@@ -105,12 +128,7 @@ def rotate_old_backups():
 
 
 def list_backups() -> List[Dict[str, any]]:
-    """
-    List all available backups with metadata.
-
-    Returns:
-        List of dicts with name, timestamp, size, file_count
-    """
+    """List all available backups with metadata."""
     if not BACKUP_DIR.exists():
         return []
 
@@ -128,121 +146,101 @@ def list_backups() -> List[Dict[str, any]]:
 def get_backup_info(zip_path: Path) -> Dict[str, any]:
     """Get metadata about a backup file."""
     stat = zip_path.stat()
-
-    # Extract timestamp from filename (backup_2026-02-04_14-30-15.zip)
     name = zip_path.stem
     timestamp_str = name.replace("backup_", "")
 
-    # Count files in zip
     file_count = 0
+    has_database_sql = False
     try:
-        with zipfile.ZipFile(zip_path, 'r') as zipf:
-            file_count = len(zipf.namelist())
-    except:
+        with zipfile.ZipFile(zip_path, "r") as zipf:
+            names = zipf.namelist()
+            file_count = len(names)
+            has_database_sql = "database.sql" in names
+    except Exception:
         pass
 
     return {
-        'name': zip_path.name,
-        'path': str(zip_path),
-        'timestamp': timestamp_str,
-        'size_mb': round(stat.st_size / (1024 * 1024), 2),
-        'file_count': file_count,
-        'created': datetime.fromtimestamp(stat.st_mtime).strftime("%Y-%m-%d %H:%M:%S")
+        "name": zip_path.name,
+        "path": str(zip_path),
+        "timestamp": timestamp_str,
+        "size_mb": round(stat.st_size / (1024 * 1024), 2),
+        "file_count": file_count,
+        "has_pg_dump": has_database_sql,
+        "created": datetime.fromtimestamp(stat.st_mtime).strftime("%Y-%m-%d %H:%M:%S"),
     }
 
 
 def validate_backup(zip_path: Path) -> bool:
-    """
-    Validate backup zip integrity and required files.
-
-    Returns:
-        True if backup is valid
-    """
+    """Validate backup zip integrity — must contain database.sql."""
     try:
-        if not zip_path.exists():
+        if not zip_path.exists() or not zipfile.is_zipfile(zip_path):
             return False
 
-        # Check if it's a valid zip
-        if not zipfile.is_zipfile(zip_path):
-            return False
-
-        # Check for required files
-        required_files = ["chroma_db", "metadata.json"]
-
-        with zipfile.ZipFile(zip_path, 'r') as zipf:
-            filenames = zipf.namelist()
-
-            # Check if required files/directories are present
-            for required in required_files:
-                if not any(f.startswith(required) for f in filenames):
-                    logger.error(f"Backup missing required file/dir: {required}")
-                    return False
+        with zipfile.ZipFile(zip_path, "r") as zipf:
+            if "database.sql" not in zipf.namelist():
+                logger.error("Backup missing database.sql")
+                return False
 
         return True
-
     except Exception as e:
         logger.error(f"Backup validation failed: {e}")
         return False
 
 
-def restore_backup(zip_path: Path, create_safety_backup: bool = True) -> Dict[str, any]:
+def restore_backup(
+    zip_path: Path, create_safety_backup: bool = True
+) -> Dict[str, any]:
     """
-    Restore database from backup zip.
-
-    Args:
-        zip_path: Path to backup zip file
-        create_safety_backup: Create backup of current data before restoring
-
-    Returns:
-        Dict with success status and message
+    Restore PostgreSQL database and config files from backup zip.
     """
     try:
-        # Validate backup
         if not validate_backup(zip_path):
-            return {
-                'success': False,
-                'error': "Invalid backup file"
-            }
+            return {"success": False, "error": "Invalid backup file"}
 
-        # Create safety backup of current data
-        if create_safety_backup and DATA_DIR.exists():
-            safety_result = create_backup(include_logs=False)
-            if safety_result['success']:
-                logger.info(f"Created safety backup before restore: {safety_result['backup_path']}")
+        # Safety backup of current state
+        if create_safety_backup:
+            safety = create_backup(include_logs=False)
+            if safety["success"]:
+                logger.info(f"Safety backup: {safety['backup_path']}")
 
-        # Clear current data directory (except backups)
-        if DATA_DIR.exists():
-            for item in DATA_DIR.iterdir():
-                if item.name == "data_backups":
-                    continue  # Don't delete backups folder
-                try:
-                    if item.is_dir():
-                        shutil.rmtree(item)
-                    else:
-                        item.unlink()
-                except Exception as e:
-                    logger.warning(f"Failed to delete {item}: {e}")
+        # Extract zip to a temp dir
+        import tempfile
 
-        # Extract backup
-        DATA_DIR.mkdir(parents=True, exist_ok=True)
-        with zipfile.ZipFile(zip_path, 'r') as zipf:
-            zipf.extractall(DATA_DIR)
+        with tempfile.TemporaryDirectory() as tmpdir:
+            with zipfile.ZipFile(zip_path, "r") as zipf:
+                zipf.extractall(tmpdir)
 
-        # Clear ChromaDB cache to force reload
-        try:
-            from lib.rag import DatabaseClient
-            DatabaseClient.clear_cache()
-        except Exception as e:
-            logger.warning(f"Failed to clear database cache: {e}")
+            # Restore database via psql
+            dump_file = Path(tmpdir) / "database.sql"
+            if dump_file.exists():
+                result = subprocess.run(
+                    [
+                        PSQL,
+                        "-h", DB_HOST,
+                        "-p", DB_PORT,
+                        "-U", DB_USER,
+                        "-d", DB_NAME,
+                        "-f", str(dump_file),
+                    ],
+                    env=_pg_env(),
+                    capture_output=True,
+                    text=True,
+                    timeout=120,
+                )
+                if result.returncode != 0:
+                    raise RuntimeError(f"psql restore failed: {result.stderr}")
+
+            # Restore config files
+            for fname in ("settings.json", "ingest_state.json", "pipeline_state.json"):
+                src = Path(tmpdir) / fname
+                if src.exists():
+                    shutil.copy2(src, DATA_DIR / fname)
 
         return {
-            'success': True,
-            'message': f"Successfully restored from {zip_path.name}"
+            "success": True,
+            "message": f"Successfully restored from {zip_path.name}",
         }
 
     except Exception as e:
         logger.error(f"Restore failed: {e}")
-        return {
-            'success': False,
-            'error': str(e)
-        }
+        return {"success": False, "error": str(e)}

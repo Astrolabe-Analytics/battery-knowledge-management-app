@@ -1,0 +1,76 @@
+/* src/styles/variables.css — Astrolabe design tokens */
+:root {
+  /* Brand */
+  --astro-primary: #2563eb;
+  --astro-primary-hover: #1d4ed8;
+  --astro-primary-light: #dbeafe;
+
+  /* Status */
+  --astro-success: #16a34a;
+  --astro-success-light: #dcfce7;
+  --astro-warning: #ca8a04;
+  --astro-warning-light: #fef9c3;
+  --astro-danger: #dc2626;
+  --astro-danger-light: #fee2e2;
+
+  /* Neutrals */
+  --astro-bg: #ffffff;
+  --astro-bg-secondary: #f8fafc;
+  --astro-bg-tertiary: #f1f5f9;
+  --astro-surface: #ffffff;
+  --astro-border: #e2e8f0;
+  --astro-border-hover: #cbd5e1;
+  --astro-text: #0f172a;
+  --astro-text-secondary: #475569;
+  --astro-text-muted: #94a3b8;
+
+  /* Spacing */
+  --astro-space-1: 0.25rem;
+  --astro-space-2: 0.5rem;
+  --astro-space-3: 0.75rem;
+  --astro-space-4: 1rem;
+  --astro-space-5: 1.25rem;
+  --astro-space-6: 1.5rem;
+  --astro-space-8: 2rem;
+
+  /* Typography */
+  --astro-font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --astro-font-mono: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+  --astro-text-xs: 0.75rem;
+  --astro-text-sm: 0.875rem;
+  --astro-text-base: 1rem;
+  --astro-text-lg: 1.125rem;
+  --astro-text-xl: 1.25rem;
+  --astro-text-2xl: 1.5rem;
+
+  /* Radius */
+  --astro-radius-sm: 0.25rem;
+  --astro-radius: 0.375rem;
+  --astro-radius-lg: 0.5rem;
+  --astro-radius-xl: 0.75rem;
+
+  /* Shadows */
+  --astro-shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --astro-shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+  --astro-shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
+
+  /* Sidebar */
+  --astro-sidebar-width: 240px;
+}
+
+/* Dark mode */
+[data-theme="dark"] {
+  --astro-bg: #0f172a;
+  --astro-bg-secondary: #1e293b;
+  --astro-bg-tertiary: #334155;
+  --astro-surface: #1e293b;
+  --astro-border: #334155;
+  --astro-border-hover: #475569;
+  --astro-text: #f1f5f9;
+  --astro-text-secondary: #cbd5e1;
+  --astro-text-muted: #64748b;
+  --astro-primary-light: #1e3a5f;
+  --astro-success-light: #14532d;
+  --astro-warning-light: #422006;
+  --astro-danger-light: #450a0a;
+}
