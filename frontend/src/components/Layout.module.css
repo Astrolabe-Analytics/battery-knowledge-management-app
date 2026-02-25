@@ -101,5 +101,5 @@
 
 .content {
   padding: var(--astro-space-6) var(--astro-space-8);
-  max-width: 1400px;
+  width: 100%;
 }

@@ -82,7 +82,8 @@ def _query_crossref(doi: str) -> Optional[dict]:
         metadata = {}
         titles = message.get('title', [])
         if titles:
-            metadata['title'] = titles[0]
+            import re
+            metadata['title'] = re.sub(r'\s*\[[A-Z]\]\s*\.?\s*$', '', titles[0]).strip() or titles[0]
 
         authors = []
         for a in message.get('author', []):
@@ -106,11 +107,13 @@ def _query_crossref(doi: str) -> Optional[dict]:
 
         refs = []
         for ref in message.get('reference', [])[:100]:
+            raw_ref_title = ref.get('article-title', '')
+            clean_ref_title = re.sub(r'\s*\[[A-Z]\]\s*\.?\s*$', '', raw_ref_title).strip() if raw_ref_title else ''
             refs.append({
                 'key': ref.get('key', ''),
                 'DOI': ref.get('DOI', ''),
                 'doi-asserted-by': ref.get('doi-asserted-by', ''),
-                'article-title': ref.get('article-title', ''),
+                'article-title': clean_ref_title,
                 'author': ref.get('author', ''),
                 'year': ref.get('year', ''),
                 'journal-title': ref.get('journal-title', ''),
@@ -322,7 +325,7 @@ def _analyze_reference_gaps_pg(limit: int = 50) -> tuple[list[dict], dict]:
     # Aggregate
     aggregator = defaultdict(lambda: {
         'title': '', 'authors': '', 'year': '', 'journal': '',
-        'doi': '', 'citation_count': 0, 'cited_by': [],
+        'doi': '', 'citation_count': 0, 'cited_by': [], '_years': [],
     })
 
     for ref in refs:
@@ -357,8 +360,13 @@ def _analyze_reference_gaps_pg(limit: int = 50) -> tuple[list[dict], dict]:
             agg['title'] = ref_title
         if not agg['authors'] or len(ref_author) > len(agg['authors']):
             agg['authors'] = ref_author
-        if ref.year and (not agg['year'] or str(ref.year) > agg['year']):
-            agg['year'] = str(ref.year)
+        if ref.year:
+            try:
+                y = int(ref.year)
+                if 1800 <= y <= 2030:
+                    agg['_years'].append(str(y))
+            except (ValueError, TypeError):
+                pass
         if ref.journal_title and (not agg['journal'] or len(ref.journal_title) > len(agg['journal'])):
             agg['journal'] = ref.journal_title
         if ref_doi and not agg['doi']:
@@ -368,6 +376,16 @@ def _analyze_reference_gaps_pg(limit: int = 50) -> tuple[list[dict], dict]:
         parent_title = ref.title or ref.paper_filename.replace('.pdf', '')
         if parent_title not in agg['cited_by']:
             agg['cited_by'].append(parent_title)
+
+    # Resolve year for each gap: use mode (most common), break ties with earliest
+    for agg in aggregator.values():
+        years = agg.pop('_years', [])
+        if years:
+            from collections import Counter as _Counter
+            year_counts = _Counter(years)
+            max_count = max(year_counts.values())
+            most_common = [y for y, c in year_counts.items() if c == max_count]
+            agg['year'] = min(most_common)  # earliest among most-common
 
     gaps = sorted(aggregator.values(), key=lambda x: x['citation_count'], reverse=True)
 

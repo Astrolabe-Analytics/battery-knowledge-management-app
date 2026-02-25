@@ -228,8 +228,11 @@ def format_paper_for_display(paper: Dict) -> Dict:
     citation_count = paper.get('citationCount', 0)
 
     from lib.jats import strip_jats
+    import re
+    raw_title = paper.get('title', 'Unknown') or 'Unknown'
+    clean_title = re.sub(r'\s*\[[A-Z]\]\s*\.?\s*$', '', raw_title).strip() or raw_title
     return {
-        'title': paper.get('title', 'Unknown'),
+        'title': clean_title,
         'authors': authors_str,
         'authors_list': [a.get('name', '') for a in authors] if authors else [],
         'year': str(year) if year else '',

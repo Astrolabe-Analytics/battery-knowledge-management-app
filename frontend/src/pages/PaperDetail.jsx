@@ -3,12 +3,13 @@ import { useParams, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft, Calendar, BookOpen, FileText,
   Sparkles, StickyNote, BookCheck, BookX,
-  Plus, X, Pencil, Save, XCircle, Download, Check, Loader,
+  Plus, X, Pencil, Save, XCircle, Download, Check, Loader, ExternalLink,
+  Zap,
 } from 'lucide-react';
 import {
   fetchPaperDetail, updateNotes, toggleRead, fetchReferences, getPdfUrl,
   fetchCollections, addPaperToCollection, removePaperFromCollection,
-  updateMetadata, importMetadataOnly,
+  updateMetadata, importMetadataOnly, enrichSinglePaper, enrichFromCrossref,
 } from '../services/api';
 import { useToast } from '../components/Toast';
 import cleanAbstract from '../utils/cleanAbstract';
@@ -76,6 +77,11 @@ export default function PaperDetail() {
 
   // PDF viewer
   const [showPdf, setShowPdf] = useState(false);
+
+  // Enrichment
+  const [enrichingPaper, setEnrichingPaper] = useState(false);
+  const [doiInput, setDoiInput] = useState('');
+  const [showDoiInput, setShowDoiInput] = useState(false);
 
   // Notes collapsible
   const [showNotes, setShowNotes] = useState(false);
@@ -222,6 +228,51 @@ export default function PaperDetail() {
     if (failed > 0) toast.error(`Failed to import ${failed} reference${failed > 1 ? 's' : ''}`);
   }
 
+  async function handleEnrichPaper() {
+    setEnrichingPaper(true);
+    try {
+      const res = await enrichSinglePaper(decoded);
+      if (res.success) {
+        setPaper(res.paper);
+        const fields = res.fields_updated || [];
+        if (fields.length > 0) {
+          toast.success(`Enriched: ${fields.join(', ')}`);
+        } else {
+          toast.info(res.doi ? 'Verified — no new metadata' : 'No updates available');
+        }
+        // Reload refs since enrichment may have added them
+        fetchReferences(decoded).then(r => setRefs(r.references || [])).catch(() => {});
+      } else {
+        toast.error(res.error || 'Enrichment failed');
+      }
+    } catch (e) {
+      toast.error('Enrichment failed: ' + e.message);
+    } finally {
+      setEnrichingPaper(false);
+    }
+  }
+
+  async function handleEnrichWithDoi() {
+    if (!doiInput.trim()) return;
+    setEnrichingPaper(true);
+    try {
+      const res = await enrichFromCrossref(decoded, doiInput.trim());
+      if (res.success) {
+        setPaper(res.paper);
+        setShowDoiInput(false);
+        setDoiInput('');
+        toast.success(`Re-enriched with DOI: ${res.doi}`);
+        fetchReferences(decoded).then(r => setRefs(r.references || [])).catch(() => {});
+      } else {
+        toast.error(res.error || 'CrossRef lookup failed');
+      }
+    } catch (e) {
+      toast.error('Enrichment failed: ' + e.message);
+    } finally {
+      setEnrichingPaper(false);
+    }
+  }
+
   if (loading) return <div className={styles.loading}>Loading paper…</div>;
   if (!paper) return <div className={styles.loading}>Paper not found.</div>;
 
@@ -335,6 +386,23 @@ export default function PaperDetail() {
           <button className={styles.actionBtn} onClick={handleToggleRead}>
             {read ? <><BookCheck size={14} /> Mark Unread</> : <><BookX size={14} /> Mark Read</>}
           </button>
+          <button
+            className={styles.actionBtn}
+            onClick={handleEnrichPaper}
+            disabled={enrichingPaper}
+            title="Auto-enrich metadata from CrossRef / Semantic Scholar"
+          >
+            {enrichingPaper
+              ? <><Loader size={14} className={styles.spinning} /> Enriching…</>
+              : <><Zap size={14} /> Enrich</>}
+          </button>
+          <button
+            className={styles.actionBtnSm}
+            onClick={() => setShowDoiInput(!showDoiInput)}
+            title="Provide a DOI to re-enrich from CrossRef"
+          >
+            <Pencil size={12} /> DOI
+          </button>
           {paper.doi && (
             <a
               href={`https://doi.org/${paper.doi}`}
@@ -382,6 +450,26 @@ export default function PaperDetail() {
           )}
         </div>
       </div>
+
+      {/* DOI input for manual enrichment */}
+      {showDoiInput && (
+        <div className={styles.doiInputBar}>
+          <input
+            className={styles.doiInputField}
+            placeholder="Enter DOI (e.g. 10.1016/j.jpowsour.2024.235188)"
+            value={doiInput}
+            onChange={e => setDoiInput(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && handleEnrichWithDoi()}
+          />
+          <button className={styles.doiSubmitBtn} onClick={handleEnrichWithDoi} disabled={enrichingPaper || !doiInput.trim()}>
+            {enrichingPaper ? <Loader size={14} className={styles.spinning} /> : <Check size={14} />}
+            Enrich
+          </button>
+          <button className={styles.doiCancelBtn} onClick={() => { setShowDoiInput(false); setDoiInput(''); }}>
+            <X size={14} />
+          </button>
+        </div>
+      )}
 
       {/* Full-width content */}
       <div className={styles.content}>
@@ -450,7 +538,7 @@ export default function PaperDetail() {
                   <span className={styles.refNumber}>[{i + 1}]</span>
                   <div className={styles.refContent}>
                     <RefCitation r={r} />
-                    {r.DOI && (
+                    {r.DOI ? (
                       <a
                         href={`https://doi.org/${r.DOI}`}
                         target="_blank"
@@ -459,7 +547,17 @@ export default function PaperDetail() {
                       >
                         {r.DOI}
                       </a>
-                    )}
+                    ) : (r['article-title'] || r['volume-title']) ? (
+                      <a
+                        href={`https://scholar.google.com/scholar?q=${encodeURIComponent(r['article-title'] || r['volume-title'])}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className={styles.refDoi}
+                        title="Search on Google Scholar"
+                      >
+                        <ExternalLink size={11} /> Scholar
+                      </a>
+                    ) : null}
                   </div>
                   <div className={styles.refActions}>
                     {r.in_library ? (

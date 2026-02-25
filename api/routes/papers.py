@@ -91,22 +91,38 @@ PAPERS_DIR = Path("papers")
 
 def _get_paper_status(paper: dict) -> str:
     """Determine paper status from its dict representation."""
+    _EMPTY = {"unknown", "not specified", "none", "n/a", ""}
+
+    def _present(val) -> bool:
+        """Return True only if *val* is a meaningful, non-placeholder value."""
+        if not val:
+            return False
+        if isinstance(val, str):
+            return val.strip().lower() not in _EMPTY
+        return True  # lists, ints, etc.
+
     filename = paper.get("filename", "")
     has_pdf = (PAPERS_DIR / filename).exists()
 
-    title = (paper.get("title") or "").strip()
-    has_title = bool(title) and "unknown" not in title.lower()
+    has_title = _present(paper.get("title"))
     # authors may be a semicolon-joined string from to_library_dict
     authors_raw = paper.get("authors", "")
-    has_authors = bool(authors_raw) if isinstance(authors_raw, list) else bool(authors_raw and authors_raw.strip())
-    has_year = bool(paper.get("year"))
-    has_journal = bool(paper.get("journal"))
+    has_authors = _present(authors_raw)
+    has_year = _present(paper.get("year"))
+    has_journal = _present(paper.get("journal"))
     metadata_complete = has_title and has_authors and has_year and has_journal
 
-    if paper.get("ai_summary"):
+    has_ai_summary = bool(paper.get("ai_summary"))
+
+    # Status hierarchy (highest to lowest):
+    #   AI Summary  = metadata complete + PDF + AI summary
+    #   Complete    = metadata complete + PDF
+    #   Metadata Only = metadata complete, no PDF
+    #   Incomplete  = missing some metadata
+    if metadata_complete and has_pdf and has_ai_summary:
         return "AI Summary"
-    if has_pdf and paper.get("num_pages", 0) > 0:
-        return "Complete" if metadata_complete else "Needs Metadata"
+    if metadata_complete and has_pdf:
+        return "Complete"
     if metadata_complete:
         return "Metadata Only"
     return "Incomplete"
@@ -519,3 +535,157 @@ def get_references(filename: str):
         ref["in_library"] = in_library
 
     return {"references": refs, "total": len(refs)}
+
+
+@router.post("/{filename}/enrich")
+def enrich_single_paper(filename: str):
+    """
+    Enrich a single paper's metadata from CrossRef.
+
+    Pipeline:
+      1. Use existing DOI if available
+      2. Extract DOI from source_url
+      3. Extract DOI from filename  
+      4. Search Semantic Scholar by title
+      5. Query CrossRef with found DOI → fill missing fields
+    """
+    from lib.db_operations import get_paper_details, upsert_paper, save_paper_references
+    from lib.crossref import (
+        query_crossref, extract_doi_from_url, extract_doi_from_filename,
+        find_doi_via_semantic_scholar, apply_crossref_enrichment, _present,
+    )
+
+    details = get_paper_details(filename)
+    if not details:
+        raise HTTPException(status_code=404, detail="Paper not found")
+
+    steps = []
+    doi = details.get('doi', '')
+
+    # Try to find DOI
+    if not doi:
+        url = details.get('source_url', '')
+        if url:
+            doi = extract_doi_from_url(url)
+            if doi:
+                steps.append(f"DOI extracted from URL: {doi}")
+
+    if not doi:
+        doi = extract_doi_from_filename(filename)
+        if doi:
+            steps.append(f"DOI extracted from filename: {doi}")
+
+    if not doi and _present(details.get('title')):
+        doi = find_doi_via_semantic_scholar(details['title'])
+        if doi:
+            steps.append(f"DOI found via Semantic Scholar: {doi}")
+
+    if not doi:
+        return {
+            'success': False,
+            'error': 'Could not find a DOI for this paper',
+            'steps': steps,
+        }
+
+    # Query CrossRef
+    crossref_data = query_crossref(doi)
+    if not crossref_data:
+        return {
+            'success': False,
+            'error': f'CrossRef returned no data for DOI: {doi}',
+            'steps': steps,
+        }
+
+    steps.append(f"CrossRef metadata retrieved for DOI: {doi}")
+
+    # Apply enrichment
+    updates = apply_crossref_enrichment(details, crossref_data)
+
+    # Always set DOI and verified flag
+    if not details.get('doi'):
+        updates['doi'] = doi
+    updates['crossref_verified'] = True
+
+    if updates:
+        upsert_paper(filename, updates)
+        updated_fields = [k for k in updates if k not in ('doi', 'crossref_verified')]
+        if updated_fields:
+            steps.append(f"Updated fields: {', '.join(updated_fields)}")
+        else:
+            steps.append("Verified — all metadata fields already present")
+
+        # Save references
+        refs = crossref_data.get('references', [])
+        if refs:
+            try:
+                save_paper_references(filename, refs)
+                steps.append(f"Saved {len(refs)} references")
+            except Exception:
+                pass
+
+    # Return updated paper details
+    updated_details = get_paper_details(filename)
+
+    return {
+        'success': True,
+        'doi': doi,
+        'fields_updated': [k for k in updates if k not in ('doi', 'crossref_verified')],
+        'steps': steps,
+        'paper': updated_details,
+    }
+
+
+@router.post("/{filename}/enrich/crossref")
+def enrich_from_crossref_with_doi(filename: str, body: dict):
+    """
+    Re-enrich a paper from CrossRef using a specific DOI.
+    
+    Useful when user manually provides/corrects a DOI.
+    Body: { "doi": "10.xxxx/..." }
+    """
+    from lib.db_operations import get_paper_details, upsert_paper, save_paper_references
+    from lib.crossref import query_crossref, apply_crossref_enrichment
+
+    doi = body.get('doi', '').strip()
+    if not doi:
+        raise HTTPException(status_code=400, detail="DOI is required")
+
+    details = get_paper_details(filename)
+    if not details:
+        raise HTTPException(status_code=404, detail="Paper not found")
+
+    crossref_data = query_crossref(doi)
+    if not crossref_data:
+        return {
+            'success': False,
+            'error': f'CrossRef returned no data for DOI: {doi}',
+        }
+
+    # Force-update ALL fields from CrossRef (not just missing ones)
+    updates = {
+        'doi': doi,
+        'crossref_verified': True,
+    }
+    for field in ('title', 'authors', 'year', 'journal', 'abstract',
+                  'volume', 'issue', 'pages', 'author_keywords'):
+        cr_val = crossref_data.get(field)
+        if cr_val:
+            updates[field] = cr_val
+
+    upsert_paper(filename, updates)
+
+    # Save references
+    refs = crossref_data.get('references', [])
+    if refs:
+        try:
+            save_paper_references(filename, refs)
+        except Exception:
+            pass
+
+    updated_details = get_paper_details(filename)
+    return {
+        'success': True,
+        'doi': doi,
+        'fields_updated': [k for k in updates if k not in ('doi', 'crossref_verified')],
+        'paper': updated_details,
+    }
