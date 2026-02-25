@@ -11,6 +11,7 @@ Tables:
 - settings        – key/value app settings (replaces settings.json)
 """
 
+import re
 from datetime import datetime, timezone
 
 from pgvector.sqlalchemy import Vector
@@ -186,6 +187,8 @@ class PaperReference(Base):
         Index("ix_paper_references_doi", "doi"),
     )
 
+    _CITATION_TAG_RE = re.compile(r'\s*\[[A-Z]\]\s*\.?\s*$')
+
     def to_dict(self) -> dict:
         """Serialize to the same shape the frontend expects (CrossRef-style keys)."""
         d = {}
@@ -196,7 +199,7 @@ class PaperReference(Base):
         if self.doi_asserted_by:
             d["doi-asserted-by"] = self.doi_asserted_by
         if self.article_title:
-            d["article-title"] = self.article_title
+            d["article-title"] = self._CITATION_TAG_RE.sub('', self.article_title).strip()
         if self.author:
             d["author"] = self.author
         if self.year:

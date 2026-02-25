@@ -10,6 +10,7 @@ lib/query_history.py.
 from __future__ import annotations
 
 import json
+import re
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple
@@ -236,6 +237,8 @@ def update_paper_metadata_field(filename: str, field: str, value) -> bool:
         return True
 
 
+_CITATION_TAG_RE = re.compile(r'\s*\[[A-Z]\]\s*\.?\s*$')
+
 def save_paper_references(filename: str, references: list[dict]):
     """Replace all references for a paper."""
     with get_session() as session:
@@ -245,12 +248,14 @@ def save_paper_references(filename: str, references: list[dict]):
         for ref in references:
             if not isinstance(ref, dict):
                 continue
+            raw_title = ref.get("article-title", "")
+            clean_title = _CITATION_TAG_RE.sub('', raw_title).strip() if raw_title else ""
             session.add(PaperReference(
                 paper_filename=filename,
                 ref_key=ref.get("key", ""),
                 doi=ref.get("DOI", ""),
                 doi_asserted_by=ref.get("doi-asserted-by", ""),
-                article_title=ref.get("article-title", ""),
+                article_title=clean_title,
                 author=ref.get("author", ""),
                 year=ref.get("year", ""),
                 journal_title=ref.get("journal-title", ""),
