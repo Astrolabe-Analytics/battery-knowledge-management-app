@@ -143,6 +143,18 @@ export function deleteCollection(id) {
   return request(`/collections/${id}`, { method: 'DELETE' });
 }
 
+// ── Reactions ───────────────────────────────────────────
+export function fetchReactions() {
+  return request('/reactions');
+}
+
+export function toggleReaction(filename, emoji) {
+  return request(`/reactions/${encodeURIComponent(filename)}`, {
+    method: 'POST',
+    body: JSON.stringify({ emoji }),
+  });
+}
+
 export function updateCollection(id, data) {
   return request(`/collections/${id}`, {
     method: 'PATCH',
@@ -339,6 +351,15 @@ export function emptyTrash() {
 
 export function hardDeletePaper(filename) {
   return request(`/papers/trash/${encodeURIComponent(filename)}`, { method: 'DELETE' });
+}
+
+// ── Citations ──────────────────────────────────────────
+export function fetchCitationGraph(filename, minEdges = 1) {
+  const qs = new URLSearchParams();
+  if (filename) qs.set('filename', filename);
+  if (minEdges > 1) qs.set('min_edges', minEdges);
+  const query = qs.toString();
+  return request(`/citations/graph${query ? '?' + query : ''}`);
 }
 
 // ── Discover ────────────────────────────────────────────

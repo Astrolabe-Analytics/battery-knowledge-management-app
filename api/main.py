@@ -18,7 +18,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from api.routes import settings, discover, imports
 
 # Route modules (PostgreSQL-backed)
-from api.routes import papers, search, collections, history
+from api.routes import papers, search, collections, history, citations
+from api.routes import reactions
 
 app = FastAPI(
     title="Astrolabe Research Library API",
@@ -33,6 +34,7 @@ _default_origins = [
     "http://localhost:5173",  # Vite default
     "http://localhost:5174",  # Vite fallback
     "http://localhost:3000",  # CRA fallback
+    "http://192.168.0.154:5173",  # Local network (phone access)
 ]
 _cors_env = os.environ.get("CORS_ORIGINS", "")
 cors_origins = [o.strip() for o in _cors_env.split(",") if o.strip()] if _cors_env else _default_origins
@@ -53,6 +55,8 @@ app.include_router(history.router, prefix="/api/history", tags=["History"])
 app.include_router(settings.router, prefix="/api/settings", tags=["Settings"])
 app.include_router(discover.router, prefix="/api/discover", tags=["Discover"])
 app.include_router(imports.router, prefix="/api/import", tags=["Import"])
+app.include_router(citations.router, prefix="/api/citations", tags=["Citations"])
+app.include_router(reactions.router, prefix="/api/reactions", tags=["Reactions"])
 
 
 @app.get("/api/health")
