@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowUpDown, BookCheck, BookX, ChevronLeft, ChevronRight, Plus, Trash2, FolderOpen, Zap, RefreshCw } from 'lucide-react';
-import { fetchPapers, fetchFilters, deletePapers, fetchCollections, addPapersToCollectionBulk, fetchMatchingFilenames, fetchEnrichmentStatus, enrichPapersStream, enrichPapers } from '../services/api';
+import { ArrowUpDown, BookCheck, BookX, ChevronLeft, ChevronRight, Plus, Trash2, FolderOpen, Zap, RefreshCw, Sparkles } from 'lucide-react';
+import { fetchPapers, fetchFilters, deletePapers, fetchCollections, addPapersToCollectionBulk, fetchMatchingFilenames, fetchEnrichmentStatus, enrichPapersStream, enrichPapers, fetchSummaryStatus, generateSummariesStream } from '../services/api';
 import { useToast } from '../components/Toast';
 import ImportModal from '../components/ImportModal';
 import styles from './Library.module.css';
@@ -45,6 +45,12 @@ export default function Library() {
   const [enriching, setEnriching] = useState(false);
   const [enrichProgress, setEnrichProgress] = useState(null);
   const enrichAbortRef = useRef(null);
+
+  // Summary generation state
+  const [summaryStatus, setSummaryStatus] = useState(null);
+  const [generatingSummaries, setGeneratingSummaries] = useState(false);
+  const [summaryProgress, setSummaryProgress] = useState(null);
+  const summaryAbortRef = useRef(null);
 
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
@@ -103,7 +109,13 @@ export default function Library() {
       .catch(console.error);
   }, []);
 
-  useEffect(() => { loadEnrichStatus(); }, [loadEnrichStatus]);
+  const loadSummaryStatus = useCallback(() => {
+    fetchSummaryStatus()
+      .then(setSummaryStatus)
+      .catch(console.error);
+  }, []);
+
+  useEffect(() => { loadEnrichStatus(); loadSummaryStatus(); }, [loadEnrichStatus, loadSummaryStatus]);
 
   // Clear selection on page change (only if not selecting all results)
   useEffect(() => {
@@ -234,6 +246,49 @@ export default function Library() {
     loadEnrichStatus();
   }
 
+  function handleGenerateSummaries() {
+    if (generatingSummaries) return;
+    setGeneratingSummaries(true);
+    setSummaryProgress({ index: 0, total: 0, generated: 0, failed: 0 });
+
+    const abort = generateSummariesStream({
+      onProgress(data) {
+        setSummaryProgress({
+          index: data.index,
+          total: data.total,
+          generated: data.generated,
+          failed: data.failed,
+          title: data.title,
+        });
+      },
+      onDone(data) {
+        setGeneratingSummaries(false);
+        setSummaryProgress(null);
+        toast.success(`Summaries complete: ${data.generated} generated, ${data.failed} failed out of ${data.total}`);
+        loadPapers();
+        loadSummaryStatus();
+      },
+      onError(err) {
+        setGeneratingSummaries(false);
+        setSummaryProgress(null);
+        toast.error(`Summary error: ${err.message}`);
+      },
+    });
+    summaryAbortRef.current = abort;
+  }
+
+  function handleCancelSummaries() {
+    if (summaryAbortRef.current) {
+      summaryAbortRef.current();
+      summaryAbortRef.current = null;
+    }
+    setGeneratingSummaries(false);
+    setSummaryProgress(null);
+    toast.info('Summary generation cancelled');
+    loadPapers();
+    loadSummaryStatus();
+  }
+
   async function handleEnrichSelected() {
     if (!selected.size) return;
     try {
@@ -323,6 +378,54 @@ export default function Library() {
           <div className={styles.enrichStats}>
             <span className={styles.enrichStatGood}>{enrichProgress.enriched} enriched</span>
             <span className={styles.enrichStatBad}>{enrichProgress.failed} failed</span>
+          </div>
+        </div>
+      )}
+
+      {/* Summary generation banner */}
+      {summaryStatus && summaryStatus.needs_summary > 0 && !generatingSummaries && (
+        <div className={styles.enrichBanner}>
+          <div className={styles.enrichInfo}>
+            <Sparkles size={16} />
+            <span>
+              <strong>{summaryStatus.needs_summary}</strong> papers eligible for AI summary
+              <span className={styles.enrichBreakdown}>
+                ({summaryStatus.has_summary} already generated)
+              </span>
+            </span>
+          </div>
+          <div className={styles.enrichActions}>
+            <button
+              className={styles.enrichBtn}
+              onClick={handleGenerateSummaries}
+              title="Generate AI summaries for all eligible papers"
+            >
+              <Sparkles size={14} /> Generate Summaries
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Summary generation progress */}
+      {generatingSummaries && summaryProgress && (
+        <div className={styles.enrichProgress}>
+          <div className={styles.enrichProgressHeader}>
+            <Sparkles size={14} className={styles.spinning} />
+            <span>
+              Generating summaries {summaryProgress.index}/{summaryProgress.total}
+              {summaryProgress.title && <> — {summaryProgress.title}</>}
+            </span>
+            <button className={styles.cancelBtn} onClick={handleCancelSummaries}>Cancel</button>
+          </div>
+          <div className={styles.enrichProgressBar}>
+            <div
+              className={styles.enrichProgressFill}
+              style={{ width: summaryProgress.total > 0 ? `${(summaryProgress.index / summaryProgress.total) * 100}%` : '0%' }}
+            />
+          </div>
+          <div className={styles.enrichStats}>
+            <span className={styles.enrichStatGood}>{summaryProgress.generated} generated</span>
+            <span className={styles.enrichStatBad}>{summaryProgress.failed} failed</span>
           </div>
         </div>
       )}

@@ -10,6 +10,7 @@ import {
   fetchPaperDetail, updateNotes, toggleRead, fetchReferences, getPdfUrl,
   fetchCollections, addPaperToCollection, removePaperFromCollection,
   updateMetadata, importMetadataOnly, enrichSinglePaper, enrichFromCrossref,
+  askQuestion, generatePaperSummary,
 } from '../services/api';
 import { useToast } from '../components/Toast';
 import cleanAbstract from '../utils/cleanAbstract';
@@ -86,11 +87,34 @@ export default function PaperDetail() {
   // Notes collapsible
   const [showNotes, setShowNotes] = useState(false);
 
+  // Ask about this paper
+  const [askQuery, setAskQuery] = useState('');
+  const [askAnswer, setAskAnswer] = useState(null);
+  const [askLoading, setAskLoading] = useState(false);
+  const [showAsk, setShowAsk] = useState(false);
+
+  // AI Summary generation
+  const [generatingSummary, setGeneratingSummary] = useState(false);
+
   // Track which refs are being imported / were imported
   const [importingRef, setImportingRef] = useState(null); // index
   const [importingAll, setImportingAll] = useState(false);
 
   const decoded = decodeURIComponent(filename);
+
+  async function handleAsk() {
+    if (!askQuery.trim()) return;
+    setAskLoading(true);
+    setAskAnswer(null);
+    try {
+      const res = await askQuestion(askQuery, { filenames: [decoded] });
+      setAskAnswer(res);
+    } catch (e) {
+      toast.error('Failed to get answer: ' + (e.message || 'Unknown error'));
+    } finally {
+      setAskLoading(false);
+    }
+  }
 
   useEffect(() => {
     Promise.all([
@@ -499,6 +523,61 @@ export default function PaperDetail() {
           </div>
         )}
 
+        {/* Ask about this paper */}
+        {paper.has_pdf && (
+          <div className={styles.card}>
+            <div
+              className={styles.cardTitle}
+              style={{ cursor: 'pointer', userSelect: 'none' }}
+              onClick={() => setShowAsk(v => !v)}
+            >
+              <Sparkles size={16} /> Ask About This Paper
+              <span style={{ marginLeft: 'auto', fontSize: 'var(--astro-text-xs)', color: 'var(--astro-text-muted)' }}>
+                {showAsk ? 'Click to collapse' : 'Click to expand'}
+              </span>
+            </div>
+            {showAsk && (
+              <div className={styles.askSection}>
+                <div className={styles.askInputRow}>
+                  <input
+                    className={styles.askInput}
+                    type="text"
+                    placeholder="Ask a question about this paper…"
+                    value={askQuery}
+                    onChange={e => setAskQuery(e.target.value)}
+                    onKeyDown={e => e.key === 'Enter' && !askLoading && handleAsk()}
+                    disabled={askLoading}
+                  />
+                  <button
+                    className={styles.askBtn}
+                    onClick={handleAsk}
+                    disabled={askLoading || !askQuery.trim()}
+                  >
+                    {askLoading ? <Loader size={14} className={styles.spinning} /> : <Sparkles size={14} />}
+                    {askLoading ? 'Thinking…' : 'Ask'}
+                  </button>
+                </div>
+                {askAnswer && (
+                  <div className={styles.askAnswer}>
+                    <div className={styles.askAnswerText}>{askAnswer.answer}</div>
+                    {askAnswer.chunks?.length > 0 && (
+                      <div className={styles.askSources}>
+                        <strong>Sources (page {askAnswer.chunks.map(c => c.page).filter((v, i, a) => a.indexOf(v) === i).join(', ')}):</strong>
+                        {askAnswer.chunks.map((c, i) => (
+                          <div key={i} className={styles.askChunk}>
+                            <span className={styles.askChunkMeta}>p.{c.page}</span>
+                            <span className={styles.askChunkText}>{c.text?.substring(0, 200)}…</span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Abstract */}
         {paper.abstract && (
           <div className={styles.card}>
@@ -508,12 +587,55 @@ export default function PaperDetail() {
         )}
 
         {/* AI Summary */}
-        {paper.ai_summary && (
-          <div className={styles.card}>
-            <div className={styles.cardTitle}><Sparkles size={16} /> AI Summary</div>
-            <div className={styles.summary}>{paper.ai_summary}</div>
+        <div className={styles.card}>
+          <div className={styles.cardTitle} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span><Sparkles size={16} /> AI Summary</span>
+            {paper.ai_summary ? (
+              <button
+                className={styles.enrichBtnSmall}
+                onClick={async () => {
+                  setGeneratingSummary(true);
+                  try {
+                    const res = await generatePaperSummary(decoded);
+                    setPaper(prev => ({ ...prev, ai_summary: res.ai_summary, feed_blurb: res.feed_blurb }));
+                    toast.success('Summary regenerated');
+                  } catch (e) {
+                    toast.error('Failed: ' + (e.message || 'Unknown error'));
+                  } finally {
+                    setGeneratingSummary(false);
+                  }
+                }}
+                disabled={generatingSummary}
+              >
+                {generatingSummary ? <><Loader size={13} className={styles.spin} /> Regenerating…</> : 'Regenerate'}
+              </button>
+            ) : (
+              <button
+                className={styles.enrichBtnSmall}
+                onClick={async () => {
+                  setGeneratingSummary(true);
+                  try {
+                    const res = await generatePaperSummary(decoded);
+                    setPaper(prev => ({ ...prev, ai_summary: res.ai_summary, feed_blurb: res.feed_blurb }));
+                    toast.success('AI summary generated');
+                  } catch (e) {
+                    toast.error('Failed: ' + (e.message || 'Unknown error'));
+                  } finally {
+                    setGeneratingSummary(false);
+                  }
+                }}
+                disabled={generatingSummary}
+              >
+                {generatingSummary ? <><Loader size={13} className={styles.spin} /> Generating…</> : <><Sparkles size={13} /> Generate Summary</>}
+              </button>
+            )}
           </div>
-        )}
+          {paper.ai_summary ? (
+            <div className={styles.summary}>{paper.ai_summary}</div>
+          ) : (
+            <div className={styles.summaryPlaceholder}>No AI summary yet. Click Generate to create one from this paper's content.</div>
+          )}
+        </div>
 
         {/* References */}
         {refs.length > 0 && (

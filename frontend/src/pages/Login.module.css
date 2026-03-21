@@ -1,0 +1,99 @@
+.loginPage {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--astro-bg-secondary);
+  font-family: var(--astro-font-sans);
+}
+
+.loginCard {
+  background: var(--astro-surface);
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius-xl);
+  box-shadow: var(--astro-shadow-md);
+  padding: 2.5rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: var(--astro-space-6);
+}
+
+.logo h1 {
+  font-size: var(--astro-text-2xl);
+  color: var(--astro-text);
+  margin: 0 0 var(--astro-space-2);
+}
+
+.logo p {
+  color: var(--astro-text-muted);
+  font-size: var(--astro-text-sm);
+  margin: 0;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--astro-space-4);
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: var(--astro-space-2);
+}
+
+.inputGroup label {
+  font-size: var(--astro-text-sm);
+  font-weight: 500;
+  color: var(--astro-text-secondary);
+}
+
+.inputGroup input {
+  padding: 0.625rem 0.75rem;
+  border: 1px solid var(--astro-border);
+  border-radius: var(--astro-radius);
+  font-size: var(--astro-text-base);
+  color: var(--astro-text);
+  background: var(--astro-bg);
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.inputGroup input:focus {
+  border-color: var(--astro-primary);
+  box-shadow: 0 0 0 3px var(--astro-primary-light);
+}
+
+.submitBtn {
+  padding: 0.625rem 1rem;
+  background: var(--astro-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--astro-radius);
+  font-size: var(--astro-text-base);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.submitBtn:hover {
+  background: var(--astro-primary-hover);
+}
+
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error {
+  background: var(--astro-danger-light);
+  color: var(--astro-danger);
+  padding: var(--astro-space-3);
+  border-radius: var(--astro-radius);
+  font-size: var(--astro-text-sm);
+  text-align: center;
+}

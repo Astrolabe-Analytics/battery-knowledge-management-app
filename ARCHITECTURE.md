@@ -68,23 +68,22 @@ astrolabe-paper-db/
 │   └── settings_helpers.py     # Settings I/O
 │
 ├── scripts/                    # Standalone CLI tools
-│   ├── ingest.py               # PDF → text → chunks → embeddings
-│   ├── ingest_pipeline.py      # Staged ingestion pipeline
-│   ├── ingest_pipeline_pg.py   # PostgreSQL-native ingestion
+│   ├── ingest_pipeline_pg.py   # PDF → text → chunks → PostgreSQL/pgvector
 │   ├── enrich_pg_bulk.py       # Bulk enrichment (CrossRef + Semantic Scholar)
+│   ├── generate_summaries_pg.py # AI summary generation (Claude)
 │   ├── backfill_ref_dois.py    # CrossRef title-search DOI backfill for refs
-│   ├── migrate_to_postgres.py  # JSON → PostgreSQL migration (completed)
-│   ├── _check_status.py        # Quick enrichment status check
-│   ├── _fix_bad_dois.py        # Fix ISSN-as-DOI errors
-│   ├── _fix_mdpi_dois.py       # Fix MDPI URL-as-DOI errors
-│   └── ...                     # Other maintenance scripts
+│   ├── migrate_to_postgres.py  # JSON/ChromaDB → PostgreSQL migration
+│   └── _*.py                   # Ad-hoc analysis & fix utilities
 │
-├── tests/                      # pytest test suite
-│   └── test_paper_status.py    # 50 tests for paper status classification
+├── tests/                      # pytest test suite (FastAPI route tests)
+│   └── test_*_api.py           # Per-route test modules
+│
+├── alembic/                    # Database migrations (Alembic)
+│   ├── env.py                  # Migration environment config
+│   └── versions/               # Migration scripts
 │
 ├── data/                       # Runtime data
-│   ├── settings.json           # App configuration
-│   └── chroma_db/              # ChromaDB vector store (legacy, being replaced)
+│   └── settings.json           # App configuration
 │
 └── papers/                     # PDF files
 ```

@@ -2,10 +2,13 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# System deps for psycopg2-binary and general build
+# System deps for psycopg2-binary, general build, and Java for opendataloader-pdf
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc libpq-dev curl \
+    gcc libpq-dev curl default-jre-headless \
     && rm -rf /var/lib/apt/lists/*
+
+# Install PyTorch CPU-only first (avoids pulling ~10GB of CUDA libraries)
+RUN pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu
 
 # Install Python deps
 COPY requirements.txt .

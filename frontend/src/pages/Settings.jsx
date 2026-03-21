@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Settings as SettingsIcon, Download, RotateCcw, Moon, Sun } from 'lucide-react';
-import { fetchSettings, updateSettings, fetchBackups, createBackup } from '../services/api';
+import { Settings as SettingsIcon, Download, RotateCcw, Moon, Sun, LogOut } from 'lucide-react';
+import { fetchSettings, updateSettings, fetchBackups, createBackup, logout } from '../services/api';
 import { useToast } from '../components/Toast';
 
 export default function Settings() {
@@ -108,6 +108,20 @@ export default function Settings() {
             ))}
           </div>
         )}
+      </Section>
+
+      {/* Account */}
+      <Section title="Account">
+        <button
+          onClick={() => { logout(); window.location.reload(); }}
+          style={{
+            padding: '8px 20px', background: 'var(--astro-danger)', color: '#fff',
+            border: 'none', borderRadius: 'var(--astro-radius)', fontWeight: 600,
+            display: 'flex', alignItems: 'center', gap: 6, cursor: 'pointer',
+          }}
+        >
+          <LogOut size={14} /> Sign Out
+        </button>
       </Section>
     </div>
   );

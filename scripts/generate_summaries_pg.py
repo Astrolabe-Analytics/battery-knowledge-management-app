@@ -14,12 +14,18 @@ Requires: ANTHROPIC_API_KEY in .env or environment
 """
 
 import argparse
+import io
 import json
 import os
 import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
+
+# Fix Windows console encoding (cp1252 can't handle Unicode chars in paper titles)
+if sys.stdout.encoding and sys.stdout.encoding.lower().startswith("cp"):
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding="utf-8", errors="replace")
 
 # Ensure project root is on path
 sys.path.insert(0, str(Path(__file__).parent.parent))

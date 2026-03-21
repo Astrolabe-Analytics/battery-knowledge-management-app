@@ -17,9 +17,6 @@ dist/
 # Windows artifacts
 nul
 
-# ChromaDB database
-data/chroma_db/
-
 # PDFs (too large for git)
 papers/*.pdf
 
@@ -30,18 +27,12 @@ raw_text/
 data/ingest_state.json
 data/ingest.log
 
-# Read status database
-data/read_status.db
-
 # User settings
 data/settings.json
 
 # Environment variables
 .env
 .env.local
-
-# Streamlit
-.streamlit/
 
 # IDE
 .vscode/
@@ -81,8 +72,21 @@ FINAL_ENRICHMENT_REPORT.md
 # Enrichment log (generated)
 data/enrichment_log.json
 
-# Legacy data stores (now in PostgreSQL)
-data/collections.db
-
 # Task output files
 *.output
+
+# Docker/deploy diagnostic temp files
+docker_check*.txt
+docker_diag.txt
+docker_final.txt
+docker_status.txt
+deploy_result*.txt
+status_check.txt
+status_final*.txt
+final_check.txt
+final_status.txt
+wsl_check.txt
+_dps.txt
+
+# Vite cache
+.vite/
