@@ -1,21 +1,55 @@
 /**
  * API client — all fetch calls to the FastAPI backend.
- * Centralizes error handling and base URL configuration.
+ * Centralizes error handling, base URL, and authentication.
  */
 
 const BASE = '/api';
 
+function authHeaders() {
+  const token = localStorage.getItem('astrolabe_token');
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
+/** Global callback — set by App.jsx to trigger logout on 401 */
+let onUnauthorized = null;
+export function setOnUnauthorized(cb) { onUnauthorized = cb; }
+
 async function request(path, options = {}) {
   const url = `${BASE}${path}`;
   const res = await fetch(url, {
-    headers: { 'Content-Type': 'application/json', ...options.headers },
+    headers: { 'Content-Type': 'application/json', ...authHeaders(), ...options.headers },
     ...options,
   });
+  if (res.status === 401) {
+    localStorage.removeItem('astrolabe_token');
+    onUnauthorized?.();
+    throw new Error('Authentication required');
+  }
   if (!res.ok) {
     const body = await res.text();
     throw new Error(`API ${res.status}: ${body}`);
   }
   return res.json();
+}
+
+// ── Auth ────────────────────────────────────────────────
+export async function checkAuth() {
+  const res = await fetch(`${BASE}/auth/check`);
+  return res.json();
+}
+
+export async function login(password) {
+  const res = await fetch(`${BASE}/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password }),
+  });
+  if (!res.ok) throw new Error('Invalid password');
+  return res.json();
+}
+
+export function logout() {
+  localStorage.removeItem('astrolabe_token');
 }
 
 // ── Papers ──────────────────────────────────────────────
@@ -76,7 +110,9 @@ export function updateMetadata(filename, updates) {
 }
 
 export function getPdfUrl(filename) {
-  return `${BASE}/papers/${encodeURIComponent(filename)}/pdf`;
+  const token = localStorage.getItem('astrolabe_token');
+  const base = `${BASE}/papers/${encodeURIComponent(filename)}/pdf`;
+  return token ? `${base}?token=${encodeURIComponent(token)}` : base;
 }
 
 // ── Search / RAG ────────────────────────────────────────
@@ -141,6 +177,18 @@ export function removePaperFromCollection(collectionId, filename) {
 
 export function deleteCollection(id) {
   return request(`/collections/${id}`, { method: 'DELETE' });
+}
+
+// ── Reactions ───────────────────────────────────────────
+export function fetchReactions() {
+  return request('/reactions');
+}
+
+export function toggleReaction(filename, emoji) {
+  return request(`/reactions/${encodeURIComponent(filename)}`, {
+    method: 'POST',
+    body: JSON.stringify({ emoji }),
+  });
 }
 
 export function updateCollection(id, data) {
@@ -211,8 +259,14 @@ export async function uploadPdf(file) {
   formData.append('files', file);
   const res = await fetch(`${BASE}/import/upload`, {
     method: 'POST',
+    headers: authHeaders(),
     body: formData,
   });
+  if (res.status === 401) {
+    localStorage.removeItem('astrolabe_token');
+    onUnauthorized?.();
+    throw new Error('Authentication required');
+  }
   if (!res.ok) {
     const body = await res.text();
     throw new Error(`API ${res.status}: ${body}`);
@@ -254,6 +308,64 @@ export function enrichFromCrossref(filename, doi) {
   });
 }
 
+// ── AI Summaries ────────────────────────────────────────
+
+export function generatePaperSummary(filename) {
+  return request(`/papers/${encodeURIComponent(filename)}/generate-summary`, {
+    method: 'POST',
+  });
+}
+
+export function fetchSummaryStatus() {
+  return request('/papers/summaries/status');
+}
+
+export function generateSummariesStream({ onProgress, onDone, onError }) {
+  const controller = new AbortController();
+
+  fetch(`${BASE}/papers/summaries/generate/stream`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...authHeaders() },
+    signal: controller.signal,
+  })
+    .then(async (response) => {
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop();
+
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            try {
+              const data = JSON.parse(line.slice(6));
+              if (data.type === 'done') {
+                onDone?.(data);
+              } else {
+                onProgress?.(data);
+              }
+            } catch {
+              // skip malformed JSON
+            }
+          }
+        }
+      }
+    })
+    .catch((err) => {
+      if (err.name !== 'AbortError') {
+        onError?.(err);
+      }
+    });
+
+  return () => controller.abort();
+}
+
 /**
  * Stream enrichment progress via SSE.
  * @param {Object} opts - { filenames?, max_papers?, onProgress, onDone, onError }
@@ -268,7 +380,7 @@ export function enrichPapersStream({ filenames, maxPapers, onProgress, onDone, o
 
   fetch(`${BASE}/import/enrich/stream`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'application/json', ...authHeaders() },
     body: JSON.stringify(body),
     signal: controller.signal,
   })
@@ -339,6 +451,15 @@ export function emptyTrash() {
 
 export function hardDeletePaper(filename) {
   return request(`/papers/trash/${encodeURIComponent(filename)}`, { method: 'DELETE' });
+}
+
+// ── Citations ──────────────────────────────────────────
+export function fetchCitationGraph(filename, minEdges = 1) {
+  const qs = new URLSearchParams();
+  if (filename) qs.set('filename', filename);
+  if (minEdges > 1) qs.set('min_edges', minEdges);
+  const query = qs.toString();
+  return request(`/citations/graph${query ? '?' + query : ''}`);
 }
 
 // ── Discover ────────────────────────────────────────────

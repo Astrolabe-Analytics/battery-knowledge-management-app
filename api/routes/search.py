@@ -34,6 +34,7 @@ class RAGRequest(BaseModel):
     topic: Optional[str] = None
     paper_type: Optional[str] = None
     collection_id: Optional[int] = None
+    filenames: Optional[List[str]] = None
     enable_query_expansion: bool = True
     enable_reranking: bool = True
 
@@ -94,9 +95,11 @@ def ask_question(body: RAGRequest):
             detail="ANTHROPIC_API_KEY not set. Configure it in your .env file.",
         )
 
-    # Get collection filenames if filtering by collection
+    # Get filenames to scope search — explicit list or collection
     collection_filenames = None
-    if body.collection_id:
+    if body.filenames:
+        collection_filenames = set(body.filenames)
+    elif body.collection_id:
         filenames = get_collection_papers(body.collection_id)
         collection_filenames = set(filenames) if filenames else None
 

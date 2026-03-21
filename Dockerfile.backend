@@ -1,0 +1,31 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# System deps for psycopg2-binary, general build, and Java for opendataloader-pdf
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc libpq-dev curl default-jre-headless \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install PyTorch CPU-only first (avoids pulling ~10GB of CUDA libraries)
+RUN pip install --no-cache-dir torch --index-url https://download.pytorch.org/whl/cpu
+
+# Install Python deps
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Pre-download the sentence-transformers model (~90MB) at build time
+# so it's baked into the image and not downloaded at runtime
+RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')"
+
+# Copy application code
+COPY api/ api/
+COPY lib/ lib/
+COPY scripts/ scripts/
+
+# Create data directories
+RUN mkdir -p data papers data_backups
+
+EXPOSE 8003
+
+CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8003"]

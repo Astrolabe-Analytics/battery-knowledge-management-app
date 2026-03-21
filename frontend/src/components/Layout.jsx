@@ -10,6 +10,7 @@ import {
   BarChart3,
   Trash2,
   Plus,
+  GitBranch,
 } from 'lucide-react';
 import CommandPalette from './CommandPalette';
 import styles from './Layout.module.css';
@@ -24,6 +25,7 @@ const navItems = [
   { to: '/research', icon: Search, label: 'Research' },
   { to: '/feed', icon: Rss, label: 'Feed' },
   { to: '/discover', icon: Compass, label: 'Discover' },
+  { to: '/citations', icon: GitBranch, label: 'Citations' },
   { section: 'System' },
   { to: '/history', icon: Clock, label: 'History' },
   { to: '/trash', icon: Trash2, label: 'Trash' },

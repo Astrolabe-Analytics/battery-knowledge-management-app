@@ -1,8 +1,9 @@
-"""
+﻿"""
 Papers API routes — CRUD operations for the paper library.
 
 All data access goes through lib/db_operations.py (PostgreSQL).
 """
+import json
 import time
 import threading
 from pathlib import Path
@@ -10,7 +11,7 @@ from typing import Optional, List
 from collections import Counter
 
 from fastapi import APIRouter, HTTPException, Query
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, StreamingResponse
 from pydantic import BaseModel
 
 router = APIRouter()
@@ -373,6 +374,300 @@ def hard_delete_one(filename: str):
         raise HTTPException(status_code=404, detail="Paper not found")
     invalidate_papers_cache()
     return {"success": True}
+
+
+# ---------------------------------------------------------------------------
+# AI Summary Generation
+# ---------------------------------------------------------------------------
+
+SUMMARY_MODEL = "claude-sonnet-4-5-20250929"
+MIN_REAL_CHUNKS = 3
+
+
+def _build_summary_prompt(paper: dict, abstract: str, chunks: list[str]) -> str:
+    context_text = "\n\n".join(chunks[:5])[:10000]
+    authors_str = "; ".join(paper["authors"][:5]) if isinstance(paper.get("authors"), list) else (paper.get("authors") or "Unknown")
+    return f"""You are analyzing a battery research paper. Generate a structured summary with the following sections:
+
+PAPER METADATA:
+Title: {paper.get('title', 'Unknown')}
+Authors: {authors_str}
+Journal: {paper.get('journal', 'Unknown')}
+Year: {paper.get('year', 'Unknown')}
+Chemistries: {', '.join(paper.get('chemistries', []))}
+
+ABSTRACT:
+{abstract}
+
+PAPER TEXT (first sections):
+{context_text}
+
+Generate a structured summary in the following format:
+
+## Overview
+[2-3 sentences summarizing the paper's main focus and contribution]
+
+## Key Findings
+- [Finding 1]
+- [Finding 2]
+- [Finding 3]
+[Add up to 5 bullet points of the most important findings]
+
+## Methods
+- [Method 1]
+- [Method 2]
+[2-3 bullet points describing the experimental or computational methods]
+
+## Novel Contributions
+[1-2 sentences on what makes this work novel or significant]
+
+Be concise, technical, and focus on the most important aspects. Use battery domain terminology."""
+
+
+def _build_blurb_prompt(title: str, summary: str) -> str:
+    return f"""Convert this research paper summary into a punchy, tweet-style blurb (max 280 characters).
+
+Paper title: {title}
+
+Full summary:
+{summary}
+
+Requirements:
+- Exactly 1-2 sentences, maximum 280 characters
+- Lead with the key finding or result, not the method
+- Informative but punchy, like a science journalist
+- Use specific numbers/metrics when available
+- No hashtags, no emojis
+
+Generate the blurb:"""
+
+
+def _extract_abstract(chunks: list[str]) -> str:
+    for chunk in chunks[:10]:
+        chunk_lower = chunk.lower()
+        if "abstract" in chunk_lower[:200]:
+            start = chunk_lower.find("abstract")
+            content = chunk[start:].strip()
+            if content.lower().startswith("abstract"):
+                content = content[8:].strip()
+            content = content.lstrip(":.-\u2014 \n\t")
+            if 100 < len(content) < 2000:
+                return content
+    if chunks and len(chunks[0]) > 100:
+        return chunks[0][:1000]
+    return ""
+
+
+@router.get("/summaries/status")
+def summary_status():
+    """Return count of papers eligible for AI summary generation."""
+    from lib.db import get_session
+    from lib.models import Paper, Chunk
+    from sqlalchemy import select, func, or_
+
+    with get_session() as session:
+        papers_with_chunks = (
+            select(Chunk.paper_filename, func.count(Chunk.id).label("cnt"))
+            .where(Chunk.section_name.notin_(["metadata_only", "metadata"]))
+            .group_by(Chunk.paper_filename)
+            .having(func.count(Chunk.id) >= MIN_REAL_CHUNKS)
+            .subquery()
+        )
+
+        total_eligible = session.execute(
+            select(func.count())
+            .select_from(Paper)
+            .join(papers_with_chunks, Paper.filename == papers_with_chunks.c.paper_filename)
+            .where(Paper.deleted_at.is_(None))
+        ).scalar()
+
+        has_summary = session.execute(
+            select(func.count())
+            .select_from(Paper)
+            .join(papers_with_chunks, Paper.filename == papers_with_chunks.c.paper_filename)
+            .where(Paper.deleted_at.is_(None))
+            .where(Paper.ai_summary.isnot(None))
+            .where(Paper.ai_summary != "")
+        ).scalar()
+
+        needs_summary = total_eligible - has_summary
+
+    return {
+        "total_eligible": total_eligible,
+        "has_summary": has_summary,
+        "needs_summary": needs_summary,
+    }
+
+
+@router.post("/summaries/generate/stream")
+def generate_summaries_stream(force: bool = False):
+    """Streaming bulk AI summary generation via SSE."""
+    from lib.db_operations import upsert_paper
+    from lib.db import get_session
+    from lib.models import Paper, Chunk
+    from lib.llm import get_api_key_from_env
+    from sqlalchemy import select, func, or_
+    from datetime import datetime, timezone
+    import anthropic
+
+    api_key = get_api_key_from_env()
+    if not api_key:
+        raise HTTPException(status_code=500, detail="ANTHROPIC_API_KEY not configured")
+
+    def generate():
+        client = anthropic.Anthropic(api_key=api_key)
+
+        with get_session() as session:
+            papers_with_chunks = (
+                select(Chunk.paper_filename, func.count(Chunk.id).label("cnt"))
+                .where(Chunk.section_name.notin_(["metadata_only", "metadata"]))
+                .group_by(Chunk.paper_filename)
+                .having(func.count(Chunk.id) >= MIN_REAL_CHUNKS)
+                .subquery()
+            )
+
+            query = (
+                select(Paper)
+                .join(papers_with_chunks, Paper.filename == papers_with_chunks.c.paper_filename)
+                .where(Paper.deleted_at.is_(None))
+            )
+            if not force:
+                query = query.where(
+                    or_(Paper.ai_summary.is_(None), Paper.ai_summary == "")
+                )
+            query = query.order_by(Paper.date_added.desc())
+            papers = session.execute(query).scalars().all()
+
+            paper_list = [{
+                "filename": p.filename,
+                "title": p.title or "",
+                "authors": p.authors or [],
+                "year": p.year or "",
+                "journal": p.journal or "",
+                "chemistries": p.chemistries or [],
+            } for p in papers]
+
+        total = len(paper_list)
+        generated = 0
+        failed = 0
+
+        yield f"data: {json.dumps({'type': 'start', 'total': total})}\n\n"
+
+        for idx, paper in enumerate(paper_list):
+            fn = paper["filename"]
+            title = paper.get("title", fn)[:60]
+            try:
+                with get_session() as session:
+                    chunks = session.execute(
+                        select(Chunk.content)
+                        .where(Chunk.paper_filename == fn)
+                        .where(Chunk.section_name.notin_(["metadata_only", "metadata"]))
+                        .order_by(Chunk.page_num, Chunk.chunk_index)
+                        .limit(5)
+                    ).scalars().all()
+
+                abstract = _extract_abstract(chunks)
+
+                resp = client.messages.create(
+                    model=SUMMARY_MODEL, max_tokens=1500, temperature=0,
+                    messages=[{"role": "user", "content": _build_summary_prompt(paper, abstract, chunks)}],
+                )
+                summary = resp.content[0].text
+
+                resp2 = client.messages.create(
+                    model=SUMMARY_MODEL, max_tokens=150,
+                    messages=[{"role": "user", "content": _build_blurb_prompt(title, summary)}],
+                )
+                blurb = resp2.content[0].text.strip()
+                if len(blurb) > 280:
+                    blurb = blurb[:277] + "..."
+
+                upsert_paper(fn, {
+                    "ai_summary": summary,
+                    "feed_blurb": blurb,
+                    "summary_generated_at": datetime.now(timezone.utc).isoformat(),
+                    "summary_model": SUMMARY_MODEL,
+                })
+                generated += 1
+
+                yield f"data: {json.dumps({'type': 'progress', 'index': idx+1, 'total': total, 'filename': fn, 'title': title, 'result': 'generated', 'generated': generated, 'failed': failed})}\n\n"
+
+            except Exception as e:
+                failed += 1
+                yield f"data: {json.dumps({'type': 'progress', 'index': idx+1, 'total': total, 'filename': fn, 'title': title, 'result': 'error', 'error': str(e)[:100], 'generated': generated, 'failed': failed})}\n\n"
+
+        yield f"data: {json.dumps({'type': 'done', 'generated': generated, 'failed': failed, 'total': total})}\n\n"
+
+    return StreamingResponse(generate(), media_type="text/event-stream")
+
+
+@router.post("/{filename}/generate-summary")
+def generate_paper_summary(filename: str):
+    """Generate an AI summary for a single paper using its chunks."""
+    from lib.db_operations import get_paper_details, upsert_paper
+    from lib.db import get_session
+    from lib.models import Paper, Chunk
+    from lib.llm import get_api_key_from_env
+    from sqlalchemy import select, func
+    from datetime import datetime, timezone
+    import anthropic
+
+    api_key = get_api_key_from_env()
+    if not api_key:
+        raise HTTPException(status_code=500, detail="ANTHROPIC_API_KEY not configured")
+
+    paper = get_paper_details(filename)
+    if not paper:
+        raise HTTPException(status_code=404, detail="Paper not found")
+
+    # Get real content chunks
+    with get_session() as session:
+        chunk_count = session.execute(
+            select(func.count(Chunk.id))
+            .where(Chunk.paper_filename == filename)
+            .where(Chunk.section_name.notin_(["metadata_only", "metadata"]))
+        ).scalar()
+
+        if chunk_count < MIN_REAL_CHUNKS:
+            raise HTTPException(status_code=400, detail=f"Paper has only {chunk_count} content chunks (need {MIN_REAL_CHUNKS}+). Upload a PDF first.")
+
+        chunks = session.execute(
+            select(Chunk.content)
+            .where(Chunk.paper_filename == filename)
+            .where(Chunk.section_name.notin_(["metadata_only", "metadata"]))
+            .order_by(Chunk.page_num, Chunk.chunk_index)
+            .limit(5)
+        ).scalars().all()
+
+    abstract = _extract_abstract(chunks)
+    client = anthropic.Anthropic(api_key=api_key)
+
+    # Generate summary
+    resp = client.messages.create(
+        model=SUMMARY_MODEL, max_tokens=1500, temperature=0,
+        messages=[{"role": "user", "content": _build_summary_prompt(paper, abstract, chunks)}],
+    )
+    summary = resp.content[0].text
+
+    # Generate blurb
+    resp2 = client.messages.create(
+        model=SUMMARY_MODEL, max_tokens=150,
+        messages=[{"role": "user", "content": _build_blurb_prompt(paper.get("title", ""), summary)}],
+    )
+    blurb = resp2.content[0].text.strip()
+    if len(blurb) > 280:
+        blurb = blurb[:277] + "..."
+
+    # Save
+    upsert_paper(filename, {
+        "ai_summary": summary,
+        "feed_blurb": blurb,
+        "summary_generated_at": datetime.now(timezone.utc).isoformat(),
+        "summary_model": SUMMARY_MODEL,
+    })
+
+    updated = get_paper_details(filename)
+    return {"success": True, "ai_summary": summary, "feed_blurb": blurb, "paper": updated}
 
 
 # ── Paper Detail ─────────────────────────────────────────

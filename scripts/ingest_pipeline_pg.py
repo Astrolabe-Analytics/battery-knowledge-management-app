@@ -26,8 +26,9 @@ import argparse
 import requests
 from pathlib import Path
 from typing import Optional, Dict, Any, List
+import tempfile
 
-import pymupdf4llm
+import opendataloader_pdf
 import tiktoken
 from sentence_transformers import SentenceTransformer
 from anthropic import Anthropic
@@ -99,16 +100,48 @@ def save_pipeline_state(state: Dict[str, Any]):
 # STAGE 1: PDF PARSING  (identical to original — produces markdown files)
 # ═══════════════════════════════════════════════════════════════════════════════
 
+# Page separator used by opendataloader-pdf to split markdown output by page
+_PAGE_SEP = '<!-- PAGE_BREAK %%page-number%% -->'
+_PAGE_SEP_PATTERN = re.compile(r'<!-- PAGE_BREAK %(\d+)% -->')
+
+
 def extract_text_from_pdf(pdf_path: Path) -> List[dict]:
     logger.info(f"Extracting text from {pdf_path.name}")
     try:
-        md_text = pymupdf4llm.to_markdown(str(pdf_path), page_chunks=True)
+        with tempfile.TemporaryDirectory() as tmpdir:
+            opendataloader_pdf.convert(
+                input_path=[str(pdf_path)],
+                output_dir=tmpdir,
+                format='markdown',
+                quiet=True,
+                image_output='off',
+                markdown_page_separator=_PAGE_SEP,
+            )
+            md_file = Path(tmpdir) / pdf_path.name.replace('.pdf', '.md')
+            if not md_file.exists():
+                # Fallback: find any .md file in the output dir
+                md_files = list(Path(tmpdir).glob('*.md'))
+                if not md_files:
+                    logger.error(f"No markdown output for {pdf_path.name}")
+                    return []
+                md_file = md_files[0]
+            content = md_file.read_text(encoding='utf-8')
+
+        # Split by page separators
         pages = []
-        for page_data in md_text:
-            page_num = page_data['metadata']['page'] + 1
-            text = page_data['text']
-            if text.strip():
-                pages.append({'page_num': page_num, 'text': text})
+        parts = _PAGE_SEP_PATTERN.split(content)
+        # parts alternates: [text_before_first_sep, page_num, text, page_num, text, ...]
+        # First element is text before any separator (usually empty)
+        if len(parts) >= 3:
+            for i in range(1, len(parts), 2):
+                page_num = int(parts[i])
+                text = parts[i + 1] if i + 1 < len(parts) else ''
+                if text.strip():
+                    pages.append({'page_num': page_num, 'text': text.strip()})
+        elif content.strip():
+            # No page separators found — treat as single page
+            pages.append({'page_num': 1, 'text': content.strip()})
+
         logger.info(f"  Extracted {len(pages)} pages")
         return pages
     except Exception as e:
