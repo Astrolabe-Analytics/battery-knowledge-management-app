@@ -1,0 +1,33 @@
+.git/
+.claude/
+# Legacy Streamlit interface — not deployed
+app.py
+pages/
+# Local data (gitignored, not part of the image)
+papers/
+papers_invalid/
+data/chroma_db/
+data/*.db
+data/pipeline_state.json
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+# Environment
+.env
+.env.*
+!.env.example
+# Dev artifacts
+venv/
+env/
+.venv/
+*.egg-info/
+# Docs / markdown (not needed in image)
+*.md
+docs/
+# Tests
+tests/
+# Node (frontend is built in its own stage)
+frontend/node_modules/
+frontend/dist/

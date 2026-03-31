@@ -1,0 +1,25 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "editor.formatOnSave": true,
+    "python.defaultInterpreterPath": "./venv/bin/python",
+    "files.exclude": {
+      "**/__pycache__": true,
+      "**/*.pyc": true,
+      "papers/": true,
+      "data/chroma_db": true
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-python.python",
+      "ms-python.vscode-pylance",
+      "github.copilot",
+      "github.copilot-chat"
+    ]
+  }
+}

@@ -86,3 +86,8 @@ data/collections.db
 
 # Task output files
 *.output
+
+# Data dumps and archives
+*.sql
+*.zip
+data 2/

@@ -1,0 +1,86 @@
+# Battery Knowledge Management App — local development stack
+#
+# Defaults to local filesystem PDF storage (no S3 required).
+# To test the S3 code path with LocalStack:
+#   docker compose --profile s3 up -d
+#   ./scripts/setup_localstack.sh
+#   Add to .env: PAPERS_STORAGE=s3 and AWS_ENDPOINT=http://localhost:4566
+#   docker compose restart api
+
+services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: astrolabe
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  api:
+    build:
+      context: .
+      target: api
+    working_dir: /app
+    # --reload watches mounted source dirs for live changes
+    # The React frontend is served by Vite (port 5173) during dev — no dist/ needed
+    command: uvicorn api.main:app --reload --host 0.0.0.0 --port 8003
+    ports:
+      - "8003:8003"
+    volumes:
+      - ./api:/app/api
+      - ./lib:/app/lib
+      - ./scripts:/app/scripts
+      - ./papers:/app/papers
+      - ./data:/app/data
+    env_file:
+      # Copy .env.example to .env and add your ANTHROPIC_API_KEY
+      - path: .env
+        required: false
+    environment:
+      # Override DATABASE_URL to use the postgres service
+      DATABASE_URL: postgresql+psycopg2://postgres:postgres@postgres:5432/astrolabe
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # Vite dev server — hot-reload for frontend development
+  # API runs separately on port 8003; Vite proxies /api requests to it
+  frontend:
+    image: node:20-slim
+    working_dir: /app
+    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app
+      - frontend_node_modules:/app/node_modules
+    environment:
+      VITE_API_URL: http://api:8003
+    depends_on:
+      - api
+
+  # LocalStack S3 — only starts with: docker compose --profile s3 up -d
+  # After starting: run ./scripts/setup_localstack.sh to create the bucket
+  localstack:
+    image: localstack/localstack
+    profiles: [s3]
+    ports:
+      - "4566:4566"
+    environment:
+      SERVICES: s3
+      GATEWAY_LISTEN: 0.0.0.0:4566
+    volumes:
+      - localstack_data:/var/lib/localstack
+
+volumes:
+  pgdata:
+  frontend_node_modules:
+  localstack_data:
