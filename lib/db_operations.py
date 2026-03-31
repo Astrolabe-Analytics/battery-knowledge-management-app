@@ -145,6 +145,118 @@ def get_paper_by_filename(filename: str) -> Optional[Paper]:
         return session.get(Paper, filename)
 
 
+def get_paper_library_for_export() -> list[dict]:
+    """Return all non-deleted papers serialized for the cross-system paper library.
+
+    Format matches what paper-linker.mjs in the data-viz pipeline expects:
+      [{paperId, doi, title, abstract, authors, year, journal, chemistries, ...}]
+
+    Used by GET /api/system/paper-library.
+    """
+    with get_session() as session:
+        stmt = (
+            select(
+                Paper,
+                func.count(Chunk.id).label("chunk_count"),
+            )
+            .outerjoin(Chunk, Chunk.paper_filename == Paper.filename)
+            .where(Paper.deleted_at.is_(None))
+            .group_by(Paper.filename)
+        )
+        rows = session.execute(stmt).all()
+
+        papers = []
+        for paper, chunk_count in rows:
+            authors = paper.authors if isinstance(paper.authors, list) else []
+            papers.append({
+                "paperId": paper.paper_id or "",
+                "filename": paper.filename,
+                "title": paper.title or "",
+                "doi": paper.doi or "",
+                "authors": authors,
+                "year": int(paper.year) if paper.year and paper.year.isdigit() else (paper.year or ""),
+                "journal": paper.journal or "",
+                "abstract": paper.abstract or "",
+                "chemistries": paper.chemistries or [],
+                "topics": paper.topics or [],
+                "application": paper.application or "general",
+                "paperType": paper.paper_type or "Experimental",
+                "pdfStatus": paper.pdf_status or "",
+                "pdfS3Key": f"papers/{paper.filename}" if not paper.metadata_only else "",
+                "ragReady": chunk_count > 0,
+                "provisional": paper.metadata_only or False,
+                "source": "library",
+            })
+
+    return papers
+
+
+def search_papers_semantic(query: str, top_k: int = 10, chemistries: list[str] | None = None) -> list[dict]:
+    """Semantic paper discovery — find papers relevant to a query using pgvector.
+
+    Returns paper-level results (not chunks) with relevance scores.
+    Used by POST /api/search/papers for Tier 2 cross-system integration.
+    """
+    from sentence_transformers import SentenceTransformer
+
+    model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+    query_embedding = model.encode([query])[0].tolist()
+
+    with get_session() as session:
+        # Vector search at chunk level
+        q = (
+            select(
+                Chunk.paper_filename,
+                Paper.title,
+                Paper.doi,
+                Paper.abstract,
+                Paper.authors,
+                Paper.year,
+                Paper.journal,
+                Paper.chemistries,
+                Paper.topics,
+                Paper.paper_id,
+                Chunk.embedding.cosine_distance(query_embedding).label("distance"),
+            )
+            .join(Paper, Paper.filename == Chunk.paper_filename)
+            .where(Paper.deleted_at.is_(None))
+            .where(Chunk.embedding.isnot(None))
+        )
+
+        if chemistries:
+            for chem in chemistries:
+                q = q.where(Paper.chemistries.contains([chem.upper()]))
+
+        # Get more chunks than needed, then group by paper
+        q = q.order_by("distance").limit(top_k * 5)
+        rows = session.execute(q).all()
+
+    # Group by paper — keep best (lowest distance) chunk per paper
+    seen: dict[str, dict] = {}
+    for row in rows:
+        fn = row.paper_filename
+        score = round(1.0 - row.distance, 4)
+        if fn not in seen or score > seen[fn]["relevanceScore"]:
+            authors = row.authors if isinstance(row.authors, list) else []
+            seen[fn] = {
+                "paperId": row.paper_id or "",
+                "doi": row.doi or "",
+                "title": row.title or "",
+                "abstract": (row.abstract or "")[:1500],
+                "authors": authors,
+                "year": int(row.year) if row.year and str(row.year).isdigit() else (row.year or ""),
+                "journal": row.journal or "",
+                "chemistries": row.chemistries or [],
+                "topics": row.topics or [],
+                "relevanceScore": score,
+                "matchReason": f"semantic:cosine-{score:.2f}",
+            }
+
+    # Sort by score descending, limit to top_k
+    results = sorted(seen.values(), key=lambda x: x["relevanceScore"], reverse=True)[:top_k]
+    return results
+
+
 # ═════════════════════════════════════════════════════════════════════════════
 # PAPER MUTATIONS
 # ═════════════════════════════════════════════════════════════════════════════
