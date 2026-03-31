@@ -10,7 +10,8 @@ from typing import Optional, List
 from collections import Counter
 
 from fastapi import APIRouter, HTTPException, Query
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, RedirectResponse
+from lib.s3_storage import pdf_exists
 from pydantic import BaseModel
 
 router = APIRouter()
@@ -102,7 +103,7 @@ def _get_paper_status(paper: dict) -> str:
         return True  # lists, ints, etc.
 
     filename = paper.get("filename", "")
-    has_pdf = (PAPERS_DIR / filename).exists()
+    has_pdf = pdf_exists(filename)
 
     has_title = _present(paper.get("title"))
     # authors may be a semicolon-joined string from to_library_dict
@@ -386,7 +387,7 @@ def get_paper(filename: str):
     if not details:
         raise HTTPException(status_code=404, detail=f"Paper not found: {filename}")
 
-    details["has_pdf"] = (PAPERS_DIR / filename).exists()
+    details["has_pdf"] = pdf_exists(filename)
 
     # Notes (still file-based)
     notes_path = Path("data/notes") / f"{filename}.txt"
@@ -476,12 +477,15 @@ def delete_papers(body: DeleteRequest):
 
 @router.get("/{filename}/pdf")
 def serve_pdf(filename: str):
-    """Serve a paper's PDF file."""
-    pdf_path = PAPERS_DIR / filename
-    if not pdf_path.exists():
+    """Serve a paper's PDF — redirects to S3 presigned URL or serves from local disk."""
+    if not pdf_exists(filename):
         raise HTTPException(status_code=404, detail="PDF not found")
+    from lib.s3_storage import is_s3_mode, get_presigned_url
+    if is_s3_mode():
+        url = get_presigned_url(filename)
+        return RedirectResponse(url=url, status_code=302, headers={"Cache-Control": "no-store"})
     return FileResponse(
-        pdf_path,
+        PAPERS_DIR / filename,
         media_type="application/pdf",
         filename=filename,
         content_disposition_type="inline",
@@ -545,7 +549,7 @@ def enrich_single_paper(filename: str):
     Pipeline:
       1. Use existing DOI if available
       2. Extract DOI from source_url
-      3. Extract DOI from filename  
+      3. Extract DOI from filename
       4. Search Semantic Scholar by title
       5. Query CrossRef with found DOI → fill missing fields
     """
@@ -650,7 +654,7 @@ def enrich_single_paper(filename: str):
 def enrich_from_crossref_with_doi(filename: str, body: dict):
     """
     Re-enrich a paper from CrossRef using a specific DOI.
-    
+
     Useful when user manually provides/corrects a DOI.
     Body: { "doi": "10.xxxx/..." }
     """

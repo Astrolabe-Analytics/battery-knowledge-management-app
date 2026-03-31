@@ -189,6 +189,7 @@ def add_from_discover(body: AddPaperRequest):
         if pdf_found and pdf_url:
             try:
                 from lib.semantic_scholar import download_pdf
+                from lib.s3_storage import save_pdf, is_s3_mode
                 safe_title = re.sub(r'[^\w\s-]', '', title[:50])
                 safe_title = re.sub(r'[-\s]+', '_', safe_title)
                 filename = f"{safe_title}.pdf"
@@ -198,6 +199,8 @@ def add_from_discover(body: AddPaperRequest):
                 if not dl.get('success'):
                     pdf_found = False
                     filename = None
+                elif is_s3_mode():
+                    save_pdf(filename, pdf_path.read_bytes())
             except Exception:
                 pdf_found = False
                 filename = None

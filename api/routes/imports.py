@@ -12,8 +12,13 @@ import logging
 from pathlib import Path
 from typing import Optional
 
+import os
+import ipaddress
+import socket
+from urllib.parse import urlparse
 import requests
-from fastapi import APIRouter, HTTPException, UploadFile, File
+from fastapi import APIRouter, BackgroundTasks, HTTPException, UploadFile, File
+from lib.s3_storage import save_pdf, pdf_exists
 from pydantic import BaseModel
 
 router = APIRouter()
@@ -59,6 +64,29 @@ def _extract_doi_from_url(url: str) -> Optional[str]:
     if doi_match:
         return doi_match.group(1)
     return None
+
+
+def _validate_outbound_url(url: str) -> None:
+    """Raise HTTPException 400 if the URL resolves to a private/reserved address.
+
+    Prevents SSRF: blocks requests to AWS instance metadata endpoints,
+    Docker-internal services, loopback addresses, and RFC-1918 ranges.
+    """
+    try:
+        parsed = urlparse(url)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid URL")
+    if parsed.scheme not in ("http", "https"):
+        raise HTTPException(status_code=400, detail="Only http/https URLs are supported")
+    hostname = parsed.hostname
+    if not hostname:
+        raise HTTPException(status_code=400, detail="Invalid URL — no hostname")
+    try:
+        ip = ipaddress.ip_address(socket.gethostbyname(hostname))
+    except (socket.gaierror, ValueError):
+        raise HTTPException(status_code=400, detail="Could not resolve hostname")
+    if ip.is_private or ip.is_loopback or ip.is_link_local or ip.is_reserved:
+        raise HTTPException(status_code=400, detail="URL targets a blocked address")
 
 
 def _scrape_doi_from_page(url: str) -> Optional[str]:
@@ -259,7 +287,7 @@ def _run_ingestion_pipeline_pg():
         cmd = [sys.executable, "scripts/ingest_pipeline_pg.py", "--stage", stage]
         if flag:
             cmd.append(flag)
-        result = subprocess.run(cmd, capture_output=True, text=True)
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
         if result.returncode != 0:
             raise RuntimeError(
                 f"Pipeline stage '{stage}' failed: {result.stderr or result.stdout}"
@@ -277,8 +305,7 @@ def import_from_url(body: URLImportRequest):
     All data goes to PostgreSQL.
     """
     url = body.url.strip()
-    papers_dir = Path("papers")
-    papers_dir.mkdir(parents=True, exist_ok=True)
+    _validate_outbound_url(url)
     steps: list[str] = []
     result = {
         "success": False, "filename": None, "title": None,
@@ -301,7 +328,7 @@ def import_from_url(body: URLImportRequest):
 
             resp = requests.get(pdf_url, timeout=30)
             if resp.status_code == 200:
-                (papers_dir / filename).write_bytes(resp.content)
+                save_pdf(filename, resp.content)
                 result["filename"] = filename
                 result["success"] = True
                 steps.append(f"Downloaded {filename}")
@@ -337,7 +364,7 @@ def import_from_url(body: URLImportRequest):
                     if pdf_resp.status_code == 200 and 'application/pdf' in pdf_resp.headers.get('content-type', ''):
                         safe_doi = doi.replace('/', '_').replace('.', '_')
                         filename = f"doi_{safe_doi}.pdf"
-                        (papers_dir / filename).write_bytes(pdf_resp.content)
+                        save_pdf(filename, pdf_resp.content)
                         result["filename"] = filename
                         result["success"] = True
                         steps.append(f"Downloaded PDF: {filename}")
@@ -374,7 +401,7 @@ def import_from_url(body: URLImportRequest):
                     if pdf_resp.status_code == 200 and 'application/pdf' in pdf_resp.headers.get('content-type', ''):
                         safe_doi = doi.replace('/', '_').replace('.', '_')
                         filename = f"doi_{safe_doi}.pdf"
-                        (papers_dir / filename).write_bytes(pdf_resp.content)
+                        save_pdf(filename, pdf_resp.content)
                         result["filename"] = filename
                         result["success"] = True
                         steps.append(f"Downloaded PDF: {filename}")
@@ -399,7 +426,7 @@ def import_from_url(body: URLImportRequest):
                 filename = url.split('/')[-1].split('?')[0]
                 if not filename.endswith('.pdf'):
                     filename = f"downloaded_{int(time.time())}.pdf"
-                (papers_dir / filename).write_bytes(resp.content)
+                save_pdf(filename, resp.content)
                 result["filename"] = filename
                 result["success"] = True
                 steps.append(f"Downloaded: {filename}")
@@ -431,42 +458,41 @@ def import_from_url(body: URLImportRequest):
 
 
 @router.post("/upload")
-async def upload_pdfs(files: list[UploadFile] = File(...)):
-    """Upload one or more PDF files and process through the ingestion pipeline."""
-    papers_dir = Path("papers")
-    papers_dir.mkdir(parents=True, exist_ok=True)
-
+async def upload_pdfs(
+    files: list[UploadFile] = File(...),
+    background_tasks: BackgroundTasks = None,
+):
+    """Upload one or more PDF files and queue them through the ingestion pipeline."""
     saved = []
     skipped = []
     failed = []
 
     for uploaded in files:
-        filename = uploaded.filename or f"upload_{int(time.time())}.pdf"
-        target = papers_dir / filename
+        raw_name = uploaded.filename or f"upload_{int(time.time())}.pdf"
+        filename = os.path.basename(raw_name)
+        if not re.match(r"^[\w\-. ]+\.pdf$", filename, re.IGNORECASE):
+            failed.append({"filename": raw_name, "error": "Invalid filename — only safe PDF filenames accepted"})
+            continue
 
-        if target.exists():
+        if pdf_exists(filename):
             skipped.append(filename)
             continue
 
         try:
             content = await uploaded.read()
-            target.write_bytes(content)
+            save_pdf(filename, content)
             saved.append(filename)
         except Exception as e:
             failed.append({"filename": filename, "error": str(e)})
 
-    pipeline_error = None
-    if saved:
-        try:
-            _run_ingestion_pipeline_pg()
-        except RuntimeError as e:
-            pipeline_error = str(e)
+    if saved and background_tasks is not None:
+        background_tasks.add_task(_run_ingestion_pipeline_pg)
 
     return {
         "saved": saved,
         "skipped": skipped,
         "failed": failed,
-        "pipeline_error": pipeline_error,
+        "pipeline_error": None,
         "total_processed": len(saved),
     }
 
@@ -715,7 +741,7 @@ def enrichment_status():
 def enrich_papers_stream(body: EnrichRequest):
     """
     Streaming enrichment endpoint using Server-Sent Events (SSE).
-    
+
     Sends real-time progress updates as papers are enriched.
     Each event is a JSON object with type: 'progress' | 'result' | 'done'.
     """
