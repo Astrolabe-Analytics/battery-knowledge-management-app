@@ -1,12 +1,30 @@
+# PDF processing
 pymupdf4llm
-chromadb
-sentence-transformers
-anthropic
-tiktoken
-streamlit
+
+# ML / NLP
+sentence-transformers~=3.0
 rank-bm25
-beautifulsoup4
-python-dotenv
+tiktoken
+
+# LLM API
+anthropic
+
+# Database
+sqlalchemy
+psycopg2-binary~=2.9
+pgvector~=0.3
+
+# Web framework
 fastapi
 uvicorn[standard]
 python-multipart
+
+# Web scraping / imports
+beautifulsoup4
+requests
+
+# AWS / S3
+boto3
+
+# Environment
+python-dotenv
