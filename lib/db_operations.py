@@ -208,7 +208,7 @@ def search_papers_semantic(query: str, top_k: int = 10, chemistries: list[str] |
     """Semantic paper discovery — find papers relevant to a query using pgvector.
 
     Returns paper-level results (not chunks) with relevance scores.
-    Used by POST /api/search/papers for Tier 2 cross-system integration.
+    Used by POST /api/system/paper-library/search for Tier 2 cross-system integration.
     """
     model = _get_embedding_model()
     query_embedding = model.encode([query])[0].tolist()
@@ -235,8 +235,8 @@ def search_papers_semantic(query: str, top_k: int = 10, chemistries: list[str] |
         )
 
         if chemistries:
-            for chem in chemistries:
-                q = q.where(Paper.chemistries.contains([chem.upper()]))
+            from sqlalchemy import or_
+            q = q.where(or_(*[Paper.chemistries.contains([chem.upper()]) for chem in chemistries]))
 
         # Get more chunks than needed, then group by paper
         q = q.order_by("distance").limit(top_k * 5)

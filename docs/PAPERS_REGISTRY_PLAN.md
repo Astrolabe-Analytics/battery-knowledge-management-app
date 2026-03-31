@@ -104,7 +104,7 @@ User searches → vector similarity → top chunks → Claude synthesizes answer
        │    → Feed paper abstract to Claude enrichment │
        │                                              │
        │  Tier 2: Semantic paper discovery (NEW)       │
-       │    → POST /api/search/papers                  │
+       │    → POST /api/system/paper-library/search     │
        │    → "Find papers about LFP calendar aging"   │
        │    → Returns relevant papers by content, not  │
        │      just DOI/title match                     │
@@ -255,7 +255,7 @@ The contribution tool currently can only match papers by:
 
 This misses papers that study the **same phenomena** as the dataset but don't share a DOI or title. Example: a dataset of "LFP calendar aging under 45°C" should be linked to papers about LFP calendar aging mechanisms, even if no DOI match exists.
 
-### The Solution: `POST /api/search/papers`
+### The Solution: `POST /api/system/paper-library/search`
 
 A new endpoint on the BKM app that the contribution tool's enrichment agent can call:
 
@@ -280,7 +280,7 @@ class PaperDiscoveryResponse(BaseModel):
 ```
 Existing:   paperRefs → linkPapers(refs, library)   → DOI/title match
                                                        ↓
-New:        datasetDescription → POST /search/papers → semantic match
+New:        datasetDescription → POST /api/system/paper-library/search → semantic match
                                                        ↓
 Merged:     linkedPapers[] = DOI matches + semantic matches (deduplicated)
             Claude enrichment receives ALL matched paper abstracts
@@ -350,6 +350,13 @@ Also add `paper_id` to `lib/models.py` Paper class.
 **Risk:** Low — additive column, no data migration  
 **Verify:** `docker compose exec api python -c "from lib.models import Paper; print(Paper.paper_id)"`
 
+**Deployment sequencing:** After applying this migration (or on a fresh DB), run `--assign-only` before `GET /api/system/paper-library` is called by any consumer. All existing papers will have `paper_id = NULL` until assignment runs. The endpoint returns `paperId: ""` for unassigned papers, which will break consumers that validate non-empty paperIds.
+
+```bash
+# Run immediately after migration / first deploy:
+docker compose exec api python scripts/export_paper_registry.py --assign-only
+```
+
 ### Step 3: Create `scripts/export_paper_registry.py`
 
 Responsibilities:
@@ -388,7 +395,7 @@ Serves fresh data (no stale S3 cache risk). No auth (consistent with all existin
 **Environment:** All  
 **Verify:** `curl -s http://localhost:8003/api/system/paper-library | python3 -c "import json,sys; d=json.load(sys.stdin); print(len(d), 'papers')"`
 
-### Step 4b: Add `POST /api/search/papers` endpoint (Tier 2)
+### Step 4b: Add `POST /api/system/paper-library/search` endpoint (Tier 2)
 
 Semantic paper discovery. Reuses existing pgvector search infrastructure from `lib/db_operations.py`.
 
@@ -398,12 +405,12 @@ Only papers with `ragReady: true` (pgvector embeddings present) are eligible for
 
 **Evidence labeling (consumer's responsibility, not BKM's):** BKM returns papers with `relevanceScore` and `matchReason`. The consumer (data-viz-tool `process.mjs`) stamps `source: "semantic_discovery"` on these and applies a 0.50 confidence ceiling per the pipeline's established external-evidence doctrine — the same cap that applies to BatteryArchive, Robert's CSV, and all non-authoritative sources. BKM does not enforce this cap; it just returns ranked results. Do not add a `source` field to the BKM response payload.
 
-**`BKM_API_URL` placement:** This env var belongs in the **data-viz-tool / contribution-tool environment**, not BKM's. BKM doesn't consume it. BKM's job here is: (a) endpoint works, (b) document the URL pattern for the consumer team. The actual wiring (`BKM_API_URL` read in `process.mjs`, `POST /api/search/papers` call in Stage 3.5) is data-viz-tool work, outside this plan's scope.
+**`BKM_API_URL` placement:** This env var belongs in the **data-viz-tool / contribution-tool environment**, not BKM's. BKM doesn't consume it. BKM's job here is: (a) endpoint works, (b) document the URL pattern for the consumer team. The actual wiring (`BKM_API_URL` read in `process.mjs`, `POST /api/system/paper-library/search` call in Stage 3.5) is data-viz-tool work, outside this plan's scope.
 
 **Tier 1 vs Tier 2 runtime dependency:** Tier 1 (paper library catalog) flows through S3 — `process.mjs` reads `_system/paper-library.json` via the data-viz-tool API. It does not call BKM directly at runtime. Tier 2 is the **first** time the pipeline calls BKM directly. If `BKM_API_URL` is unset or BKM is unreachable, Tier 2 is skipped — Tier 1 is unaffected.
 
 **Environment:** All
-**Verify:** `curl -s -X POST http://localhost:8003/api/search/papers -H 'Content-Type: application/json' -d '{"query": "LFP calendar aging", "top_k": 5}' | python3 -m json.tool`
+**Verify:** `curl -s -X POST http://localhost:8003/api/system/paper-library/search -H 'Content-Type: application/json' -d '{"query": "LFP calendar aging", "top_k": 5}' | python3 -m json.tool`
 
 ### Step 5: Run export script
 
