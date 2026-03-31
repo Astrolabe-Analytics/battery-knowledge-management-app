@@ -21,20 +21,6 @@ class PaperDiscoveryRequest(BaseModel):
     top_k: int = Field(default=10, ge=1, le=100)
 
 
-class PaperDiscoveryResult(BaseModel):
-    paperId: str
-    doi: str
-    title: str
-    abstract: str
-    authors: list
-    year: int | str
-    journal: str
-    chemistries: list[str]
-    topics: list[str]
-    relevanceScore: float
-    matchReason: str  # structured: "semantic:cosine-0.87"
-
-
 class PaperDiscoveryResponse(BaseModel):
     papers: list[dict]
     query: str
