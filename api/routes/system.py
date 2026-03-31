@@ -5,7 +5,7 @@ These endpoints serve data to other Astrolabe systems (data-viz tool,
 contribution pipeline). All data access goes through lib/db_operations.py.
 """
 from fastapi import APIRouter
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 router = APIRouter()
 
@@ -16,9 +16,9 @@ router = APIRouter()
 
 class PaperDiscoveryRequest(BaseModel):
     """Semantic paper discovery request (Tier 2 integration)."""
-    query: str
-    chemistries: list[str] = []
-    top_k: int = 10
+    query: str = Field(..., max_length=2000)
+    chemistries: list[str] = Field(default_factory=list, max_length=20)
+    top_k: int = Field(default=10, ge=1, le=100)
 
 
 class PaperDiscoveryResult(BaseModel):

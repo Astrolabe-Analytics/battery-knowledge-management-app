@@ -49,6 +49,19 @@ def _utcnow():
     return datetime.now(timezone.utc)
 
 
+# Cached sentence-transformer model (lazy-loaded, ~100MB in memory)
+_st_model = None
+
+
+def _get_embedding_model():
+    """Return cached SentenceTransformer model, loading on first call."""
+    global _st_model
+    if _st_model is None:
+        from sentence_transformers import SentenceTransformer
+        _st_model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+    return _st_model
+
+
 # ═════════════════════════════════════════════════════════════════════════════
 # PAPER LIBRARY  (replaces rag.get_paper_library, get_filter_options, etc.)
 # ═════════════════════════════════════════════════════════════════════════════
@@ -182,7 +195,7 @@ def get_paper_library_for_export() -> list[dict]:
                 "application": paper.application or "general",
                 "paperType": paper.paper_type or "Experimental",
                 "pdfStatus": paper.pdf_status or "",
-                "pdfS3Key": f"papers/{paper.filename}" if not paper.metadata_only else "",
+                "pdfS3Key": f"papers/{paper.filename}" if (paper.pdf_status == "available" or (not paper.metadata_only and paper.filename)) else "",
                 "ragReady": chunk_count > 0,
                 "provisional": paper.metadata_only or False,
                 "source": "library",
@@ -197,9 +210,7 @@ def search_papers_semantic(query: str, top_k: int = 10, chemistries: list[str] |
     Returns paper-level results (not chunks) with relevance scores.
     Used by POST /api/search/papers for Tier 2 cross-system integration.
     """
-    from sentence_transformers import SentenceTransformer
-
-    model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
+    model = _get_embedding_model()
     query_embedding = model.encode([query])[0].tolist()
 
     with get_session() as session:

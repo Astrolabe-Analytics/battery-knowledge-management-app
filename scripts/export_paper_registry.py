@@ -24,13 +24,13 @@ import sys
 import unicodedata
 from datetime import datetime, timezone
 
-from sqlalchemy import func, select
+from sqlalchemy import select
 
 # Bootstrap — add project root to path
 sys.path.insert(0, "/app")
 
 from lib.db import get_session
-from lib.models import Paper, Chunk
+from lib.models import Paper
 
 logging.basicConfig(
     level=logging.INFO,
@@ -134,29 +134,28 @@ def assign_paper_ids(session) -> int:
 # Serialization
 # ─────────────────────────────────────────────────────────────────────────────
 
-def paper_to_export_dict(paper: Paper, chunk_count: int) -> dict:
-    """Serialize a Paper to the export format consumed by the data-viz pipeline."""
-    authors = paper.authors if isinstance(paper.authors, list) else []
-    return {
-        "paperId": paper.paper_id,
-        "filename": paper.filename,
-        "title": paper.title or "",
-        "doi": paper.doi or "",
-        "authors": authors,
-        "year": int(paper.year) if paper.year and paper.year.isdigit() else (paper.year or ""),
-        "journal": paper.journal or "",
-        "abstract": paper.abstract or "",
-        "chemistries": paper.chemistries or [],
-        "topics": paper.topics or [],
-        "application": paper.application or "general",
-        "paperType": paper.paper_type or "Experimental",
-        "pdfStatus": paper.pdf_status or "",
-        "pdfS3Key": f"papers/{paper.filename}" if paper.pdf_status == "available" or (not paper.metadata_only and paper.filename) else "",
-        "ragReady": chunk_count > 0,
-        "provisional": paper.metadata_only or False,
-        "source": "library",
-        "lastModified": (paper.date_added.isoformat() if paper.date_added else ""),
-    }
+def load_papers_for_export() -> list[dict]:
+    """Load papers using the canonical serialization from db_operations.
+
+    Adds lastModified field needed for S3 export envelope.
+    """
+    from lib.db_operations import get_paper_library_for_export
+    papers = get_paper_library_for_export()
+
+    # Enrich with lastModified from DB (not available in the API serialization)
+    with get_session() as session:
+        date_map = {}
+        rows = session.execute(
+            select(Paper.filename, Paper.date_added)
+            .where(Paper.deleted_at.is_(None))
+        ).all()
+        for fn, da in rows:
+            date_map[fn] = da.isoformat() if da else ""
+
+    for p in papers:
+        p["lastModified"] = date_map.get(p["filename"], "")
+
+    return papers
 
 
 def build_envelope(papers: list[dict]) -> dict:
@@ -299,44 +298,41 @@ def main():
             log.info("Done (assign-only mode)")
             return
 
-        # Step 2: Load all non-deleted papers with chunk counts
-        stmt = (
-            select(Paper, func.count(Chunk.id).label("chunk_count"))
-            .outerjoin(Chunk, Chunk.paper_filename == Paper.filename)
-            .where(Paper.deleted_at.is_(None))
-            .group_by(Paper.filename)
-        )
-        rows = session.execute(stmt).all()
-        expected_count = len(rows)
+    # Step 2: Load papers using canonical serialization
+    papers_data = load_papers_for_export()
+    expected_count = len(papers_data)
+    log.info("Found %d non-deleted papers", expected_count)
 
-        log.info("Found %d non-deleted papers", expected_count)
+    # Step 3: Build envelope
+    envelope = build_envelope(papers_data)
 
-        # Step 3: Serialize
-        papers_data = [paper_to_export_dict(paper, cc) for paper, cc in rows]
-        envelope = build_envelope(papers_data)
+    # Step 4: Validate
+    errors = validate_export(envelope, expected_count)
+    if errors:
+        for e in errors:
+            log.error("VALIDATION FAILED: %s", e)
+        sys.exit(1)
 
-        # Step 4: Validate
-        errors = validate_export(envelope, expected_count)
-        if errors:
-            for e in errors:
-                log.error("VALIDATION FAILED: %s", e)
-            sys.exit(1)
+    log.info("Validation passed — %d papers, %d with DOI, %d ragReady",
+             envelope["stats"]["total"],
+             envelope["stats"]["withDoi"],
+             envelope["stats"]["embedded"])
 
-        log.info("Validation passed — %d papers, %d with DOI, %d ragReady",
-                 envelope["stats"]["total"],
-                 envelope["stats"]["withDoi"],
-                 envelope["stats"]["embedded"])
+    if is_dry_run:
+        # Preview first 2 papers
+        for p in papers_data[:2]:
+            log.info("Sample: paperId=%s doi=%s title=%.60s",
+                     p["paperId"], p["doi"], p["title"])
+        log.info("Dry run complete. Use --write to upload to S3.")
+        return
 
-        if is_dry_run:
-            # Preview first 2 papers
-            for p in papers_data[:2]:
-                log.info("Sample: paperId=%s doi=%s title=%.60s",
-                         p["paperId"], p["doi"], p["title"])
-            log.info("Dry run complete. Use --write to upload to S3.")
-            return
-
-        # Step 5: Upload
+    # Step 5: Upload
+    try:
         upload_to_s3(envelope)
+    except Exception as e:
+        log.error("S3 upload failed: %s", e)
+        log.error("DB paper_id assignments were committed. S3 is stale. Re-run with --write to retry.")
+        sys.exit(1)
 
     log.info("=== Export complete ===")
 
