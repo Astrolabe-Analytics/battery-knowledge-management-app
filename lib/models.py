@@ -26,6 +26,7 @@ from sqlalchemy import (
     String,
     Text,
     UniqueConstraint,
+    text,
 )
 from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import DeclarativeBase, relationship
@@ -54,6 +55,7 @@ class Paper(Base):
     __tablename__ = "papers"
 
     filename = Column(String, primary_key=True)
+    paper_id = Column(String(255), nullable=True)  # stable cross-system ID: "doi:..." or "title:..."
 
     # --- Bibliographic ---
     title = Column(Text, default="")
@@ -113,6 +115,7 @@ class Paper(Base):
         Index("ix_papers_year", "year"),
         Index("ix_papers_paper_type", "paper_type"),
         Index("ix_papers_deleted_at", "deleted_at"),
+        Index("ix_papers_paper_id", "paper_id", unique=True, postgresql_where=text("paper_id IS NOT NULL")),
     )
 
     def to_library_dict(self) -> dict:
