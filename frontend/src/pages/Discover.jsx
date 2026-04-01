@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Compass, Plus, Search, TrendingUp, ExternalLink, ChevronDown, ChevronUp } from 'lucide-react';
 import { discoverSearch, addDiscoverPaper, fetchGaps, addGapPaper } from '../services/api';
 import { useToast } from '../components/Toast';
@@ -25,7 +25,7 @@ function GapAnalysis() {
   const [limit, setLimit] = useState(30);
   const toast = useToast();
 
-  async function loadGaps() {
+  const loadGaps = useCallback(async () => {
     setLoading(true);
     try {
       const data = await fetchGaps(limit);
@@ -36,11 +36,11 @@ function GapAnalysis() {
       toast.error('Failed to load gap analysis');
     }
     setLoading(false);
-  }
+  }, [limit, toast]);
 
   useEffect(() => {
     loadGaps();
-  }, [limit]);
+  }, [loadGaps]);
 
   async function handleAdd(gap) {
     try {

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Trash2, RotateCcw, AlertTriangle, FileText } from 'lucide-react';
 import { fetchTrash, restorePapers, emptyTrash, hardDeletePaper } from '../services/api';
 import { useToast } from '../components/Toast';
@@ -10,7 +10,7 @@ export default function Trash() {
   const [actionLoading, setActionLoading] = useState(false);
   const toast = useToast();
 
-  async function load() {
+  const load = useCallback(async () => {
     try {
       const data = await fetchTrash();
       setPapers(data.papers || []);
@@ -19,9 +19,9 @@ export default function Trash() {
       toast.error('Failed to load trash');
     }
     setLoading(false);
-  }
+  }, [toast]);
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => { load(); }, [load]);
 
   function toggleSelect(filename) {
     setSelected(prev => {

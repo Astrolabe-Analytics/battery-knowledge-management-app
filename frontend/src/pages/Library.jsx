@@ -45,6 +45,7 @@ export default function Library() {
   const [enriching, setEnriching] = useState(false);
   const [enrichProgress, setEnrichProgress] = useState(null);
   const enrichAbortRef = useRef(null);
+  const lastPageRef = useRef(page);
 
   useEffect(() => {
     if (debounceRef.current) clearTimeout(debounceRef.current);
@@ -107,8 +108,11 @@ export default function Library() {
 
   // Clear selection on page change (only if not selecting all results)
   useEffect(() => {
-    if (!allResultsSelected) setSelected(new Set());
-  }, [page]);
+    if (lastPageRef.current !== page) {
+      if (!allResultsSelected) setSelected(new Set());
+      lastPageRef.current = page;
+    }
+  }, [page, allResultsSelected]);
 
   const totalPages = Math.ceil(total / PAGE_SIZE);
 

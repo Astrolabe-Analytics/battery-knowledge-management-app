@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft, Calendar, BookOpen, FileText,
@@ -90,7 +90,7 @@ export default function PaperDetail() {
   const [importingRef, setImportingRef] = useState(null); // index
   const [importingAll, setImportingAll] = useState(false);
 
-  const decoded = decodeURIComponent(filename);
+  const decoded = useMemo(() => decodeURIComponent(filename), [filename]);
 
   useEffect(() => {
     Promise.all([
@@ -106,7 +106,7 @@ export default function PaperDetail() {
       setPaperCollections(detail.collections || []);
     }).catch(console.error)
       .finally(() => setLoading(false));
-  }, [filename]);
+  }, [decoded]);
 
   async function handleSaveNotes() {
     setSaving(true);

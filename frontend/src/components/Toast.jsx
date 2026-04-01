@@ -25,12 +25,6 @@ export function ToastProvider({ children }) {
     return id;
   }, [removeToast]);
 
-  const toast = useCallback({
-    success: (msg, dur) => addToast(msg, 'success', dur),
-    error: (msg, dur) => addToast(msg, 'error', dur ?? 6000),
-    info: (msg, dur) => addToast(msg, 'info', dur),
-  }, [addToast]);
-
   // Make toast callable as toast.success(...) etc.
   const api = useRef(null);
   if (!api.current) {
