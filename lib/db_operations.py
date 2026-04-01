@@ -29,6 +29,7 @@ from .models import (
     QueryHistory,
     Setting,
 )
+from .s3_storage import pdf_exists
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -181,6 +182,7 @@ def get_paper_library_for_export() -> list[dict]:
         papers = []
         for paper, chunk_count in rows:
             authors = paper.authors if isinstance(paper.authors, list) else []
+            has_pdf_in_storage = bool(paper.filename) and pdf_exists(paper.filename)
             papers.append({
                 "paperId": paper.paper_id or "",
                 "filename": paper.filename,
@@ -195,7 +197,8 @@ def get_paper_library_for_export() -> list[dict]:
                 "application": paper.application or "general",
                 "paperType": paper.paper_type or "Experimental",
                 "pdfStatus": paper.pdf_status or "",
-                "pdfS3Key": f"papers/{paper.filename}" if (paper.pdf_status == "available" or (not paper.metadata_only and paper.filename)) else "",
+                "pdfS3Key": f"papers/{paper.filename}" if has_pdf_in_storage else "",
+                "hasPdfInStorage": has_pdf_in_storage,
                 "ragReady": chunk_count > 0,
                 "provisional": paper.metadata_only or False,
                 "source": "library",

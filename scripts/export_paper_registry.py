@@ -19,6 +19,7 @@ import argparse
 import hashlib
 import json
 import logging
+import os
 import re
 import sys
 import unicodedata
@@ -264,7 +265,15 @@ def upload_to_s3(envelope: dict) -> None:
         ContentType="application/json",
     )
 
-    # 4. Delete tmp
+    # 4. Read final key back and verify published shape/counts
+    final_resp = s3.get_object(Bucket=bucket, Key=S3_KEY)
+    published = json.loads(final_resp["Body"].read())
+    if len(published.get("papers", [])) != len(envelope["papers"]):
+        raise RuntimeError("Published S3 object validation failed — paper count mismatch")
+    if published.get("stats", {}).get("withPdf") != envelope.get("stats", {}).get("withPdf"):
+        raise RuntimeError("Published S3 object validation failed — withPdf mismatch")
+
+    # 5. Delete tmp
     s3.delete_object(Bucket=bucket, Key=S3_TMP_KEY)
     log.info("Successfully published s3://%s/%s", bucket, S3_KEY)
 
@@ -286,6 +295,13 @@ def main():
 
     log.info("=== Paper Registry Export ===")
     log.info("Mode: %s", "dry-run" if is_dry_run else ("assign-only" if args.assign_only else "write"))
+    log.info(
+        "Storage preflight: PAPERS_STORAGE=%s bucket=%s region=%s endpoint=%s",
+        os.environ.get("PAPERS_STORAGE", "local"),
+        os.environ.get("PAPERS_S3_BUCKET", "astrolabe-datalake"),
+        os.environ.get("AWS_REGION", "us-west-2"),
+        os.environ.get("AWS_ENDPOINT") or "<none>",
+    )
 
     with get_session() as session:
         # Step 1: Assign paper_ids to any papers missing them
@@ -317,6 +333,7 @@ def main():
              envelope["stats"]["total"],
              envelope["stats"]["withDoi"],
              envelope["stats"]["embedded"])
+    log.info("Actual PDFs in active storage: %d", envelope["stats"]["withPdf"])
 
     if is_dry_run:
         # Preview first 2 papers
