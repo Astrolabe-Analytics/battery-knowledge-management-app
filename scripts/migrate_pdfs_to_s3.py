@@ -25,19 +25,25 @@ from pathlib import Path
 
 def main():
     parser = argparse.ArgumentParser(description="Migrate PDFs to S3")
-    parser.add_argument("--dry-run", action="store_true", default=True,
-                        help="Preview what would be uploaded (default)")
-    parser.add_argument("--write", action="store_true",
-                        help="Execute the migration")
-    parser.add_argument("--source-dir", default="papers",
-                        help="Local PDF directory (default: papers)")
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        default=True,
+        help="Preview what would be uploaded (default)",
+    )
+    parser.add_argument("--write", action="store_true", help="Execute the migration")
+    parser.add_argument(
+        "--source-dir", default="papers", help="Local PDF directory (default: papers)"
+    )
     args = parser.parse_args()
 
     dry_run = not args.write
     source_dir = Path(args.source_dir)
 
     if not source_dir.exists():
-        print(f"ERROR: Source directory '{source_dir}' does not exist.", file=sys.stderr)
+        print(
+            f"ERROR: Source directory '{source_dir}' does not exist.", file=sys.stderr
+        )
         sys.exit(1)
 
     import boto3
@@ -56,7 +62,9 @@ def main():
     print(f"  Region: {region}")
     print(f"  AWS profile: {profile}")
     print(f"  AWS endpoint override: {endpoint_url or '<none>'}")
-    print(f"  Target mode: {'LocalStack/custom endpoint' if endpoint_url else 'Production AWS S3'}")
+    print(
+        f"  Target mode: {'LocalStack/custom endpoint' if endpoint_url else 'Production AWS S3'}"
+    )
 
     try:
         ident = sts.get_caller_identity()
@@ -67,10 +75,15 @@ def main():
         sys.exit(1)
 
     try:
-        location = s3.get_bucket_location(Bucket=bucket).get("LocationConstraint") or "us-east-1"
+        location = (
+            s3.get_bucket_location(Bucket=bucket).get("LocationConstraint")
+            or "us-east-1"
+        )
         print(f"  Bucket region: {location}")
     except Exception as e:
-        print(f"ERROR: Unable to read bucket location for {bucket}: {e}", file=sys.stderr)
+        print(
+            f"ERROR: Unable to read bucket location for {bucket}: {e}", file=sys.stderr
+        )
         sys.exit(1)
 
     try:
@@ -83,19 +96,29 @@ def main():
     if not dry_run:
         write_test_key = "papers/.write-test"
         try:
-            s3.put_object(Bucket=bucket, Key=write_test_key, Body=b"", ContentType="application/octet-stream")
+            s3.put_object(
+                Bucket=bucket,
+                Key=write_test_key,
+                Body=b"",
+                ContentType="application/octet-stream",
+            )
             s3.delete_object(Bucket=bucket, Key=write_test_key)
             print("  Write test: OK")
         except Exception as e:
-            print(f"ERROR: Write test failed for s3://{bucket}/{write_test_key}: {e}", file=sys.stderr)
+            print(
+                f"ERROR: Write test failed for s3://{bucket}/{write_test_key}: {e}",
+                file=sys.stderr,
+            )
             sys.exit(1)
 
     print()
 
     pdfs = sorted(source_dir.glob("*.pdf"))
     total = len(pdfs)
-    print(f"{'DRY RUN — ' if dry_run else ''}Migrating {total} PDFs from {source_dir}/ "
-          f"→ s3://{bucket}/papers/")
+    print(
+        f"{'DRY RUN — ' if dry_run else ''}Migrating {total} PDFs from {source_dir}/ "
+        f"→ s3://{bucket}/papers/"
+    )
     print()
 
     uploaded = skipped = upload_failed = verify_failed = 0
@@ -160,7 +183,9 @@ def main():
     print(f"  Skipped (already in S3): {skipped}")
     print(f"  Upload failed: {upload_failed}")
     print(f"  Verify failed: {verify_failed}")
-    print(f"  {'Would transfer' if dry_run else 'Transferred'}: {uploaded_bytes / 1_000_000_000:.2f} GB")
+    print(
+        f"  {'Would transfer' if dry_run else 'Transferred'}: {uploaded_bytes / 1_000_000_000:.2f} GB"
+    )
 
     if failed_files:
         print()
@@ -171,7 +196,9 @@ def main():
             print(f"  ... and {len(failed_files) - 20} more")
 
     if not dry_run and uploaded > 0:
-        print("  Note: if an API instance is already running with PAPERS_STORAGE=s3, restart it after migration to refresh any in-memory PDF cache.")
+        print(
+            "  Note: if an API instance is already running with PAPERS_STORAGE=s3, restart it after migration to refresh any in-memory PDF cache."
+        )
 
     if dry_run and (uploaded + skipped) > 0:
         print()

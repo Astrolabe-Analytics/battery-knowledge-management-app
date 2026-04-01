@@ -36,6 +36,7 @@ from .s3_storage import pdf_exists
 # Helpers
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 def _ensure_list(val) -> list:
     if val is None:
         return []
@@ -59,6 +60,7 @@ def _get_embedding_model():
     global _st_model
     if _st_model is None:
         from sentence_transformers import SentenceTransformer
+
         _st_model = SentenceTransformer("sentence-transformers/all-MiniLM-L6-v2")
     return _st_model
 
@@ -66,6 +68,7 @@ def _get_embedding_model():
 # ═════════════════════════════════════════════════════════════════════════════
 # PAPER LIBRARY  (replaces rag.get_paper_library, get_filter_options, etc.)
 # ═════════════════════════════════════════════════════════════════════════════
+
 
 def get_paper_library() -> list[dict]:
     """Return every non-deleted paper in library-list format.
@@ -102,8 +105,9 @@ def get_filter_options() -> dict:
     """
     with get_session() as session:
         rows = session.execute(
-            select(Paper.chemistries, Paper.topics, Paper.paper_type)
-            .where(Paper.deleted_at.is_(None))
+            select(Paper.chemistries, Paper.topics, Paper.paper_type).where(
+                Paper.deleted_at.is_(None)
+            )
         ).all()
 
     chemistries: set[str] = set()
@@ -183,31 +187,41 @@ def get_paper_library_for_export() -> list[dict]:
         for paper, chunk_count in rows:
             authors = paper.authors if isinstance(paper.authors, list) else []
             has_pdf_in_storage = bool(paper.filename) and pdf_exists(paper.filename)
-            papers.append({
-                "paperId": paper.paper_id or "",
-                "filename": paper.filename,
-                "title": paper.title or "",
-                "doi": paper.doi or "",
-                "authors": authors,
-                "year": int(paper.year) if paper.year and paper.year.isdigit() else (paper.year or ""),
-                "journal": paper.journal or "",
-                "abstract": paper.abstract or "",
-                "chemistries": paper.chemistries or [],
-                "topics": paper.topics or [],
-                "application": paper.application or "general",
-                "paperType": paper.paper_type or "Experimental",
-                "pdfStatus": paper.pdf_status or "",
-                "pdfS3Key": f"papers/{paper.filename}" if has_pdf_in_storage else "",
-                "hasPdfInStorage": has_pdf_in_storage,
-                "ragReady": chunk_count > 0,
-                "provisional": paper.metadata_only or False,
-                "source": "library",
-            })
+            papers.append(
+                {
+                    "paperId": paper.paper_id or "",
+                    "filename": paper.filename,
+                    "title": paper.title or "",
+                    "doi": paper.doi or "",
+                    "authors": authors,
+                    "year": (
+                        int(paper.year)
+                        if paper.year and paper.year.isdigit()
+                        else (paper.year or "")
+                    ),
+                    "journal": paper.journal or "",
+                    "abstract": paper.abstract or "",
+                    "chemistries": paper.chemistries or [],
+                    "topics": paper.topics or [],
+                    "application": paper.application or "general",
+                    "paperType": paper.paper_type or "Experimental",
+                    "pdfStatus": paper.pdf_status or "",
+                    "pdfS3Key": (
+                        f"papers/{paper.filename}" if has_pdf_in_storage else ""
+                    ),
+                    "hasPdfInStorage": has_pdf_in_storage,
+                    "ragReady": chunk_count > 0,
+                    "provisional": paper.metadata_only or False,
+                    "source": "library",
+                }
+            )
 
     return papers
 
 
-def search_papers_semantic(query: str, top_k: int = 10, chemistries: list[str] | None = None) -> list[dict]:
+def search_papers_semantic(
+    query: str, top_k: int = 10, chemistries: list[str] | None = None
+) -> list[dict]:
     """Semantic paper discovery — find papers relevant to a query using pgvector.
 
     Returns paper-level results (not chunks) with relevance scores.
@@ -239,7 +253,15 @@ def search_papers_semantic(query: str, top_k: int = 10, chemistries: list[str] |
 
         if chemistries:
             from sqlalchemy import or_
-            q = q.where(or_(*[Paper.chemistries.contains([chem.upper()]) for chem in chemistries]))
+
+            q = q.where(
+                or_(
+                    *[
+                        Paper.chemistries.contains([chem.upper()])
+                        for chem in chemistries
+                    ]
+                )
+            )
 
         # Get more chunks than needed, then group by paper
         q = q.order_by("distance").limit(top_k * 5)
@@ -258,7 +280,11 @@ def search_papers_semantic(query: str, top_k: int = 10, chemistries: list[str] |
                 "title": row.title or "",
                 "abstract": (row.abstract or "")[:1500],
                 "authors": authors,
-                "year": int(row.year) if row.year and str(row.year).isdigit() else (row.year or ""),
+                "year": (
+                    int(row.year)
+                    if row.year and str(row.year).isdigit()
+                    else (row.year or "")
+                ),
                 "journal": row.journal or "",
                 "chemistries": row.chemistries or [],
                 "topics": row.topics or [],
@@ -267,13 +293,16 @@ def search_papers_semantic(query: str, top_k: int = 10, chemistries: list[str] |
             }
 
     # Sort by score descending, limit to top_k
-    results = sorted(seen.values(), key=lambda x: x["relevanceScore"], reverse=True)[:top_k]
+    results = sorted(seen.values(), key=lambda x: x["relevanceScore"], reverse=True)[
+        :top_k
+    ]
     return results
 
 
 # ═════════════════════════════════════════════════════════════════════════════
 # PAPER MUTATIONS
 # ═════════════════════════════════════════════════════════════════════════════
+
 
 def upsert_paper(filename: str, data: dict) -> Paper:
     """Insert or update a paper. `data` is a flat dict of column values."""
@@ -326,11 +355,15 @@ def restore_paper(filename: str) -> bool:
 def get_deleted_papers() -> list[dict]:
     """Return all soft-deleted papers (the trash)."""
     with get_session() as session:
-        rows = session.execute(
-            select(Paper)
-            .where(Paper.deleted_at.isnot(None))
-            .order_by(Paper.deleted_at.desc())
-        ).scalars().all()
+        rows = (
+            session.execute(
+                select(Paper)
+                .where(Paper.deleted_at.isnot(None))
+                .order_by(Paper.deleted_at.desc())
+            )
+            .scalars()
+            .all()
+        )
         results = []
         for paper in rows:
             d = paper.to_library_dict()
@@ -342,9 +375,11 @@ def get_deleted_papers() -> list[dict]:
 def empty_trash() -> int:
     """Permanently delete all soft-deleted papers. Returns count."""
     with get_session() as session:
-        trashed = session.execute(
-            select(Paper).where(Paper.deleted_at.isnot(None))
-        ).scalars().all()
+        trashed = (
+            session.execute(select(Paper).where(Paper.deleted_at.isnot(None)))
+            .scalars()
+            .all()
+        )
         count = len(trashed)
         for paper in trashed:
             session.delete(paper)
@@ -363,7 +398,8 @@ def update_paper_metadata_field(filename: str, field: str, value) -> bool:
         return True
 
 
-_CITATION_TAG_RE = re.compile(r'\s*\[[A-Z]\]\s*\.?\s*$')
+_CITATION_TAG_RE = re.compile(r"\s*\[[A-Z]\]\s*\.?\s*$")
+
 
 def save_paper_references(filename: str, references: list[dict]):
     """Replace all references for a paper."""
@@ -375,24 +411,29 @@ def save_paper_references(filename: str, references: list[dict]):
             if not isinstance(ref, dict):
                 continue
             raw_title = ref.get("article-title", "")
-            clean_title = _CITATION_TAG_RE.sub('', raw_title).strip() if raw_title else ""
-            session.add(PaperReference(
-                paper_filename=filename,
-                ref_key=ref.get("key", ""),
-                doi=ref.get("DOI", ""),
-                doi_asserted_by=ref.get("doi-asserted-by", ""),
-                article_title=clean_title,
-                author=ref.get("author", ""),
-                year=ref.get("year", ""),
-                journal_title=ref.get("journal-title", ""),
-                volume=ref.get("volume", ""),
-                first_page=ref.get("first-page", ""),
-            ))
+            clean_title = (
+                _CITATION_TAG_RE.sub("", raw_title).strip() if raw_title else ""
+            )
+            session.add(
+                PaperReference(
+                    paper_filename=filename,
+                    ref_key=ref.get("key", ""),
+                    doi=ref.get("DOI", ""),
+                    doi_asserted_by=ref.get("doi-asserted-by", ""),
+                    article_title=clean_title,
+                    author=ref.get("author", ""),
+                    year=ref.get("year", ""),
+                    journal_title=ref.get("journal-title", ""),
+                    volume=ref.get("volume", ""),
+                    first_page=ref.get("first-page", ""),
+                )
+            )
 
 
 # ═════════════════════════════════════════════════════════════════════════════
 # CHUNKS / VECTOR SEARCH  (replaces ChromaDB)
 # ═════════════════════════════════════════════════════════════════════════════
+
 
 def add_chunks(chunks_data: list[dict]):
     """Bulk-insert chunks (used by the ingest pipeline).
@@ -403,25 +444,25 @@ def add_chunks(chunks_data: list[dict]):
     """
     with get_session() as session:
         for cd in chunks_data:
-            session.add(Chunk(
-                id=cd["id"],
-                paper_filename=cd["paper_filename"],
-                page_num=cd.get("page_num", 0),
-                chunk_index=cd.get("chunk_index", 0),
-                token_count=cd.get("token_count", 0),
-                section_name=cd.get("section_name", "Content"),
-                content=cd["content"],
-                embedding=cd.get("embedding"),
-            ))
+            session.add(
+                Chunk(
+                    id=cd["id"],
+                    paper_filename=cd["paper_filename"],
+                    page_num=cd.get("page_num", 0),
+                    chunk_index=cd.get("chunk_index", 0),
+                    token_count=cd.get("token_count", 0),
+                    section_name=cd.get("section_name", "Content"),
+                    content=cd["content"],
+                    embedding=cd.get("embedding"),
+                )
+            )
         session.flush()
 
 
 def delete_chunks_for_paper(filename: str) -> int:
     """Delete all chunks for a paper. Returns count deleted."""
     with get_session() as session:
-        result = session.execute(
-            delete(Chunk).where(Chunk.paper_filename == filename)
-        )
+        result = session.execute(delete(Chunk).where(Chunk.paper_filename == filename))
         return result.rowcount
 
 
@@ -468,14 +509,20 @@ def _vector_search(
     """Low-level vector search.  Tries pgvector, falls back to numpy."""
     try:
         return _vector_search_pgvector(
-            query_embedding, top_k,
-            filter_chemistry, filter_topic, filter_paper_type,
+            query_embedding,
+            top_k,
+            filter_chemistry,
+            filter_topic,
+            filter_paper_type,
             filter_collection_filenames,
         )
     except Exception:
         return _vector_search_numpy(
-            query_embedding, top_k,
-            filter_chemistry, filter_topic, filter_paper_type,
+            query_embedding,
+            top_k,
+            filter_chemistry,
+            filter_topic,
+            filter_paper_type,
             filter_collection_filenames,
         )
 
@@ -672,6 +719,7 @@ def hybrid_search(
 # READ STATUS  (replaces lib/read_status.py)
 # ═════════════════════════════════════════════════════════════════════════════
 
+
 def mark_as_read(filename: str):
     with get_session() as session:
         paper = session.get(Paper, filename)
@@ -691,8 +739,7 @@ def mark_as_unread(filename: str):
 def get_read_status(filenames: list[str]) -> dict[str, bool]:
     with get_session() as session:
         rows = session.execute(
-            select(Paper.filename, Paper.is_read)
-            .where(Paper.filename.in_(filenames))
+            select(Paper.filename, Paper.is_read).where(Paper.filename.in_(filenames))
         ).all()
     result = {fn: is_read for fn, is_read in rows}
     return {fn: result.get(fn, False) for fn in filenames}
@@ -712,6 +759,7 @@ def toggle_read_status(filename: str) -> bool:
 # COLLECTIONS  (replaces lib/collections.py)
 # ═════════════════════════════════════════════════════════════════════════════
 
+
 def create_collection(
     name: str,
     color: Optional[str] = None,
@@ -726,7 +774,11 @@ def create_collection(
             )
             session.add(coll)
             session.flush()
-            return {"success": True, "message": f"Collection '{name}' created successfully", "id": coll.id}
+            return {
+                "success": True,
+                "message": f"Collection '{name}' created successfully",
+                "id": coll.id,
+            }
     except Exception as e:
         if "unique" in str(e).lower() or "duplicate" in str(e).lower():
             return {"success": False, "message": f"Collection '{name}' already exists"}
@@ -736,9 +788,11 @@ def create_collection(
 def get_all_collections() -> list[dict]:
     try:
         with get_session() as session:
-            colls = session.execute(
-                select(Collection).order_by(Collection.name)
-            ).scalars().all()
+            colls = (
+                session.execute(select(Collection).order_by(Collection.name))
+                .scalars()
+                .all()
+            )
             return [c.to_dict() for c in colls]
     except Exception as e:
         print(f"Error getting collections: {e}")
@@ -852,7 +906,10 @@ def rename_collection(collection_id: int, new_name: str) -> dict:
             return {"success": True, "message": f"Collection renamed to '{new_name}'"}
     except Exception as e:
         if "unique" in str(e).lower() or "duplicate" in str(e).lower():
-            return {"success": False, "message": f"Collection '{new_name}' already exists"}
+            return {
+                "success": False,
+                "message": f"Collection '{new_name}' already exists",
+            }
         return {"success": False, "message": f"Error renaming collection: {e}"}
 
 
@@ -885,15 +942,12 @@ def get_batch_paper_collections(filenames: list[str]) -> dict[str, list[dict]]:
     """Batch-fetch collections for multiple papers at once."""
     result: dict[str, list[dict]] = {fn: [] for fn in filenames}
     with get_session() as session:
-        rows = (
-            session.execute(
-                select(CollectionItem.paper_filename, Collection)
-                .join(Collection, Collection.id == CollectionItem.collection_id)
-                .where(CollectionItem.paper_filename.in_(filenames))
-                .options(selectinload(Collection.items))
-            )
-            .all()
-        )
+        rows = session.execute(
+            select(CollectionItem.paper_filename, Collection)
+            .join(Collection, Collection.id == CollectionItem.collection_id)
+            .where(CollectionItem.paper_filename.in_(filenames))
+            .options(selectinload(Collection.items))
+        ).all()
         for fn, coll in rows:
             result[fn].append(coll.to_dict())
     return result
@@ -902,6 +956,7 @@ def get_batch_paper_collections(filenames: list[str]) -> dict[str, list[dict]]:
 # ═════════════════════════════════════════════════════════════════════════════
 # QUERY HISTORY  (replaces lib/query_history.py)
 # ═════════════════════════════════════════════════════════════════════════════
+
 
 def save_query(
     question: str,
@@ -1012,6 +1067,7 @@ def clear_all_history() -> int:
 # SETTINGS  (replaces data/settings.json)
 # ═════════════════════════════════════════════════════════════════════════════
 
+
 def get_setting(key: str, default=None):
     with get_session() as session:
         s = session.get(Setting, key)
@@ -1036,6 +1092,7 @@ def get_all_settings() -> dict:
 # ═════════════════════════════════════════════════════════════════════════════
 # DISCOVER HELPERS
 # ═════════════════════════════════════════════════════════════════════════════
+
 
 def get_library_dois_and_titles() -> Tuple[set, set]:
     """Return (set of lowercase DOIs, set of lowercase titles) for all papers."""

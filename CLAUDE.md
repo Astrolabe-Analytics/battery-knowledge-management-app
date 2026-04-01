@@ -56,33 +56,34 @@ docker compose restart api
 
 ## Directory Map
 
-| Path | What |
-|------|------|
-| `api/main.py` | FastAPI entry point — mounts 7 route modules |
-| `api/routes/` | papers, search, imports, collections, history, settings, discover |
-| `lib/db.py` | SQLAlchemy engine + session factory |
-| `lib/db_operations.py` | All data access functions (read this before writing DB code) |
-| `lib/models.py` | SQLAlchemy ORM models (Paper, Chunk, Collection, QueryHistory) |
-| `lib/s3_storage.py` | PDF storage abstraction — **always use this, never raw Path("papers")** |
-| `lib/llm.py` | Claude/Anthropic RAG functions |
-| `lib/crossref.py` | CrossRef + Semantic Scholar metadata enrichment |
-| `frontend/src/services/api.js` | All frontend API calls (centralized) |
-| `scripts/ingest_pipeline_pg.py` | 4-stage ingestion pipeline (parse → chunk → metadata → embed) |
-| `scripts/migrate_pdfs_to_s3.py` | Migrate local papers/ to S3 |
-| `deployment/nginx.conf` | Archived legacy config (not used by current single-container deployment) |
-| `deployment/ecs-task-definition.json` | ECS task definition template |
-| `docs/` | Architecture docs, deployment plan |
+| Path                                  | What                                                                     |
+| ------------------------------------- | ------------------------------------------------------------------------ |
+| `api/main.py`                         | FastAPI entry point — mounts 7 route modules                             |
+| `api/routes/`                         | papers, search, imports, collections, history, settings, discover        |
+| `lib/db.py`                           | SQLAlchemy engine + session factory                                      |
+| `lib/db_operations.py`                | All data access functions (read this before writing DB code)             |
+| `lib/models.py`                       | SQLAlchemy ORM models (Paper, Chunk, Collection, QueryHistory)           |
+| `lib/s3_storage.py`                   | PDF storage abstraction — **always use this, never raw Path("papers")**  |
+| `lib/llm.py`                          | Claude/Anthropic RAG functions                                           |
+| `lib/crossref.py`                     | CrossRef + Semantic Scholar metadata enrichment                          |
+| `frontend/src/services/api.js`        | All frontend API calls (centralized)                                     |
+| `scripts/ingest_pipeline_pg.py`       | 4-stage ingestion pipeline (parse → chunk → metadata → embed)            |
+| `scripts/migrate_pdfs_to_s3.py`       | Migrate local papers/ to S3                                              |
+| `deployment/nginx.conf`               | Archived legacy config (not used by current single-container deployment) |
+| `deployment/ecs-task-definition.json` | ECS task definition template                                             |
+| `docs/`                               | Architecture docs, deployment plan                                       |
 
 ---
 
 ## PDF Storage Modes
 
-| Mode | `PAPERS_STORAGE` | Storage |
-|------|-----------------|---------|
-| **local** (default) | unset | `papers/` directory |
-| **s3** | `s3` | AWS S3 or LocalStack |
+| Mode                | `PAPERS_STORAGE` | Storage              |
+| ------------------- | ---------------- | -------------------- |
+| **local** (default) | unset            | `papers/` directory  |
+| **s3**              | `s3`             | AWS S3 or LocalStack |
 
 **CRITICAL:** Use `lib/s3_storage.py` for ALL PDF operations:
+
 - `pdf_exists(filename)` — check existence
 - `save_pdf(filename, content)` — save on import (local + S3 in s3 mode)
 - `get_presigned_url(filename)` — S3 presigned GET URL

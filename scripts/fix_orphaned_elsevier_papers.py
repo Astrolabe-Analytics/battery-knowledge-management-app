@@ -33,7 +33,9 @@ MISSING_TARGET_FILENAME = "1-s2.0-S2352152X23011428-main.pdf"
 
 def fetch_crossref_metadata(doi: str) -> dict[str, Any]:
     url = f"https://api.crossref.org/works/{doi}"
-    headers = {"User-Agent": "AstrolabeLibrary/1.0 (mailto:research@astrolabe-analytics.com)"}
+    headers = {
+        "User-Agent": "AstrolabeLibrary/1.0 (mailto:research@astrolabe-analytics.com)"
+    }
     response = requests.get(url, headers=headers, timeout=20)
     response.raise_for_status()
     message = response.json().get("message", {})
@@ -91,14 +93,20 @@ def print_counts(session) -> None:
 def apply_changes(write: bool) -> int:
     metadata = fetch_crossref_metadata(MISSING_DOI)
     if not metadata.get("title"):
-        raise RuntimeError("CrossRef metadata precheck failed: title missing for missing DOI")
+        raise RuntimeError(
+            "CrossRef metadata precheck failed: title missing for missing DOI"
+        )
 
     with get_session() as session:
         print("\nPre-change snapshot")
         print_counts(session)
 
         old_row = session.query(Paper).filter(Paper.filename == OLD_FILENAME).first()
-        existing_target = session.query(Paper).filter(Paper.filename == EXISTING_TARGET_FILENAME).first()
+        existing_target = (
+            session.query(Paper)
+            .filter(Paper.filename == EXISTING_TARGET_FILENAME)
+            .first()
+        )
 
         existing_doi_rows = (
             session.query(Paper)
@@ -114,13 +122,32 @@ def apply_changes(write: bool) -> int:
         )
 
         if len(existing_doi_rows) > 1:
-            raise RuntimeError(f"Aborting: existing DOI already has {len(existing_doi_rows)} rows")
+            raise RuntimeError(
+                f"Aborting: existing DOI already has {len(existing_doi_rows)} rows"
+            )
         if len(missing_doi_rows) > 1:
-            raise RuntimeError(f"Aborting: missing DOI already has {len(missing_doi_rows)} rows")
+            raise RuntimeError(
+                f"Aborting: missing DOI already has {len(missing_doi_rows)} rows"
+            )
 
-        refs_count = session.query(func.count(PaperReference.id)).filter(PaperReference.paper_filename == OLD_FILENAME).scalar() or 0
-        chunks_count = session.query(func.count(Chunk.id)).filter(Chunk.paper_filename == OLD_FILENAME).scalar() or 0
-        coll_count = session.query(func.count(CollectionItem.id)).filter(CollectionItem.paper_filename == OLD_FILENAME).scalar() or 0
+        refs_count = (
+            session.query(func.count(PaperReference.id))
+            .filter(PaperReference.paper_filename == OLD_FILENAME)
+            .scalar()
+            or 0
+        )
+        chunks_count = (
+            session.query(func.count(Chunk.id))
+            .filter(Chunk.paper_filename == OLD_FILENAME)
+            .scalar()
+            or 0
+        )
+        coll_count = (
+            session.query(func.count(CollectionItem.id))
+            .filter(CollectionItem.paper_filename == OLD_FILENAME)
+            .scalar()
+            or 0
+        )
         print("\nDependency counts for legacy filename:")
         print(f"  - paper_references: {refs_count}")
         print(f"  - chunks: {chunks_count}")
@@ -148,14 +175,23 @@ def apply_changes(write: bool) -> int:
                 session.add(new_row)
                 session.flush()
 
-                session.query(PaperReference).filter(PaperReference.paper_filename == OLD_FILENAME).update(
-                    {"paper_filename": EXISTING_TARGET_FILENAME}, synchronize_session=False
+                session.query(PaperReference).filter(
+                    PaperReference.paper_filename == OLD_FILENAME
+                ).update(
+                    {"paper_filename": EXISTING_TARGET_FILENAME},
+                    synchronize_session=False,
                 )
-                session.query(Chunk).filter(Chunk.paper_filename == OLD_FILENAME).update(
-                    {"paper_filename": EXISTING_TARGET_FILENAME}, synchronize_session=False
+                session.query(Chunk).filter(
+                    Chunk.paper_filename == OLD_FILENAME
+                ).update(
+                    {"paper_filename": EXISTING_TARGET_FILENAME},
+                    synchronize_session=False,
                 )
-                session.query(CollectionItem).filter(CollectionItem.paper_filename == OLD_FILENAME).update(
-                    {"paper_filename": EXISTING_TARGET_FILENAME}, synchronize_session=False
+                session.query(CollectionItem).filter(
+                    CollectionItem.paper_filename == OLD_FILENAME
+                ).update(
+                    {"paper_filename": EXISTING_TARGET_FILENAME},
+                    synchronize_session=False,
                 )
                 # Delete with a direct query to avoid ORM delete-orphan cascade
                 # from relationship bookkeeping on the old object.
@@ -182,7 +218,9 @@ def apply_changes(write: bool) -> int:
         )
 
         if not missing_filename_row and not missing_doi_row:
-            actions.append(f"insert metadata-only row {MISSING_TARGET_FILENAME} for DOI {MISSING_DOI}")
+            actions.append(
+                f"insert metadata-only row {MISSING_TARGET_FILENAME} for DOI {MISSING_DOI}"
+            )
             if write:
                 session.add(
                     Paper(
@@ -204,7 +242,9 @@ def apply_changes(write: bool) -> int:
                     )
                 )
         else:
-            actions.append("skip insert: missing DOI already present by DOI or filename")
+            actions.append(
+                "skip insert: missing DOI already present by DOI or filename"
+            )
 
         print("\nPlanned actions:")
         for action in actions:
@@ -233,9 +273,13 @@ def apply_changes(write: bool) -> int:
         )
 
         if len(existing_after) != 1:
-            raise RuntimeError(f"Post-check failed: expected 1 row for {EXISTING_DOI}, got {len(existing_after)}")
+            raise RuntimeError(
+                f"Post-check failed: expected 1 row for {EXISTING_DOI}, got {len(existing_after)}"
+            )
         if len(missing_after) != 1:
-            raise RuntimeError(f"Post-check failed: expected 1 row for {MISSING_DOI}, got {len(missing_after)}")
+            raise RuntimeError(
+                f"Post-check failed: expected 1 row for {MISSING_DOI}, got {len(missing_after)}"
+            )
 
         print("\nPost-change snapshot")
         print_counts(session)
@@ -244,8 +288,12 @@ def apply_changes(write: bool) -> int:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="Fix orphaned Elsevier PDFs in paper catalog")
-    parser.add_argument("--write", action="store_true", help="Apply changes (default is dry-run)")
+    parser = argparse.ArgumentParser(
+        description="Fix orphaned Elsevier PDFs in paper catalog"
+    )
+    parser.add_argument(
+        "--write", action="store_true", help="Apply changes (default is dry-run)"
+    )
     args = parser.parse_args()
     return apply_changes(write=args.write)
 

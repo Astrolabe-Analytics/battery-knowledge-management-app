@@ -48,12 +48,18 @@ S3_TMP_KEY = "_system/.paper-library.json.tmp"
 # paperId derivation
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 def normalize_doi(doi: str) -> str:
     """Normalize a DOI: lowercase, strip whitespace, remove leading URL prefixes."""
     doi = doi.strip().lower()
-    for prefix in ("https://doi.org/", "http://doi.org/", "http://dx.doi.org/", "https://dx.doi.org/"):
+    for prefix in (
+        "https://doi.org/",
+        "http://doi.org/",
+        "http://dx.doi.org/",
+        "https://dx.doi.org/",
+    ):
         if doi.startswith(prefix):
-            doi = doi[len(prefix):]
+            doi = doi[len(prefix) :]
     return doi
 
 
@@ -87,18 +93,24 @@ def assign_paper_ids(session) -> int:
 
     Returns count of newly assigned IDs.
     """
-    papers = session.execute(
-        select(Paper).where(Paper.paper_id.is_(None)).where(Paper.deleted_at.is_(None))
-    ).scalars().all()
+    papers = (
+        session.execute(
+            select(Paper)
+            .where(Paper.paper_id.is_(None))
+            .where(Paper.deleted_at.is_(None))
+        )
+        .scalars()
+        .all()
+    )
 
     if not papers:
         return 0
 
     # Collect existing IDs to detect collisions
     existing_ids = set(
-        session.execute(
-            select(Paper.paper_id).where(Paper.paper_id.isnot(None))
-        ).scalars().all()
+        session.execute(select(Paper.paper_id).where(Paper.paper_id.isnot(None)))
+        .scalars()
+        .all()
     )
 
     assigned = 0
@@ -119,7 +131,10 @@ def assign_paper_ids(session) -> int:
                 h = hashlib.sha256(paper.filename.encode()).hexdigest()[:20]
                 candidate = f"key:{h}"
                 if candidate in existing_ids:
-                    log.error("SHA256 collision for %s — this should never happen", paper.filename)
+                    log.error(
+                        "SHA256 collision for %s — this should never happen",
+                        paper.filename,
+                    )
                     continue
 
         paper.paper_id = candidate
@@ -135,20 +150,21 @@ def assign_paper_ids(session) -> int:
 # Serialization
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 def load_papers_for_export() -> list[dict]:
     """Load papers using the canonical serialization from db_operations.
 
     Adds lastModified field needed for S3 export envelope.
     """
     from lib.db_operations import get_paper_library_for_export
+
     papers = get_paper_library_for_export()
 
     # Enrich with lastModified from DB (not available in the API serialization)
     with get_session() as session:
         date_map = {}
         rows = session.execute(
-            select(Paper.filename, Paper.date_added)
-            .where(Paper.deleted_at.is_(None))
+            select(Paper.filename, Paper.date_added).where(Paper.deleted_at.is_(None))
         ).all()
         for fn, da in rows:
             date_map[fn] = da.isoformat() if da else ""
@@ -187,6 +203,7 @@ def build_envelope(papers: list[dict]) -> dict:
 # Validation
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 def validate_export(envelope: dict, expected_count: int) -> list[str]:
     """Run 5-point validation. Returns list of errors (empty = pass)."""
     errors = []
@@ -212,7 +229,9 @@ def validate_export(envelope: dict, expected_count: int) -> list[str]:
 
     # 4. Count matches expected
     if len(papers) != expected_count:
-        errors.append(f"Paper count mismatch: export has {len(papers)}, DB has {expected_count}")
+        errors.append(
+            f"Paper count mismatch: export has {len(papers)}, DB has {expected_count}"
+        )
 
     # 5. JSON serializable
     try:
@@ -226,6 +245,7 @@ def validate_export(envelope: dict, expected_count: int) -> list[str]:
 # ─────────────────────────────────────────────────────────────────────────────
 # S3 upload (atomic)
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 def upload_to_s3(envelope: dict) -> None:
     """Atomic upload: write to tmp key, validate, copy to final, delete tmp."""
@@ -242,7 +262,9 @@ def upload_to_s3(envelope: dict) -> None:
     payload_bytes = payload.encode("utf-8")
 
     # 1. Write to tmp key
-    log.info("Uploading to s3://%s/%s (%d bytes)", bucket, S3_TMP_KEY, len(payload_bytes))
+    log.info(
+        "Uploading to s3://%s/%s (%d bytes)", bucket, S3_TMP_KEY, len(payload_bytes)
+    )
     s3.put_object(
         Bucket=bucket,
         Key=S3_TMP_KEY,
@@ -269,8 +291,12 @@ def upload_to_s3(envelope: dict) -> None:
     final_resp = s3.get_object(Bucket=bucket, Key=S3_KEY)
     published = json.loads(final_resp["Body"].read())
     if len(published.get("papers", [])) != len(envelope["papers"]):
-        raise RuntimeError("Published S3 object validation failed — paper count mismatch")
-    if published.get("stats", {}).get("withPdf") != envelope.get("stats", {}).get("withPdf"):
+        raise RuntimeError(
+            "Published S3 object validation failed — paper count mismatch"
+        )
+    if published.get("stats", {}).get("withPdf") != envelope.get("stats", {}).get(
+        "withPdf"
+    ):
         raise RuntimeError("Published S3 object validation failed — withPdf mismatch")
 
     # 5. Delete tmp
@@ -282,19 +308,30 @@ def upload_to_s3(envelope: dict) -> None:
 # Main
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 def main():
     parser = argparse.ArgumentParser(description="Export paper registry to S3")
     group = parser.add_mutually_exclusive_group()
-    group.add_argument("--dry-run", action="store_true", default=True, help="Validate without uploading (default)")
+    group.add_argument(
+        "--dry-run",
+        action="store_true",
+        default=True,
+        help="Validate without uploading (default)",
+    )
     group.add_argument("--write", action="store_true", help="Upload to S3")
-    group.add_argument("--assign-only", action="store_true", help="Assign paper_ids without S3 export")
+    group.add_argument(
+        "--assign-only", action="store_true", help="Assign paper_ids without S3 export"
+    )
     args = parser.parse_args()
 
     # --write and --assign-only override the default --dry-run
     is_dry_run = not args.write and not args.assign_only
 
     log.info("=== Paper Registry Export ===")
-    log.info("Mode: %s", "dry-run" if is_dry_run else ("assign-only" if args.assign_only else "write"))
+    log.info(
+        "Mode: %s",
+        "dry-run" if is_dry_run else ("assign-only" if args.assign_only else "write"),
+    )
     log.info(
         "Storage preflight: PAPERS_STORAGE=%s bucket=%s region=%s endpoint=%s",
         os.environ.get("PAPERS_STORAGE", "local"),
@@ -329,17 +366,23 @@ def main():
             log.error("VALIDATION FAILED: %s", e)
         sys.exit(1)
 
-    log.info("Validation passed — %d papers, %d with DOI, %d ragReady",
-             envelope["stats"]["total"],
-             envelope["stats"]["withDoi"],
-             envelope["stats"]["embedded"])
+    log.info(
+        "Validation passed — %d papers, %d with DOI, %d ragReady",
+        envelope["stats"]["total"],
+        envelope["stats"]["withDoi"],
+        envelope["stats"]["embedded"],
+    )
     log.info("Actual PDFs in active storage: %d", envelope["stats"]["withPdf"])
 
     if is_dry_run:
         # Preview first 2 papers
         for p in papers_data[:2]:
-            log.info("Sample: paperId=%s doi=%s title=%.60s",
-                     p["paperId"], p["doi"], p["title"])
+            log.info(
+                "Sample: paperId=%s doi=%s title=%.60s",
+                p["paperId"],
+                p["doi"],
+                p["title"],
+            )
         log.info("Dry run complete. Use --write to upload to S3.")
         return
 
@@ -348,7 +391,9 @@ def main():
         upload_to_s3(envelope)
     except Exception as e:
         log.error("S3 upload failed: %s", e)
-        log.error("DB paper_id assignments were committed. S3 is stale. Re-run with --write to retry.")
+        log.error(
+            "DB paper_id assignments were committed. S3 is stale. Re-run with --write to retry."
+        )
         sys.exit(1)
 
     log.info("=== Export complete ===")

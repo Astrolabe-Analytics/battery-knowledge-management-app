@@ -31,7 +31,7 @@ def get_api_key() -> Optional[str]:
     Returns:
         API key string or None if not set
     """
-    api_key = os.environ.get('SEMANTIC_SCHOLAR_API_KEY')
+    api_key = os.environ.get("SEMANTIC_SCHOLAR_API_KEY")
     return api_key.strip() if api_key else None
 
 
@@ -73,10 +73,7 @@ def _rate_limit(has_api_key: bool = False):
 
 
 def search_papers(
-    query: str,
-    limit: int = 20,
-    fields: List[str] = None,
-    sort: str = "relevance"
+    query: str, limit: int = 20, fields: List[str] = None, sort: str = "relevance"
 ) -> Dict:
     """
     Search for papers using Semantic Scholar API.
@@ -92,17 +89,17 @@ def search_papers(
     """
     if fields is None:
         fields = [
-            'title',
-            'authors',
-            'year',
-            'abstract',
-            'citationCount',
-            'externalIds',
-            'isOpenAccess',
-            'openAccessPdf',
-            'publicationDate',
-            'journal',
-            'venue'
+            "title",
+            "authors",
+            "year",
+            "abstract",
+            "citationCount",
+            "externalIds",
+            "isOpenAccess",
+            "openAccessPdf",
+            "publicationDate",
+            "journal",
+            "venue",
         ]
 
     # Get API key
@@ -117,19 +114,19 @@ def search_papers(
 
     # Build params
     params = {
-        'query': query,
-        'limit': min(limit, 100),  # API max is 100
-        'fields': ','.join(fields)
+        "query": query,
+        "limit": min(limit, 100),  # API max is 100
+        "fields": ",".join(fields),
     }
 
     # Add sorting if by citation count
     if sort == "citationCount":
-        params['sort'] = 'citationCount:desc'
+        params["sort"] = "citationCount:desc"
 
     # Build headers with API key if available
     headers = {}
     if api_key:
-        headers['x-api-key'] = api_key
+        headers["x-api-key"] = api_key
 
     try:
         response = requests.get(base_url, params=params, headers=headers, timeout=30)
@@ -137,54 +134,54 @@ def search_papers(
         if response.status_code == 200:
             data = response.json()
 
-            papers = data.get('data', [])
-            total = data.get('total', 0)
+            papers = data.get("data", [])
+            total = data.get("total", 0)
 
             return {
-                'success': True,
-                'data': papers,
-                'total': total,
-                'error': None,
-                'has_api_key': has_api_key
+                "success": True,
+                "data": papers,
+                "total": total,
+                "error": None,
+                "has_api_key": has_api_key,
             }
         elif response.status_code == 429:
-            error_msg = 'Rate limit exceeded. '
+            error_msg = "Rate limit exceeded. "
             if not has_api_key:
-                error_msg += 'Set the SEMANTIC_SCHOLAR_API_KEY environment variable for higher rate limits.'
+                error_msg += "Set the SEMANTIC_SCHOLAR_API_KEY environment variable for higher rate limits."
             else:
-                error_msg += 'Please wait a moment and try again.'
+                error_msg += "Please wait a moment and try again."
 
             return {
-                'success': False,
-                'data': [],
-                'total': 0,
-                'error': error_msg,
-                'has_api_key': has_api_key
+                "success": False,
+                "data": [],
+                "total": 0,
+                "error": error_msg,
+                "has_api_key": has_api_key,
             }
         else:
             return {
-                'success': False,
-                'data': [],
-                'total': 0,
-                'error': f'API error: {response.status_code} - {response.text}',
-                'has_api_key': has_api_key
+                "success": False,
+                "data": [],
+                "total": 0,
+                "error": f"API error: {response.status_code} - {response.text}",
+                "has_api_key": has_api_key,
             }
 
     except requests.exceptions.Timeout:
         return {
-            'success': False,
-            'data': [],
-            'total': 0,
-            'error': 'Request timed out. Please try again.',
-            'has_api_key': has_api_key
+            "success": False,
+            "data": [],
+            "total": 0,
+            "error": "Request timed out. Please try again.",
+            "has_api_key": has_api_key,
         }
     except Exception as e:
         return {
-            'success': False,
-            'data': [],
-            'total': 0,
-            'error': f'Error: {str(e)}',
-            'has_api_key': has_api_key
+            "success": False,
+            "data": [],
+            "total": 0,
+            "error": f"Error: {str(e)}",
+            "has_api_key": has_api_key,
         }
 
 
@@ -199,51 +196,54 @@ def format_paper_for_display(paper: Dict) -> Dict:
         Formatted paper dict
     """
     # Extract DOI
-    external_ids = paper.get('externalIds', {})
-    doi = external_ids.get('DOI', '') if external_ids else ''
+    external_ids = paper.get("externalIds", {})
+    doi = external_ids.get("DOI", "") if external_ids else ""
 
     # Format authors
-    authors = paper.get('authors', [])
+    authors = paper.get("authors", [])
     if authors:
-        author_names = [a.get('name', '') for a in authors if a.get('name')]
-        authors_str = ', '.join(author_names[:5])  # First 5 authors
+        author_names = [a.get("name", "") for a in authors if a.get("name")]
+        authors_str = ", ".join(author_names[:5])  # First 5 authors
         if len(authors) > 5:
-            authors_str += f' et al. ({len(authors)} total)'
+            authors_str += f" et al. ({len(authors)} total)"
     else:
-        authors_str = 'Unknown'
+        authors_str = "Unknown"
 
     # Get year
-    year = paper.get('year', '')
-    if not year and paper.get('publicationDate'):
+    year = paper.get("year", "")
+    if not year and paper.get("publicationDate"):
         try:
-            year = paper['publicationDate'].split('-')[0]
+            year = paper["publicationDate"].split("-")[0]
         except:
-            year = ''
+            year = ""
 
     # Open access PDF
-    open_access_pdf = paper.get('openAccessPdf', {})
-    pdf_url = open_access_pdf.get('url', '') if open_access_pdf else ''
+    open_access_pdf = paper.get("openAccessPdf", {})
+    pdf_url = open_access_pdf.get("url", "") if open_access_pdf else ""
 
     # Citation count
-    citation_count = paper.get('citationCount', 0)
+    citation_count = paper.get("citationCount", 0)
 
     from lib.jats import strip_jats
     import re
-    raw_title = paper.get('title', 'Unknown') or 'Unknown'
-    clean_title = re.sub(r'\s*\[[A-Z]\]\s*\.?\s*$', '', raw_title).strip() or raw_title
+
+    raw_title = paper.get("title", "Unknown") or "Unknown"
+    clean_title = re.sub(r"\s*\[[A-Z]\]\s*\.?\s*$", "", raw_title).strip() or raw_title
     return {
-        'title': clean_title,
-        'authors': authors_str,
-        'authors_list': [a.get('name', '') for a in authors] if authors else [],
-        'year': str(year) if year else '',
-        'abstract': strip_jats(paper.get('abstract', '')),
-        'doi': doi,
-        'citation_count': citation_count if citation_count else 0,
-        'is_open_access': paper.get('isOpenAccess', False),
-        'pdf_url': pdf_url,
-        'journal': paper.get('journal', {}).get('name', '') if paper.get('journal') else '',
-        'venue': paper.get('venue', ''),
-        'paper_id': paper.get('paperId', '')
+        "title": clean_title,
+        "authors": authors_str,
+        "authors_list": [a.get("name", "") for a in authors] if authors else [],
+        "year": str(year) if year else "",
+        "abstract": strip_jats(paper.get("abstract", "")),
+        "doi": doi,
+        "citation_count": citation_count if citation_count else 0,
+        "is_open_access": paper.get("isOpenAccess", False),
+        "pdf_url": pdf_url,
+        "journal": (
+            paper.get("journal", {}).get("name", "") if paper.get("journal") else ""
+        ),
+        "venue": paper.get("venue", ""),
+        "paper_id": paper.get("paperId", ""),
     }
 
 
@@ -259,18 +259,14 @@ def download_pdf(pdf_url: str, save_path: Path) -> Dict:
         Dict with 'success', 'message', 'path' keys
     """
     if not pdf_url:
-        return {
-            'success': False,
-            'message': 'No PDF URL provided',
-            'path': None
-        }
+        return {"success": False, "message": "No PDF URL provided", "path": None}
 
     download = download_pdf_bytes(pdf_url)
-    if not download['success']:
+    if not download["success"]:
         return {
-            'success': False,
-            'message': download['message'],
-            'path': None,
+            "success": False,
+            "message": download["message"],
+            "path": None,
         }
 
     try:
@@ -278,20 +274,20 @@ def download_pdf(pdf_url: str, save_path: Path) -> Dict:
         save_path.parent.mkdir(parents=True, exist_ok=True)
 
         # Save PDF
-        with open(save_path, 'wb') as f:
-            f.write(download['content'])
+        with open(save_path, "wb") as f:
+            f.write(download["content"])
 
         return {
-            'success': True,
-            'message': 'PDF downloaded successfully',
-            'path': str(save_path)
+            "success": True,
+            "message": "PDF downloaded successfully",
+            "path": str(save_path),
         }
 
     except Exception as e:
         return {
-            'success': False,
-            'message': f'Error downloading PDF: {str(e)}',
-            'path': None
+            "success": False,
+            "message": f"Error downloading PDF: {str(e)}",
+            "path": None,
         }
 
 
@@ -307,9 +303,9 @@ def download_pdf_bytes(pdf_url: str) -> Dict:
     """
     if not pdf_url:
         return {
-            'success': False,
-            'message': 'No PDF URL provided',
-            'content': None,
+            "success": False,
+            "message": "No PDF URL provided",
+            "content": None,
         }
 
     try:
@@ -325,26 +321,28 @@ def download_pdf_bytes(pdf_url: str) -> Dict:
 
         if response.status_code == 200:
             return {
-                'success': True,
-                'message': 'PDF downloaded successfully',
-                'content': response.content,
+                "success": True,
+                "message": "PDF downloaded successfully",
+                "content": response.content,
             }
 
         return {
-            'success': False,
-            'message': f'Failed to download PDF: HTTP {response.status_code}',
-            'content': None,
+            "success": False,
+            "message": f"Failed to download PDF: HTTP {response.status_code}",
+            "content": None,
         }
 
     except Exception as e:
         return {
-            'success': False,
-            'message': f'Error downloading PDF: {str(e)}',
-            'content': None,
+            "success": False,
+            "message": f"Error downloading PDF: {str(e)}",
+            "content": None,
         }
 
 
-def check_papers_in_library(papers: List[Dict], library_dois: set, library_titles: set) -> List[Dict]:
+def check_papers_in_library(
+    papers: List[Dict], library_dois: set, library_titles: set
+) -> List[Dict]:
     """
     Check which papers are already in the library.
 
@@ -362,14 +360,14 @@ def check_papers_in_library(papers: List[Dict], library_dois: set, library_title
         in_library = False
 
         # Check by DOI
-        if paper['doi']:
-            norm_doi = normalize_doi(paper['doi'])
+        if paper["doi"]:
+            norm_doi = normalize_doi(paper["doi"])
             if norm_doi in library_dois:
                 in_library = True
 
         # Check by title if no DOI match
-        if not in_library and paper['title']:
-            norm_title = normalize_title(paper['title'])
+        if not in_library and paper["title"]:
+            norm_title = normalize_title(paper["title"])
 
             # Exact match
             if norm_title in library_titles:
@@ -381,6 +379,6 @@ def check_papers_in_library(papers: List[Dict], library_dois: set, library_title
                         in_library = True
                         break
 
-        paper['in_library'] = in_library
+        paper["in_library"] = in_library
 
     return papers
