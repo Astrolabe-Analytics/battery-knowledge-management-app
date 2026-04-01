@@ -6,7 +6,6 @@ All data reads/writes go through PostgreSQL (lib/db_operations).
 import re
 import logging
 from typing import Optional
-from pathlib import Path
 from datetime import datetime, timezone
 from collections import defaultdict
 from difflib import SequenceMatcher
@@ -188,19 +187,17 @@ def add_from_discover(body: AddPaperRequest):
         filename = None
         if pdf_found and pdf_url:
             try:
-                from lib.semantic_scholar import download_pdf
-                from lib.s3_storage import save_pdf, is_s3_mode
+                from lib.semantic_scholar import download_pdf_bytes
+                from lib.s3_storage import save_pdf
                 safe_title = re.sub(r'[^\w\s-]', '', title[:50])
                 safe_title = re.sub(r'[-\s]+', '_', safe_title)
                 filename = f"{safe_title}.pdf"
-                pdf_path = Path("papers") / filename
-                pdf_path.parent.mkdir(parents=True, exist_ok=True)
-                dl = download_pdf(pdf_url, pdf_path)
+                dl = download_pdf_bytes(pdf_url)
                 if not dl.get('success'):
                     pdf_found = False
                     filename = None
-                elif is_s3_mode():
-                    save_pdf(filename, pdf_path.read_bytes())
+                else:
+                    save_pdf(filename, dl.get('content'))
             except Exception:
                 pdf_found = False
                 filename = None

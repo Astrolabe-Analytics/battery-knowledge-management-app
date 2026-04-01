@@ -265,6 +265,53 @@ def download_pdf(pdf_url: str, save_path: Path) -> Dict:
             'path': None
         }
 
+    download = download_pdf_bytes(pdf_url)
+    if not download['success']:
+        return {
+            'success': False,
+            'message': download['message'],
+            'path': None,
+        }
+
+    try:
+        # Ensure parent directory exists
+        save_path.parent.mkdir(parents=True, exist_ok=True)
+
+        # Save PDF
+        with open(save_path, 'wb') as f:
+            f.write(download['content'])
+
+        return {
+            'success': True,
+            'message': 'PDF downloaded successfully',
+            'path': str(save_path)
+        }
+
+    except Exception as e:
+        return {
+            'success': False,
+            'message': f'Error downloading PDF: {str(e)}',
+            'path': None
+        }
+
+
+def download_pdf_bytes(pdf_url: str) -> Dict:
+    """
+    Download PDF from URL and return bytes for storage backends.
+
+    Args:
+        pdf_url: URL of PDF to download
+
+    Returns:
+        Dict with 'success', 'message', 'content' keys
+    """
+    if not pdf_url:
+        return {
+            'success': False,
+            'message': 'No PDF URL provided',
+            'content': None,
+        }
+
     try:
         # Get API key for rate limiting
         api_key = get_api_key()
@@ -273,36 +320,27 @@ def download_pdf(pdf_url: str, save_path: Path) -> Dict:
         # Rate limit
         _rate_limit(has_api_key=has_api_key)
 
-        # Download PDF
-        response = requests.get(pdf_url, timeout=60, stream=True)
+        # Download PDF bytes
+        response = requests.get(pdf_url, timeout=60)
 
         if response.status_code == 200:
-            # Ensure parent directory exists
-            save_path.parent.mkdir(parents=True, exist_ok=True)
-
-            # Save PDF
-            with open(save_path, 'wb') as f:
-                for chunk in response.iter_content(chunk_size=8192):
-                    if chunk:
-                        f.write(chunk)
-
             return {
                 'success': True,
                 'message': 'PDF downloaded successfully',
-                'path': str(save_path)
+                'content': response.content,
             }
-        else:
-            return {
-                'success': False,
-                'message': f'Failed to download PDF: HTTP {response.status_code}',
-                'path': None
-            }
+
+        return {
+            'success': False,
+            'message': f'Failed to download PDF: HTTP {response.status_code}',
+            'content': None,
+        }
 
     except Exception as e:
         return {
             'success': False,
             'message': f'Error downloading PDF: {str(e)}',
-            'path': None
+            'content': None,
         }
 
 
