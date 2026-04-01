@@ -84,6 +84,10 @@ data/enrichment_log.json
 # Legacy data stores (now in PostgreSQL)
 data/collections.db
 
+# Playwright artifacts (reports and test results, not snapshot baselines)
+playwright-report/
+test-results/
+
 # Task output files
 *.output
 
