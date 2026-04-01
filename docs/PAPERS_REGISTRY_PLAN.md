@@ -1,9 +1,9 @@
 # Papers Registry & Cross-System Integration Plan
 
-**Created:** 2026-03-31  
-**Author:** Sebastian (decision owner) + FullStack agent (design + review)  
-**Status:** Approved — ready for implementation  
-**Review rounds:** 3 (all Critical/Important findings resolved)  
+**Created:** 2026-03-31
+**Author:** Sebastian (decision owner) + FullStack agent (design + review)
+**Status:** Approved — ready for implementation
+**Review rounds:** 3 (all Critical/Important findings resolved)
 **Final verdict:** PASS WITH ISSUES (4.0/5) — remaining items are operational details resolved during implementation
 
 ---
@@ -25,12 +25,14 @@ These systems will eventually merge into a unified platform with an AI agent-bas
 ### What Papers Are and What They're Used For
 
 **Papers** are academic publications (journal articles, preprints, technical reports) focused on battery research. The library of ~2,000 papers covers battery chemistry, degradation, testing methods, and datasets. Each paper includes:
+
 - **Bibliographic metadata:** title, authors, journal, DOI, abstract, publication year
 - **AI-extracted classifications:** chemistries (LFP, NMC, etc.), topics (degradation, SOH), application (EV, grid storage)
 - **Cross-references:** citations to other papers (74K references, 87.5% with DOIs)
 - **Full-text chunks:** text extracted from PDFs, split into ~600-token chunks with vector embeddings for RAG search
 
 Papers are used for:
+
 1. **RAG-powered Q&A:** researchers ask questions like "What degrades LFP cells faster — calendar aging or cycling?" and get sourced answers
 2. **Dataset-to-paper linking:** when ingesting a dataset, the system matches it to relevant papers to establish provenance and context
 3. **Metadata enrichment:** paper abstracts + classifications provide chemistry, methodology, and institution context that improves dataset metadata quality
@@ -39,9 +41,9 @@ Papers are used for:
 
 **Two-tier storage architecture:**
 
-| Layer | What It Stores | Why |
-|-------|---------------|-----|
-| **PDFs (S3)** | Raw source documents. Immutable binary blobs. | Authoritative source text for pipeline re-runs and manual review |
+| Layer                     | What It Stores                                                                                          | Why                                                                                                    |
+| ------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| **PDFs (S3)**             | Raw source documents. Immutable binary blobs.                                                           | Authoritative source text for pipeline re-runs and manual review                                       |
 | **PostgreSQL + pgvector** | Structured metadata, 74K+ text chunks with 384-dim vector embeddings, 74K cross-references, collections | Fast vector search (cosine similarity), faceted filtering (chemistry, year, journal), full-text search |
 
 Embeddings can't be derived from PDFs on-the-fly (takes 10+ seconds per paper), so they're pre-computed and cached in Postgres.
@@ -135,11 +137,11 @@ User searches → vector similarity → top chunks → Claude synthesizes answer
 
 **One-sided ownership:** datasets reference papers; papers don't know about datasets.
 
-| Link | Owner | Stored In | Never In |
-|------|-------|-----------|----------|
-| Dataset → Papers | Dataset manifest (`linkedPapers[]`) | data-viz S3 `datasets/{id}/manifest.json` | BKM Paper record |
-| Paper → Metadata | Paper record | BKM Postgres `papers` table | data-viz manifest |
-| Paper → PDF | Paper storage | S3 `papers/{filename}` | duplicated anywhere |
+| Link             | Owner                               | Stored In                                 | Never In            |
+| ---------------- | ----------------------------------- | ----------------------------------------- | ------------------- |
+| Dataset → Papers | Dataset manifest (`linkedPapers[]`) | data-viz S3 `datasets/{id}/manifest.json` | BKM Paper record    |
+| Paper → Metadata | Paper record                        | BKM Postgres `papers` table               | data-viz manifest   |
+| Paper → PDF      | Paper storage                       | S3 `papers/{filename}`                    | duplicated anywhere |
 
 **Why:** Papers exist independently of Astrolabe's dataset catalog. A paper can be referenced by 0-N datasets. Updates to paper metadata (abstract, authors, topics) happen in one place (BKM Postgres). Datasets store only a reference (`paperId` + confidence).
 
@@ -159,7 +161,7 @@ s3://astrolabe-datalake/
     doi_10_1038_...pdf
     arxiv_2301.05555v2.pdf
     ...
-  
+
   datasets/{id}/       ← per-dataset folder (existing)
     manifest.json      ← includes linkedPapers[] (backfill already complete, 87/87)
     config.json
@@ -191,7 +193,7 @@ s3://astrolabe-datalake/
       "filename": "doi_10_1038_s41467-019-09792-9.pdf",
       "title": "Data-driven prediction of battery cycle life...",
       "doi": "10.1038/s41467-019-09792-9",
-      "authors": [{"given": "Kristen", "family": "Severson"}],
+      "authors": [{ "given": "Kristen", "family": "Severson" }],
       "year": 2019,
       "journal": "Nature Energy",
       "abstract": "Accurately predicting battery...",
@@ -210,6 +212,7 @@ s3://astrolabe-datalake/
 ```
 
 **Schema notes:**
+
 - `version` = data version (incremented on breaking changes to papers array shape)
 - `schemaVersion` = format version (incremented on envelope changes — adding stats fields, etc.)
 - `stats.embeddingModel` documents which model produced embeddings, so consumers verify compatibility
@@ -235,6 +238,7 @@ s3://astrolabe-datalake/
 ### Immutability Contract
 
 Once written to `papers.paper_id` in Postgres, `paperId` is **immutable** — even if DOI is later discovered:
+
 - `papers.doi` column is updated (for lookup)
 - `papers.paper_id` stays as original `title:slug` value
 
@@ -249,6 +253,7 @@ Once written to `papers.paper_id` in Postgres, `paperId` is **immutable** — ev
 ### The Problem
 
 The contribution tool currently can only match papers by:
+
 - **DOI exact match** — requires dataset to have a DOI
 - **Title fuzzy match** (Levenshtein ≥ 0.90) — requires nearly identical title
 - **CrossRef fallback** — fetches by DOI, rate-limited (1 req/s)
@@ -270,6 +275,7 @@ class PaperDiscoveryResponse(BaseModel):
 ```
 
 **How it works:**
+
 1. Embeds the query using the same sentence-transformer model (all-MiniLM-L6-v2)
 2. Runs pgvector cosine similarity search against paper chunks
 3. Groups by paper (deduplicates chunks from same paper)
@@ -277,6 +283,7 @@ class PaperDiscoveryResponse(BaseModel):
 5. Enrichment agent includes discovered papers as additional context for Claude synthesis
 
 **Integration flow (contribution tool Stage 3.5):**
+
 ```
 Existing:   paperRefs → linkPapers(refs, library)   → DOI/title match
                                                        ↓
@@ -294,7 +301,8 @@ The contribution tool's `record-synthesizer.mjs` already accepts paper evidence 
 
 ```javascript
 // Current: passes ONE paper (if DOI matched)
-if (paper.abstract) pLines.push(`Abstract: ${paper.abstract.substring(0, 1500)}`);
+if (paper.abstract)
+  pLines.push(`Abstract: ${paper.abstract.substring(0, 1500)}`);
 
 // Enhanced: passes MULTIPLE papers (DOI + semantic matches)
 if (papers.length > 0) {
@@ -302,23 +310,24 @@ if (papers.length > 0) {
     pLines.push(`--- Related Paper (${p.matchType}) ---`);
     pLines.push(`Title: ${p.title}`);
     pLines.push(`Abstract: ${p.abstract?.substring(0, 500)}`);
-    pLines.push(`Chemistries: ${p.chemistries?.join(', ')}`);
+    pLines.push(`Chemistries: ${p.chemistries?.join(", ")}`);
   }
 }
 ```
 
 Claude with 3 relevant paper abstracts instead of 1 (or 0) produces dramatically better:
+
 - Chemistry classifications (papers name exact chemistry explicitly)
 - Test condition descriptions (papers describe methodology)
 - Application categorization (papers state the use case)
 
 ### Integration Tiers (Decision)
 
-| Tier | What | When | Effort |
-|------|------|------|--------|
-| **Tier 1** | Paper library as reference catalog — DOI/title matching + abstracts | This plan (Steps 1-6) | Medium |
-| **Tier 2** | Semantic paper discovery endpoint — find papers by content similarity | This plan (Step 4b) | Low (reuses pgvector) |
-| **Tier 3** | Full RAG-grounded enrichment — ask BKM questions, get sourced answers | Future (requires BKM deployed + contribution tool mature) | High |
+| Tier       | What                                                                  | When                                                      | Effort                |
+| ---------- | --------------------------------------------------------------------- | --------------------------------------------------------- | --------------------- |
+| **Tier 1** | Paper library as reference catalog — DOI/title matching + abstracts   | This plan (Steps 1-6)                                     | Medium                |
+| **Tier 2** | Semantic paper discovery endpoint — find papers by content similarity | This plan (Step 4b)                                       | Low (reuses pgvector) |
+| **Tier 3** | Full RAG-grounded enrichment — ask BKM questions, get sourced answers | Future (requires BKM deployed + contribution tool mature) | High                  |
 
 **Tier 3 is deferred** because it adds runtime dependency, latency, and complexity. Tiers 1+2 get 90% of the benefit.
 
@@ -328,13 +337,13 @@ Claude with 3 relevant paper abstracts instead of 1 (or 0) produces dramatically
 
 ### Step 1: Fix S3 bucket defaults
 
-| File | Change |
-|------|--------|
-| `lib/s3_storage.py` line 40 | Default `astrolabe-knowledge-pdfs` → `astrolabe-datalake` |
-| `deployment/ecs-task-definition.json` | `PAPERS_S3_BUCKET` value → `astrolabe-datalake` |
+| File                                  | Change                                                    |
+| ------------------------------------- | --------------------------------------------------------- |
+| `lib/s3_storage.py` line 40           | Default `astrolabe-knowledge-pdfs` → `astrolabe-datalake` |
+| `deployment/ecs-task-definition.json` | `PAPERS_S3_BUCKET` value → `astrolabe-datalake`           |
 
-**Environment:** All (affects all deployment targets)  
-**Risk:** Low — .env already has correct value; this fixes the fallback default  
+**Environment:** All (affects all deployment targets)
+**Risk:** Low — .env already has correct value; this fixes the fallback default
 **Verify:** `grep -n "astrolabe-knowledge-pdfs" lib/s3_storage.py deployment/ecs-task-definition.json` returns nothing
 
 ### Step 2: Database migration — add paper_id column
@@ -346,8 +355,8 @@ CREATE UNIQUE INDEX ix_papers_paper_id ON papers (paper_id) WHERE paper_id IS NO
 
 Also add `paper_id` to `lib/models.py` Paper class.
 
-**Environment:** Local (Docker Compose Postgres), then staging RDS, then production RDS  
-**Risk:** Low — additive column, no data migration  
+**Environment:** Local (Docker Compose Postgres), then staging RDS, then production RDS
+**Risk:** Low — additive column, no data migration
 **Verify:** `docker compose exec api python -c "from lib.models import Paper; print(Paper.paper_id)"`
 
 **Deployment sequencing:** After applying this migration (or on a fresh DB), run `--assign-only` before `GET /api/system/paper-library` is called by any consumer. All existing papers will have `paper_id = NULL` until assignment runs. The endpoint returns `paperId: ""` for unassigned papers, which will break consumers that validate non-empty paperIds.
@@ -357,9 +366,16 @@ Also add `paper_id` to `lib/models.py` Paper class.
 docker compose exec api python scripts/export_paper_registry.py --assign-only
 ```
 
+**Dump restore note (no re-ingestion required):** If restoring from a historical SQL dump, do not run the full ingestion pipeline. Restore DB, apply this schema migration, then run `--assign-only`. Use:
+
+```bash
+bash scripts/restore_db_from_dump.sh --dump astrolabe_dump.sql
+```
+
 ### Step 3: Create `scripts/export_paper_registry.py`
 
 Responsibilities:
+
 - Read all non-deleted papers from Postgres
 - Assign `paper_id` to any paper with NULL `paper_id` (backfill on first run)
 - Write assigned `paper_id` values back to Postgres (single transaction, snapshot isolation)
@@ -373,11 +389,12 @@ Responsibilities:
 - Log: start/end timestamps, papers processed, errors, S3 upload result
 
 Flags:
+
 - `--dry-run` (default): validate and show what would be exported
 - `--write`: actually upload to S3
 - `--assign-only`: just assign paper_ids to Postgres without S3 export
 
-**Environment:** Run inside Docker (`docker compose exec api python scripts/export_paper_registry.py`)  
+**Environment:** Run inside Docker (`docker compose exec api python scripts/export_paper_registry.py`)
 **Risk:** Medium — writes to Postgres and S3. Mitigated by `--dry-run` default + validation.
 
 ### Step 4a: Add `GET /api/system/paper-library` route
@@ -392,7 +409,7 @@ Added to `api/routes/papers.py`. Reads directly from Postgres. Returns array for
 
 Serves fresh data (no stale S3 cache risk). No auth (consistent with all existing endpoints — ALB perimeter auth handles access control per deployment plan).
 
-**Environment:** All  
+**Environment:** All
 **Verify:** `curl -s http://localhost:8003/api/system/paper-library | python3 -c "import json,sys; d=json.load(sys.stdin); print(len(d), 'papers')"`
 
 ### Step 4b: Add `POST /api/system/paper-library/search` endpoint (Tier 2)
@@ -429,6 +446,7 @@ docker compose exec api python scripts/export_paper_registry.py --write
 The migration from `associatedPapers[]` (URL stubs) → `linkedPapers[]` (proper `paperId` references) ran previously via `scripts/migrations/backfill-linked-papers.js` in the data-viz-tool. 87/87 datasets were written; the script is idempotent.
 
 **Verification only — no write needed:**
+
 ```bash
 # Confirm datasets have linkedPapers (run on host with astrolabe-ro profile)
 AWS_PROFILE=astrolabe-ro node scripts/migrations/backfill-linked-papers.js
@@ -460,15 +478,23 @@ AWS_PROFILE=astrolabe-ro node scripts/migrations/backfill-linked-papers.js
 
 **Steps 1-4 are developed and tested here.**
 
+**WARNING:** `AWS_ENDPOINT` and LocalStack test credentials are for local dev only. Do not set them in staging/production ECS.
+
 To test S3 integration locally:
+
 ```bash
 docker compose --profile s3 up -d      # starts LocalStack
-./scripts/setup_localstack.sh           # creates bucket
-# Set in .env:
-PAPERS_STORAGE=s3
-AWS_ENDPOINT=http://localhost:4566
+bash scripts/setup_localstack.sh        # creates bucket
 
-docker compose restart api
+# Set in .env (LOCAL DEV ONLY):
+PAPERS_STORAGE=s3
+AWS_ACCESS_KEY_ID=test
+AWS_SECRET_ACCESS_KEY=test
+# If API runs in Docker Compose (recommended):
+AWS_ENDPOINT=http://host.docker.internal:4566
+# If API runs on host: AWS_ENDPOINT=http://localhost:4566
+
+docker compose up -d --force-recreate api
 
 # Test export to LocalStack S3
 docker compose exec api python scripts/export_paper_registry.py --write
@@ -495,6 +521,7 @@ aws --endpoint-url=http://localhost:4566 s3 cp s3://astrolabe-datalake/_system/p
 **Steps 5-6 first run on staging.**
 
 Staging deployment:
+
 ```bash
 # Build + push image
 docker build --target api -t knowledge-app:staging .
@@ -523,6 +550,7 @@ docker build --target api -t knowledge-app:staging .
 ```
 
 Production deployment:
+
 ```bash
 # After staging validation passes
 # Tag staging image as production
@@ -540,46 +568,47 @@ Independent sub-agent reviews at key milestones using the project's review proto
 
 ### Checkpoint 1: After Steps 1-2 (Infrastructure)
 
-**Reviewer focus:** Database schema correctness, S3 bucket configuration, model changes  
-**Specialist profile:** Database migration + cloud infrastructure specialist  
+**Reviewer focus:** Database schema correctness, S3 bucket configuration, model changes
+**Specialist profile:** Database migration + cloud infrastructure specialist
 **Pass criteria:** No regressions in existing functionality, paper_id column correct, bucket defaults fixed
 
 ### Checkpoint 2: After Steps 3-4 (Export + API)
 
-**Reviewer focus:** Export script correctness (paperId derivation, validation, atomic S3 write), API endpoint format compatibility with data-viz consumers, Tier 2 semantic search quality  
-**Specialist profile:** API design + data pipeline specialist  
+**Reviewer focus:** Export script correctness (paperId derivation, validation, atomic S3 write), API endpoint format compatibility with data-viz consumers, Tier 2 semantic search quality
+**Specialist profile:** API design + data pipeline specialist
 **Pass criteria:** Export produces valid papers.json, API returns format paper-linker.mjs expects, semantic search returns relevant results
 
 ### Checkpoint 3: After Steps 5-6 (Integration)
 
-**Reviewer focus:** Cross-system integration, paper link quality, dataset manifest updates  
-**Specialist profile:** Cross-system integration specialist  
+**Reviewer focus:** Cross-system integration, paper link quality, dataset manifest updates
+**Specialist profile:** Cross-system integration specialist
 **Pass criteria:** paper-library endpoint consumable by data-viz pipeline, backfill upgrades associatedPapers to linkedPapers, no broken dataset manifests
 
 ### Checkpoint 4: Pre-deployment (Full system)
 
-**Reviewer focus:** Security (endpoint exposure, input validation), deployment configuration (ECS task def, secrets), operational readiness  
-**Specialist profile:** Security + deployment specialist  
+**Reviewer focus:** Security (endpoint exposure, input validation), deployment configuration (ECS task def, secrets), operational readiness
+**Specialist profile:** Security + deployment specialist
 **Pass criteria:** No exposed secrets, all env vars documented, health check works, structured logging for CloudWatch
 
 ---
 
 ## 11. Risks & Mitigations
 
-| Risk | Likelihood | Impact | Mitigation |
-|------|-----------|--------|------------|
-| Export script crash leaves corrupt S3 | Low | High | Atomic write (tmp + copy pattern), JSON validation before upload |
-| paperId collision exhausts suffix space | Very Low | Medium | SHA256 fallback after 5 suffixes, log warning, track in stats |
-| Paper library too large for API response | Low (2K papers now) | Medium | Add ETag/If-None-Match headers; pagination at 50K+ |
-| Semantic discovery latency | Low | Low | pgvector search typically <200ms; 5s timeout in contribution tool |
-| Contribution tool unavailable when BKM is down | Medium | Medium | Tier 1 (catalog) works from S3 snapshot; Tier 2 (semantic) degrades gracefully |
-| paperId → DOI mismatch after enrichment | Medium | Low | Immutability contract: paperId never changes; DOI lookup uses separate column |
+| Risk                                           | Likelihood          | Impact | Mitigation                                                                     |
+| ---------------------------------------------- | ------------------- | ------ | ------------------------------------------------------------------------------ |
+| Export script crash leaves corrupt S3          | Low                 | High   | Atomic write (tmp + copy pattern), JSON validation before upload               |
+| paperId collision exhausts suffix space        | Very Low            | Medium | SHA256 fallback after 5 suffixes, log warning, track in stats                  |
+| Paper library too large for API response       | Low (2K papers now) | Medium | Add ETag/If-None-Match headers; pagination at 50K+                             |
+| Semantic discovery latency                     | Low                 | Low    | pgvector search typically <200ms; 5s timeout in contribution tool              |
+| Contribution tool unavailable when BKM is down | Medium              | Medium | Tier 1 (catalog) works from S3 snapshot; Tier 2 (semantic) degrades gracefully |
+| paperId → DOI mismatch after enrichment        | Medium              | Low    | Immutability contract: paperId never changes; DOI lookup uses separate column  |
 
 ---
 
 ## 12. What This Unlocks
 
 ### Immediate (this plan)
+
 - Knowledge app PDF storage uses correct S3 bucket
 - Paper registry published to datalake (`_system/paper-library.json`)
 - Ingestion tool can match papers by DOI + title + semantic similarity
@@ -587,11 +616,13 @@ Independent sub-agent reviews at key milestones using the project's review proto
 - Claude enrichment gets paper abstracts for better metadata synthesis
 
 ### Near-term (after deployment)
+
 - Data-viz tool can browse papers alongside datasets (registry exists)
 - Contribution tool uses Tier 2 semantic search for richer paper matching
 - Paper library endpoint available for any future consumer
 
 ### Long-term (unified platform)
+
 - Papers become browsable entities in data-viz (like datasets, cells, projects)
 - AI data scientist agent queries BKM RAG for deep paper analysis (Tier 3)
 - Paper↔dataset linkages enable citation graph and provenance tracking
@@ -601,15 +632,15 @@ Independent sub-agent reviews at key milestones using the project's review proto
 
 ## 13. Files Changed / Created
 
-| File | Action | Step |
-|------|--------|------|
-| `lib/s3_storage.py` | Edit: bucket default | 1 |
-| `deployment/ecs-task-definition.json` | Edit: bucket value | 1 |
-| `lib/models.py` | Edit: add `paper_id` column | 2 |
-| `scripts/export_paper_registry.py` | **Create** | 3 |
-| `api/routes/system.py` | **Create**: paper-library + search/papers endpoints | 4 |
-| `api/main.py` | Edit: mount system router | 4 |
-| `lib/db_operations.py` | Edit: add paper library export + semantic paper search functions | 4 |
+| File                                  | Action                                                           | Step |
+| ------------------------------------- | ---------------------------------------------------------------- | ---- |
+| `lib/s3_storage.py`                   | Edit: bucket default                                             | 1    |
+| `deployment/ecs-task-definition.json` | Edit: bucket value                                               | 1    |
+| `lib/models.py`                       | Edit: add `paper_id` column                                      | 2    |
+| `scripts/export_paper_registry.py`    | **Create**                                                       | 3    |
+| `api/routes/system.py`                | **Create**: paper-library + search/papers endpoints              | 4    |
+| `api/main.py`                         | Edit: mount system router                                        | 4    |
+| `lib/db_operations.py`                | Edit: add paper library export + semantic paper search functions | 4    |
 
 ---
 

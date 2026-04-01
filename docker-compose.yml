@@ -70,7 +70,8 @@ services:
   # LocalStack S3 — only starts with: docker compose --profile s3 up -d
   # After starting: run ./scripts/setup_localstack.sh to create the bucket
   localstack:
-    image: localstack/localstack
+    # Pin to a stable tag to avoid latest/dev regressions in local development.
+    image: localstack/localstack:3.8.1
     profiles: [s3]
     ports:
       - "4566:4566"

@@ -69,7 +69,7 @@ docker compose restart api
 | `frontend/src/services/api.js` | All frontend API calls (centralized) |
 | `scripts/ingest_pipeline_pg.py` | 4-stage ingestion pipeline (parse → chunk → metadata → embed) |
 | `scripts/migrate_pdfs_to_s3.py` | Migrate local papers/ to S3 |
-| `deployment/nginx.conf` | nginx config for production (static + API proxy) |
+| `deployment/nginx.conf` | Archived legacy config (not used by current single-container deployment) |
 | `deployment/ecs-task-definition.json` | ECS task definition template |
 | `docs/` | Architecture docs, deployment plan |
 
@@ -118,15 +118,29 @@ Or trigger via the React UI import flow (calls the API which runs all stages).
 ## Production Deployment
 
 Target: ECS Fargate, shared ALB at `knowledge.astrolabe-analytics.com`.
-Two Docker image targets: `api` and `nginx` (from the same multi-stage Dockerfile).
+Single Docker image target: `api` (frontend is built into the API image and served by FastAPI static mounting).
 
 See `docs/deployment/KNOWLEDGE_MGMT_APP_DEPLOYMENT_PLAN.md` (in data-viz-tool repo) for the full deployment plan and Hardik handoff.
 
 ```bash
-# Build images
+# Build image
 docker build --target api   -t knowledge-app-api:latest .
-docker build --target nginx -t knowledge-app-nginx:latest .
 ```
+
+---
+
+## Visual QA (Playwright)
+
+Frontend E2E tests run from `frontend/`. See `.claude/rules/playwright.md` for full rules.
+
+```bash
+cd frontend
+npm run test:e2e:smoke      # fast smoke check (~4s)
+npm run test:e2e            # full suite with visual comparison
+npm run test:e2e:update     # regenerate baselines after UI changes
+```
+
+Port 5173. If you see a title mismatch: `lsof -ti:5173 | xargs kill -9`
 
 ---
 
