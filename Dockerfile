@@ -6,35 +6,50 @@ RUN npm ci
 COPY frontend/ .
 RUN npm run build
 
-# ── Stage 2: Python API (serves React frontend + API on port 8003) ───────────
-FROM python:3.13-slim AS api
+# ── Stage 2: Runtime (NGINX + FastAPI) ───────────────────────────────────────
+FROM python:3.13-slim
+
+ENV PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1
 
 RUN apt-get update && \
-    apt-get install -y --no-install-recommends libpq-dev gcc && \
+    apt-get install -y --no-install-recommends \
+      nginx \
+      gcc \
+      libpq-dev \
+      curl \
+      tini && \
     rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Install Python dependencies first so this layer is cached independently
+# Python deps
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Pre-download the sentence-transformers model (~100MB).
-# This layer is cached — only re-runs when requirements.txt changes.
-# Eliminates the 10-30s cold-start delay on first RAG request.
+# Pre-download sentence-transformers model to reduce cold start
 RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('all-MiniLM-L6-v2')"
 
-# Copy application code last so code changes don't bust the model cache layer
+# App code
 COPY api/ ./api/
 COPY lib/ ./lib/
 COPY scripts/ ./scripts/
 
-# Copy built React frontend — served as static files by FastAPI
-COPY --from=frontend-build /app/frontend/dist ./dist
+# React build served by NGINX
+COPY --from=frontend-build /app/frontend/dist /usr/share/nginx/html
 
-EXPOSE 8003
+# NGINX config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Start script for both processes
+COPY start.sh /app/start.sh
+RUN chmod +x /app/start.sh && \
+    rm -f /etc/nginx/sites-enabled/default
+
+EXPOSE 80
 
 HEALTHCHECK --interval=15s --timeout=5s --start-period=45s --retries=3 \
-  CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8003/api/health')"
+  CMD curl -fsS http://127.0.0.1/health || exit 1
 
-CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "8003", "--workers", "2"]
+ENTRYPOINT ["/usr/bin/tini", "--"]
+CMD ["/app/start.sh"]
